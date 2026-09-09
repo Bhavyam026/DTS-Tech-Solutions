@@ -6,318 +6,383 @@
 <title>Dynamic Technology Solutions | Security & Technical Services</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
-body{background:#0f172a;color:#f8fafc;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+body{background:#eaeded;color:#111;}
 
-/* TOP AMAZON STYLE SEARCH HEADER */
+/* AMAZON STYLE TOP NAVIGATION BAR */
 .amz-header{
-    background:#1e293b;
-    padding:15px 30px;
+    background:#131921;
+    color:#fff;
+    padding:10px 20px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     position:sticky;
     top:0;
     z-index:1000;
-    box-shadow:0 4px 15px rgba(0,0,0,0.4);
-    border-bottom:1px solid #334155;
 }
 .amz-logo{
     color:#fff;
-    font-size:20px;
+    font-size:22px;
     font-weight:bold;
     text-decoration:none;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-.amz-logo span{color:#38bdf8;}
-
-/* SEARCH BOX */
-.amz-search-box{
-    flex-grow:1;
-    max-width:650px;
-    margin:0 30px;
-    display:flex;
-}
-.amz-search-input{
-    width:100%;
-    padding:12px 18px;
-    font-size:15px;
-    border:none;
-    border-radius:8px 0 0 8px;
-    outline:none;
-    background:#fff;
-    color:#000;
-}
-.amz-search-btn{
-    background:#38bdf8;
-    border:none;
-    padding:0 25px;
-    border-radius:0 8px 8px 0;
-    cursor:pointer;
-    font-size:18px;
-    color:#0f172a;
-}
-.amz-search-btn:hover{background:#0ea5e9;}
-
-.whatsapp-top-btn{
-    background:#25d366;
-    color:#fff;
-    padding:10px 18px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:14px;
     display:flex;
     align-items:center;
     gap:8px;
 }
+.amz-logo span{color:#ff9900;}
 
-/* MAIN CONTAINER */
-.container{
-    max-width:1200px;
-    margin:40px auto;
-    padding:0 20px;
-}
-.section-header{
+/* AMAZON SEARCH BAR */
+.amz-search-container{
+    flex-grow:1;
+    max-width:700px;
+    margin:0 25px;
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-    border-bottom:2px solid #334155;
-    padding-bottom:12px;
 }
-.section-header h2{font-size:24px;color:#fff;}
-.section-header span{font-size:14px;color:#94a3b8;}
+.amz-search-input{
+    width:100%;
+    padding:10px 15px;
+    font-size:15px;
+    border:none;
+    border-radius:4px 0 0 4px;
+    outline:none;
+}
+.amz-search-btn{
+    background:#febd69;
+    border:none;
+    padding:0 20px;
+    border-radius:0 4px 4px 0;
+    cursor:pointer;
+    font-size:16px;
+    color:#111;
+}
+.amz-search-btn:hover{background:#f3a847;}
 
-/* GRID CARDS */
+.amz-whatsapp-btn{
+    background:#25d366;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:4px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+.amz-whatsapp-btn:hover{background:#20ba5a;}
+
+/* SUB-NAV CATEGORY BAR (Amazon Style Filter Pills) */
+.amz-subnav{
+    background:#232f3e;
+    padding:10px 20px;
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    white-space:nowrap;
+    border-bottom:1px solid #3a4553;
+}
+.amz-cat-pill{
+    background:transparent;
+    color:#fff;
+    border:1px solid transparent;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    cursor:pointer;
+    transition:0.2s;
+}
+.amz-cat-pill:hover, .amz-cat-pill.active{
+    background:#374151;
+    border-color:#febd69;
+    color:#febd69;
+}
+
+/* MAIN LAYOUT */
+.main-container{
+    max-width:1300px;
+    margin:20px auto;
+    padding:0 15px;
+    display:flex;
+    gap:20px;
+}
+
+/* SIDEBAR FILTERS */
+.sidebar{
+    width:250px;
+    background:#fff;
+    padding:15px;
+    border-radius:8px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    height:fit-content;
+}
+.sidebar h3{font-size:16px;margin-bottom:12px;color:#111;border-bottom:1px solid #ddd;padding-bottom:8px;}
+.filter-group{margin-bottom:15px;}
+.filter-group label{display:block;font-size:13px;margin-bottom:6px;cursor:pointer;color:#333;}
+.filter-group input{margin-right:8px;}
+
+/* PRODUCTS GRID */
+.product-grid-section{flex-grow:1;}
+.results-info{font-size:14px;color:#555;margin-bottom:15px;}
+
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:20px;
 }
 .card{
-    background:#1e293b;
-    border:1px solid #334155;
-    border-radius:12px;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:8px;
     overflow:hidden;
     display:flex;
     flex-direction:column;
-    transition:0.3s;
-    cursor:pointer;
+    transition:0.2s;
+    box-shadow:0 2px 5px rgba(0,0,0,0.05);
 }
 .card:hover{
-    border-color:#38bdf8;
-    transform:translateY(-5px);
-    box-shadow:0 10px 20px rgba(56,189,248,0.1);
+    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+    border-color:#bbbbbb;
+}
+.card-img-container{
+    height:160px;
+    position:relative;
+    background:#f7f7f7;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 .card img{
     width:100%;
-    height:180px;
+    height:100%;
     object-fit:cover;
 }
-.card-content{
-    padding:20px;
+.card-body{
+    padding:12px;
     display:flex;
     flex-direction:column;
     flex-grow:1;
 }
-.badge{
-    background:#334155;
-    color:#38bdf8;
-    font-size:11px;
-    padding:4px 10px;
-    border-radius:6px;
-    width:fit-content;
-    margin-bottom:10px;
+.card-category{font-size:11px;color:#007185;font-weight:bold;text-transform:uppercase;margin-bottom:4px;}
+.card h4{font-size:15px;color:#0f1111;margin-bottom:6px;font-weight:600;line-height:1.3;}
+.card p{font-size:12px;color:#565959;margin-bottom:12px;flex-grow:1;}
+
+.amz-buy-btn{
+    background:#ffd814;
+    border:1px solid #fcd200;
+    border-radius:20px;
+    padding:8px 0;
+    font-size:13px;
     font-weight:bold;
-    text-transform:uppercase;
-}
-.card h3{font-size:18px;color:#fff;margin-bottom:8px;}
-.card p{font-size:13px;color:#94a3b8;margin-bottom:20px;flex-grow:1;}
-.card-btn{
-    background:#38bdf8;
-    color:#0f172a;
-    border:none;
-    padding:10px;
-    border-radius:8px;
-    font-weight:bold;
-    font-size:14px;
     cursor:pointer;
     text-align:center;
+    color:#0f1111;
     width:100%;
+    box-shadow:0 2px 5px rgba(213,217,217,0.5);
 }
-.card-btn:hover{background:#0ea5e9;}
+.amz-buy-btn:hover{background:#f7ca00;}
 
-/* SPECIFICATIONS MODAL POPUP */
+/* MODAL POPUP (AMAZON STYLE DETAILS) */
 .modal-overlay{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
-    background:rgba(15,23,42,0.85);
+    background:rgba(0,0,0,0.6);
     display:none;
     align-items:center;
     justify-content:center;
     z-index:2000;
-    padding:20px;
+    padding:15px;
 }
 .modal-box{
-    background:#1e293b;
-    border:1px solid #38bdf8;
+    background:#fff;
     max-width:550px;
     width:100%;
-    border-radius:14px;
+    border-radius:8px;
     overflow:hidden;
     position:relative;
-    box-shadow:0 15px 35px rgba(0,0,0,0.6);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 .modal-close{
     position:absolute;
-    top:15px; right:15px;
-    background:#334155;
-    color:#fff;
+    top:10px; right:15px;
+    background:transparent;
     border:none;
-    width:35px; height:35px;
-    border-radius:50%;
-    font-size:18px;
+    font-size:24px;
     cursor:pointer;
+    color:#333;
 }
-.modal-img{width:100%;height:220px;object-fit:cover;}
-.modal-body{padding:25px;}
-.modal-body h2{font-size:22px;color:#fff;margin-bottom:8px;}
-.modal-body p{font-size:14px;color:#cbd5e1;margin-bottom:15px;}
-.specs-title{font-weight:bold;font-size:14px;color:#38bdf8;margin-bottom:8px;}
-.specs-list{list-style:none;background:#0f172a;padding:15px;border-radius:8px;margin-bottom:20px;}
-.specs-list li{margin-bottom:6px;font-size:13px;color:#e2e8f0;}
-.specs-list li i{color:#38bdf8;margin-right:8px;}
+.modal-content-flex{display:flex;flex-direction:column;}
+.modal-img{width:100%;height:200px;object-fit:cover;}
+.modal-body{padding:20px;}
+.modal-body h2{font-size:20px;color:#0f1111;margin-bottom:8px;}
+.modal-body p{font-size:13px;color:#565959;margin-bottom:15px;}
+.specs-title{font-weight:bold;font-size:13px;color:#0f1111;margin-bottom:6px;}
+.specs-list{list-style:none;background:#f7f7f7;padding:12px;border-radius:6px;margin-bottom:20px;}
+.specs-list li{margin-bottom:4px;font-size:12px;color:#333;}
+.specs-list li i{color:#007185;margin-right:6px;}
 
 .whatsapp-order-btn{
     display:block;
     background:#25d366;
     color:#fff;
     text-align:center;
-    padding:12px;
-    border-radius:8px;
+    padding:10px;
+    border-radius:20px;
     font-weight:bold;
     text-decoration:none;
-    font-size:15px;
+    font-size:14px;
 }
 .whatsapp-order-btn:hover{background:#20ba5a;}
 
 /* FOOTER */
 footer{
-    background:#1e293b;
-    color:#94a3b8;
+    background:#232f3e;
+    color:#ddd;
     text-align:center;
-    padding:30px 20px;
-    font-size:13px;
-    border-top:1px solid #334155;
-    margin-top:60px;
+    padding:25px;
+    font-size:12px;
+    margin-top:40px;
 }
 footer strong{color:#fff;}
 
 @media(max-width:768px){
-    .amz-header{flex-direction:column;gap:12px;}
-    .amz-search-box{width:100%;margin:0;}
+    .amz-header{flex-direction:column;gap:10px;padding:10px;}
+    .amz-search-container{width:100%;margin:0;}
+    .main-container{flex-direction:column;}
+    .sidebar{width:100%;}
 }
 </style>
 </head>
 <body>
 
-<!-- TOP AMAZON STYLE SEARCH HEADER -->
-<div class="amz-header">
-    <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Tech</span></a>
+<!-- TOP AMAZON STYLE HEADER -->
+<header class="amz-header">
+    <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Store</span></a>
     
-    <!-- SEARCH BAR -->
-    <div class="amz-search-box">
-        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search Analog CCTV, IP CCTV, CAT6 Cabling, Fire Alarm, Electrical..." onkeyup="searchFilter()">
-        <button class="amz-search-btn"><i class="fas fa-search"></i></button>
+    <div class="amz-search-container">
+        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search Analog CCTV, IP CCTV, CAT6, Fiber, Fire Alarm..." onkeyup="filterProducts()">
+        <button class="amz-search-btn" onclick="filterProducts()"><i class="fas fa-search"></i></button>
     </div>
 
-    <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20to%20enquire." target="_blank" class="whatsapp-top-btn">
-        <i class="fab fa-whatsapp"></i> WhatsApp Us
+    <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology,%20I%20want%20to%20enquire." target="_blank" class="amz-whatsapp-btn">
+        <i class="fab fa-whatsapp"></i> Quick Inquiry
     </a>
+</header>
+
+<!-- CATEGORY FILTER PILLS (Amazon Navigation) -->
+<div class="amz-subnav">
+    <button class="amz-cat-pill active" onclick="filterByCategory('all', this)">All Products</button>
+    <button class="amz-cat-pill" onclick="filterByCategory('cctv', this)">CCTV Surveillance</button>
+    <button class="amz-cat-pill" onclick="filterByCategory('networking', this)">Networking & Cabling</button>
+    <button class="amz-cat-pill" onclick="filterByCategory('electrical', this)">Electrical Works</button>
+    <button class="amz-cat-pill" onclick="filterByCategory('fire', this)">Fire Safety</button>
 </div>
 
 <!-- MAIN CONTAINER -->
-<div class="container">
-    <div class="section-header">
-        <h2>Products & Services Catalogue</h2>
-        <span>Click any item to view specifications & enquire</span>
+<div class="main-container">
+    
+    <!-- SIDEBAR FILTER -->
+    <div class="sidebar">
+        <h3>Department</h3>
+        <div class="filter-group">
+            <label><input type="radio" name="dept" checked onclick="filterByCategory('all', this)"> All Categories</label>
+            <label><input type="radio" name="dept" onclick="filterByCategory('cctv', this)"> CCTV Systems</label>
+            <label><input type="radio" name="dept" onclick="filterByCategory('networking', this)"> Networking / CAT6 / Fiber</label>
+            <label><input type="radio" name="dept" onclick="filterByCategory('electrical', this)"> Electrical Panels</label>
+            <label><input type="radio" name="dept" onclick="filterByCategory('fire', this)"> Fire Alarm Systems</label>
+        </div>
     </div>
 
-    <div class="grid" id="productGrid">
+    <!-- PRODUCT CATALOGUE GRID -->
+    <div class="product-grid-section">
+        <div class="results-info" id="resultsCount">Showing 6 results</div>
 
-        <!-- 1. ANALOG CCTV -->
-        <div class="card searchable" data-text="cctv analog camera security system DVR BNC coaxial" onclick="openModal('Analog CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Traditional and reliable high-definition analog security camera setup connected via coaxial cables and DVR.', ['Camera Type: HD Analog Dome & Bullet', 'Wiring: Coaxial BNC Cable Setup', 'Recording: DVR (Digital Video Recorder)', 'Cost-Effective & Easy Maintenance'])">
-            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" alt="Analog CCTV">
-            <div class="card-content">
-                <div class="badge">CCTV Security</div>
-                <h3>Analog CCTV System</h3>
-                <p>Reliable coaxial-based analog security cameras with DVR recording.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+        <div class="grid" id="productGrid">
+
+            <!-- 1. ANALOG CCTV -->
+            <div class="card searchable" data-category="cctv" data-text="cctv analog camera security system DVR BNC coaxial" onclick="openModal('Analog CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Traditional and reliable high-definition analog security camera setup connected via coaxial cables and DVR.', ['Camera Type: HD Analog Dome & Bullet', 'Wiring: Coaxial BNC Cable Setup', 'Recording: DVR (Digital Video Recorder)', 'Cost-Effective & Easy Maintenance'])">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" alt="Analog CCTV">
+                </div>
+                <div class="card-body">
+                    <div class="card-category">CCTV Security</div>
+                    <h4>Analog CCTV System</h4>
+                    <p>Reliable coaxial-based analog security cameras with DVR recording.</p>
+                    <button class="amz-buy-btn">View Specifications</button>
+                </div>
             </div>
-        </div>
 
-        <!-- 2. IP CCTV -->
-        <div class="card searchable" data-text="cctv ip camera network digital security system NVR poe" onclick="openModal('IP Digital CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Advanced ultra-sharp digital IP network cameras with PoE support, NVR storage, and remote mobile access.', ['Resolution: 2MP, 4MP & 4K Ultra HD', 'Technology: Digital IP over Ethernet (PoE)', 'Recording: NVR (Network Video Recorder)', 'Features: Smart Motion Detection & Mobile App'])">
-            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" alt="IP CCTV">
-            <div class="card-content">
-                <div class="badge">CCTV Security</div>
-                <h3>IP CCTV System</h3>
-                <p>High-resolution digital network cameras with NVR and mobile viewing.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+            <!-- 2. IP CCTV -->
+            <div class="card searchable" data-category="cctv" data-text="cctv ip camera network digital security system NVR poe" onclick="openModal('IP Digital CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Advanced ultra-sharp digital IP network cameras with PoE support, NVR storage, and remote mobile access.', ['Resolution: 2MP, 4MP & 4K Ultra HD', 'Technology: Digital IP over Ethernet (PoE)', 'Recording: NVR (Network Video Recorder)', 'Features: Smart Motion Detection & Mobile App'])">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" alt="IP CCTV">
+                </div>
+                <div class="card-body">
+                    <div class="card-category">CCTV Security</div>
+                    <h4>IP CCTV System</h4>
+                    <p>High-resolution digital network cameras with NVR and mobile viewing.</p>
+                    <button class="amz-buy-btn">View Specifications</button>
+                </div>
             </div>
-        </div>
 
-        <!-- 3. STRUCTURED CABLING - CAT6 -->
-        <div class="card searchable" data-text="structured cabling cat6 lan cable networking copper patch panel" onclick="openModal('CAT6 Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'Professional enterprise networking using pure copper CAT6 cables, patch panels, and organized rack dressing.', ['Cable Standard: CAT6 UTP Pure Copper', 'Bandwidth Support: Up to 250 MHz / 1 Gbps', 'Infrastructure: Patch Panels & Switch Setup', 'Application: Office LAN & Data Networks'])">
-            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="CAT6 Cabling">
-            <div class="card-content">
-                <div class="badge">Networking</div>
-                <h3>CAT6 Structured Cabling</h3>
-                <p>Enterprise grade pure copper LAN cables and rack management.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+            <!-- 3. CAT6 CABLING -->
+            <div class="card searchable" data-category="networking" data-text="structured cabling cat6 lan cable networking copper patch panel" onclick="openModal('CAT6 Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'Professional enterprise networking using pure copper CAT6 cables, patch panels, and organized rack dressing.', ['Cable Standard: CAT6 UTP Pure Copper', 'Bandwidth Support: Up to 250 MHz / 1 Gbps', 'Infrastructure: Patch Panels & Switch Setup', 'Application: Office LAN & Data Networks'])">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="CAT6 Cabling">
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Networking</div>
+                    <h4>CAT6 Structured Cabling</h4>
+                    <p>Enterprise grade pure copper LAN cables and rack management.</p>
+                    <button class="amz-buy-btn">View Specifications</button>
+                </div>
             </div>
-        </div>
 
-        <!-- 4. STRUCTURED CABLING - FIBER OPTIC -->
-        <div class="card searchable" data-text="fiber optic cabling networking high speed backbone" onclick="openModal('Fiber Optic Cabling Solutions', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'High-speed long distance backbone connectivity using single-mode and multi-mode fiber optic cables.', ['Cable Type: Single-Mode & Multi-Mode Fiber', 'Speed: Ultra High-Speed Data Transmission', 'Distance: Long Range Campus Connectivity', 'Termination: Fusion Splicing & Patch Panels'])">
-            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="Fiber Optic">
-            <div class="card-content">
-                <div class="badge">Networking</div>
-                <h3>Fiber Optic Cabling</h3>
-                <p>High-speed long distance backbone network infrastructure.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+            <!-- 4. FIBER OPTIC -->
+            <div class="card searchable" data-category="networking" data-text="fiber optic cabling networking high speed backbone" onclick="openModal('Fiber Optic Cabling Solutions', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'High-speed long distance backbone connectivity using single-mode and multi-mode fiber optic cables.', ['Cable Type: Single-Mode & Multi-Mode Fiber', 'Speed: Ultra High-Speed Data Transmission', 'Distance: Long Range Campus Connectivity', 'Termination: Fusion Splicing & Patch Panels'])">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="Fiber Optic">
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Networking</div>
+                    <h4>Fiber Optic Cabling</h4>
+                    <p>High-speed long distance backbone network infrastructure.</p>
+                    <button class="amz-buy-btn">View Specifications</button>
+                </div>
             </div>
-        </div>
 
-        <!-- 5. ELECTRICAL WORKS -->
-        <div class="card searchable" data-text="electrical works power distribution panel wiring industrial" onclick="openModal('Electrical Works & Power Distribution', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80', 'Commercial and industrial electrical panel installation, heavy cabling, load balancing, and safety audits.', ['Services: Industrial & Commercial Panel Wiring', 'Distribution: Balanced 3-Phase Power Setup', 'Safety: MCB, RCCB & Earth Protection', 'Compliance: Standard Electrical Safety Norms'])">
-            <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80" alt="Electrical Works">
-            <div class="card-content">
-                <div class="badge">Electrical</div>
-                <h3>Electrical Works & Panels</h3>
-                <p>Commercial power distribution and industrial panel installations.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+            <!-- 5. ELECTRICAL WORKS -->
+            <div class="card searchable" data-category="electrical" data-text="electrical works power distribution panel wiring industrial" onclick="openModal('Electrical Works & Power Distribution', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80', 'Commercial and industrial electrical panel installation, heavy cabling, load balancing, and safety audits.', ['Services: Industrial & Commercial Panel Wiring', 'Distribution: Balanced 3-Phase Power Setup', 'Safety: MCB, RCCB & Earth Protection', 'Compliance: Standard Electrical Safety Norms'])">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80" alt="Electrical Works">
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Electrical</div>
+                    <h4>Electrical Works & Panels</h4>
+                    <p>Commercial power distribution and industrial panel installations.</p>
+                    <button class="amz-buy-btn">View Specifications</button>
+                </div>
             </div>
-        </div>
 
-        <!-- 6. FIRE SAFETY - ALARM SYSTEMS -->
-        <div class="card searchable" data-text="fire safety alarm systems smoke detector hazard conventional addressable" onclick="openModal('Fire Alarm & Detection Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Advanced fire safety alarm systems including smoke detectors, manual call points, and control panels.', ['System Types: Addressable & Conventional', 'Sensors: High-Sensitivity Smoke & Heat Detectors', 'Control: Centralized Fire Alarm Control Panel', 'Alerts: Strobe Lights & Emergency Sirens'])">
-            <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80" alt="Fire Alarm">
-            <div class="card-content">
-                <div class="badge">Fire Safety</div>
-                <h3>Fire Alarm Systems</h3>
-                <p>Advanced smoke detection and emergency alarm control setups.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+            <!-- 6. FIRE ALARM -->
+            <div class="card searchable" data-category="fire" data-text="fire safety alarm systems smoke detector hazard conventional addressable" onclick="openModal('Fire Alarm & Detection Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Advanced fire safety alarm systems including smoke detectors, manual call points, and control panels.', ['System Types: Addressable & Conventional', 'Sensors: High-Sensitivity Smoke & Heat Detectors', 'Control: Centralized Fire Alarm Control Panel', 'Alerts: Strobe Lights & Emergency Sirens'])">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80" alt="Fire Alarm">
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Fire Safety</div>
+                    <h4>Fire Alarm Systems</h4>
+                    <p>Advanced smoke detection and emergency alarm control setups.</p>
+                    <button class="amz-buy-btn">View Specifications</button>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
+
 </div>
 
-<!-- SPECIFICATIONS MODAL POPUP -->
+<!-- MODAL POPUP -->
 <div class="modal-overlay" id="itemModal" onclick="closeModalOutside(event)">
     <div class="modal-box">
         <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -337,27 +402,50 @@ footer strong{color:#fff;}
 <footer>
     <p><strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong></p>
     <p>Professional Security, Networking, Electrical & Fire Safety Integrator</p>
-    <p style="margin-top:8px;">Service Areas: Mumbai • Thane • Navi Mumbai • Palghar • Boisar</p>
+    <p style="margin-top:5px;">Service Areas: Mumbai • Thane • Navi Mumbai • Palghar • Boisar</p>
 </footer>
 
 <script>
-/* LIVE SMART SEARCH FUNCTION */
-function searchFilter() {
+let currentCategory = 'all';
+
+/* SEARCH & CATEGORY FILTER */
+function filterProducts() {
     let query = document.getElementById("searchInput").value.toLowerCase();
     let cards = document.querySelectorAll(".searchable");
+    let visibleCount = 0;
 
     cards.forEach(card => {
+        let category = card.getAttribute("data-category");
         let text = card.getAttribute("data-text");
         let content = card.innerText.toLowerCase();
-        if(text.includes(query) || content.includes(query)) {
+
+        let matchesCategory = (currentCategory === 'all' || category === currentCategory);
+        let matchesQuery = (text.includes(query) || content.includes(query));
+
+        if (matchesCategory && matchesQuery) {
             card.style.display = "flex";
+            visibleCount++;
         } else {
             card.style.display = "none";
         }
     });
+
+    document.getElementById("resultsCount").innerText = `Showing ${visibleCount} results`;
 }
 
-/* OPEN MODAL WITH SPECS */
+function filterByCategory(category, element) {
+    currentCategory = category;
+    
+    // Update active pill styling
+    document.querySelectorAll(".amz-cat-pill").forEach(p => p.classList.remove("active"));
+    if(element.classList.contains("amz-cat-pill")) {
+        element.classList.add("main-container active" ? element.classList.add("active") : "");
+    }
+    
+    filterProducts();
+}
+
+/* OPEN MODAL */
 function openModal(title, img, desc, specs) {
     document.getElementById("modalTitle").innerText = title;
     document.getElementById("modalImg").src = img;
