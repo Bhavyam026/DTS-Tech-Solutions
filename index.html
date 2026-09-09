@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DTS Tech Solutions | CCTV, Networking, HOC Cables & Electrical</title>
-<meta name="description" content="DTS Tech Solutions provides professional CCTV, HOC networking cables, electrical, fire safety, access control and AMC solutions across Mumbai, Thane, Navi Mumbai, Palghar and Boisar.">
+<title>Dynamic Technology Solutions | CCTV, Networking, HOC Cables & Electrical</title>
+<meta name="description" content="Dynamic Technology Solutions provides professional CCTV, HOC networking cables, electrical, fire safety, access control and AMC solutions across Mumbai, Thane, Navi Mumbai, Palghar and Boisar.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 *{
@@ -61,8 +61,8 @@ nav{
 }
 .logo-text strong{
     display:block;
-    font-size:17px;
-    letter-spacing:1px;
+    font-size:16px;
+    letter-spacing:0.5px;
 }
 .logo-text span{
     font-size:10px;
@@ -112,7 +112,7 @@ nav{
     margin-bottom:20px;
 }
 .hero h1{
-    font-size:50px;
+    font-size:46px;
     line-height:1.1;
     margin-bottom:20px;
 }
@@ -242,6 +242,7 @@ nav{
     border:1px solid #1d3046;
     border-radius:18px;
     transition:.4s ease;
+    cursor:pointer;
 }
 .service:hover{
     transform:translateY(-8px);
@@ -371,13 +372,6 @@ nav{
 .spec-btn:hover{
     border-color:#00d4ff;
     color:#00d4ff;
-}
-.quote-btn{
-    background:#00d4ff;
-    color:#04101c;
-}
-.quote-btn:hover{
-    background:#fff;
 }
 
 /* MODAL POPUP FOR DETAILS */
@@ -580,7 +574,7 @@ footer{
 }
 .footer-logo{
     color:#fff;
-    font-size:22px;
+    font-size:20px;
     font-weight:bold;
     margin-bottom:10px;
 }
@@ -608,7 +602,7 @@ footer{
 @media(max-width:800px){
     .nav-links{ display:none; }
     .hero-inner{ grid-template-columns:1fr; text-align:center; }
-    .hero h1{ font-size:36px; }
+    .hero h1{ font-size:34px; }
     .hero-buttons{ justify-content:center; }
     .about{ grid-template-columns:1fr; }
 }
@@ -622,7 +616,7 @@ footer{
 <a class="logo" href="#home">
 <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
 <div class="logo-text">
-<strong>DTS TECH SOLUTIONS</strong>
+<strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong>
 <span>SECURITY • HOC CABLES • ELECTRICAL</span>
 </div>
 </a>
@@ -645,7 +639,7 @@ footer{
 <p>PRIZOR CCTV • HOC Networking Cables • Electrical • Fire Safety • Access Control</p>
 <p>Professional supply, authorized HOC cabling integration, installation, and technical support for corporate, industrial, and government clients.</p>
 <div class="hero-buttons">
-<a class="btn btn-primary" href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions,%20I%20need%20a%20commercial%20quotation." target="_blank"><i class="fab fa-whatsapp"></i> Get Quotation</a>
+<a class="btn btn-primary" href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20a%20commercial%20quotation." target="_blank"><i class="fab fa-whatsapp"></i> Get Quotation</a>
 <a class="btn btn-outline" href="tel:08390909845"><i class="fas fa-phone"></i> Call Now</a>
 </div>
 </div>
@@ -653,7 +647,7 @@ footer{
 <div class="camera-card">
 <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Camera">
 <div class="camera-label">
-HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partner</small>
+HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration Partner</small>
 </div>
 </div>
 </div>
@@ -668,32 +662,32 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <p>Complete technical solutions for industrial, corporate, and commercial requirements.</p>
 </div>
 <div class="services">
-<div class="service">
+<div class="service" onclick="openModal('CCTV & Surveillance Installation', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Complete installation, configuration and maintenance of high-definition PRIZOR IP cameras, PTZ cameras, and NVR systems.', ['PRIZOR IP & HD Cameras Setup', 'Night Vision & Audio Integration', 'Centralized NVR Monitoring Room', 'Professional Wiring & Configuration'])">
 <div class="service-icon"><i class="fas fa-video"></i></div>
 <h3>CCTV & Surveillance</h3>
-<p>PRIZOR IP cameras, PTZ cameras, NVR/DVR systems, and expert installation.</p>
+<p>PRIZOR IP cameras, PTZ cameras, NVR/DVR systems, and expert installation. Click to view specs.</p>
 </div>
-<div class="service">
+<div class="service" onclick="openModal('HOC Structured Cabling', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'High-performance HOC CAT6/CAT6A LAN cables and Coaxial solutions engineered for zero signal loss in large corporate setups.', ['High-Grade Copper CAT6 LAN Cables', 'Coaxial RG6 Cables with Power Wire', 'Zero Signal Attenuation & Crosstalk', 'Structured Racks & Patch Panels'])">
 <div class="service-icon"><i class="fas fa-ethernet"></i></div>
 <h3>HOC Structured Cabling</h3>
-<p>High-performance HOC CAT6/CAT6A LAN cables and Coaxial solutions for zero signal loss.</p>
+<p>High-performance HOC CAT6/CAT6A LAN cables and Coaxial solutions. Click to view specs.</p>
 </div>
-<div class="service">
+<div class="service" onclick="openModal('Electrical Works & Panels', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=60', 'Commercial and industrial electrical installation, panel wiring, power distribution, and regular maintenance.', ['Industrial Panel Wiring & Distribution', 'Safe Power Backup Integration', 'Routine Electrical Safety Audits', 'Certified Technicians & Compliance'])">
 <div class="service-icon"><i class="fas fa-bolt"></i></div>
 <h3>Electrical Works</h3>
 <p>Commercial and industrial electrical installation, panel wiring, and maintenance.</p>
 </div>
-<div class="service">
+<div class="service" onclick="openModal('Fire Safety Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', 'Advanced fire alarm setups, smoke detection solutions, and safety compliance support for factories and offices.', ['Advanced Smoke & Heat Detectors', 'Automated Fire Alarm Control Panels', 'Emergency Response Integration', 'Safety Compliance & Certification'])">
 <div class="service-icon"><i class="fas fa-fire-extinguisher"></i></div>
 <h3>Fire Safety Systems</h3>
 <p>Fire alarm setups, advanced detection solutions, and safety compliance support.</p>
 </div>
-<div class="service">
+<div class="service" onclick="openModal('Access Control & Biometrics', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Biometric attendance systems, smart door locks, turnstiles, and integrated gate automation for restricted areas.', ['Biometric Fingerprint & Face Recognition', 'RFID Card & Smart Door Locks', 'Automated Boom Barriers & Gates', 'Time & Attendance Software Integration'])">
 <div class="service-icon"><i class="fas fa-fingerprint"></i></div>
 <h3>Access Control</h3>
 <p>Biometric attendance systems, smart locks, door access, and gate automation.</p>
 </div>
-<div class="service">
+<div class="service" onclick="openModal('AMC & Technical Support', 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'Comprehensive Annual Maintenance Contracts (AMC) ensuring zero downtime for your security and networking systems.', ['Regular Preventive Maintenance Visits', 'Priority Breakdown Troubleshooting', 'Firmware Updates & Health Checks', 'Dedicated Support Hotline'])">
 <div class="service-icon"><i class="fas fa-screwdriver-wrench"></i></div>
 <h3>AMC & Technical Support</h3>
 <p>Preventive maintenance, troubleshooting, and prompt technical support.</p>
@@ -707,7 +701,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <div class="section-heading">
 <small>Our Products</small>
 <h2>Featured Products & Brands</h2>
-<p>Click on any product to view full real image, technical specifications and direct purchase quote.</p>
+<p>Click on any product card or CCTV camera to view real image, detailed specifications and instant order options.</p>
 </div>
 <div class="filters">
 <button class="filter-btn active" onclick="filterProducts('all',this)">All Products</button>
@@ -727,7 +721,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <h3>HOC CAT6 UTP LAN Cable</h3>
 <p>High-speed pure copper networking cable designed for enterprise networks.</p>
 <div class="product-buttons">
-<button class="small-btn spec-btn">View Details & Image</button>
+<button class="small-btn spec-btn">View Image & Specs</button>
 </div>
 </div>
 </div>
@@ -742,7 +736,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <h3>HOC CCTV Coaxial RG6 Cable</h3>
 <p>Superior shielded coaxial cable with power wires for crystal clear video.</p>
 <div class="product-buttons">
-<button class="small-btn spec-btn">View Details & Image</button>
+<button class="small-btn spec-btn">View Image & Specs</button>
 </div>
 </div>
 </div>
@@ -757,7 +751,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <h3>2MP IP ColorView Bullet Camera</h3>
 <p>Professional night-vision surveillance camera suitable for outdoor areas.</p>
 <div class="product-buttons">
-<button class="small-btn spec-btn">View Details & Image</button>
+<button class="small-btn spec-btn">View Image & Specs</button>
 </div>
 </div>
 </div>
@@ -772,7 +766,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <h3>NVR / DVR AI Recording System</h3>
 <p>High-capacity enterprise recording solutions with remote monitoring.</p>
 <div class="product-buttons">
-<button class="small-btn spec-btn">View Details & Image</button>
+<button class="small-btn spec-btn">View Image & Specs</button>
 </div>
 </div>
 </div>
@@ -801,7 +795,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <section class="section">
 <div class="section-heading">
 <small>Why Choose Us</small>
-<h2>Why DTS Tech Solutions?</h2>
+<h2>Why Dynamic Technology Solutions?</h2>
 </div>
 <div class="why">
 <div class="why-card">
@@ -832,10 +826,10 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <div class="about">
 <div>
 <div class="section-heading" style="text-align:left;margin-bottom:20px;">
-<small>About DTS</small>
+<small>About Us</small>
 <h2>Your Trusted Technical Partner</h2>
 </div>
-<p style="color:#9aaabd;">DTS Tech Solutions specializes in high-end security infrastructure, integrating authorized HOC cabling and PRIZOR surveillance systems for offices, industrial plants, and commercial complexes.</p>
+<p style="color:#9aaabd;">Dynamic Technology Solutions specializes in high-end security infrastructure, integrating authorized HOC cabling and PRIZOR surveillance systems for offices, industrial plants, and commercial complexes.</p>
 <div class="check"><i class="fas fa-check-circle"></i> Authorized HOC Cable Integration</div>
 <div class="check"><i class="fas fa-check-circle"></i> Enterprise Networking & CCTV</div>
 <div class="check"><i class="fas fa-check-circle"></i> Tender Execution Support</div>
@@ -857,7 +851,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <div class="section-heading">
 <small>Contact Us</small>
 <h2>Let's Discuss Your Project</h2>
-<p>Get in touch with DTS Tech Solutions for bulk orders, quotations, or technical consultations.</p>
+<p>Get in touch with Dynamic Technology Solutions for bulk orders, quotations, or technical consultations.</p>
 </div>
 <div class="contact-grid">
 <div class="contact-card">
@@ -868,7 +862,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <div class="contact-card">
 <i class="fab fa-whatsapp"></i>
 <h3>WhatsApp Order</h3>
-<a href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions,%20I%20want%20to%20place%20an%20order." target="_blank">Chat Now</a>
+<a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20to%20place%20an%20order." target="_blank">Chat Now</a>
 </div>
 <div class="contact-card">
 <i class="fas fa-envelope"></i>
@@ -886,18 +880,18 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 
 <!-- FOOTER -->
 <footer>
-<div class="footer-logo">DTS TECH SOLUTIONS</div>
+<div class="footer-logo">DYNAMIC TECHNOLOGY SOLUTIONS</div>
 <p>Authorized HOC Cables & PRIZOR Surveillance Integrator</p>
 <div class="social">
 <a href="https://wa.me/918390909845" target="_blank"><i class="fab fa-whatsapp"></i></a>
 <a href="mailto:dtsboisar@gmail.com"><i class="fas fa-envelope"></i></a>
 </div>
-<p>© 2026 DTS Tech Solutions. All Rights Reserved.</p>
+<p>© 2026 Dynamic Technology Solutions. All Rights Reserved.</p>
 <p>Boisar • Palghar • Mumbai • Thane • Navi Mumbai</p>
 </footer>
 
 <!-- FLOATING WHATSAPP -->
-<a class="whatsapp" href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions,%20I%20need%20assistance." target="_blank" aria-label="WhatsApp">
+<a class="whatsapp" href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20assistance." target="_blank" aria-label="WhatsApp">
 <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -925,7 +919,7 @@ function openModal(title, imgSrc, desc, specs) {
         specsList.innerHTML += `<li><i class="fas fa-check-circle"></i> ${spec}</li>`;
     });
 
-    let waText = encodeURIComponent(`Hello DTS Tech Solutions, I want to order / get quotation for: ${title}`);
+    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to order / get quotation for: ${title}`);
     document.getElementById("modalWhatsAppBtn").href = `https://wa.me/918390909845?text=${waText}`;
 
     document.getElementById("productModal").style.display = "flex";
