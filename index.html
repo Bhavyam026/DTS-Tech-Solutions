@@ -4,44 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dynamic Technology Solutions | CCTV, Networking, Electrical & Fire Safety</title>
-<meta name="description" content="Dynamic Technology Solutions provides professional CCTV, networking cables, electrical, fire safety, access control and AMC solutions across Mumbai, Thane, Navi Mumbai, Palghar and Boisar.">
+<meta name="description" content="Dynamic Technology Solutions provides professional CCTV, networking cables, electrical, fire safety, access control and AMC solutions.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:"Segoe UI",Arial,sans-serif;
+    font-family:"Amazon Ember", Arial, sans-serif;
 }
 html{
     scroll-behavior:smooth;
 }
 body{
-    background:#07111f;
-    color:#f5f7fa;
+    background:#0b131e;
+    color:#f3f4f6;
     line-height:1.6;
-    overflow-x:hidden;
 }
 
-/* NAVBAR & AMAZON STYLE SEARCH HEADER */
-nav{
+/* AMAZON STYLE TOP HEADER */
+header{
     position:sticky;
     top:0;
     z-index:1000;
-    background:rgba(5,13,25,.96);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(255,255,255,.08);
+    background:#131921;
+    border-bottom:1px solid #232f3e;
+    box-shadow:0 2px 10px rgba(0,0,0,0.5);
 }
-.nav-inner{
-    max-width:1250px;
+.header-container{
+    max-width:1300px;
     margin:auto;
-    padding:12px 20px;
+    padding:10px 20px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:20px;
 }
-.logo{
+.header-logo{
     display:flex;
     align-items:center;
     gap:10px;
@@ -49,1000 +48,547 @@ nav{
     color:#fff;
     flex-shrink:0;
 }
-.logo-icon{
-    width:40px;
-    height:40px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#00d4ff,#0077ff);
+.logo-badge{
+    background:#febd69;
+    color:#131921;
+    width:38px;
+    height:38px;
+    border-radius:6px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:20px;
-    box-shadow:0 0 15px rgba(0,212,255,0.4);
+    font-size:18px;
+    font-weight:bold;
 }
-.logo-text strong{
+.logo-texts strong{
     display:block;
-    font-size:14px;
-    letter-spacing:0.3px;
-}
-.logo-text span{
-    font-size:9px;
-    color:#8fa3bb;
-}
-
-/* SEARCH BAR */
-.search-container{
-    flex-grow:1;
-    max-width:450px;
-    position:relative;
-}
-.search-bar{
-    width:100%;
-    padding:10px 15px 10px 40px;
-    border-radius:25px;
-    background:#0c1828;
-    border:1px solid #253b54;
-    color:#fff;
-    font-size:14px;
-    outline:none;
-    transition:0.3s;
-}
-.search-bar:focus{
-    border-color:#00d4ff;
-    box-shadow:0 0 10px rgba(0,212,255,0.3);
-}
-.search-icon{
-    position:absolute;
-    left:14px;
-    top:50%;
-    transform:translateY(-50%);
-    color:#8fa3bb;
     font-size:15px;
+    letter-spacing:0.5px;
+    color:#fff;
+}
+.logo-texts span{
+    font-size:10px;
+    color:#febd69;
 }
 
-.nav-links{
+/* AMAZON STYLE SEARCH BAR */
+.header-search{
+    flex-grow:1;
+    max-width:600px;
+    display:flex;
+    align-items:center;
+}
+.search-input{
+    width:100%;
+    padding:11px 16px;
+    border:none;
+    border-radius:8px 0 0 8px;
+    font-size:15px;
+    outline:none;
+    background:#fff;
+    color:#111;
+}
+.search-btn{
+    background:#febd69;
+    color:#131921;
+    border:none;
+    padding:11px 22px;
+    border-radius:0 8px 8px 0;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    transition:0.2s;
+}
+.search-btn:hover{
+    background:#f3a847;
+}
+
+/* NAVIGATION LINKS */
+.header-nav{
     display:flex;
     gap:20px;
+    align-items:center;
     flex-shrink:0;
 }
-.nav-links a{
-    color:#cbd5e1;
+.header-nav a{
+    color:#fff;
     text-decoration:none;
-    font-size:14px;
-    transition:.3s;
+    font-size:13px;
+    font-weight:500;
+    transition:0.2s;
 }
-.nav-links a:hover{
-    color:#00d4ff;
+.header-nav a:hover{
+    color:#febd69;
 }
 
-/* HERO SECTION */
-.hero{
-    min-height:600px;
+/* SUB-NAV BAR (AMAZON STYLE DEPARTMENT BAR) */
+.sub-nav{
+    background:#232f3e;
+    padding:8px 20px;
     display:flex;
-    align-items:center;
-    position:relative;
-    overflow:hidden;
-    background: radial-gradient(circle at 80% 30%,rgba(0,212,255,.15),transparent 35%), linear-gradient(135deg,#07111f,#0b2033);
+    gap:25px;
+    overflow-x:auto;
+    white-space:nowrap;
+    font-size:13px;
+    border-bottom:1px solid #37475a;
 }
-.hero-inner{
-    max-width:1200px;
-    width:100%;
-    margin:auto;
-    padding:60px 20px;
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:40px;
-    align-items:center;
-}
-.badge{
-    display:inline-flex;
-    padding:6px 14px;
-    border-radius:30px;
-    background:rgba(0,212,255,.1);
-    border:1px solid rgba(0,212,255,.3);
-    color:#00d4ff;
-    font-size:12px;
-    margin-bottom:15px;
-}
-.hero h1{
-    font-size:40px;
-    line-height:1.15;
-    margin-bottom:15px;
-}
-.hero h1 span{
-    color:#00d4ff;
-    text-shadow:0 0 25px rgba(0,212,255,0.4);
-}
-.hero p{
-    color:#aebed0;
-    font-size:15px;
-    max-width:600px;
-    margin-bottom:20px;
-}
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-}
-.btn{
-    padding:12px 20px;
-    border-radius:8px;
+.sub-nav a{
+    color:#ccc;
     text-decoration:none;
-    font-weight:600;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-size:14px;
-    transition:.3s;
+    transition:0.2s;
 }
-.btn-primary{
-    background:#00d4ff;
-    color:#03111c;
-    box-shadow:0 4px 15px rgba(0,212,255,0.4);
-}
-.btn-primary:hover{
-    transform:translateY(-2px);
-}
-.btn-outline{
-    border:1px solid #40536a;
+.sub-nav a:hover{
     color:#fff;
 }
-.btn-outline:hover{
-    border-color:#00d4ff;
-    color:#00d4ff;
+
+/* HERO BANNER */
+.hero{
+    background:linear-gradient(rgba(19,25,33,0.9), rgba(11,19,30,0.9)), url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=1200&auto=format&fit=crop&q=80');
+    background-size:cover;
+    background-position:center;
+    padding:60px 20px;
+    text-align:center;
+}
+.hero h1{
+    font-size:36px;
+    margin-bottom:10px;
+    color:#fff;
+}
+.hero h1 span{
+    color:#febd69;
+}
+.hero p{
+    color:#d1d5db;
+    font-size:15px;
+    max-width:700px;
+    margin:auto;
+    margin-bottom:20px;
+}
+.hero-cta{
+    display:inline-block;
+    background:#febd69;
+    color:#131921;
+    padding:12px 30px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:15px;
+    box-shadow:0 4px 15px rgba(254,189,105,0.3);
+}
+.hero-cta:hover{
+    background:#f3a847;
 }
 
-/* HERO SHOWCASE CARDS */
-.hero-showcase{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+/* SECTIONS & PRODUCT GRIDS */
+.container{
+    max-width:1300px;
+    margin:auto;
+    padding:40px 20px;
 }
-.showcase-card{
-    width:100%;
-    height:180px;
-    border-radius:14px;
-    background:#0c1828;
-    border:1px solid rgba(255,255,255,.12);
-    box-shadow:0 15px 35px rgba(0,0,0,.4);
-    overflow:hidden;
-    position:relative;
-    cursor:pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-.showcase-card:hover{
-    transform: scale(1.02);
-    border-color:#00d4ff;
-}
-.showcase-card img{
-    width:100%;
-    height:120px;
-    object-fit:cover;
-}
-.showcase-label{
-    padding:8px 12px;
-    background:#050d18;
-    font-size:12px;
-    color:#dbeafe;
-    font-weight:600;
+.section-title{
+    font-size:24px;
+    margin-bottom:20px;
+    color:#fff;
+    border-bottom:2px solid #232f3e;
+    padding-bottom:8px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
-.showcase-label span{
-    color:#00d4ff;
-    font-size:10px;
-}
-
-/* COMMON SECTIONS */
-.section{
-    max-width:1200px;
-    margin:auto;
-    padding:70px 20px;
-}
-.section-heading{
-    text-align:center;
-    margin-bottom:40px;
-}
-.section-heading small{
-    color:#00d4ff;
-    text-transform:uppercase;
-    letter-spacing:2px;
-    font-weight:600;
-    font-size:12px;
-}
-.section-heading h2{
-    font-size:34px;
-    margin-top:6px;
-}
-.section-heading p{
-    color:#8999ad;
-    max-width:700px;
-    margin:8px auto;
-    font-size:14px;
-}
-
-/* SERVICES GRID (AMAZON STYLE E-COMMERCE CARDS) */
-.services{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:22px;
-}
-.service{
-    background:#0c1828;
-    border:1px solid #1c3046;
-    border-radius:14px;
-    overflow:hidden;
-    transition:.3s ease;
+.section-title span{
+    font-size:13px;
+    color:#febd69;
     cursor:pointer;
+}
+
+/* AMAZON STYLE PRODUCT GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+}
+.card{
+    background:#131921;
+    border:1px solid #232f3e;
+    border-radius:10px;
+    overflow:hidden;
     display:flex;
     flex-direction:column;
+    transition:0.3s;
+    cursor:pointer;
 }
-.service:hover{
-    transform:translateY(-5px);
-    border-color:#00d4ff;
-    box-shadow:0 15px 30px rgba(0,212,255,0.15);
+.card:hover{
+    border-color:#febd69;
+    box-shadow:0 10px 25px rgba(0,0,0,0.6);
+    transform:translateY(-3px);
 }
-.service-img-box{
-    height:170px;
+.card-img{
     width:100%;
-    overflow:hidden;
-    background:#050b14;
-}
-.service-img-box img{
-    width:100%;
-    height:100%;
+    height:180px;
     object-fit:cover;
-    transition: transform 0.4s ease;
+    background:#1d2733;
 }
-.service:hover .service-img-box img{
-    transform: scale(1.06);
-}
-.service-body{
-    padding:20px;
+.card-body{
+    padding:16px;
     display:flex;
     flex-direction:column;
     flex-grow:1;
 }
-.service-body h3{
+.card-badge{
+    background:#232f3e;
+    color:#febd69;
+    font-size:10px;
+    padding:3px 8px;
+    border-radius:4px;
+    width:fit-content;
     margin-bottom:8px;
-    font-size:18px;
+    text-transform:uppercase;
+    font-weight:bold;
+}
+.card h3{
+    font-size:16px;
+    margin-bottom:8px;
     color:#fff;
 }
-.service-body p{
-    color:#8ea0b5;
-    font-size:13px;
+.card p{
+    font-size:12px;
+    color:#9ca3af;
     margin-bottom:15px;
     flex-grow:1;
 }
-.service-action{
-    color:#00d4ff;
-    font-weight:600;
-    font-size:12px;
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-}
-
-/* PRODUCTS SECTION */
-.products-section{
-    background:#050d18;
-}
-.filters{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:30px;
-}
-.filter-btn{
-    border:1px solid #263b53;
-    background:#0c1828;
-    color:#b7c6d7;
-    padding:8px 16px;
-    border-radius:30px;
-    cursor:pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    font-size:12px;
-}
-.filter-btn.active,
-.filter-btn:hover{
-    background:#00d4ff;
-    color:#04101c;
-    border-color:#00d4ff;
-}
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:22px;
-}
-.product{
-    background:#0b1726;
-    border:1px solid #1d3045;
-    border-radius:14px;
-    overflow:hidden;
-    transition:.3s ease;
-    cursor:pointer;
-}
-.product:hover{
-    transform:translateY(-5px);
-    border-color:#00d4ff;
-    box-shadow:0 15px 30px rgba(0,212,255,0.18);
-}
-.product-img-box{
-    height:190px;
-    background:#050b14;
-    overflow:hidden;
-}
-.product-img-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition: transform 0.4s ease;
-}
-.product:hover .product-img-box img{
-    transform: scale(1.06);
-}
-.product-body{
-    padding:18px;
-}
-.product-body small{
-    color:#00d4ff;
-    font-weight:600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size:10px;
-}
-.product-body h3{
-    margin:5px 0;
-    font-size:16px;
-}
-.product-body p{
-    color:#8ea0b5;
-    font-size:12px;
-    margin-bottom:12px;
-}
-.small-btn{
-    width:100%;
-    text-align:center;
+.card-btn{
+    background:#febd69;
+    color:#131921;
+    border:none;
     padding:8px;
     border-radius:6px;
-    text-decoration:none;
-    font-size:12px;
-    font-weight:600;
-    border:1px solid #30455c;
-    color:#fff;
-    background:none;
+    font-weight:bold;
+    font-size:13px;
     cursor:pointer;
-    transition:all 0.3s ease;
+    text-align:center;
+    text-decoration:none;
+    width:100%;
 }
-.small-btn:hover{
-    border-color:#00d4ff;
-    color:#00d4ff;
-    background:rgba(0,212,255,0.05);
+.card-btn:hover{
+    background:#f3a847;
 }
 
 /* MODAL POPUP */
 .modal-overlay{
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(3,8,16,0.85);
-    backdrop-filter:blur(8px);
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.85);
     display:none;
     align-items:center;
     justify-content:center;
     z-index:2000;
     padding:20px;
 }
-.modal-content{
-    background:#0c1828;
-    border:1px solid #00d4ff;
-    max-width:550px;
+.modal-box{
+    background:#131921;
+    border:1px solid #febd69;
+    max-width:500px;
     width:100%;
-    border-radius:16px;
+    border-radius:12px;
     overflow:hidden;
-    box-shadow:0 25px 60px rgba(0,212,255,0.3);
     position:relative;
-    animation: fadeInDown 0.3s ease;
 }
 .modal-close{
     position:absolute;
-    top:12px;
-    right:12px;
-    background:#162a42;
+    top:10px; right:10px;
+    background:#232f3e;
     color:#fff;
     border:none;
-    width:32px;
-    height:32px;
+    width:30px; height:30px;
     border-radius:50%;
     font-size:16px;
     cursor:pointer;
-    z-index:10;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-.modal-close:hover{
-    background:#00d4ff;
-    color:#03111c;
 }
 .modal-img{
     width:100%;
-    height:220px;
+    height:200px;
     object-fit:cover;
 }
-.modal-body{
-    padding:22px;
+.modal-content{
+    padding:20px;
 }
-.modal-body h2{
+.modal-content h2{
     font-size:20px;
-    margin-bottom:6px;
+    margin-bottom:8px;
     color:#fff;
 }
-.modal-body p{
-    color:#9aaabd;
+.modal-content p{
     font-size:13px;
-    margin-bottom:12px;
+    color:#d1d5db;
+    margin-bottom:15px;
 }
-.modal-specs{
+.specs-list{
     list-style:none;
-    margin-bottom:18px;
-    background:#06101c;
-    padding:14px;
-    border-radius:8px;
-    border:1px solid #1a2d42;
-}
-.modal-specs li{
-    padding:4px 0;
+    background:#1d2733;
+    padding:12px;
+    border-radius:6px;
+    margin-bottom:15px;
     font-size:12px;
-    color:#cbd5e1;
 }
-.modal-specs li i{
-    color:#00d4ff;
-    margin-right:8px;
+.specs-list li{
+    margin-bottom:5px;
+    color:#e5e7eb;
 }
-
-/* WHY US & ABOUT */
-.why{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:18px;
-}
-.why-card{
-    padding:25px 18px;
-    text-align:center;
-    border-radius:14px;
-    background:#0c1828;
-    border:1px solid #1c2e43;
-    transition:.3s;
-}
-.why-card:hover{
-    transform: translateY(-4px);
-    border-color:#00d4ff;
-}
-.why-card i{
-    font-size:32px;
-    color:#00d4ff;
-    margin-bottom:12px;
-}
-
-.about{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:35px;
-    align-items:center;
-}
-.about-box{
-    background:#0c1828;
-    padding:30px;
-    border-radius:16px;
-    border:1px solid #1c3045;
-}
-.about-box p{
-    color:#9aaabd;
-    margin-top:10px;
-    font-size:13px;
-}
-.check{
-    margin-top:8px;
-    color:#cbd5e1;
-    font-weight:500;
-    font-size:13px;
-}
-.check i{
-    color:#00d4ff;
-    margin-right:8px;
-}
-
-/* CONTACT */
-.contact{
-    background:linear-gradient(135deg,#0b2033,#07111f);
-}
-.contact-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:18px;
-}
-.contact-card{
-    padding:22px;
-    text-align:center;
-    border-radius:14px;
-    border:1px solid #254058;
-    background:rgba(255,255,255,.02);
-    transition:.3s;
-}
-.contact-card:hover{
-    transform: translateY(-4px);
-    border-color:#00d4ff;
-}
-.contact-card i{
-    color:#00d4ff;
-    font-size:28px;
-    margin-bottom:10px;
-}
-.contact-card a{
-    color:#fff;
-    text-decoration:none;
-}
-.contact-card a:hover{
-    color:#00d4ff;
+.specs-list li i{
+    color:#febd69;
+    margin-right:6px;
 }
 
 /* WHATSAPP FLOAT */
-.whatsapp{
+.whatsapp-float{
     position:fixed;
-    right:22px;
-    bottom:22px;
-    width:56px;
-    height:56px;
-    border-radius:50%;
+    right:20px; bottom:20px;
     background:#25d366;
     color:#fff;
+    width:55px; height:55px;
+    border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:30px;
+    font-size:28px;
+    box-shadow:0 4px 15px rgba(37,211,102,0.4);
     z-index:999;
-    box-shadow:0 6px 20px rgba(37,211,102,.4);
-    transition:.3s;
-}
-.whatsapp:hover{
-    transform: scale(1.1);
+    text-decoration:none;
 }
 
 /* FOOTER */
 footer{
-    background:#030810;
-    padding:40px 20px;
+    background:#131921;
+    color:#9ca3af;
     text-align:center;
-    color:#748398;
-    border-top:1px solid rgba(255,255,255,0.05);
-    font-size:13px;
+    padding:30px 20px;
+    font-size:12px;
+    border-top:1px solid #232f3e;
+    margin-top:40px;
 }
-.footer-logo{
+footer strong{
     color:#fff;
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:6px;
-}
-.social{
-    margin:12px 0;
-}
-.social a{
-    color:#aebccc;
-    font-size:20px;
-    margin:0 8px;
-}
-.social a:hover{
-    color:#00d4ff;
 }
 
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@media(max-width:900px){
-    .nav-links{ display:none; }
-    .hero-inner{ grid-template-columns:1fr; text-align:center; }
-    .hero h1{ font-size:30px; }
-    .hero-buttons{ justify-content:center; }
-    .about{ grid-template-columns:1fr; }
-    .search-container{ max-width:100%; }
+@media(max-width:768px){
+    .header-nav{ display:none; }
+    .hero h1{ font-size:26px; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAVIGATION WITH LIVE SEARCH BAR -->
-<nav>
-<div class="nav-inner">
-<a class="logo" href="#home">
-<div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
-<div class="logo-text">
-<strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong>
-<span>SECURITY • NETWORKING • ELECTRICAL • FIRE</span>
+<!-- AMAZON STYLE HEADER -->
+<header>
+<div class="header-container">
+<a href="#home" class="header-logo">
+<div class="logo-badge"><i class="fas fa-shield-alt"></i></div>
+<div class="logo-texts">
+<strong>Dynamic Tech</strong>
+<span>Store & Services</span>
 </div>
 </a>
 
 <!-- LIVE SEARCH BAR -->
-<div class="search-container">
-<i class="fas fa-search search-icon"></i>
-<input type="text" id="liveSearch" class="search-bar" placeholder="Search CCTV, Cabling, Electrical, Fire Safety..." onkeyup="filterWebsite()">
+<div class="header-search">
+<input type="text" id="searchInput" class="search-input" placeholder="Search CCTV, Cabling, Fire Safety, Electrical..." onkeyup="searchWebsite()">
+<button class="search-btn"><i class="fas fa-search"></i></button>
 </div>
 
-<div class="nav-links">
-<a href="#home">Home</a>
+<div class="header-nav">
 <a href="#services">Services</a>
 <a href="#products">Products</a>
 <a href="#about">About</a>
 <a href="#contact">Contact</a>
 </div>
 </div>
-</nav>
+
+<!-- SUB NAVIGATION -->
+<div class="sub-nav">
+<a href="#services"><i class="fas fa-bars"></i> All Services</a>
+<a href="#products">Networking Cables</a>
+<a href="#products">CCTV Cameras</a>
+<a href="#products">Fire Safety</a>
+<a href="#contact">Contact Support</a>
+</div>
+</header>
 
 <!-- HERO -->
 <section class="hero" id="home">
-<div class="hero-inner">
-<div>
-<span class="badge"><i class="fas fa-circle-check"></i>&nbsp; Professional System Integrators & Consultants</span>
-<h1>Complete <span>Security</span> & Technical Infrastructure</h1>
-<p>Surveillance Systems • Structured Cabling • Electrical Panels • Fire Safety • Access Control</p>
-<p>End-to-end supply, installation, integration, and technical maintenance support for corporate, industrial, and commercial establishments.</p>
-<div class="hero-buttons">
-<a class="btn btn-primary" href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20a%20commercial%20quotation." target="_blank"><i class="fab fa-whatsapp"></i> Get Quotation</a>
-<a class="btn btn-outline" href="tel:08390909845"><i class="fas fa-phone"></i> Call Now</a>
-</div>
-</div>
-
-<!-- HERO SHOWCASE BOX -->
-<div class="hero-showcase">
-<div class="showcase-card" onclick="openModal('Full HD Night Vision Surveillance Camera', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'High performance night-vision surveillance camera for crystal clear 24/7 security monitoring.', ['Resolution: Full HD 2MP Sharp Clarity', 'Enhanced Low Light Night Vision', 'Built-in Audio Recording Support', 'Weatherproof Rugged Outer Casing'])">
-<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Surveillance Camera">
-<div class="showcase-label">Surveillance Camera System <span>Click to View Specs</span></div>
-</div>
-
-<div class="showcase-card" onclick="openModal('High Speed Enterprise Networking Cable', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'High-speed pure copper networking cable designed for high bandwidth enterprise and data networks.', ['Conductor: 100% Pure High Grade Copper', 'Length: 305M Standard Box Packing', 'Low Signal Loss & High Bandwidth', 'Industrial Grade Shielded Insulation'])">
-<img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="Networking Cable">
-<div class="showcase-label">Structured Networking Cable <span>Click to View Specs</span></div>
-</div>
-</div>
-
-</div>
+<h1>Complete <span>Security & Networking</span> Store</h1>
+<p>Professional Surveillance Systems, Structured Cabling, Electrical Works, and Fire Safety solutions engineered for corporate & industrial excellence.</p>
+<a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20a%20quotation." target="_blank" class="hero-cta"><i class="fab fa-whatsapp"></i> Get Instant Quotation</a>
 </section>
 
-<!-- SERVICES -->
-<section class="section" id="services">
-<div class="section-heading">
-<small>What We Do</small>
-<h2>Our Professional Services</h2>
-<p>Explore our wide range of technical infrastructure services designed for modern enterprises.</p>
-</div>
-<div class="services" id="servicesGrid">
+<!-- MAIN CONTAINER -->
+<div class="container">
 
-<!-- SERVICE 1 -->
-<div class="service searchable-item" data-name="cctv video surveillance systems camera ip nvr" onclick="openModal('CCTV & Video Surveillance Systems', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Complete supply, installation, and monitoring setup for advanced IP cameras, PTZ systems, and central control rooms.', ['High Definition IP & Analog Cameras', 'Advanced Centralized NVR Recording', 'Mobile Remote Monitoring Access', 'Professional Cabling & Configuration'])">
-<div class="service-img-box">
-<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Service">
+<!-- SERVICES SECTION -->
+<div id="services">
+<div class="section-title">
+<h2>Our Services</h2>
+<span>Professional Solutions</span>
 </div>
-<div class="service-body">
+<div class="grid" id="itemsGrid">
+
+<!-- ITEM 1 -->
+<div class="card searchable" data-name="cctv surveillance camera security system ip nvr" onclick="openModal('CCTV & Video Surveillance Systems', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Advanced IP & Analog CCTV camera installation with high-end NVR storage and live mobile monitoring.', ['Resolution: Full HD / 4K Ultra Sharp', 'Night Vision: Enhanced IR Low Light', 'Storage: Centralized NVR Setup', 'Access: Live Smartphone Viewing'])">
+<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" class="card-img" alt="CCTV">
+<div class="card-body">
+<div class="card-badge">Service</div>
 <h3>CCTV & Surveillance</h3>
-<p>High-definition camera setups, NVR recording units, and centralized monitoring solutions.</p>
-<span class="service-action">View Details & Specs <i class="fas fa-arrow-right"></i></span>
+<p>Complete installation of high-definition security cameras and recording systems.</p>
+<button class="card-btn">View Details & Specs</button>
 </div>
 </div>
 
-<!-- SERVICE 2 -->
-<div class="service searchable-item" data-name="structured cabling networking lan cable patch panel fiber" onclick="openModal('Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'Enterprise-grade structured networking cables, patch panels, rack management, and signal optimization.', ['High-Grade Pure Copper LAN Cables', 'Coaxial & Fiber Optic Integration', 'Network Racks & Patch Panel Setup', 'Zero Attenuation Signal Testing'])">
-<div class="service-img-box">
-<img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="Cabling Service">
-</div>
-<div class="service-body">
+<!-- ITEM 2 -->
+<div class="card searchable" data-name="structured cabling networking lan cable patch panel fiber" onclick="openModal('Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'Enterprise-grade pure copper structured cabling, patch panels, and server rack management.', ['Cable Type: 100% Pure Copper CAT6/CAT6A', 'Rack Management: Neat Cable Dressing', 'Testing: Zero Signal Loss Assurance', 'Application: High-Speed Enterprise Data'])">
+<img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" class="card-img" alt="Networking">
+<div class="card-body">
+<div class="card-badge">Service</div>
 <h3>Structured Cabling</h3>
-<p>Enterprise networking cables, rack management, patch panels, and seamless connectivity.</p>
-<span class="service-action">View Details & Specs <i class="fas fa-arrow-right"></i></span>
+<p>Professional enterprise networking cables, patch panels, and rack management.</p>
+<button class="card-btn">View Details & Specs</button>
 </div>
 </div>
 
-<!-- SERVICE 3 -->
-<div class="service searchable-item" data-name="electrical works power distribution panel wiring load testing" onclick="openModal('Electrical Works & Power Distribution', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=60', 'Commercial and industrial electrical installations, panel wiring, load balancing, and routine safety audits.', ['Industrial Control Panel Wiring', 'Safe Power Distribution & Backup', 'Routine Electrical Load Testing', 'Certified Safety Compliance Standards'])">
-<div class="service-img-box">
-<img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=60" alt="Electrical Service">
-</div>
-<div class="service-body">
+<!-- ITEM 3 -->
+<div class="card searchable" data-name="electrical works power distribution panel wiring" onclick="openModal('Electrical Works & Power Distribution', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80', 'Industrial and commercial electrical panel wiring, load balancing, and certified safety compliance.', ['Panel Wiring: Industrial Control Panels', 'Safety: Certified Electrical Compliance', 'Load Testing: Balanced Power Distribution', 'Support: Routine Maintenance Audits'])">
+<img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80" class="card-img" alt="Electrical">
+<div class="card-body">
+<div class="card-badge">Service</div>
 <h3>Electrical Works</h3>
-<p>Commercial and industrial electrical installations, panel wiring, and power distribution.</p>
-<span class="service-action">View Details & Specs <i class="fas fa-arrow-right"></i></span>
+<p>Commercial power distribution, panel installations, and electrical wiring.</p>
+<button class="card-btn">View Details & Specs</button>
 </div>
 </div>
 
-<!-- SERVICE 4 -->
-<div class="service searchable-item" data-name="fire safety alarm systems smoke detector hazard compliance" onclick="openModal('Fire Safety & Alarm Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', 'Advanced fire detection systems, automated alarm control panels, and safety compliance solutions for premises.', ['Advanced Smoke & Heat Detectors', 'Automated Fire Alarm Control Panels', 'Emergency Response System Integration', 'Building Safety Compliance Audits'])">
-<div class="service-img-box">
-<img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Safety Service">
-</div>
-<div class="service-body">
+<!-- ITEM 4 -->
+<div class="card searchable" data-name="fire safety alarm systems smoke detector hazard" onclick="openModal('Fire Safety & Alarm Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Intelligent fire detection, automated smoke sensors, and emergency alarm control panels.', ['Sensors: High-Sensitivity Optical Smoke Detectors', 'Panel: Centralized Emergency Alarm Control', 'Alerts: Loud Audible & Visual Sirens', 'Compliance: Building Safety Certified'])">
+<img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80" class="card-img" alt="Fire Safety">
+<div class="card-body">
+<div class="card-badge">Service</div>
 <h3>Fire Safety Systems</h3>
-<p>Advanced fire alarm setups, smoke detection solutions, and comprehensive safety compliance.</p>
-<span class="service-action">View Details & Specs <i class="fas fa-arrow-right"></i></span>
-</div>
-</div>
-
-<!-- SERVICE 5 -->
-<div class="service searchable-item" data-name="access control biometric attendance digital smart door lock turnstile" onclick="openModal('Access Control & Biometric Systems', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Biometric attendance machines, digital smart locks, turnstiles, and automated gate security.', ['Fingerprint & Face Recognition Units', 'RFID Smart Card Access Locks', 'Automated Boom Barriers & Gates', 'Time & Attendance Software Sync'])">
-<div class="service-img-box">
-<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Access Control">
-</div>
-<div class="service-body">
-<h3>Access Control</h3>
-<p>Biometric attendance machines, digital door locks, turnstiles, and gate automation.</p>
-<span class="service-action">View Details & Specs <i class="fas fa-arrow-right"></i></span>
-</div>
-</div>
-
-<!-- SERVICE 6 -->
-<div class="service searchable-item" data-name="amc technical maintenance support troubleshooting" onclick="openModal('AMC & Technical Maintenance Support', 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'Comprehensive Annual Maintenance Contracts (AMC) ensuring zero downtime for all security and IT systems.', ['Regular Preventive Maintenance Visits', 'Priority Breakdown Troubleshooting', 'System Firmware & Health Checks', 'Dedicated Technical Support Helpline'])">
-<div class="service-img-box">
-<img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60" alt="AMC Support">
-</div>
-<div class="service-body">
-<h3>AMC & Technical Support</h3>
-<p>Reliable annual maintenance contracts, prompt troubleshooting, and system health checks.</p>
-<span class="service-action">View Details & Specs <i class="fas fa-arrow-right"></i></span>
+<p>Advanced fire alarm setups and smoke detection hazard solutions.</p>
+<button class="card-btn">View Details & Specs</button>
 </div>
 </div>
 
 </div>
-</section>
+</div>
 
 <!-- PRODUCTS SECTION -->
-<section class="products-section" id="products">
-<div class="section">
-<div class="section-heading">
-<small>Our Products</small>
-<h2>Featured Hardware & Equipment</h2>
-<p>Click on any product card to inspect high-resolution images, clean specifications, and inquiry options.</p>
+<div id="products" style="margin-top:50px;">
+<div class="section-title">
+<h2>Featured Products & Hardware</h2>
+<span>Top Sellers</span>
 </div>
-<div class="filters">
-<button class="filter-btn active" onclick="filterProducts('all',this)">All Products</button>
-<button class="filter-btn" onclick="filterProducts('cable',this)">Networking Cables</button>
-<button class="filter-btn" onclick="filterProducts('camera',this)">Cameras & Hardware</button>
-<button class="filter-btn" onclick="filterProducts('safety',this)">Safety & Electrical</button>
-</div>
-<div class="products" id="productsGrid">
+<div class="grid" id="productsGrid">
 
-<!-- PRODUCT 1 -->
-<div class="product searchable-item" data-category="cable" data-name="cat6 utp high speed lan cable 305m copper" onclick="openModal('CAT6 UTP High Speed LAN Cable (305M)', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'High-speed pure copper networking cable engineered for robust enterprise data transmission and CCTV connectivity.', ['Conductor: 100% Pure Grade Copper', 'Length: 305 Meter Pull Box Packing', 'Low Signal Attenuation & Crosstalk', 'Heavy Duty UV Protected Jacket'])">
-<div class="product-img-box">
-<img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="LAN Cable">
-</div>
-<div class="product-body">
-<small>Networking Cable</small>
+<!-- PROD 1 -->
+<div class="card searchable" data-name="cat6 utp lan cable 305m pure copper box" onclick="openModal('CAT6 UTP High-Speed LAN Cable (305M)', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', '100% pure copper high speed network cable box designed for maximum bandwidth and zero attenuation.', ['Length: 305 Meters Pull Box', 'Conductor: Pure Solid Copper', 'Jacket: Heavy Duty PVC Shield', 'Performance: Gigabit Speed Support'])">
+<img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" class="card-img" alt="LAN Cable">
+<div class="card-body">
+<div class="card-badge">Product</div>
 <h3>CAT6 UTP LAN Cable (305M)</h3>
-<p>High-speed pure copper networking cable engineered for robust enterprise data transmission.</p>
-<button class="small-btn">View Specs & Details</button>
+<p>High performance pure copper structured networking cable box.</p>
+<button class="card-btn">View Details & Specs</button>
 </div>
 </div>
 
-<!-- PRODUCT 2 -->
-<div class="product searchable-item" data-category="cable" data-name="shielded coaxial cable with power wire rg6" onclick="openModal('Shielded Coaxial Cable with Power Wire', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'Superior shielded coaxial cable bundled with power wires for crystal clear long-distance camera video feeds.', ['Pure Copper Braided Inner Shield', 'Integrated DC Power Wire Included', 'Zero Signal Video Distortion over Distance', 'Weatherproof Outer PVC Jacket'])">
-<div class="product-img-box">
-<img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" alt="Coaxial Cable">
-</div>
-<div class="product-body">
-<small>Coaxial Cable</small>
-<h3>Coaxial RG6 Cable with Power</h3>
-<p>Superior shielded coaxial cable bundled with power wires for crystal clear video feeds.</p>
-<button class="small-btn">View Specs & Details</button>
-</div>
-</div>
-
-<!-- PRODUCT 3 -->
-<div class="product searchable-item" data-category="camera" data-name="full hd outdoor bullet surveillance camera night vision" onclick="openModal('Full HD Outdoor Bullet Surveillance Camera', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Professional night-vision bullet camera designed for robust perimeter security and outdoor facility monitoring.', ['Resolution: Full HD Crystal Clear Output', 'Advanced Low Light Night Vision', 'Built-in High Sensitivity Audio Mic', 'Weatherproof IP67 Metal Housing'])">
-<div class="product-img-box">
-<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Bullet Camera">
-</div>
-<div class="product-body">
-<small>Surveillance Camera</small>
+<!-- PROD 2 -->
+<div class="card searchable" data-name="outdoor bullet security camera night vision" onclick="openModal('Outdoor Bullet Security Camera', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Rugged weatherproof metal housing bullet camera with sharp night vision capabilities.', ['Housing: Weatherproof IP67 Metal', 'Vision: IR Night Vision up to 30m', 'Audio: Built-in High Gain Microphone', 'Resolution: Full HD Sharp Output'])">
+<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" class="card-img" alt="Camera">
+<div class="card-body">
+<div class="card-badge">Product</div>
 <h3>Outdoor Bullet Camera</h3>
-<p>Professional night-vision bullet camera designed for robust perimeter security.</p>
-<button class="small-btn">View Specs & Details</button>
-</div>
-</div>
-
-<!-- PRODUCT 4 -->
-<div class="product searchable-item" data-category="safety" data-name="smart fire alarm control smoke sensor unit safety" onclick="openModal('Smart Fire Alarm & Smoke Sensor Unit', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', 'Intelligent fire alarm detection unit designed for early smoke and heat hazard identification.', ['High Sensitivity Optical Smoke Detection', 'Centralized Control Panel Connectivity', 'Loud Audible & Visual Emergency Alerts', 'Low Power Battery Backup Support'])">
-<div class="product-img-box">
-<img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Sensor">
-</div>
-<div class="product-body">
-<small>Safety Equipment</small>
-<h3>Smart Fire Alarm & Sensor Unit</h3>
-<p>Intelligent fire alarm detection unit designed for early smoke and heat hazard identification.</p>
-<button class="small-btn">View Specs & Details</button>
+<p>Rugged weatherproof surveillance camera for secure perimeter monitoring.</p>
+<button class="card-btn">View Details & Specs</button>
 </div>
 </div>
 
 </div>
 </div>
-</section>
+
+</div>
+
+<!-- ABOUT & CONTACT -->
+<div class="container" id="about" style="padding-top:0;">
+<div class="section-title"><h2>About Dynamic Technology Solutions</h2></div>
+<p style="color:#d1d5db; font-size:14px; margin-bottom:10px;">We are professional system integrators and technology solution providers operating across Mumbai, Thane, Navi Mumbai, Palghar, and Boisar. We specialize in corporate security, structured networking, electrical contracting, and fire safety systems.</p>
+</div>
+
+<div class="container" id="contact" style="padding-top:0;">
+<div class="section-title"><h2>Contact Us</h2></div>
+<p style="color:#d1d5db; font-size:14px; margin-bottom:15px;"><i class="fas fa-phone" style="color:#febd69;"></i> Call/WhatsApp: <a href="tel:08390909845" style="color:#febd69;text-decoration:none;">083909 09845</a> | <i class="fas fa-envelope" style="color:#febd69;"></i> Email: dtsboisar@gmail.com</p>
+</div>
 
 <!-- MODAL POPUP -->
-<div class="modal-overlay" id="productModal" onclick="closeModalOnOutside(event)">
-<div class="modal-content">
+<div class="modal-overlay" id="itemModal" onclick="closeModalOutside(event)">
+<div class="modal-box">
 <button class="modal-close" onclick="closeModal()">&times;</button>
-<img id="modalImg" class="modal-img" src="" alt="Item Image">
-<div class="modal-body">
+<img id="modalImg" src="" class="modal-img" alt="Modal Image">
+<div class="modal-content">
 <h2 id="modalTitle">Title</h2>
-<p id="modalDesc">Description goes here.</p>
-<ul class="modal-specs" id="modalSpecsList">
-<!-- Injected Specs -->
-</ul>
-<a id="modalWhatsAppBtn" class="btn btn-primary" href="#" target="_blank" style="width:100%; justify-content:center;"><i class="fab fa-whatsapp"></i> Enquire / Get Quote on WhatsApp</a>
+<p id="modalDesc">Description</p>
+<ul class="specs-list" id="modalSpecs"></ul>
+<a id="modalWaBtn" href="#" target="_blank" class="card-btn" style="display:block; text-align:center;"><i class="fab fa-whatsapp"></i> Enquire / Get Quote on WhatsApp</a>
 </div>
 </div>
 </div>
 
-<!-- WHY US -->
-<section class="section">
-<div class="section-heading">
-<small>Why Choose Us</small>
-<h2>Why Dynamic Technology Solutions?</h2>
-</div>
-<div class="why">
-<div class="why-card">
-<i class="fas fa-shield-halved"></i>
-<h3>Quality Assured</h3>
-<p>Tested and certified hardware components.</p>
-</div>
-<div class="why-card">
-<i class="fas fa-headset"></i>
-<h3>Expert Engineering</h3>
-<p>Professional execution for corporate setups.</p>
-</div>
-<div class="why-card">
-<i class="fas fa-industry"></i>
-<h3>Industrial Standards</h3>
-<p>Trusted by manufacturing plants & offices.</p>
-</div>
-<div class="why-card">
-<i class="fas fa-location-dot"></i>
-<h3>Local Support</h3>
-<p>Prompt service across Mumbai & Boisar region.</p>
-</div>
-</div>
-</section>
-
-<!-- ABOUT -->
-<section class="section" id="about">
-<div class="about">
-<div>
-<div class="section-heading" style="text-align:left;margin-bottom:15px;">
-<small>About Us</small>
-<h2>Your Trusted Technology Partner</h2>
-</div>
-<p style="color:#9aaabd;font-size:13px;">Dynamic Technology Solutions delivers high-end electronic security, structured cabling, electrical, and fire safety solutions for corporate offices, industrial plants, and commercial complexes.</p>
-<div class="check"><i class="fas fa-check-circle"></i> Enterprise Security & CCTV Integration</div>
-<div class="check"><i class="fas fa-check-circle"></i> Structured Networking & Cabling</div>
-<div class="check"><i class="fas fa-check-circle"></i> Electrical & Fire Safety Compliance</div>
-<div class="check"><i class="fas fa-check-circle"></i> Reliable AMC & Maintenance Support</div>
-</div>
-<div class="about-box">
-<h3>Service Coverage Area</h3>
-<p>Mumbai • Thane • Navi Mumbai<br>Palghar • Boisar</p>
-<br>
-<h3>Core Competencies</h3>
-<p>CCTV | Structured Cabling | Electrical Works | Fire Safety | Access Control</p>
-</div>
-</div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-<div class="section">
-<div class="section-heading">
-<small>Contact Us</small>
-<h2>Let's Discuss Your Requirements</h2>
-<p>Get in touch with Dynamic Technology Solutions for quotations, bulk orders, or technical consultations.</p>
-</div>
-<div class="contact-grid">
-<div class="contact-card">
-<i class="fas fa-phone"></i>
-<h3>Call Us</h3>
-<a href="tel:08390909845">083909 09845</a>
-</div>
-<div class="contact-card">
-<i class="fab fa-whatsapp"></i>
-<h3>WhatsApp Chat</h3>
-<a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20to%20discuss%20a%20project." target="_blank">Chat Now</a>
-</div>
-<div class="contact-card">
-<i class="fas fa-envelope"></i>
-<h3>Email</h3>
-<a href="mailto:dtsboisar@gmail.com?subject=Business%20Enquiry">dtsboisar@gmail.com</a>
-</div>
-<div class="contact-card">
-<i class="fas fa-location-dot"></i>
-<h3>Location</h3>
-<p>Boisar, Maharashtra</p>
-</div>
-</div>
-</div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-<div class="footer-logo">DYNAMIC TECHNOLOGY SOLUTIONS</div>
-<p>Professional Security, Networking, Electrical & Fire Safety Integrator</p>
-<div class="social">
-<a href="https://wa.me/918390909845" target="_blank"><i class="fab fa-whatsapp"></i></a>
-<a href="mailto:dtsboisar@gmail.com"><i class="fas fa-envelope"></i></a>
-</div>
-<p>© 2026 Dynamic Technology Solutions. All Rights Reserved.</p>
-<p>Boisar • Palghar • Mumbai • Thane • Navi Mumbai</p>
-</footer>
-
-<!-- FLOATING WHATSAPP -->
-<a class="whatsapp" href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20assistance." target="_blank" aria-label="WhatsApp">
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20assistance." target="_blank" class="whatsapp-float">
 <i class="fab fa-whatsapp"></i>
 </a>
 
+<footer>
+<p><strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong></p>
+<p>Professional Security, Networking, Electrical & Fire Safety Integrator</p>
+<p style="margin-top:8px;">© 2026 All Rights Reserved | Service Areas: Mumbai • Thane • Navi Mumbai • Palghar • Boisar</p>
+</footer>
+
 <script>
-/* LIVE SEARCH FUNCTION (AMAZON STYLE) */
-function filterWebsite() {
-    let query = document.getElementById("liveSearch").value.toLowerCase();
-    let items = document.querySelectorAll(".searchable-item");
-    
-    items.forEach(item => {
-        let name = item.getAttribute("data-name");
-        let textContent = item.innerText.toLowerCase();
-        if(name.includes(query) || textContent.includes(query)) {
-            item.style.display = "flex";
+/* SEARCH FUNCTION (AMAZON STYLE INSTANT FILTER) */
+function searchWebsite() {
+    let query = document.getElementById("searchInput").value.toLowerCase();
+    let cards = document.querySelectorAll(".searchable");
+
+    cards.forEach(card => {
+        let keywords = card.getAttribute("data-name");
+        let content = card.innerText.toLowerCase();
+        if(keywords.includes(query) || content.includes(query)) {
+            card.style.display = "flex";
         } else {
-            item.style.display = "none";
+            card.style.display = "none";
         }
     });
 }
 
-function filterProducts(category,button){
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-    document.querySelectorAll("#productsGrid .product").forEach(product => {
-        if(category === "all" || product.dataset.category === category){
-            product.style.display = "block";
-        }else{
-            product.style.display = "none";
-        }
-    });
-}
-
-function openModal(title, imgSrc, desc, specs) {
+function openModal(title, img, desc, specs) {
     document.getElementById("modalTitle").innerText = title;
-    document.getElementById("modalImg").src = imgSrc;
+    document.getElementById("modalImg").src = img;
     document.getElementById("modalDesc").innerText = desc;
     
-    let specsList = document.getElementById("modalSpecsList");
+    let specsList = document.getElementById("modalSpecs");
     specsList.innerHTML = "";
-    specs.forEach(spec => {
-        specsList.innerHTML += `<li><i class="fas fa-check-circle"></i> ${spec}</li>`;
+    specs.forEach(s => {
+        specsList.innerHTML += `<li><i class="fas fa-check-circle"></i> ${s}</li>`;
     });
 
-    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire / get quotation for: ${title}`);
-    document.getElementById("modalWhatsAppBtn").href = `https://wa.me/918390909845?text=${waText}`;
+    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire / get quote for: ${title}`);
+    document.getElementById("modalWaBtn").href = `https://wa.me/918390909845?text=${waText}`;
 
-    document.getElementById("productModal").style.display = "flex";
+    document.getElementById("itemModal").style.display = "flex";
 }
 
 function closeModal() {
-    document.getElementById("productModal").style.display = "none";
+    document.getElementById("itemModal").style.display = "none";
 }
 
-function closeModalOnOutside(event) {
-    if(event.target.id === "productModal") {
+function closeModalOutside(e) {
+    if(e.target.id === "itemModal") {
         closeModal();
     }
 }
