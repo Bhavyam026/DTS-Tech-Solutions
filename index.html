@@ -1,258 +1,1316 @@
-﻿<!DOCTYPE html>
+html
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DTS Tech Solutions | Complete Security & Technical Solutions</title>
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #0b0f19;
-            color: #f3f4f6;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        /* Header Animation & Styling */
-        header {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-            position: relative;
-            animation: fadeInDown 1s ease-in-out;
-            border-bottom: 3px solid #00d2ff;
-        }
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            color: #00d2ff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        header p {
-            font-size: 1.2rem;
-            color: #d1d5db;
-            max-width: 700px;
-            margin: 0 auto 25px auto;
-        }
-        .contact-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .btn {
-            background: #00d2ff;
-            color: #0b0f19;
-            padding: 12px 28px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
-        }
-        .btn:hover {
-            background: #ffffff;
-            color: #000;
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
-        }
-        .container {
-            max-width: 1100px;
-            margin: 50px auto;
-            padding: 0 20px;
-            animation: fadeInUp 1.2s ease-in-out;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.3rem;
-            margin-bottom: 40px;
-            color: #ffffff;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: #00d2ff;
-            margin: 10px auto 0 auto;
-            border-radius: 2px;
-        }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        .service-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-        }
-        .service-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: #00d2ff;
-            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
-        }
-        .service-card i {
-            font-size: 3.5rem;
-            color: #00d2ff;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
-        }
-        .service-card:hover i {
-            transform: scale(1.15);
-        }
-        .service-card h3 {
-            margin-bottom: 12px;
-            color: #ffffff;
-            font-size: 1.4rem;
-        }
-        .service-card p {
-            color: #9ca3af;
-            font-size: 0.95rem;
-        }
-        .about-section {
-            background: linear-gradient(135deg, #1f2937, #111827);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            padding: 40px;
-            border-radius: 15px;
-            margin-top: 60px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-        /* Floating WhatsApp Button */
-        .float-whatsapp {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #25d366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5);
-            z-index: 100;
-            transition: transform 0.3s ease;
-            text-decoration: none;
-        }
-        .float-whatsapp:hover {
-            transform: scale(1.1) rotate(10deg);
-        }
-        footer {
-            background: #06090f;
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        footer p {
-            margin-bottom: 10px;
-            color: #9ca3af;
-        }
-        /* Keyframe Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DTS Tech Solutions | CCTV, Networking, Electrical & Fire Safety</title>
+
+<meta name="description"
+content="DTS Tech Solutions provides CCTV, networking, electrical, fire safety, access control and AMC solutions across Mumbai, Thane, Navi Mumbai, Palghar and Boisar.">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#07111f;
+    color:#f5f7fa;
+    line-height:1.6;
+}
+
+/* NAVBAR */
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(5,13,25,.95);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav-inner{
+    max-width:1200px;
+    margin:auto;
+    padding:15px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:#fff;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#00d4ff,#0077ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.logo-text strong{
+    display:block;
+    font-size:17px;
+    letter-spacing:1px;
+}
+
+.logo-text span{
+    font-size:10px;
+    color:#8fa3bb;
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+}
+
+.nav-links a{
+    color:#cbd5e1;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#00d4ff;
+}
+
+/* HERO */
+
+.hero{
+    min-height:620px;
+    display:flex;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+    background:
+    radial-gradient(circle at 80% 30%,rgba(0,212,255,.18),transparent 35%),
+    linear-gradient(135deg,#07111f,#0b2033);
+}
+
+.hero-inner{
+    max-width:1200px;
+    width:100%;
+    margin:auto;
+    padding:80px 22px;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:50px;
+    align-items:center;
+}
+
+.badge{
+    display:inline-flex;
+    padding:8px 15px;
+    border-radius:30px;
+    background:rgba(0,212,255,.1);
+    border:1px solid rgba(0,212,255,.3);
+    color:#00d4ff;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:58px;
+    line-height:1.05;
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:#00d4ff;
+}
+
+.hero p{
+    color:#aebed0;
+    font-size:18px;
+    max-width:650px;
+    margin-bottom:30px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:13px 22px;
+    border-radius:9px;
+    text-decoration:none;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:#00d4ff;
+    color:#03111c;
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(0,212,255,.3);
+}
+
+.btn-outline{
+    border:1px solid #40536a;
+    color:#fff;
+}
+
+.btn-outline:hover{
+    border-color:#00d4ff;
+    color:#00d4ff;
+}
+
+/* HERO CAMERA */
+
+.hero-camera{
+    position:relative;
+    min-height:380px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.camera-card{
+    width:360px;
+    height:300px;
+    border-radius:25px;
+    background:
+    linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.camera-card i{
+    font-size:150px;
+    color:#00d4ff;
+    filter:drop-shadow(0 0 25px rgba(0,212,255,.35));
+}
+
+.camera-label{
+    position:absolute;
+    bottom:20px;
+    left:20px;
+    right:20px;
+    background:rgba(0,0,0,.4);
+    padding:10px 15px;
+    border-radius:10px;
+    font-size:13px;
+    color:#dbeafe;
+}
+
+/* COMMON */
+
+.section{
+    max-width:1200px;
+    margin:auto;
+    padding:90px 22px;
+}
+
+.section-heading{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-heading small{
+    color:#00d4ff;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.section-heading h2{
+    font-size:38px;
+    margin-top:8px;
+}
+
+.section-heading p{
+    color:#8999ad;
+    max-width:700px;
+    margin:10px auto;
+}
+
+/* SERVICES */
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:22px;
+}
+
+.service{
+    padding:30px;
+    background:linear-gradient(145deg,#0d1a2b,#091421);
+    border:1px solid #1d3046;
+    border-radius:16px;
+    transition:.35s;
+}
+
+.service:hover{
+    transform:translateY(-8px);
+    border-color:#00d4ff;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+
+.service-icon{
+    width:60px;
+    height:60px;
+    border-radius:14px;
+    background:rgba(0,212,255,.1);
+    color:#00d4ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    margin-bottom:20px;
+}
+
+.service h3{
+    margin-bottom:10px;
+}
+
+.service p{
+    color:#8ea0b5;
+    font-size:14px;
+}
+
+/* PRODUCTS */
+
+.products-section{
+    background:#050d18;
+}
+
+.filters{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:35px;
+}
+
+.filter-btn{
+    border:1px solid #263b53;
+    background:#0c1828;
+    color:#b7c6d7;
+    padding:9px 18px;
+    border-radius:30px;
+    cursor:pointer;
+}
+
+.filter-btn.active,
+.filter-btn:hover{
+    background:#00d4ff;
+    color:#04101c;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:25px;
+}
+
+.product{
+    background:#0b1726;
+    border:1px solid #1d3045;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.product:hover{
+    transform:translateY(-7px);
+    border-color:#00d4ff;
+}
+
+.product-img{
+    height:210px;
+    background:linear-gradient(135deg,#15283d,#08111d);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.product-img i{
+    font-size:100px;
+    color:#d9e2ec;
+}
+
+.product-body{
+    padding:22px;
+}
+
+.product-body small{
+    color:#00d4ff;
+}
+
+.product-body h3{
+    margin:7px 0;
+}
+
+.product-body p{
+    color:#8ea0b5;
+    font-size:13px;
+    min-height:62px;
+}
+
+.spec-list{
+    list-style:none;
+    margin:15px 0;
+    color:#b9c7d6;
+    font-size:13px;
+}
+
+.spec-list li{
+    padding:4px 0;
+}
+
+.spec-list i{
+    color:#00d4ff;
+    width:20px;
+}
+
+.product-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.small-btn{
+    flex:1;
+    text-align:center;
+    padding:9px;
+    border-radius:7px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+}
+
+.spec-btn{
+    border:1px solid #30455c;
+    color:#fff;
+}
+
+.quote-btn{
+    background:#00d4ff;
+    color:#04101c;
+}
+
+/* WHY US */
+
+.why{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.why-card{
+    padding:25px;
+    text-align:center;
+    border-radius:15px;
+    background:#0c1828;
+    border:1px solid #1c2e43;
+}
+
+.why-card i{
+    font-size:32px;
+    color:#00d4ff;
+    margin-bottom:12px;
+}
+
+/* ABOUT */
+
+.about{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:35px;
+    align-items:center;
+}
+
+.about-box{
+    background:#0c1828;
+    padding:35px;
+    border-radius:18px;
+    border:1px solid #1c3045;
+}
+
+.about-box p{
+    color:#9aaabd;
+    margin-top:15px;
+}
+
+.check{
+    margin-top:15px;
+    color:#cbd5e1;
+}
+
+.check i{
+    color:#00d4ff;
+    margin-right:8px;
+}
+
+/* CONTACT */
+
+.contact{
+    background:linear-gradient(135deg,#0b2033,#07111f);
+}
+
+.contact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.contact-card{
+    padding:28px;
+    text-align:center;
+    border-radius:15px;
+    border:1px solid #254058;
+    background:rgba(255,255,255,.03);
+}
+
+.contact-card i{
+    color:#00d4ff;
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.contact-card a{
+    color:#fff;
+    text-decoration:none;
+}
+
+.contact-card a:hover{
+    color:#00d4ff;
+}
+
+/* FLOATING WHATSAPP */
+
+.whatsapp{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    width:62px;
+    height:62px;
+    border-radius:50%;
+    background:#25d366;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:31px;
+    z-index:999;
+    box-shadow:0 8px 25px rgba(37,211,102,.35);
+}
+
+/* FOOTER */
+
+footer{
+    background:#030810;
+    padding:45px 20px;
+    text-align:center;
+    color:#748398;
+}
+
+.footer-logo{
+    color:#fff;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.social{
+    margin:18px 0;
+}
+
+.social a{
+    color:#aebccc;
+    font-size:22px;
+    margin:0 8px;
+}
+
+.social a:hover{
+    color:#00d4ff;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero-inner{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .hero p{
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .hero-camera{
+        min-height:280px;
+    }
+
+    .camera-card{
+        width:300px;
+        height:240px;
+    }
+
+    .camera-card i{
+        font-size:110px;
+    }
+
+    .about{
+        grid-template-columns:1fr;
+    }
+
+    .section-heading h2{
+        font-size:30px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Header Section -->
-    <header>
-        <h1>DTS TECH SOLUTIONS</h1>
-        <p>Complete Security & Technical Solutions | Sales, Installation, Configuration & Support</p>
-        
-        <div class="contact-buttons">
-            <a href="tel:08390909845" class="btn"><i class="fas fa-phone-alt"></i> Call: 083909 09845</a>
-            <a href="mailto:dtsboisar@gmail.com" class="btn"><i class="fas fa-envelope"></i> Email Us</a>
-            <a href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions,%20I%20need%20more%20information%20regarding%20your%20services." target="_blank" class="btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-        </div>
-    </header>
+<!-- NAVIGATION -->
 
-    <!-- Main Container -->
-    <div class="container">
-        <h2 class="section-title">Our Professional Services</h2>
-        
-        <div class="services-grid">
-            <!-- CCTV -->
-            <div class="service-card">
-                <i class="fas fa-video"></i>
-                <h3>CCTV Systems</h3>
-                <p>Advanced PRIZOR CCTV, IP, and PTZ cameras with night vision and mobile remote monitoring setup.</p>
-            </div>
-            <!-- Networking -->
-            <div class="service-card">
-                <i class="fas fa-network-wired"></i>
-                <h3>Networking</h3>
-                <p>High-speed structured networking, Wi-Fi solutions, router configurations, and LAN setup.</p>
-            </div>
-            <!-- Electrical -->
-            <div class="service-card">
-                <i class="fas fa-bolt"></i>
-                <h3>Electrical Solutions</h3>
-                <p>Reliable commercial and industrial electrical installations, panel wiring, and maintenance.</p>
-            </div>
-            <!-- Fire Safety -->
-            <div class="service-card">
-                <i class="fas fa-fire-extinguisher"></i>
-                <h3>Fire Safety</h3>
-                <p>Comprehensive fire alarm systems and safety equipment supply and installation for total security.</p>
-            </div>
-            <!-- Access Control -->
-            <div class="service-card">
-                <i class="fas fa-fingerprint"></i>
-                <h3>Access Control</h3>
-                <p>Biometric attendance systems, smart door locks, and secure gate automation systems.</p>
-            </div>
-        </div>
+<nav>
+<div class="nav-inner">
 
-        <!-- About Section -->
-        <div class="about-section">
-            <h2 style="color: #00d2ff; margin-bottom: 15px;">Service Areas</h2>
-            <p style="font-size: 1.1rem; color: #d1d5db;">
-                We proudly provide our sales, installation, configuration, and support services across:
-                <br><strong style="color: #fff;">Mumbai • Thane • Palghar • Boisar • Navi Mumbai</strong>
-            </p>
-        </div>
-    </div>
+<a class="logo" href="#home">
+<div class="logo-icon">
+<i class="fas fa-shield-halved"></i>
+</div>
 
-    <!-- Floating WhatsApp Icon -->
-    <a href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions" target="_blank" class="float-whatsapp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+<div class="logo-text">
+<strong>DTS TECH SOLUTIONS</strong>
+<span>SECURITY • NETWORKING • ELECTRICAL</span>
+</div>
+</a>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 DTS Tech Solutions. All Rights Reserved.</p>
-        <p><i class="fas fa-map-marker-alt"></i> Boisar, Maharashtra | <i class="fas fa-phone"></i> 083909 09845 | <i class="fas fa-envelope"></i> dtsboisar@gmail.com</p>
-    </footer>
+<div class="nav-links">
+<a href="#home">Home</a>
+<a href="#services">Services</a>
+<a href="#products">Products</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</div>
+
+</div>
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+<div class="hero-inner">
+
+<div>
+
+<span class="badge">
+<i class="fas fa-circle-check"></i>&nbsp; Professional Technical Solutions
+</span>
+
+<h1>
+Complete <span>Security</span><br>
+& Technical Solutions
+</h1>
+
+<p>
+CCTV • Networking • Electrical • Fire Safety • Access Control
+</p>
+
+<p>
+Professional sales, installation, configuration and technical support
+for offices, factories, shops, warehouses and commercial properties.
+</p>
+
+<div class="hero-buttons">
+
+<a class="btn btn-primary"
+href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions,%20I%20need%20a%20quotation."
+target="_blank">
+
+<i class="fab fa-whatsapp"></i>
+Get Quotation
+</a>
+
+<a class="btn btn-outline"
+href="tel:08390909845">
+
+<i class="fas fa-phone"></i>
+Call Now
+</a>
+
+</div>
+
+</div>
+
+<div class="hero-camera">
+
+<div class="camera-card">
+
+<i class="fas fa-video"></i>
+
+<div class="camera-label">
+PRIZOR CCTV SOLUTIONS<br>
+<small>Sales • Installation • Configuration • Support</small>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SERVICES -->
+
+<section class="section" id="services">
+
+<div class="section-heading">
+
+<small>What We Do</small>
+
+<h2>Our Professional Services</h2>
+
+<p>
+Complete technical solutions for business, industrial and commercial requirements.
+</p>
+
+</div>
+
+<div class="services">
+
+<div class="service">
+<div class="service-icon">
+<i class="fas fa-video"></i>
+</div>
+<h3>CCTV & Surveillance</h3>
+<p>
+PRIZOR CCTV, IP cameras, PTZ cameras, NVR/DVR, remote monitoring and complete installation.
+</p>
+</div>
+
+<div class="service">
+<div class="service-icon">
+<i class="fas fa-network-wired"></i>
+</div>
+<h3>Networking & IT</h3>
+<p>
+LAN, structured cabling, switches, routers, Wi-Fi, rack setup and network configuration.
+</p>
+</div>
+
+<div class="service">
+<div class="service-icon">
+<i class="fas fa-bolt"></i>
+</div>
+<h3>Electrical Works</h3>
+<p>
+Commercial and industrial electrical installation, panel wiring, maintenance and support.
+</p>
+</div>
+
+<div class="service">
+<div class="service-icon">
+<i class="fas fa-fire-extinguisher"></i>
+</div>
+<h3>Fire Safety</h3>
+<p>
+Fire alarm systems, detection solutions and fire safety installation support.
+</p>
+</div>
+
+<div class="service">
+<div class="service-icon">
+<i class="fas fa-fingerprint"></i>
+</div>
+<h3>Access Control</h3>
+<p>
+Biometric systems, attendance, smart locks, door access and gate automation.
+</p>
+</div>
+
+<div class="service">
+<div class="service-icon">
+<i class="fas fa-screwdriver-wrench"></i>
+</div>
+<h3>AMC & Support</h3>
+<p>
+Preventive maintenance, troubleshooting, system configuration and technical support.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section class="products-section" id="products">
+
+<div class="section">
+
+<div class="section-heading">
+
+<small>Our Products</small>
+
+<h2>Security Products</h2>
+
+<p>
+PRIZOR surveillance products and professional security solutions.
+</p>
+
+</div>
+
+<div class="filters">
+
+<button class="filter-btn active" onclick="filterProducts('all',this)">
+All
+</button>
+
+<button class="filter-btn" onclick="filterProducts('camera',this)">
+CCTV Cameras
+</button>
+
+<button class="filter-btn" onclick="filterProducts('recorder',this)">
+NVR / DVR
+</button>
+
+<button class="filter-btn" onclick="filterProducts('network',this)">
+Networking
+</button>
+
+</div>
+
+
+<div class="products">
+
+<!-- PRODUCT 1 -->
+
+<div class="product" data-category="camera">
+
+<div class="product-img">
+<i class="fas fa-video"></i>
+</div>
+
+<div class="product-body">
+
+<small>PRIZOR</small>
+
+<h3>2MP IP ColorView Bullet Camera</h3>
+
+<p>
+Professional surveillance camera suitable for offices, shops, warehouses and outdoor areas.
+</p>
+
+<ul class="spec-list">
+
+<li><i class="fas fa-check"></i> Resolution: 2MP</li>
+<li><i class="fas fa-check"></i> ColorView Technology</li>
+<li><i class="fas fa-check"></i> Built-in Audio</li>
+<li><i class="fas fa-check"></i> Outdoor / Indoor Use</li>
+
+</ul>
+
+<div class="product-buttons">
+
+<a class="small-btn spec-btn"
+href="https://www.prizor.in/product/2mp-ip-colorview-audio-metal-bullet-camera/"
+target="_blank">
+
+View Specifications
+
+</a>
+
+<a class="small-btn quote-btn"
+href="https://wa.me/918390909845?text=I%20need%20quotation%20for%20PRIZOR%202MP%20IP%20ColorView%20Bullet%20Camera."
+target="_blank">
+
+Quote
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PRODUCT 2 -->
+
+<div class="product" data-category="camera">
+
+<div class="product-img">
+<i class="fas fa-camera"></i>
+</div>
+
+<div class="product-body">
+
+<small>PRIZOR</small>
+
+<h3>2MP ColorView Dome Camera</h3>
+
+<p>
+Compact dome camera solution for shops, offices, banks and commercial installations.
+</p>
+
+<ul class="spec-list">
+
+<li><i class="fas fa-check"></i> Resolution: 2MP</li>
+<li><i class="fas fa-check"></i> ColorView Night Vision</li>
+<li><i class="fas fa-check"></i> Built-in Audio options</li>
+<li><i class="fas fa-check"></i> Dome Housing</li>
+
+</ul>
+
+<div class="product-buttons">
+
+<a class="small-btn spec-btn"
+href="https://www.prizor.in/products/category/hd-camera?sub=colorview-audio"
+target="_blank">
+
+View Specifications
+
+</a>
+
+<a class="small-btn quote-btn"
+href="https://wa.me/918390909845?text=I%20need%20quotation%20for%20PRIZOR%202MP%20Dome%20Camera."
+target="_blank">
+
+Quote
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PRODUCT 3 -->
+
+<div class="product" data-category="recorder">
+
+<div class="product-img">
+<i class="fas fa-server"></i>
+</div>
+
+<div class="product-body">
+
+<small>PRIZOR</small>
+
+<h3>NVR / DVR Solutions</h3>
+
+<p>
+Recording solutions for small shops, offices, factories and large surveillance projects.
+</p>
+
+<ul class="spec-list">
+
+<li><i class="fas fa-check"></i> Multiple Channel Options</li>
+<li><i class="fas fa-check"></i> Network Recording</li>
+<li><i class="fas fa-check"></i> Remote Monitoring</li>
+<li><i class="fas fa-check"></i> AI NVR Options</li>
+
+</ul>
+
+<div class="product-buttons">
+
+<a class="small-btn spec-btn"
+href="https://www.prizor.in/"
+target="_blank">
+
+View Products
+
+</a>
+
+<a class="small-btn quote-btn"
+href="https://wa.me/918390909845?text=I%20need%20quotation%20for%20PRIZOR%20NVR%20or%20DVR."
+target="_blank">
+
+Quote
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PRODUCT 4 -->
+
+<div class="product" data-category="network">
+
+<div class="product-img">
+<i class="fas fa-network-wired"></i>
+</div>
+
+<div class="product-body">
+
+<small>DTS TECH SOLUTIONS</small>
+
+<h3>Network & PoE Solutions</h3>
+
+<p>
+PoE switches, LAN infrastructure and networking solutions for CCTV and IT networks.
+</p>
+
+<ul class="spec-list">
+
+<li><i class="fas fa-check"></i> PoE Switching</li>
+<li><i class="fas fa-check"></i> LAN Connectivity</li>
+<li><i class="fas fa-check"></i> CCTV Networking</li>
+<li><i class="fas fa-check"></i> Network Configuration</li>
+
+</ul>
+
+<div class="product-buttons">
+
+<a class="small-btn quote-btn"
+href="https://wa.me/918390909845?text=I%20need%20networking%20or%20PoE%20switch%20quotation."
+target="_blank">
+
+Get Quote
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- WHY DTS -->
+
+<section class="section">
+
+<div class="section-heading">
+
+<small>Why Choose Us</small>
+
+<h2>Why DTS Tech Solutions?</h2>
+
+</div>
+
+<div class="why">
+
+<div class="why-card">
+<i class="fas fa-user-shield"></i>
+<h3>Professional Installation</h3>
+<p>Proper installation and configuration.</p>
+</div>
+
+<div class="why-card">
+<i class="fas fa-headset"></i>
+<h3>Technical Support</h3>
+<p>Responsive technical assistance.</p>
+</div>
+
+<div class="why-card">
+<i class="fas fa-industry"></i>
+<h3>Industrial Solutions</h3>
+<p>Solutions for factories and commercial sites.</p>
+</div>
+
+<div class="why-card">
+<i class="fas fa-location-dot"></i>
+<h3>Local Service</h3>
+<p>Serving Boisar, Palghar & nearby regions.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="section" id="about">
+
+<div class="about">
+
+<div>
+
+<div class="section-heading" style="text-align:left;margin-bottom:20px;">
+
+<small>About DTS</small>
+
+<h2>Complete Technical Partner</h2>
+
+</div>
+
+<p style="color:#9aaabd;">
+DTS Tech Solutions provides security and technical solutions
+for businesses, offices, factories, shops, warehouses and
+commercial properties.
+</p>
+
+<div class="check">
+<i class="fas fa-check-circle"></i>
+Sales & Supply
+</div>
+
+<div class="check">
+<i class="fas fa-check-circle"></i>
+Professional Installation
+</div>
+
+<div class="check">
+<i class="fas fa-check-circle"></i>
+Configuration & Commissioning
+</div>
+
+<div class="check">
+<i class="fas fa-check-circle"></i>
+AMC & Technical Support
+</div>
+
+</div>
+
+<div class="about-box">
+
+<h3>Our Service Areas</h3>
+
+<p>
+Mumbai • Thane • Navi Mumbai<br>
+Palghar • Boisar
+</p>
+
+<br>
+
+<h3>Business Enquiries</h3>
+
+<p>
+CCTV | Networking | Electrical | Fire Safety |
+Access Control | AMC
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+<div class="section">
+
+<div class="section-heading">
+
+<small>Contact Us</small>
+
+<h2>Let's Secure Your Business</h2>
+
+<p>
+Contact DTS Tech Solutions for quotation, site requirements or technical assistance.
+</p>
+
+</div>
+
+<div class="contact-grid">
+
+<div class="contact-card">
+
+<i class="fas fa-phone"></i>
+
+<h3>Call Us</h3>
+
+<a href="tel:08390909845">
+083909 09845
+</a>
+
+</div>
+
+
+<div class="contact-card">
+
+<i class="fab fa-whatsapp"></i>
+
+<h3>WhatsApp</h3>
+
+<a
+href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions,%20I%20need%20a%20quotation."
+target="_blank">
+
+Chat With Us
+
+</a>
+
+</div>
+
+
+<div class="contact-card">
+
+<i class="fas fa-envelope"></i>
+
+<h3>Email</h3>
+
+<a href="mailto:dtsboisar@gmail.com?subject=Business%20Enquiry%20-%20DTS%20Tech%20Solutions">
+
+dtsboisar@gmail.com
+
+</a>
+
+</div>
+
+
+<div class="contact-card">
+
+<i class="fas fa-location-dot"></i>
+
+<h3>Location</h3>
+
+<p>Boisar, Maharashtra</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-logo">
+DTS TECH SOLUTIONS
+</div>
+
+<p>
+CCTV • Networking • Electrical • Fire Safety • Access Control
+</p>
+
+<div class="social">
+
+<a href="https://www.instagram.com/" target="_blank">
+<i class="fab fa-instagram"></i>
+</a>
+
+<a href="https://wa.me/918390909845" target="_blank">
+<i class="fab fa-whatsapp"></i>
+</a>
+
+<a href="mailto:dtsboisar@gmail.com">
+<i class="fas fa-envelope"></i>
+</a>
+
+</div>
+
+<p>
+© 2026 DTS Tech Solutions. All Rights Reserved.
+</p>
+
+<p>
+Boisar • Palghar • Mumbai • Thane • Navi Mumbai
+</p>
+
+</footer>
+
+
+<!-- FLOATING WHATSAPP -->
+
+<a
+class="whatsapp"
+href="https://wa.me/918390909845?text=Hello%20DTS%20Tech%20Solutions,%20I%20need%20a%20quotation."
+target="_blank"
+aria-label="WhatsApp">
+
+<i class="fab fa-whatsapp"></i>
+
+</a>
+
+
+<script>
+
+function filterProducts(category,button){
+
+document.querySelectorAll(".filter-btn")
+.forEach(btn => btn.classList.remove("active"));
+
+button.classList.add("active");
+
+document.querySelectorAll(".product")
+.forEach(product => {
+
+if(category === "all" ||
+product.dataset.category === category){
+
+product.style.display = "block";
+
+}else{
+
+product.style.display = "none";
+
+}
+
+});
+
+}
+
+</script>
 
 </body>
 </html>
+
