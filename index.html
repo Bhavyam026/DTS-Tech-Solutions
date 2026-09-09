@@ -23,53 +23,87 @@ body{
     overflow-x:hidden;
 }
 
-/* NAVBAR */
+/* NAVBAR & AMAZON STYLE SEARCH HEADER */
 nav{
     position:sticky;
     top:0;
     z-index:1000;
-    background:rgba(5,13,25,.95);
+    background:rgba(5,13,25,.96);
     backdrop-filter:blur(15px);
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 .nav-inner{
-    max-width:1200px;
+    max-width:1250px;
     margin:auto;
-    padding:15px 22px;
+    padding:12px 20px;
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:20px;
 }
 .logo{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:10px;
     text-decoration:none;
     color:#fff;
+    flex-shrink:0;
 }
 .logo-icon{
-    width:45px;
-    height:45px;
-    border-radius:12px;
+    width:40px;
+    height:40px;
+    border-radius:10px;
     background:linear-gradient(135deg,#00d4ff,#0077ff);
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:22px;
-    box-shadow:0 0 20px rgba(0,212,255,0.4);
+    font-size:20px;
+    box-shadow:0 0 15px rgba(0,212,255,0.4);
 }
 .logo-text strong{
     display:block;
-    font-size:15px;
+    font-size:14px;
     letter-spacing:0.3px;
 }
 .logo-text span{
-    font-size:10px;
+    font-size:9px;
     color:#8fa3bb;
 }
+
+/* SEARCH BAR */
+.search-container{
+    flex-grow:1;
+    max-width:450px;
+    position:relative;
+}
+.search-bar{
+    width:100%;
+    padding:10px 15px 10px 40px;
+    border-radius:25px;
+    background:#0c1828;
+    border:1px solid #253b54;
+    color:#fff;
+    font-size:14px;
+    outline:none;
+    transition:0.3s;
+}
+.search-bar:focus{
+    border-color:#00d4ff;
+    box-shadow:0 0 10px rgba(0,212,255,0.3);
+}
+.search-icon{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#8fa3bb;
+    font-size:15px;
+}
+
 .nav-links{
     display:flex;
-    gap:25px;
+    gap:20px;
+    flex-shrink:0;
 }
 .nav-links a{
     color:#cbd5e1;
@@ -83,7 +117,7 @@ nav{
 
 /* HERO SECTION */
 .hero{
-    min-height:620px;
+    min-height:600px;
     display:flex;
     align-items:center;
     position:relative;
@@ -94,26 +128,26 @@ nav{
     max-width:1200px;
     width:100%;
     margin:auto;
-    padding:70px 22px;
+    padding:60px 20px;
     display:grid;
-    grid-template-columns:1.15fr .85fr;
-    gap:50px;
+    grid-template-columns:1.1fr .9fr;
+    gap:40px;
     align-items:center;
 }
 .badge{
     display:inline-flex;
-    padding:8px 15px;
+    padding:6px 14px;
     border-radius:30px;
     background:rgba(0,212,255,.1);
     border:1px solid rgba(0,212,255,.3);
     color:#00d4ff;
-    font-size:13px;
-    margin-bottom:20px;
+    font-size:12px;
+    margin-bottom:15px;
 }
 .hero h1{
-    font-size:42px;
-    line-height:1.1;
-    margin-bottom:20px;
+    font-size:40px;
+    line-height:1.15;
+    margin-bottom:15px;
 }
 .hero h1 span{
     color:#00d4ff;
@@ -121,23 +155,24 @@ nav{
 }
 .hero p{
     color:#aebed0;
-    font-size:16px;
-    max-width:650px;
-    margin-bottom:25px;
+    font-size:15px;
+    max-width:600px;
+    margin-bottom:20px;
 }
 .hero-buttons{
     display:flex;
-    gap:14px;
+    gap:12px;
     flex-wrap:wrap;
 }
 .btn{
-    padding:13px 22px;
-    border-radius:9px;
+    padding:12px 20px;
+    border-radius:8px;
     text-decoration:none;
     font-weight:600;
     display:inline-flex;
     align-items:center;
-    gap:9px;
+    gap:8px;
+    font-size:14px;
     transition:.3s;
 }
 .btn-primary{
@@ -146,7 +181,7 @@ nav{
     box-shadow:0 4px 15px rgba(0,212,255,0.4);
 }
 .btn-primary:hover{
-    transform:translateY(-3px);
+    transform:translateY(-2px);
 }
 .btn-outline{
     border:1px solid #40536a;
@@ -161,12 +196,12 @@ nav{
 .hero-showcase{
     display:flex;
     flex-direction:column;
-    gap:15px;
+    gap:12px;
 }
 .showcase-card{
     width:100%;
-    height:190px;
-    border-radius:16px;
+    height:180px;
+    border-radius:14px;
     background:#0c1828;
     border:1px solid rgba(255,255,255,.12);
     box-shadow:0 15px 35px rgba(0,0,0,.4);
@@ -181,13 +216,13 @@ nav{
 }
 .showcase-card img{
     width:100%;
-    height:130px;
+    height:120px;
     object-fit:cover;
 }
 .showcase-label{
-    padding:10px 15px;
+    padding:8px 12px;
     background:#050d18;
-    font-size:13px;
+    font-size:12px;
     color:#dbeafe;
     font-weight:600;
     display:flex;
@@ -196,45 +231,47 @@ nav{
 }
 .showcase-label span{
     color:#00d4ff;
-    font-size:11px;
+    font-size:10px;
 }
 
 /* COMMON SECTIONS */
 .section{
     max-width:1200px;
     margin:auto;
-    padding:80px 22px;
+    padding:70px 20px;
 }
 .section-heading{
     text-align:center;
-    margin-bottom:45px;
+    margin-bottom:40px;
 }
 .section-heading small{
     color:#00d4ff;
     text-transform:uppercase;
     letter-spacing:2px;
     font-weight:600;
+    font-size:12px;
 }
 .section-heading h2{
-    font-size:36px;
-    margin-top:8px;
+    font-size:34px;
+    margin-top:6px;
 }
 .section-heading p{
     color:#8999ad;
     max-width:700px;
-    margin:10px auto;
+    margin:8px auto;
+    font-size:14px;
 }
 
-/* SERVICES GRID (AMAZON STYLE CLEAN CARDS) */
+/* SERVICES GRID (AMAZON STYLE E-COMMERCE CARDS) */
 .services{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:22px;
 }
 .service{
     background:#0c1828;
     border:1px solid #1c3046;
-    border-radius:16px;
+    border-radius:14px;
     overflow:hidden;
     transition:.3s ease;
     cursor:pointer;
@@ -242,15 +279,14 @@ nav{
     flex-direction:column;
 }
 .service:hover{
-    transform:translateY(-6px);
+    transform:translateY(-5px);
     border-color:#00d4ff;
-    box-shadow:0 15px 35px rgba(0,212,255,0.15);
+    box-shadow:0 15px 30px rgba(0,212,255,0.15);
 }
 .service-img-box{
-    height:180px;
+    height:170px;
     width:100%;
     overflow:hidden;
-    position:relative;
     background:#050b14;
 }
 .service-img-box img{
@@ -260,29 +296,29 @@ nav{
     transition: transform 0.4s ease;
 }
 .service:hover .service-img-box img{
-    transform: scale(1.08);
+    transform: scale(1.06);
 }
 .service-body{
-    padding:25px;
+    padding:20px;
     display:flex;
     flex-direction:column;
     flex-grow:1;
 }
 .service-body h3{
-    margin-bottom:10px;
-    font-size:20px;
+    margin-bottom:8px;
+    font-size:18px;
     color:#fff;
 }
 .service-body p{
     color:#8ea0b5;
-    font-size:14px;
-    margin-bottom:20px;
+    font-size:13px;
+    margin-bottom:15px;
     flex-grow:1;
 }
 .service-action{
     color:#00d4ff;
     font-weight:600;
-    font-size:13px;
+    font-size:12px;
     display:inline-flex;
     align-items:center;
     gap:6px;
@@ -296,19 +332,19 @@ nav{
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:35px;
+    gap:8px;
+    margin-bottom:30px;
 }
 .filter-btn{
     border:1px solid #263b53;
     background:#0c1828;
     color:#b7c6d7;
-    padding:9px 18px;
+    padding:8px 16px;
     border-radius:30px;
     cursor:pointer;
     transition: all 0.3s ease;
     font-weight: 500;
-    font-size:13px;
+    font-size:12px;
 }
 .filter-btn.active,
 .filter-btn:hover{
@@ -318,24 +354,24 @@ nav{
 }
 .products{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:22px;
 }
 .product{
     background:#0b1726;
     border:1px solid #1d3045;
-    border-radius:16px;
+    border-radius:14px;
     overflow:hidden;
     transition:.3s ease;
     cursor:pointer;
 }
 .product:hover{
-    transform:translateY(-6px);
+    transform:translateY(-5px);
     border-color:#00d4ff;
     box-shadow:0 15px 30px rgba(0,212,255,0.18);
 }
 .product-img-box{
-    height:200px;
+    height:190px;
     background:#050b14;
     overflow:hidden;
 }
@@ -346,34 +382,34 @@ nav{
     transition: transform 0.4s ease;
 }
 .product:hover .product-img-box img{
-    transform: scale(1.08);
+    transform: scale(1.06);
 }
 .product-body{
-    padding:20px;
+    padding:18px;
 }
 .product-body small{
     color:#00d4ff;
     font-weight:600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size:11px;
+    font-size:10px;
 }
 .product-body h3{
-    margin:6px 0;
-    font-size:17px;
+    margin:5px 0;
+    font-size:16px;
 }
 .product-body p{
     color:#8ea0b5;
-    font-size:13px;
-    margin-bottom:15px;
+    font-size:12px;
+    margin-bottom:12px;
 }
 .small-btn{
     width:100%;
     text-align:center;
-    padding:9px;
-    border-radius:8px;
+    padding:8px;
+    border-radius:6px;
     text-decoration:none;
-    font-size:13px;
+    font-size:12px;
     font-weight:600;
     border:1px solid #30455c;
     color:#fff;
@@ -405,9 +441,9 @@ nav{
 .modal-content{
     background:#0c1828;
     border:1px solid #00d4ff;
-    max-width:580px;
+    max-width:550px;
     width:100%;
-    border-radius:18px;
+    border-radius:16px;
     overflow:hidden;
     box-shadow:0 25px 60px rgba(0,212,255,0.3);
     position:relative;
@@ -415,15 +451,15 @@ nav{
 }
 .modal-close{
     position:absolute;
-    top:15px;
-    right:15px;
+    top:12px;
+    right:12px;
     background:#162a42;
     color:#fff;
     border:none;
-    width:34px;
-    height:34px;
+    width:32px;
+    height:32px;
     border-radius:50%;
-    font-size:18px;
+    font-size:16px;
     cursor:pointer;
     z-index:10;
     display:flex;
@@ -436,33 +472,33 @@ nav{
 }
 .modal-img{
     width:100%;
-    height:240px;
+    height:220px;
     object-fit:cover;
 }
 .modal-body{
-    padding:25px;
+    padding:22px;
 }
 .modal-body h2{
-    font-size:21px;
-    margin-bottom:8px;
+    font-size:20px;
+    margin-bottom:6px;
     color:#fff;
 }
 .modal-body p{
     color:#9aaabd;
     font-size:13px;
-    margin-bottom:15px;
+    margin-bottom:12px;
 }
 .modal-specs{
     list-style:none;
-    margin-bottom:20px;
+    margin-bottom:18px;
     background:#06101c;
-    padding:15px;
-    border-radius:10px;
+    padding:14px;
+    border-radius:8px;
     border:1px solid #1a2d42;
 }
 .modal-specs li{
-    padding:5px 0;
-    font-size:13px;
+    padding:4px 0;
+    font-size:12px;
     color:#cbd5e1;
 }
 .modal-specs li i{
@@ -474,51 +510,52 @@ nav{
 .why{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
+    gap:18px;
 }
 .why-card{
-    padding:30px 20px;
+    padding:25px 18px;
     text-align:center;
-    border-radius:16px;
+    border-radius:14px;
     background:#0c1828;
     border:1px solid #1c2e43;
     transition:.3s;
 }
 .why-card:hover{
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color:#00d4ff;
 }
 .why-card i{
-    font-size:34px;
+    font-size:32px;
     color:#00d4ff;
-    margin-bottom:15px;
+    margin-bottom:12px;
 }
 
 .about{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:40px;
+    gap:35px;
     align-items:center;
 }
 .about-box{
     background:#0c1828;
-    padding:35px;
-    border-radius:18px;
+    padding:30px;
+    border-radius:16px;
     border:1px solid #1c3045;
 }
 .about-box p{
     color:#9aaabd;
-    margin-top:12px;
+    margin-top:10px;
+    font-size:13px;
 }
 .check{
-    margin-top:10px;
+    margin-top:8px;
     color:#cbd5e1;
     font-weight:500;
-    font-size:14px;
+    font-size:13px;
 }
 .check i{
     color:#00d4ff;
-    margin-right:10px;
+    margin-right:8px;
 }
 
 /* CONTACT */
@@ -528,24 +565,24 @@ nav{
 .contact-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
+    gap:18px;
 }
 .contact-card{
-    padding:25px;
+    padding:22px;
     text-align:center;
-    border-radius:16px;
+    border-radius:14px;
     border:1px solid #254058;
     background:rgba(255,255,255,.02);
     transition:.3s;
 }
 .contact-card:hover{
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color:#00d4ff;
 }
 .contact-card i{
     color:#00d4ff;
-    font-size:30px;
-    margin-bottom:12px;
+    font-size:28px;
+    margin-bottom:10px;
 }
 .contact-card a{
     color:#fff;
@@ -558,19 +595,19 @@ nav{
 /* WHATSAPP FLOAT */
 .whatsapp{
     position:fixed;
-    right:25px;
-    bottom:25px;
-    width:60px;
-    height:60px;
+    right:22px;
+    bottom:22px;
+    width:56px;
+    height:56px;
     border-radius:50%;
     background:#25d366;
     color:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:32px;
+    font-size:30px;
     z-index:999;
-    box-shadow:0 8px 25px rgba(37,211,102,.4);
+    box-shadow:0 6px 20px rgba(37,211,102,.4);
     transition:.3s;
 }
 .whatsapp:hover{
@@ -580,24 +617,25 @@ nav{
 /* FOOTER */
 footer{
     background:#030810;
-    padding:45px 20px;
+    padding:40px 20px;
     text-align:center;
     color:#748398;
     border-top:1px solid rgba(255,255,255,0.05);
+    font-size:13px;
 }
 .footer-logo{
     color:#fff;
-    font-size:19px;
+    font-size:18px;
     font-weight:bold;
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
 .social{
-    margin:15px 0;
+    margin:12px 0;
 }
 .social a{
     color:#aebccc;
-    font-size:22px;
-    margin:0 10px;
+    font-size:20px;
+    margin:0 8px;
 }
 .social a:hover{
     color:#00d4ff;
@@ -608,18 +646,19 @@ footer{
     to { opacity: 1; transform: translateY(0); }
 }
 
-@media(max-width:800px){
+@media(max-width:900px){
     .nav-links{ display:none; }
     .hero-inner{ grid-template-columns:1fr; text-align:center; }
-    .hero h1{ font-size:32px; }
+    .hero h1{ font-size:30px; }
     .hero-buttons{ justify-content:center; }
     .about{ grid-template-columns:1fr; }
+    .search-container{ max-width:100%; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAVIGATION -->
+<!-- NAVIGATION WITH LIVE SEARCH BAR -->
 <nav>
 <div class="nav-inner">
 <a class="logo" href="#home">
@@ -629,6 +668,13 @@ footer{
 <span>SECURITY • NETWORKING • ELECTRICAL • FIRE</span>
 </div>
 </a>
+
+<!-- LIVE SEARCH BAR -->
+<div class="search-container">
+<i class="fas fa-search search-icon"></i>
+<input type="text" id="liveSearch" class="search-bar" placeholder="Search CCTV, Cabling, Electrical, Fire Safety..." onkeyup="filterWebsite()">
+</div>
+
 <div class="nav-links">
 <a href="#home">Home</a>
 <a href="#services">Services</a>
@@ -669,17 +715,17 @@ footer{
 </div>
 </section>
 
-<!-- SERVICES (AMAZON STYLE CLEAN CARDS WITH CLICKABLE MODALS) -->
+<!-- SERVICES -->
 <section class="section" id="services">
 <div class="section-heading">
 <small>What We Do</small>
 <h2>Our Professional Services</h2>
 <p>Explore our wide range of technical infrastructure services designed for modern enterprises.</p>
 </div>
-<div class="services">
+<div class="services" id="servicesGrid">
 
 <!-- SERVICE 1 -->
-<div class="service" onclick="openModal('CCTV & Video Surveillance Systems', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Complete supply, installation, and monitoring setup for advanced IP cameras, PTZ systems, and central control rooms.', ['High Definition IP & Analog Cameras', 'Advanced Centralized NVR Recording', 'Mobile Remote Monitoring Access', 'Professional Cabling & Configuration'])">
+<div class="service searchable-item" data-name="cctv video surveillance systems camera ip nvr" onclick="openModal('CCTV & Video Surveillance Systems', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Complete supply, installation, and monitoring setup for advanced IP cameras, PTZ systems, and central control rooms.', ['High Definition IP & Analog Cameras', 'Advanced Centralized NVR Recording', 'Mobile Remote Monitoring Access', 'Professional Cabling & Configuration'])">
 <div class="service-img-box">
 <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Service">
 </div>
@@ -691,7 +737,7 @@ footer{
 </div>
 
 <!-- SERVICE 2 -->
-<div class="service" onclick="openModal('Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'Enterprise-grade structured networking cables, patch panels, rack management, and signal optimization.', ['High-Grade Pure Copper LAN Cables', 'Coaxial & Fiber Optic Integration', 'Network Racks & Patch Panel Setup', 'Zero Attenuation Signal Testing'])">
+<div class="service searchable-item" data-name="structured cabling networking lan cable patch panel fiber" onclick="openModal('Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'Enterprise-grade structured networking cables, patch panels, rack management, and signal optimization.', ['High-Grade Pure Copper LAN Cables', 'Coaxial & Fiber Optic Integration', 'Network Racks & Patch Panel Setup', 'Zero Attenuation Signal Testing'])">
 <div class="service-img-box">
 <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="Cabling Service">
 </div>
@@ -703,7 +749,7 @@ footer{
 </div>
 
 <!-- SERVICE 3 -->
-<div class="service" onclick="openModal('Electrical Works & Power Distribution', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=60', 'Commercial and industrial electrical installations, panel wiring, load balancing, and routine safety audits.', ['Industrial Control Panel Wiring', 'Safe Power Distribution & Backup', 'Routine Electrical Load Testing', 'Certified Safety Compliance Standards'])">
+<div class="service searchable-item" data-name="electrical works power distribution panel wiring load testing" onclick="openModal('Electrical Works & Power Distribution', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=60', 'Commercial and industrial electrical installations, panel wiring, load balancing, and routine safety audits.', ['Industrial Control Panel Wiring', 'Safe Power Distribution & Backup', 'Routine Electrical Load Testing', 'Certified Safety Compliance Standards'])">
 <div class="service-img-box">
 <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=60" alt="Electrical Service">
 </div>
@@ -714,8 +760,8 @@ footer{
 </div>
 </div>
 
-<!-- SERVICE 4 (FIRE SAFETY - ADDED & CONFIGURED) -->
-<div class="service" onclick="openModal('Fire Safety & Alarm Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', 'Advanced fire detection systems, automated alarm control panels, and safety compliance solutions for premises.', ['Advanced Smoke & Heat Detectors', 'Automated Fire Alarm Control Panels', 'Emergency Response System Integration', 'Building Safety Compliance Audits'])">
+<!-- SERVICE 4 -->
+<div class="service searchable-item" data-name="fire safety alarm systems smoke detector hazard compliance" onclick="openModal('Fire Safety & Alarm Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', 'Advanced fire detection systems, automated alarm control panels, and safety compliance solutions for premises.', ['Advanced Smoke & Heat Detectors', 'Automated Fire Alarm Control Panels', 'Emergency Response System Integration', 'Building Safety Compliance Audits'])">
 <div class="service-img-box">
 <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Safety Service">
 </div>
@@ -727,7 +773,7 @@ footer{
 </div>
 
 <!-- SERVICE 5 -->
-<div class="service" onclick="openModal('Access Control & Biometric Systems', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Biometric attendance machines, digital smart locks, turnstiles, and automated gate security.', ['Fingerprint & Face Recognition Units', 'RFID Smart Card Access Locks', 'Automated Boom Barriers & Gates', 'Time & Attendance Software Sync'])">
+<div class="service searchable-item" data-name="access control biometric attendance digital smart door lock turnstile" onclick="openModal('Access Control & Biometric Systems', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Biometric attendance machines, digital smart locks, turnstiles, and automated gate security.', ['Fingerprint & Face Recognition Units', 'RFID Smart Card Access Locks', 'Automated Boom Barriers & Gates', 'Time & Attendance Software Sync'])">
 <div class="service-img-box">
 <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Access Control">
 </div>
@@ -739,7 +785,7 @@ footer{
 </div>
 
 <!-- SERVICE 6 -->
-<div class="service" onclick="openModal('AMC & Technical Maintenance Support', 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'Comprehensive Annual Maintenance Contracts (AMC) ensuring zero downtime for all security and IT systems.', ['Regular Preventive Maintenance Visits', 'Priority Breakdown Troubleshooting', 'System Firmware & Health Checks', 'Dedicated Technical Support Helpline'])">
+<div class="service searchable-item" data-name="amc technical maintenance support troubleshooting" onclick="openModal('AMC & Technical Maintenance Support', 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'Comprehensive Annual Maintenance Contracts (AMC) ensuring zero downtime for all security and IT systems.', ['Regular Preventive Maintenance Visits', 'Priority Breakdown Troubleshooting', 'System Firmware & Health Checks', 'Dedicated Technical Support Helpline'])">
 <div class="service-img-box">
 <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60" alt="AMC Support">
 </div>
@@ -767,10 +813,10 @@ footer{
 <button class="filter-btn" onclick="filterProducts('camera',this)">Cameras & Hardware</button>
 <button class="filter-btn" onclick="filterProducts('safety',this)">Safety & Electrical</button>
 </div>
-<div class="products">
+<div class="products" id="productsGrid">
 
 <!-- PRODUCT 1 -->
-<div class="product" data-category="cable" onclick="openModal('CAT6 UTP High Speed LAN Cable (305M)', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'High-speed pure copper networking cable engineered for robust enterprise data transmission and CCTV connectivity.', ['Conductor: 100% Pure Grade Copper', 'Length: 305 Meter Pull Box Packing', 'Low Signal Attenuation & Crosstalk', 'Heavy Duty UV Protected Jacket'])">
+<div class="product searchable-item" data-category="cable" data-name="cat6 utp high speed lan cable 305m copper" onclick="openModal('CAT6 UTP High Speed LAN Cable (305M)', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'High-speed pure copper networking cable engineered for robust enterprise data transmission and CCTV connectivity.', ['Conductor: 100% Pure Grade Copper', 'Length: 305 Meter Pull Box Packing', 'Low Signal Attenuation & Crosstalk', 'Heavy Duty UV Protected Jacket'])">
 <div class="product-img-box">
 <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="LAN Cable">
 </div>
@@ -783,7 +829,7 @@ footer{
 </div>
 
 <!-- PRODUCT 2 -->
-<div class="product" data-category="cable" onclick="openModal('Shielded Coaxial Cable with Power Wire', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'Superior shielded coaxial cable bundled with power wires for crystal clear long-distance camera video feeds.', ['Pure Copper Braided Inner Shield', 'Integrated DC Power Wire Included', 'Zero Signal Video Distortion over Distance', 'Weatherproof Outer PVC Jacket'])">
+<div class="product searchable-item" data-category="cable" data-name="shielded coaxial cable with power wire rg6" onclick="openModal('Shielded Coaxial Cable with Power Wire', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'Superior shielded coaxial cable bundled with power wires for crystal clear long-distance camera video feeds.', ['Pure Copper Braided Inner Shield', 'Integrated DC Power Wire Included', 'Zero Signal Video Distortion over Distance', 'Weatherproof Outer PVC Jacket'])">
 <div class="product-img-box">
 <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" alt="Coaxial Cable">
 </div>
@@ -796,7 +842,7 @@ footer{
 </div>
 
 <!-- PRODUCT 3 -->
-<div class="product" data-category="camera" onclick="openModal('Full HD Outdoor Bullet Surveillance Camera', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Professional night-vision bullet camera designed for robust perimeter security and outdoor facility monitoring.', ['Resolution: Full HD Crystal Clear Output', 'Advanced Low Light Night Vision', 'Built-in High Sensitivity Audio Mic', 'Weatherproof IP67 Metal Housing'])">
+<div class="product searchable-item" data-category="camera" data-name="full hd outdoor bullet surveillance camera night vision" onclick="openModal('Full HD Outdoor Bullet Surveillance Camera', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Professional night-vision bullet camera designed for robust perimeter security and outdoor facility monitoring.', ['Resolution: Full HD Crystal Clear Output', 'Advanced Low Light Night Vision', 'Built-in High Sensitivity Audio Mic', 'Weatherproof IP67 Metal Housing'])">
 <div class="product-img-box">
 <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Bullet Camera">
 </div>
@@ -809,7 +855,7 @@ footer{
 </div>
 
 <!-- PRODUCT 4 -->
-<div class="product" data-category="safety" onclick="openModal('Smart Fire Alarm Control & Smoke Sensor Unit', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', 'Intelligent fire alarm detection unit designed for early smoke and heat hazard identification.', ['High Sensitivity Optical Smoke Detection', 'Centralized Control Panel Connectivity', 'Loud Audible & Visual Emergency Alerts', 'Low Power Battery Backup Support'])">
+<div class="product searchable-item" data-category="safety" data-name="smart fire alarm control smoke sensor unit safety" onclick="openModal('Smart Fire Alarm & Smoke Sensor Unit', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', 'Intelligent fire alarm detection unit designed for early smoke and heat hazard identification.', ['High Sensitivity Optical Smoke Detection', 'Centralized Control Panel Connectivity', 'Loud Audible & Visual Emergency Alerts', 'Low Power Battery Backup Support'])">
 <div class="product-img-box">
 <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Sensor">
 </div>
@@ -825,7 +871,7 @@ footer{
 </div>
 </section>
 
-<!-- PRODUCT / SERVICE DETAILS MODAL -->
+<!-- MODAL POPUP -->
 <div class="modal-overlay" id="productModal" onclick="closeModalOnOutside(event)">
 <div class="modal-content">
 <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -875,11 +921,11 @@ footer{
 <section class="section" id="about">
 <div class="about">
 <div>
-<div class="section-heading" style="text-align:left;margin-bottom:20px;">
+<div class="section-heading" style="text-align:left;margin-bottom:15px;">
 <small>About Us</small>
 <h2>Your Trusted Technology Partner</h2>
 </div>
-<p style="color:#9aaabd;">Dynamic Technology Solutions delivers high-end electronic security, structured cabling, electrical, and fire safety solutions for corporate offices, industrial plants, and commercial complexes.</p>
+<p style="color:#9aaabd;font-size:13px;">Dynamic Technology Solutions delivers high-end electronic security, structured cabling, electrical, and fire safety solutions for corporate offices, industrial plants, and commercial complexes.</p>
 <div class="check"><i class="fas fa-check-circle"></i> Enterprise Security & CCTV Integration</div>
 <div class="check"><i class="fas fa-check-circle"></i> Structured Networking & Cabling</div>
 <div class="check"><i class="fas fa-check-circle"></i> Electrical & Fire Safety Compliance</div>
@@ -946,10 +992,26 @@ footer{
 </a>
 
 <script>
+/* LIVE SEARCH FUNCTION (AMAZON STYLE) */
+function filterWebsite() {
+    let query = document.getElementById("liveSearch").value.toLowerCase();
+    let items = document.querySelectorAll(".searchable-item");
+    
+    items.forEach(item => {
+        let name = item.getAttribute("data-name");
+        let textContent = item.innerText.toLowerCase();
+        if(name.includes(query) || textContent.includes(query)) {
+            item.style.display = "flex";
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
+
 function filterProducts(category,button){
     document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
     button.classList.add("active");
-    document.querySelectorAll(".product").forEach(product => {
+    document.querySelectorAll("#productsGrid .product").forEach(product => {
         if(category === "all" || product.dataset.category === category){
             product.style.display = "block";
         }else{
