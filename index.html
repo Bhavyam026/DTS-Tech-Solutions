@@ -110,13 +110,11 @@ nav{
     color:#00d4ff;
     font-size:13px;
     margin-bottom:20px;
-    animation: fadeInDown 0.8s ease-in-out;
 }
 .hero h1{
     font-size:50px;
     line-height:1.1;
     margin-bottom:20px;
-    animation: fadeInUp 1s ease-in-out;
 }
 .hero h1 span{
     color:#00d4ff;
@@ -127,13 +125,11 @@ nav{
     font-size:17px;
     max-width:650px;
     margin-bottom:25px;
-    animation: fadeInUp 1.2s ease-in-out;
 }
 .hero-buttons{
     display:flex;
     gap:14px;
     flex-wrap:wrap;
-    animation: fadeInUp 1.4s ease-in-out;
 }
 .btn{
     padding:13px 22px;
@@ -152,7 +148,6 @@ nav{
 }
 .btn-primary:hover{
     transform:translateY(-4px) scale(1.03);
-    box-shadow:0 10px 30px rgba(0,212,255,0.5);
 }
 .btn-outline{
     border:1px solid #40536a;
@@ -161,7 +156,6 @@ nav{
 .btn-outline:hover{
     border-color:#00d4ff;
     color:#00d4ff;
-    transform:translateY(-4px);
 }
 
 /* HERO ANIMATED CARD */
@@ -171,7 +165,6 @@ nav{
     display:flex;
     align-items:center;
     justify-content:center;
-    animation: fadeInRight 1.2s ease-in-out;
 }
 .camera-card{
     width:360px;
@@ -181,6 +174,7 @@ nav{
     border:1px solid rgba(255,255,255,.15);
     box-shadow:0 30px 80px rgba(0,0,0,.5);
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
     position:relative;
@@ -191,24 +185,22 @@ nav{
     transform: scale(1.03);
     border-color:#00d4ff;
 }
-.camera-card i{
-    font-size:120px;
-    color:#00d4ff;
-    filter:drop-shadow(0 0 25px rgba(0,212,255,.4));
-    animation: floatCamera 4s ease-in-out infinite;
+.camera-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    opacity:0.85;
 }
 .camera-label{
     position:absolute;
-    bottom:15px;
-    left:15px;
-    right:15px;
-    background:rgba(5,13,25,0.85);
+    bottom:0;
+    left:0;
+    right:0;
+    background:rgba(5,13,25,0.9);
     backdrop-filter:blur(10px);
-    padding:12px;
-    border-radius:12px;
+    padding:10px;
     font-size:12px;
     color:#dbeafe;
-    border:1px solid rgba(0,212,255,0.2);
     text-align:center;
 }
 
@@ -250,7 +242,6 @@ nav{
     border:1px solid #1d3046;
     border-radius:18px;
     transition:.4s ease;
-    position:relative;
 }
 .service:hover{
     transform:translateY(-8px);
@@ -268,12 +259,6 @@ nav{
     justify-content:center;
     font-size:28px;
     margin-bottom:20px;
-    transition: transform 0.3s ease;
-}
-.service:hover .service-icon{
-    transform: scale(1.1) rotate(5deg);
-    background:#00d4ff;
-    color:#03111c;
 }
 .service h3{
     margin-bottom:10px;
@@ -311,11 +296,10 @@ nav{
     background:#00d4ff;
     color:#04101c;
     border-color:#00d4ff;
-    box-shadow:0 0 15px rgba(0,212,255,0.3);
 }
 .products{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:25px;
 }
 .product{
@@ -324,31 +308,30 @@ nav{
     border-radius:18px;
     overflow:hidden;
     transition:.4s ease;
+    cursor:pointer;
 }
 .product:hover{
     transform:translateY(-8px);
     border-color:#00d4ff;
     box-shadow:0 15px 35px rgba(0,212,255,0.2);
 }
-.product-img{
-    height:200px;
-    background:linear-gradient(135deg,#15283d,#08111d);
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.product-img-box{
+    height:210px;
+    background:#050b14;
+    overflow:hidden;
     position:relative;
 }
-.product-img i{
-    font-size:90px;
-    color:#00d4ff;
+.product-img-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
     transition: transform 0.4s ease;
-    filter:drop-shadow(0 0 15px rgba(0,212,255,0.3));
 }
-.product:hover .product-img i{
-    transform: scale(1.15);
+.product:hover .product-img-box img{
+    transform: scale(1.1);
 }
 .product-body{
-    padding:22px;
+    padding:20px;
 }
 .product-body small{
     color:#00d4ff;
@@ -363,20 +346,7 @@ nav{
 .product-body p{
     color:#8ea0b5;
     font-size:13px;
-    min-height:50px;
-}
-.spec-list{
-    list-style:none;
-    margin:15px 0;
-    color:#b9c7d6;
-    font-size:13px;
-}
-.spec-list li{
-    padding:4px 0;
-}
-.spec-list i{
-    color:#00d4ff;
-    width:20px;
+    margin-bottom:15px;
 }
 .product-buttons{
     display:flex;
@@ -395,6 +365,8 @@ nav{
 .spec-btn{
     border:1px solid #30455c;
     color:#fff;
+    background:none;
+    cursor:pointer;
 }
 .spec-btn:hover{
     border-color:#00d4ff;
@@ -406,7 +378,89 @@ nav{
 }
 .quote-btn:hover{
     background:#fff;
-    box-shadow:0 0 15px rgba(255,255,255,0.5);
+}
+
+/* MODAL POPUP FOR DETAILS */
+.modal-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(3,8,16,0.85);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    padding:20px;
+}
+.modal-content{
+    background:#0c1828;
+    border:1px solid #00d4ff;
+    max-width:600px;
+    width:100%;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 25px 60px rgba(0,212,255,0.3);
+    position:relative;
+    animation: fadeInDown 0.3s ease;
+}
+.modal-close{
+    position:absolute;
+    top:15px;
+    right:15px;
+    background:#162a42;
+    color:#fff;
+    border:none;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    font-size:18px;
+    cursor:pointer;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.modal-close:hover{
+    background:#00d4ff;
+    color:#03111c;
+}
+.modal-img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+.modal-body{
+    padding:25px;
+}
+.modal-body h2{
+    font-size:22px;
+    margin-bottom:10px;
+    color:#fff;
+}
+.modal-body p{
+    color:#9aaabd;
+    font-size:14px;
+    margin-bottom:15px;
+}
+.modal-specs{
+    list-style:none;
+    margin-bottom:20px;
+    background:#06101c;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #1a2d42;
+}
+.modal-specs li{
+    padding:5px 0;
+    font-size:13px;
+    color:#cbd5e1;
+}
+.modal-specs li i{
+    color:#00d4ff;
+    margin-right:8px;
 }
 
 /* WHY US */
@@ -421,7 +475,7 @@ nav{
     border-radius:16px;
     background:#0c1828;
     border:1px solid #1c2e43;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition:.3s;
 }
 .why-card:hover{
     transform: translateY(-5px);
@@ -445,7 +499,6 @@ nav{
     padding:40px;
     border-radius:20px;
     border:1px solid #1c3045;
-    box-shadow:0 15px 30px rgba(0,0,0,0.3);
 }
 .about-box p{
     color:#9aaabd;
@@ -476,11 +529,10 @@ nav{
     border-radius:16px;
     border:1px solid #254058;
     background:rgba(255,255,255,.02);
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition:.3s;
 }
 .contact-card:hover{
     transform: translateY(-5px);
-    background:rgba(0,212,255,0.05);
     border-color:#00d4ff;
 }
 .contact-card i{
@@ -512,10 +564,10 @@ nav{
     font-size:34px;
     z-index:999;
     box-shadow:0 8px 25px rgba(37,211,102,.4);
-    transition: transform 0.3s ease;
+    transition:.3s;
 }
 .whatsapp:hover{
-    transform: scale(1.1) rotate(10deg);
+    transform: scale(1.1);
 }
 
 /* FOOTER */
@@ -531,7 +583,6 @@ footer{
     font-size:22px;
     font-weight:bold;
     margin-bottom:10px;
-    letter-spacing:1px;
 }
 .social{
     margin:20px 0;
@@ -540,28 +591,14 @@ footer{
     color:#aebccc;
     font-size:24px;
     margin:0 10px;
-    transition: color 0.3s ease;
 }
 .social a:hover{
     color:#00d4ff;
 }
 
-/* ANIMATIONS */
 @keyframes fadeInDown {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInRight {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-@keyframes floatCamera {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
 }
 @keyframes pulseGlow {
     0%, 100% { box-shadow: 0 0 15px rgba(0,212,255,0.4); }
@@ -572,13 +609,8 @@ footer{
     .nav-links{ display:none; }
     .hero-inner{ grid-template-columns:1fr; text-align:center; }
     .hero h1{ font-size:36px; }
-    .hero p{ margin-left:auto; margin-right:auto; }
     .hero-buttons{ justify-content:center; }
-    .hero-camera{ min-height:280px; }
-    .camera-card{ width:300px; height:240px; }
-    .camera-card i{ font-size:95px; }
     .about{ grid-template-columns:1fr; }
-    .section-heading h2{ font-size:28px; }
 }
 </style>
 </head>
@@ -619,7 +651,7 @@ footer{
 </div>
 <div class="hero-camera">
 <div class="camera-card">
-<i class="fas fa-network-wired"></i>
+<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Camera">
 <div class="camera-label">
 HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partner</small>
 </div>
@@ -675,7 +707,7 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <div class="section-heading">
 <small>Our Products</small>
 <h2>Featured Products & Brands</h2>
-<p>Top-tier PRIZOR surveillance equipment and authorized HOC cabling infrastructure.</p>
+<p>Click on any product to view full real image, technical specifications and direct purchase quote.</p>
 </div>
 <div class="filters">
 <button class="filter-btn active" onclick="filterProducts('all',this)">All Products</button>
@@ -686,81 +718,61 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 <div class="products">
 
 <!-- HOC PRODUCT 1 -->
-<div class="product" data-category="hoc">
-<div class="product-img"><i class="fas fa-network-wired"></i></div>
+<div class="product" data-category="hoc" onclick="openModal('HOC CAT6 UTP LAN Cable (Box of 305M)', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'High-speed pure copper networking cable designed for enterprise networks and high-bandwidth CCTV setups.', ['Conductor: High Grade Pure Copper', 'Length: 305 Meter Pull Box', 'Low Signal Attenuation & Crosstalk', 'Industrial & Corporate Grade Shielding'])">
+<div class="product-img-box">
+<img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="HOC CAT6 Cable">
+</div>
 <div class="product-body">
 <small>HOC CABLES</small>
-<h3>HOC CAT6 UTP LAN Cable (Box of 305M)</h3>
-<p>High-speed pure copper networking cable designed for enterprise networks and high-bandwidth CCTV setups.</p>
-<ul class="spec-list">
-<li><i class="fas fa-check"></i> Conductor: High Grade Copper</li>
-<li><i class="fas fa-check"></i> Length: 305 Meter Box</li>
-<li><i class="fas fa-check"></i> Low Signal Attenuation</li>
-<li><i class="fas fa-check"></i> Industrial & Corporate Grade</li>
-</ul>
+<h3>HOC CAT6 UTP LAN Cable</h3>
+<p>High-speed pure copper networking cable designed for enterprise networks.</p>
 <div class="product-buttons">
-<a class="small-btn spec-btn" href="https://wa.me/918390909845?text=Please%20send%20specs%20for%20HOC%20CAT6%20UTP%20LAN%20Cable." target="_blank">View Specs</a>
-<a class="small-btn quote-btn" href="https://wa.me/918390909845?text=I%20want%20to%20order%20or%20get%20quotation%20for%20HOC%20CAT6%20UTP%20LAN%20Cable." target="_blank">Order / Quote</a>
+<button class="small-btn spec-btn">View Details & Image</button>
 </div>
 </div>
 </div>
 
 <!-- HOC PRODUCT 2 -->
-<div class="product" data-category="hoc">
-<div class="product-img"><i class="fas fa-satellite-dish"></i></div>
+<div class="product" data-category="hoc" onclick="openModal('HOC CCTV Coaxial RG6 / RG59 Cable', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'Superior shielded coaxial cable with power wires for crystal clear long-distance analog and HD camera feeds.', ['100% Copper Braided Shielding', 'Built-in DC Power Wire Included', 'Zero Video Distortion over Distance', 'Outdoor Weatherproof PVC Jacket'])">
+<div class="product-img-box">
+<img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" alt="HOC Coaxial Cable">
+</div>
 <div class="product-body">
 <small>HOC CABLES</small>
-<h3>HOC CCTV Coaxial RG6 / RG59 Cable</h3>
-<p>Superior shielded coaxial cable with power wires for crystal clear long-distance analog and HD camera feeds.</p>
-<ul class="spec-list">
-<li><i class="fas fa-check"></i> 100% Copper Shielding</li>
-<li><i class="fas fa-check"></i> Built-in Power Wire Option</li>
-<li><i class="fas fa-check"></i> Zero Video Distortion</li>
-<li><i class="fas fa-check"></i> Outdoor Weatherproof Jacket</li>
-</ul>
+<h3>HOC CCTV Coaxial RG6 Cable</h3>
+<p>Superior shielded coaxial cable with power wires for crystal clear video.</p>
 <div class="product-buttons">
-<a class="small-btn spec-btn" href="https://wa.me/918390909845?text=Please%20send%20specs%20for%20HOC%20Coaxial%20Cable." target="_blank">View Specs</a>
-<a class="small-btn quote-btn" href="https://wa.me/918390909845?text=I%20want%20to%20order%20or%20get%20quotation%20for%20HOC%20Coaxial%20CCTV%20Cable." target="_blank">Order / Quote</a>
+<button class="small-btn spec-btn">View Details & Image</button>
 </div>
 </div>
 </div>
 
 <!-- PRIZOR PRODUCT 1 -->
-<div class="product" data-category="camera">
-<div class="product-img"><i class="fas fa-video"></i></div>
+<div class="product" data-category="camera" onclick="openModal('2MP IP ColorView Bullet Camera (PRIZOR)', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'Professional night-vision surveillance camera suitable for offices, gates, and outdoor security areas.', ['Resolution: 2MP Full HD Crystal Clear', 'ColorView 24/7 Full Color Night Vision', 'Built-in High Sensitivity Audio Mic', 'Weatherproof IP67 Metal Casing'])">
+<div class="product-img-box">
+<img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="PRIZOR Camera">
+</div>
 <div class="product-body">
 <small>PRIZOR</small>
 <h3>2MP IP ColorView Bullet Camera</h3>
-<p>Professional night-vision surveillance camera suitable for offices, gates, and outdoor areas.</p>
-<ul class="spec-list">
-<li><i class="fas fa-check"></i> Resolution: 2MP Full HD</li>
-<li><i class="fas fa-check"></i> ColorView Night Vision</li>
-<li><i class="fas fa-check"></i> Built-in Audio Support</li>
-<li><i class="fas fa-check"></i> Weatherproof Metal Body</li>
-</ul>
+<p>Professional night-vision surveillance camera suitable for outdoor areas.</p>
 <div class="product-buttons">
-<a class="small-btn spec-btn" href="https://www.prizor.in/product/2mp-ip-colorview-audio-metal-bullet-camera/" target="_blank">View Specs</a>
-<a class="small-btn quote-btn" href="https://wa.me/918390909845?text=I%20want%20to%20order%20PRIZOR%202MP%20IP%20ColorView%20Bullet%20Camera." target="_blank">Order / Quote</a>
+<button class="small-btn spec-btn">View Details & Image</button>
 </div>
 </div>
 </div>
 
 <!-- PRIZOR PRODUCT 2 -->
-<div class="product" data-category="recorder">
-<div class="product-img"><i class="fas fa-server"></i></div>
+<div class="product" data-category="recorder" onclick="openModal('NVR / DVR AI Recording Solutions (PRIZOR)', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'High-capacity enterprise recording solutions with remote mobile monitoring and intelligent motion alerts.', ['Multi-Channel HD Video Recording', 'AI Smart Motion & Face Detection', 'Remote Cloud & Mobile App Access', 'Reliable SATA Hard Disk Backup'])">
+<div class="product-img-box">
+<img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="PRIZOR NVR">
+</div>
 <div class="product-body">
 <small>PRIZOR</small>
-<h3>NVR / DVR AI Recording Solutions</h3>
-<p>High-capacity enterprise recording solutions with remote mobile monitoring capabilities.</p>
-<ul class="spec-list">
-<li><i class="fas fa-check"></i> Multi-Channel Support</li>
-<li><i class="fas fa-check"></i> AI Motion Detection</li>
-<li><i class="fas fa-check"></i> Cloud & Mobile Access</li>
-<li><i class="fas fa-check"></i> Reliable Data Backup</li>
-</ul>
+<h3>NVR / DVR AI Recording System</h3>
+<p>High-capacity enterprise recording solutions with remote monitoring.</p>
 <div class="product-buttons">
-<a class="small-btn spec-btn" href="https://www.prizor.in/" target="_blank">View Specs</a>
-<a class="small-btn quote-btn" href="https://wa.me/918390909845?text=I%20want%20to%20order%20PRIZOR%20NVR%20DVR%20System." target="_blank">Order / Quote</a>
+<button class="small-btn spec-btn">View Details & Image</button>
 </div>
 </div>
 </div>
@@ -768,6 +780,22 @@ HOC CABLES & PRIZOR SURVEILLANCE<br><small>Authorized Integration & Supply Partn
 </div>
 </div>
 </section>
+
+<!-- PRODUCT DETAILS MODAL POPUP -->
+<div class="modal-overlay" id="productModal" onclick="closeModalOnOutside(event)">
+<div class="modal-content">
+<button class="modal-close" onclick="closeModal()">&times;</button>
+<img id="modalImg" class="modal-img" src="" alt="Product Image">
+<div class="modal-body">
+<h2 id="modalTitle">Product Title</h2>
+<p id="modalDesc">Product description goes here.</p>
+<ul class="modal-specs" id="modalSpecsList">
+<!-- Specs injected dynamically -->
+</ul>
+<a id="modalWhatsAppBtn" class="btn btn-primary" href="#" target="_blank" style="width:100%; justify-content:center;"><i class="fab fa-whatsapp"></i> Order / Get Quote on WhatsApp</a>
+</div>
+</div>
+</div>
 
 <!-- WHY US -->
 <section class="section">
@@ -884,6 +912,33 @@ function filterProducts(category,button){
             product.style.display = "none";
         }
     });
+}
+
+function openModal(title, imgSrc, desc, specs) {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalImg").src = imgSrc;
+    document.getElementById("modalDesc").innerText = desc;
+    
+    let specsList = document.getElementById("modalSpecsList");
+    specsList.innerHTML = "";
+    specs.forEach(spec => {
+        specsList.innerHTML += `<li><i class="fas fa-check-circle"></i> ${spec}</li>`;
+    });
+
+    let waText = encodeURIComponent(`Hello DTS Tech Solutions, I want to order / get quotation for: ${title}`);
+    document.getElementById("modalWhatsAppBtn").href = `https://wa.me/918390909845?text=${waText}`;
+
+    document.getElementById("productModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+}
+
+function closeModalOnOutside(event) {
+    if(event.target.id === "productModal") {
+        closeModal();
+    }
 }
 </script>
 </body>
