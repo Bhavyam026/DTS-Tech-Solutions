@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dynamic Technology Solutions | Security & Technical Services</title>
+<title>Dynamic Technology Solutions | Product Catalogue</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
@@ -172,7 +172,7 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
 }
 .card-btn:hover{background:#0ea5e9;}
 
-/* AMAZON STYLE DESCRIPTION MODAL POPUP */
+/* AMAZON STYLE PRODUCT DETAIL MODAL */
 .modal-overlay{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
@@ -186,13 +186,15 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
 .modal-box{
     background:#1e293b;
     border:1px solid #38bdf8;
-    max-width:650px;
+    max-width:750px;
     width:100%;
     max-height:90vh;
     border-radius:14px;
     overflow-y:auto;
     position:relative;
     box-shadow:0 15px 35px rgba(0,0,0,0.6);
+    display:flex;
+    flex-direction:column;
 }
 .modal-close{
     position:absolute;
@@ -206,29 +208,49 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
     cursor:pointer;
     z-index:10;
 }
-.modal-img{width:100%;height:240px;object-fit:cover;}
-.modal-body{padding:25px;}
-.modal-body h2{font-size:22px;color:#fff;margin-bottom:8px;}
-.modal-body p{font-size:14px;color:#cbd5e1;margin-bottom:15px;line-height:1.5;}
+.modal-content-grid{
+    display:grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap:25px;
+    padding:30px;
+}
+.modal-img-container{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:300px;
+}
+.modal-img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    border-radius:6px;
+}
+.modal-details h2{font-size:22px;color:#fff;margin-bottom:10px;}
+.modal-details p{font-size:13px;color:#94a3b8;margin-bottom:15px;line-height:1.4;}
 
-/* AMAZON "ABOUT THIS ITEM" STYLE BULLET POINTS */
+/* AMAZON "ABOUT THIS ITEM" STYLE */
 .about-title{
     font-weight:bold;
-    font-size:16px;
+    font-size:15px;
     color:#38bdf8;
-    margin-bottom:10px;
+    margin-bottom:8px;
     border-bottom:1px solid #334155;
-    padding-bottom:5px;
+    padding-bottom:4px;
 }
 .about-list{
     list-style:disc;
-    padding-left:20px;
-    margin-bottom:25px;
+    padding-left:18px;
+    margin-bottom:20px;
 }
 .about-list li{
-    margin-bottom:8px;
-    font-size:13px;
-    color:#e2e8f0;
+    margin-bottom:6px;
+    font-size:12px;
+    color:#cbd5e1;
     line-height:1.4;
 }
 
@@ -241,7 +263,7 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
     border-radius:8px;
     font-weight:bold;
     text-decoration:none;
-    font-size:15px;
+    font-size:14px;
 }
 .whatsapp-order-btn:hover{background:#20ba5a;}
 
@@ -260,6 +282,7 @@ footer strong{color:#fff;}
 @media(max-width:768px){
     .amz-header{flex-direction:column;gap:12px;}
     .amz-search-box{width:100%;margin:0;}
+    .modal-content-grid{grid-template-columns:1fr;padding:20px;}
 }
 </style>
 </head>
@@ -284,7 +307,7 @@ footer strong{color:#fff;}
 <div class="container">
     <div class="section-header">
         <h2>Products & Services Catalogue</h2>
-        <span>Click any item to view specifications & enquire</span>
+        <span>Click any item to view specifications & image details</span>
     </div>
 
     <div class="grid" id="productGrid">
@@ -301,7 +324,7 @@ footer strong{color:#fff;}
                 <div class="badge">CCTV Security</div>
                 <h3>Analog CCTV System</h3>
                 <p>Reliable coaxial-based analog security cameras with DVR recording.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
@@ -317,7 +340,7 @@ footer strong{color:#fff;}
                 <div class="badge">CCTV Security</div>
                 <h3>IP CCTV System</h3>
                 <p>High-resolution digital network cameras with NVR and mobile viewing.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
@@ -333,7 +356,7 @@ footer strong{color:#fff;}
                 <div class="badge">Cables & Networking</div>
                 <h3>CAT6 Structured Cabling</h3>
                 <p>Enterprise grade pure copper LAN cables and rack management.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
@@ -349,7 +372,7 @@ footer strong{color:#fff;}
                 <div class="badge">Cables & Networking</div>
                 <h3>Fiber Optic Cabling</h3>
                 <p>High-speed long distance backbone network infrastructure.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
@@ -365,7 +388,7 @@ footer strong{color:#fff;}
                 <div class="badge">Electrical Works</div>
                 <h3>Power Distribution Panels</h3>
                 <p>Commercial power distribution and industrial panel installations.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
@@ -381,7 +404,7 @@ footer strong{color:#fff;}
                 <div class="badge">Electrical Works</div>
                 <h3>Industrial Wiring & Trunking</h3>
                 <p>Heavy-duty conduit wiring and commercial lighting solutions.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
@@ -397,7 +420,7 @@ footer strong{color:#fff;}
                 <div class="badge">Fire Safety</div>
                 <h3>Fire Alarm Systems</h3>
                 <p>Advanced smoke detection and emergency alarm control setups.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
@@ -413,28 +436,36 @@ footer strong{color:#fff;}
                 <div class="badge">Fire Safety</div>
                 <h3>Suppression & Hydrant Systems</h3>
                 <p>Automatic fire sprinklers, extinguishers, and hydrant setups.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Specifications</button>
+                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
             </div>
         </div>
 
     </div>
 </div>
 
-<!-- SPECIFICATIONS MODAL POPUP -->
+<!-- AMAZON STYLE PRODUCT SPECIFICATION MODAL -->
 <div class="modal-overlay" id="itemModal" onclick="closeModalOutside(event)">
     <div class="modal-box">
         <button class="modal-close" onclick="closeModal()">&times;</button>
-        <img id="modalImg" src="" class="modal-img" alt="Item Image">
-        <div class="modal-body">
-            <h2 id="modalTitle">Title</h2>
-            <p id="modalDesc">Description</p>
-            
-            <div class="about-title">About this item / Key Features:</div>
-            <ul class="about-list" id="modalSpecs"></ul>
+        
+        <div class="modal-content-grid">
+            <!-- Left Side: Big Image View -->
+            <div class="modal-img-container">
+                <img id="modalImg" src="" class="modal-img" alt="Product Image">
+            </div>
 
-            <a id="modalWaBtn" href="#" target="_blank" class="whatsapp-order-btn">
-                <i class="fab fa-whatsapp"></i> Enquire / Order on WhatsApp
-            </a>
+            <!-- Right Side: Details & Bullet Points -->
+            <div class="modal-details">
+                <h2 id="modalTitle">Title</h2>
+                <p id="modalDesc">Description</p>
+                
+                <div class="about-title">About this item / Specifications:</div>
+                <ul class="about-list" id="modalSpecs"></ul>
+
+                <a id="modalWaBtn" href="#" target="_blank" class="whatsapp-order-btn">
+                    <i class="fab fa-whatsapp"></i> Enquire / Order on WhatsApp
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -469,7 +500,7 @@ function searchFilter() {
     });
 }
 
-/* OPEN MODAL WITH AMAZON STYLE DETAILS */
+/* OPEN MODAL WITH AMAZON STYLE IMAGE & SPECIFICATIONS */
 function openModal(title, img, desc, specs) {
     document.getElementById("modalTitle").innerText = title;
     document.getElementById("modalImg").src = img;
