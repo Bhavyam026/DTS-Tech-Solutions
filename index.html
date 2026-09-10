@@ -9,7 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
 body{background:#0f172a;color:#f8fafc;}
 
-/* TOP ORIGINAL STYLE SEARCH HEADER */
+/* TOP SEARCH HEADER */
 .amz-header{
     background:#1e293b;
     padding:15px 30px;
@@ -91,39 +91,20 @@ body{background:#0f172a;color:#f8fafc;}
 .section-header h2{font-size:24px;color:#fff;}
 .section-header span{font-size:14px;color:#94a3b8;}
 
-/* GRID CARDS (PURANA STYLE DEFAULT) */
+/* GRID CARDS */
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:25px;
 }
 
-/* DYNAMIC AMAZON SEARCH CLASS (Jab search hoga tab ye style apply hogi) */
-body.searching .amz-header {
-    background: #131921 !important;
-}
-body.searching {
-    background: #eaeded !important;
-    color: #111 !important;
-}
-body.searching .card {
-    background: #fff !important;
-    border: 1px solid #ddd !important;
-    color: #111 !important;
-}
-body.searching .card h3 {
-    color: #0f1111 !important;
-    font-size: 16px !important;
-}
-body.searching .card p {
-    color: #565959 !important;
-}
-body.searching .badge {
-    background: transparent !important;
-    color: #007185 !important;
-    padding: 0 !important;
-    font-size: 11px !important;
-}
+/* SEARCHING STYLES (AMAZON THEME SWITCH ON SEARCH) */
+body.searching .amz-header { background: #131921 !important; }
+body.searching { background: #eaeded !important; color: #111 !important; }
+body.searching .card { background: #fff !important; border: 1px solid #ddd !important; color: #111 !important; }
+body.searching .card h3 { color: #0f1111 !important; font-size: 16px !important; }
+body.searching .card p { color: #565959 !important; }
+body.searching .badge { background: transparent !important; color: #007185 !important; padding: 0 !important; font-size: 11px !important; }
 body.searching .card-btn {
     background: #ffd814 !important;
     border: 1px solid #fcd200 !important;
@@ -132,19 +113,10 @@ body.searching .card-btn {
     font-size: 13px !important;
     box-shadow: 0 2px 5px rgba(213,217,217,0.5);
 }
-body.searching .card-btn:hover {
-    background: #f7ca00 !important;
-}
-body.searching .section-header h2 {
-    color: #111 !important;
-}
-body.searching .section-header {
-    border-bottom: 2px solid #ccc !important;
-}
-body.searching footer {
-    background: #232f3e !important;
-    color: #ddd !important;
-}
+body.searching .card-btn:hover { background: #f7ca00 !important; }
+body.searching .section-header h2 { color: #111 !important; }
+body.searching .section-header { border-bottom: 2px solid #ccc !important; }
+body.searching footer { background: #232f3e !important; color: #ddd !important; }
 
 /* CARD DEFAULT STYLING */
 .card{
@@ -200,7 +172,7 @@ body.searching footer {
 }
 .card-btn:hover{background:#0ea5e9;}
 
-/* SPECIFICATIONS MODAL POPUP */
+/* AMAZON STYLE DESCRIPTION MODAL POPUP */
 .modal-overlay{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
@@ -214,10 +186,11 @@ body.searching footer {
 .modal-box{
     background:#1e293b;
     border:1px solid #38bdf8;
-    max-width:550px;
+    max-width:650px;
     width:100%;
+    max-height:90vh;
     border-radius:14px;
-    overflow:hidden;
+    overflow-y:auto;
     position:relative;
     box-shadow:0 15px 35px rgba(0,0,0,0.6);
 }
@@ -231,15 +204,33 @@ body.searching footer {
     border-radius:50%;
     font-size:18px;
     cursor:pointer;
+    z-index:10;
 }
-.modal-img{width:100%;height:220px;object-fit:cover;}
+.modal-img{width:100%;height:240px;object-fit:cover;}
 .modal-body{padding:25px;}
 .modal-body h2{font-size:22px;color:#fff;margin-bottom:8px;}
-.modal-body p{font-size:14px;color:#cbd5e1;margin-bottom:15px;}
-.specs-title{font-weight:bold;font-size:14px;color:#38bdf8;margin-bottom:8px;}
-.specs-list{list-style:none;background:#0f172a;padding:15px;border-radius:8px;margin-bottom:20px;}
-.specs-list li{margin-bottom:6px;font-size:13px;color:#e2e8f0;}
-.specs-list li i{color:#38bdf8;margin-right:8px;}
+.modal-body p{font-size:14px;color:#cbd5e1;margin-bottom:15px;line-height:1.5;}
+
+/* AMAZON "ABOUT THIS ITEM" STYLE BULLET POINTS */
+.about-title{
+    font-weight:bold;
+    font-size:16px;
+    color:#38bdf8;
+    margin-bottom:10px;
+    border-bottom:1px solid #334155;
+    padding-bottom:5px;
+}
+.about-list{
+    list-style:disc;
+    padding-left:20px;
+    margin-bottom:25px;
+}
+.about-list li{
+    margin-bottom:8px;
+    font-size:13px;
+    color:#e2e8f0;
+    line-height:1.4;
+}
 
 .whatsapp-order-btn{
     display:block;
@@ -299,7 +290,12 @@ footer strong{color:#fff;}
     <div class="grid" id="productGrid">
 
         <!-- 1. ANALOG CCTV -->
-        <div class="card searchable" data-text="cctv analog camera security system DVR BNC coaxial" onclick="openModal('Analog CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Traditional and reliable high-definition analog security camera setup connected via coaxial cables and DVR.', ['Camera Type: HD Analog Dome & Bullet', 'Wiring: Coaxial BNC Cable Setup', 'Recording: DVR (Digital Video Recorder)', 'Cost-Effective & Easy Maintenance'])">
+        <div class="card searchable" data-text="cctv analog camera security system DVR BNC coaxial" onclick="openModal('Analog CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Traditional and reliable high-definition analog security camera setup connected via coaxial cables and DVR storage.', [
+            'High-Definition Analog Cameras: Crystal clear dome and bullet cameras designed for indoor and outdoor monitoring.',
+            'Coaxial BNC Cable Setup: Stable and uninterrupted analog signal transmission over dedicated coaxial cables.',
+            'DVR (Digital Video Recorder): Centralized multi-channel recording storage with easy playback options.',
+            'Cost-Effective Solution: Highly budget-friendly security option requiring minimal maintenance and easy installation.'
+        ])">
             <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" alt="Analog CCTV">
             <div class="card-content">
                 <div class="badge">CCTV Security</div>
@@ -310,7 +306,12 @@ footer strong{color:#fff;}
         </div>
 
         <!-- 2. IP CCTV -->
-        <div class="card searchable" data-text="cctv ip camera network digital security system NVR poe" onclick="openModal('IP Digital CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Advanced ultra-sharp digital IP network cameras with PoE support, NVR storage, and remote mobile access.', ['Resolution: 2MP, 4MP & 4K Ultra HD', 'Technology: Digital IP over Ethernet (PoE)', 'Recording: NVR (Network Video Recorder)', 'Features: Smart Motion Detection & Mobile App'])">
+        <div class="card searchable" data-text="cctv ip camera network digital security system NVR poe" onclick="openModal('IP Digital CCTV Surveillance System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'Advanced ultra-sharp digital IP network cameras with PoE support, NVR storage, and remote mobile access.', [
+            'Ultra HD Resolution: Available in 2MP, 4MP, and 4K high-definition clarity for precise identification.',
+            'Power over Ethernet (PoE): Combines power and data transmission into a single network cable for hassle-free wiring.',
+            'NVR Storage & Management: Advanced Network Video Recorders equipped with smart motion detection features.',
+            'Remote Mobile Access: Monitor your live cameras from anywhere globally directly through your smartphone app.'
+        ])">
             <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" alt="IP CCTV">
             <div class="card-content">
                 <div class="badge">CCTV Security</div>
@@ -321,7 +322,12 @@ footer strong{color:#fff;}
         </div>
 
         <!-- 3. CAT6 CABLING -->
-        <div class="card searchable" data-text="cables structured cabling cat6 lan cable networking copper patch panel" onclick="openModal('CAT6 Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'Professional enterprise networking using pure copper CAT6 cables, patch panels, and organized rack dressing.', ['Cable Standard: CAT6 UTP Pure Copper', 'Bandwidth Support: Up to 250 MHz / 1 Gbps', 'Infrastructure: Patch Panels & Switch Setup', 'Application: Office LAN & Data Networks'])">
+        <div class="card searchable" data-text="cables structured cabling cat6 lan cable networking copper patch panel" onclick="openModal('CAT6 Structured Cabling & Networking', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'Professional enterprise networking using pure copper CAT6 cables, patch panels, and organized rack dressing.', [
+            'Pure Copper Standard: High-grade CAT6 UTP pure copper cables ensuring maximum data speed and zero packet loss.',
+            'High Bandwidth Support: Supports frequency up to 250 MHz and gigabit data transfer rates (1 Gbps).',
+            'Rack Infrastructure: Professional integration involving patch panels, network switches, and clean cable dressing.',
+            'Enterprise Application: Ideal solution for office local area networks (LAN), computer labs, and data hubs.'
+        ])">
             <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="CAT6 Cabling">
             <div class="card-content">
                 <div class="badge">Cables & Networking</div>
@@ -332,7 +338,12 @@ footer strong{color:#fff;}
         </div>
 
         <!-- 4. FIBER OPTIC CABLING -->
-        <div class="card searchable" data-text="cables fiber optic cabling networking high speed backbone" onclick="openModal('Fiber Optic Cabling Solutions', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'High-speed long distance backbone connectivity using single-mode and multi-mode fiber optic cables.', ['Cable Type: Single-Mode & Multi-Mode Fiber', 'Speed: Ultra High-Speed Data Transmission', 'Distance: Long Range Campus Connectivity', 'Termination: Fusion Splicing & Patch Panels'])">
+        <div class="card searchable" data-text="cables fiber optic cabling networking high speed backbone" onclick="openModal('Fiber Optic Cabling Solutions', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'High-speed long distance backbone connectivity using single-mode and multi-mode fiber optic cables.', [
+            'High-Speed Backbone: Ultra-fast optical transmission capable of handling massive enterprise data loads.',
+            'Single & Multi-Mode Support: Versatile cabling configurations tailored for short and long-range connectivity.',
+            'Long Distance Reach: Signal transmission over extended campus distances without degradation or electromagnetic interference.',
+            'Precision Termination: Professional fusion splicing, ODF setup, and connector termination by certified technicians.'
+        ])">
             <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="Fiber Optic">
             <div class="card-content">
                 <div class="badge">Cables & Networking</div>
@@ -343,7 +354,12 @@ footer strong{color:#fff;}
         </div>
 
         <!-- 5. ELECTRICAL WORKS - POWER PANELS -->
-        <div class="card searchable" data-text="electrical works power distribution panel wiring industrial" onclick="openModal('Electrical Power Distribution Panels', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80', 'Commercial and industrial electrical panel installation, heavy cabling, load balancing, and safety audits.', ['Services: Industrial & Commercial Panel Wiring', 'Distribution: Balanced 3-Phase Power Setup', 'Safety: MCB, RCCB & Earth Protection', 'Compliance: Standard Electrical Safety Norms'])">
+        <div class="card searchable" data-text="electrical works power distribution panel wiring industrial" onclick="openModal('Electrical Power Distribution Panels', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80', 'Commercial and industrial electrical panel installation, heavy cabling, load balancing, and safety audits.', [
+            'Industrial Panel Wiring: Heavy-duty design and fabrication for robust commercial power handling.',
+            'Balanced 3-Phase Setup: Efficient power distribution across industrial machines and facility units.',
+            'Advanced Circuit Protection: Integrated MCB, RCCB, and earth leakage protection to prevent hazards.',
+            'Safety Auditing: Compliant with standard industrial electrical safety codes and regulations.'
+        ])">
             <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80" alt="Electrical Panels">
             <div class="card-content">
                 <div class="badge">Electrical Works</div>
@@ -354,7 +370,12 @@ footer strong{color:#fff;}
         </div>
 
         <!-- 6. ELECTRICAL WORKS - LIGHTING & WIRING -->
-        <div class="card searchable" data-text="electrical works lighting commercial wiring conduit trunking" onclick="openModal('Commercial & Industrial Wiring', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80', 'Complete heavy-duty conduit wiring, trunking setup, and commercial lighting installations.', ['Services: Heavy Conduit Pipe & Trunking', 'Lighting: LED Commercial & Industrial Fixtures', 'Safety: Fire-Retardant Copper Wires', 'Execution: Professional Load Testing'])">
+        <div class="card searchable" data-text="electrical works lighting commercial wiring conduit trunking" onclick="openModal('Commercial & Industrial Wiring', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80', 'Complete heavy-duty conduit wiring, trunking setup, and commercial lighting installations.', [
+            'Heavy Conduit & Trunking: Safe metal and PVC pipe casing for secure cable routing in commercial spaces.',
+            'Commercial Fixtures: High-efficiency LED lighting setups engineered for offices, retail stores, and warehouses.',
+            'Fire-Retardant Wiring: High-grade copper wires resistant to high temperatures and short circuits.',
+            'Professional Execution: Complete load checking, switchgear mounting, and systematic circuit testing.'
+        ])">
             <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80" alt="Commercial Wiring">
             <div class="card-content">
                 <div class="badge">Electrical Works</div>
@@ -365,7 +386,12 @@ footer strong{color:#fff;}
         </div>
 
         <!-- 7. FIRE SAFETY - ALARM SYSTEMS -->
-        <div class="card searchable" data-text="fire safety alarm systems smoke detector hazard conventional addressable" onclick="openModal('Fire Alarm & Detection Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Advanced fire safety alarm systems including smoke detectors, manual call points, and control panels.', ['System Types: Addressable & Conventional', 'Sensors: High-Sensitivity Smoke & Heat Detectors', 'Control: Centralized Fire Alarm Control Panel', 'Alerts: Strobe Lights & Emergency Sirens'])">
+        <div class="card searchable" data-text="fire safety alarm systems smoke detector hazard conventional addressable" onclick="openModal('Fire Alarm & Detection Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Advanced fire safety alarm systems including smoke detectors, manual call points, and control panels.', [
+            'Smart Detection Setup: Choice of addressable and conventional smoke, heat, and multi-sensor detectors.',
+            'Centralized Control Panel: Continuous real-time monitoring unit that identifies the exact location of potential hazards.',
+            'Emergency Audio-Visual Alerts: High-decibel sirens and blinking strobe lights for rapid evacuation warning.',
+            'Life & Property Protection: Essential automated safety infrastructure for offices, residential towers, and factories.'
+        ])">
             <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80" alt="Fire Alarm">
             <div class="card-content">
                 <div class="badge">Fire Safety</div>
@@ -376,7 +402,12 @@ footer strong{color:#fff;}
         </div>
 
         <!-- 8. FIRE SAFETY - SUPPRESSION & EXTINGUISHERS -->
-        <div class="card searchable" data-text="fire safety suppression extinguishers sprinkler co2 abc hydrant" onclick="openModal('Fire Suppression & Hydrant Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Comprehensive fire suppression systems including automatic water sprinklers, CO2 extinguishers, and hydrant pipelines.', ['Equipment: ABC / CO2 Fire Extinguishers', 'Protection: Automatic Fire Sprinkler Piping', 'Infrastructure: Fire Hydrant & Hose Reel Systems', 'Compliance: Safety Standard Certifications'])">
+        <div class="card searchable" data-text="fire safety suppression extinguishers sprinkler co2 abc hydrant" onclick="openModal('Fire Suppression & Hydrant Systems', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Comprehensive fire suppression systems including automatic water sprinklers, CO2 extinguishers, and hydrant pipelines.', [
+            'Extinguisher Supply & Install: Complete range of ABC powder, CO2, and foam extinguishers for diverse fire classes.',
+            'Automatic Sprinkler Piping: Overhead water sprinkler networks engineered to activate instantly upon high temperature detection.',
+            'Hydrant & Hose Reel Infrastructure: High-pressure water pipelines and hose reels positioned for emergency firefighting.',
+            'Safety Norms Compliant: Designed and installed strictly in accordance with local fire safety compliance standards.'
+        ])">
             <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80" alt="Fire Suppression">
             <div class="card-content">
                 <div class="badge">Fire Safety</div>
@@ -397,8 +428,10 @@ footer strong{color:#fff;}
         <div class="modal-body">
             <h2 id="modalTitle">Title</h2>
             <p id="modalDesc">Description</p>
-            <div class="specs-title">Technical Specifications:</div>
-            <ul class="specs-list" id="modalSpecs"></ul>
+            
+            <div class="about-title">About this item / Key Features:</div>
+            <ul class="about-list" id="modalSpecs"></ul>
+
             <a id="modalWaBtn" href="#" target="_blank" class="whatsapp-order-btn">
                 <i class="fab fa-whatsapp"></i> Enquire / Order on WhatsApp
             </a>
@@ -436,7 +469,7 @@ function searchFilter() {
     });
 }
 
-/* OPEN MODAL WITH SPECS */
+/* OPEN MODAL WITH AMAZON STYLE DETAILS */
 function openModal(title, img, desc, specs) {
     document.getElementById("modalTitle").innerText = title;
     document.getElementById("modalImg").src = img;
@@ -445,7 +478,7 @@ function openModal(title, img, desc, specs) {
     let specsList = document.getElementById("modalSpecs");
     specsList.innerHTML = "";
     specs.forEach(s => {
-        specsList.innerHTML += `<li><i class="fas fa-check-circle"></i> ${s}</li>`;
+        specsList.innerHTML += `<li>${s}</li>`;
     });
 
     let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire about: ${title}. Please share further details and pricing.`);
