@@ -7,8 +7,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
-body{background:#0f172a;color:#f8fafc;}
+body{background:#0f172a;color:#f8fafc;transition:0.3s;}
 
+/* TOP SEARCH HEADER */
 .amz-header{
     background:#1e293b;
     padding:15px 30px;
@@ -23,7 +24,7 @@ body{background:#0f172a;color:#f8fafc;}
 }
 .amz-logo{
     color:#fff;
-    font-size:24px;
+    font-size:22px;
     font-weight:bold;
     text-decoration:none;
     display:flex;
@@ -32,6 +33,7 @@ body{background:#0f172a;color:#f8fafc;}
 }
 .amz-logo span{color:#38bdf8;}
 
+/* SEARCH BOX */
 .amz-search-box{
     flex-grow:1;
     max-width:650px;
@@ -70,6 +72,7 @@ body{background:#0f172a;color:#f8fafc;}
     gap:8px;
 }
 
+/* CONTAINER */
 .container{
     max-width:1200px;
     margin:40px auto;
@@ -86,13 +89,14 @@ body{background:#0f172a;color:#f8fafc;}
 .section-header h2{font-size:24px;color:#fff;}
 .section-header span{font-size:14px;color:#94a3b8;}
 
+/* GRID */
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:25px;
 }
 
-/* Amazon Theme Switch on Search */
+/* AMAZON SEARCH THEME SWITCH */
 body.searching .amz-header { background: #131921 !important; }
 body.searching { background: #eaeded !important; color: #111 !important; }
 body.searching .card { background: #fff !important; border: 1px solid #ddd !important; color: #111 !important; }
@@ -110,6 +114,7 @@ body.searching .section-header h2 { color: #111 !important; }
 body.searching .section-header { border-bottom: 2px solid #ccc !important; }
 body.searching footer { background: #232f3e !important; color: #ddd !important; }
 
+/* CARD STYLING */
 .card{
     background:#1e293b;
     border:1px solid #334155;
@@ -125,11 +130,23 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
     transform:translateY(-5px);
     box-shadow:0 10px 20px rgba(56,189,248,0.1);
 }
-.card img{
+.card-img-wrapper{
     width:100%;
-    height:180px;
-    object-fit:cover;
+    height:200px;
+    background:#0f172a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    padding:10px;
 }
+.card img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    transition: 0.3s;
+}
+.card:hover img{transform:scale(1.05);}
 .card-content{
     padding:20px;
     display:flex;
@@ -163,11 +180,11 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
 }
 .card-btn:hover{background:#0ea5e9;}
 
-/* Product Detail Modal */
+/* AMAZON STYLE DETAILED MODAL WITH MULTI-VIEWS */
 .modal-overlay{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
-    background:rgba(15,23,42,0.85);
+    background:rgba(15,23,42,0.88);
     display:none;
     align-items:center;
     justify-content:center;
@@ -177,13 +194,13 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
 .modal-box{
     background:#1e293b;
     border:1px solid #38bdf8;
-    max-width:750px;
+    max-width:900px;
     width:100%;
-    max-height:90vh;
+    max-height:92vh;
     border-radius:14px;
     overflow-y:auto;
     position:relative;
-    box-shadow:0 15px 35px rgba(0,0,0,0.6);
+    box-shadow:0 20px 40px rgba(0,0,0,0.7);
     display:flex;
     flex-direction:column;
 }
@@ -202,31 +219,72 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
 .modal-content-grid{
     display:grid;
     grid-template-columns: 1fr 1.2fr;
-    gap:25px;
-    padding:30px;
+    gap:30px;
+    padding:35px;
 }
-.modal-img-container{
+
+/* IMAGES & THUMBNAILS GALLERY */
+.modal-gallery{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+.modal-main-img-container{
     background:#0f172a;
     border:1px solid #334155;
     border-radius:10px;
-    padding:10px;
+    padding:15px;
     display:flex;
     align-items:center;
     justify-content:center;
-    height:300px;
+    height:280px;
 }
-.modal-img{
+.modal-main-img{
     max-width:100%;
     max-height:100%;
     object-fit:contain;
-    border-radius:6px;
 }
-.modal-details h2{font-size:22px;color:#fff;margin-bottom:10px;}
+.thumbnail-row{
+    display:flex;
+    gap:10px;
+}
+.thumb-box{
+    width:70px; height:60px;
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:6px;
+    padding:5px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.thumb-box img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+}
+.thumb-box:hover, .thumb-box.active{
+    border-color:#38bdf8;
+}
+
+/* DETAILS SECTION */
+.modal-details h2{font-size:22px;color:#fff;margin-bottom:8px;}
+.auth-badge{
+    display:inline-block;
+    background:#065f46;
+    color:#34d399;
+    font-size:11px;
+    padding:3px 8px;
+    border-radius:4px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
 .modal-details p{font-size:13px;color:#94a3b8;margin-bottom:15px;line-height:1.4;}
 
 .about-title{
     font-weight:bold;
-    font-size:15px;
+    font-size:14px;
     color:#38bdf8;
     margin-bottom:8px;
     border-bottom:1px solid #334155;
@@ -257,6 +315,7 @@ body.searching footer { background: #232f3e !important; color: #ddd !important; 
 }
 .whatsapp-order-btn:hover{background:#20ba5a;}
 
+/* FOOTER */
 footer{
     background:#1e293b;
     color:#94a3b8;
@@ -277,11 +336,12 @@ footer strong{color:#fff;}
 </head>
 <body>
 
+<!-- TOP HEADER -->
 <div class="amz-header">
     <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Tech Solutions</span></a>
     
     <div class="amz-search-box">
-        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search CCTV, CAT6, Fiber, Switch, Fire Alarm..." onkeyup="searchFilter()">
+        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search Prysmian CAT6, CCTV, Fire Alarm, Electrical..." onkeyup="searchFilter()">
         <button class="amz-search-btn"><i class="fas fa-search"></i></button>
     </div>
 
@@ -290,95 +350,137 @@ footer strong{color:#fff;}
     </a>
 </div>
 
+<!-- MAIN CATALOGUE -->
 <div class="container">
     <div class="section-header">
-        <h2>Products & Services Catalogue</h2>
-        <span>Click any item to view brand specifications & image details</span>
+        <h2>Authorized Products & Solutions Catalogue</h2>
+        <span>Click any product for multi-angle view & detailed specifications</span>
     </div>
 
     <div class="grid" id="productGrid">
 
-        <!-- 1. Layer 2 Switch -->
-        <div class="card searchable" data-text="switch layer 2 distribution network ethernet poe" onclick="openModal('Layer 2 Managed Network Switch', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'High-performance enterprise network switches with VLAN, SNMP, and robust switching capabilities.', [
-            'Gigabit & SFP+ Ports: Equipped with 24/48 RJ45 ports and high-speed 10G uplink slots.',
-            'VLAN & Security: Supports IEEE 802.1Q VLANs, port security, and storm control.',
-            'Robust Performance: Non-blocking architecture ensuring seamless data forwarding rates.',
-            'Reliable Operation: Enterprise-grade build with comprehensive management features.'
-        ])">
-            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="Layer 2 Switch">
-            <div class="card-content">
-                <div class="badge">Networking</div>
-                <h3>Layer 2 Network Switch</h3>
-                <p>Enterprise distribution network switches with high-speed uplinks.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
+        <!-- 1. PRYSMIAN / HCS CAT6 CABLE -->
+        <div class="card searchable" data-text="prysmian hcs cat6 cable lan copper networking structured" onclick="openModal(
+            'Prysmian / HCS CAT6 Structured LAN Cable',
+            'Authorized Channel Partner - 100% Genuine',
+            ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80'],
+            'Official authorized Prysmian / HCS CAT6 pure copper networking cable engineered for high-speed enterprise data transfer and structured LAN cabling setups.',
+            [
+                '100% Pure Copper Conductor: High-grade solid copper ensuring maximum signal velocity and zero packet loss.',
+                'Gigabit Performance: Supports up to 250 MHz frequency bandwidth for seamless 1 Gbps data rates.',
+                'Robust Outer Jacket: Flame-retardant PVC/LSZH outer sheath designed for heavy conduit and trunking deployment.',
+                'Authorized Certification: Genuine stock backed by authorized manufacturer warranty and compliance.'
+            ]
+        )">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80" alt="Prysmian CAT6 Cable">
             </div>
-        </div>
-
-        <!-- 2. CAT6 Cable -->
-        <div class="card searchable" data-text="cat6 cable lan networking copper prysmian hcs" onclick="openModal('CAT6 Structured LAN Cable', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80', 'Authorized high-grade pure copper CAT6 networking cables for stable local data connectivity.', [
-            'Pure Copper Conductor: Ensures maximum signal speed and zero data loss over lengths.',
-            'High Bandwidth: Supports up to 250 MHz frequency for gigabit network speeds.',
-            'Durable Shielding: Premium jacket designed for structured indoor and conduit cabling.',
-            'Certified Quality: Fully compliant with international networking standards.'
-        ])">
-            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="CAT6 Cable">
             <div class="card-content">
-                <div class="badge">Cables</div>
+                <div class="badge">Authorized Brand (Prysmian / HCS)</div>
                 <h3>CAT6 Structured LAN Cable</h3>
-                <p>High-grade pure copper networking cables for stable connectivity.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
+                <p>Authorized pure copper high-speed network cabling solution.</p>
+                <button class="card-btn"><i class="fas fa-search-plus"></i> View Details & Specs</button>
             </div>
         </div>
 
-        <!-- 3. IP CCTV Camera -->
-        <div class="card searchable" data-text="cctv ip camera security system nvr poe" onclick="openModal('IP Security Camera System', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80', 'High-definition digital IP network cameras with crystal clear night vision and remote monitoring.', [
-            'HD Clarity: Sharp video recording available in 2MP to 4K resolutions.',
-            'Power over Ethernet: Single cable transmission for both power and network data.',
-            'Night Vision: Infrared LEDs for clear 24/7 surveillance in complete darkness.',
-            'Mobile Integration: Live streaming directly to your mobile devices securely.'
-        ])">
-            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=80" alt="IP CCTV">
+        <!-- 2. IP CCTV CAMERA -->
+        <div class="card searchable" data-text="cctv ip camera security system nvr poe dome bullet" onclick="openModal(
+            'Professional IP Security Camera System',
+            'High-Definition Surveillance Solution',
+            ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
+            'Advanced digital IP security surveillance camera system with crystal clear high-definition imagery, PoE support, and remote smartphone viewing.',
+            [
+                'Ultra-Sharp Resolution: Available in 2MP, 4MP, and 4K clarity for sharp object and face recognition.',
+                'Power over Ethernet (PoE): Simplifies installation by combining power and data over a single network cable.',
+                'Smart Night Vision: Advanced infrared LEDs delivering clear monochrome vision in pitch-dark conditions.',
+                'Remote Mobile Access: Secure cloud and app integration for live monitoring from anywhere globally.'
+            ]
+        )">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80" alt="IP CCTV Camera">
+            </div>
             <div class="card-content">
-                <div class="badge">Security</div>
+                <div class="badge">Security & Surveillance</div>
                 <h3>IP Security Camera System</h3>
-                <p>High-definition digital IP network cameras with clear night vision.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
+                <p>High-definition digital IP network cameras with night vision.</p>
+                <button class="card-btn"><i class="fas fa-search-plus"></i> View Details & Specs</button>
             </div>
         </div>
 
-        <!-- 4. Fire Alarm System -->
-        <div class="card searchable" data-text="fire safety alarm system smoke detector panel" onclick="openModal('Fire Alarm & Detection Panel', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80', 'Advanced fire detection control panels equipped with smoke sensors and emergency warning sirens.', [
-            'Smart Sensors: High sensitivity smoke and heat detectors for early hazard warning.',
-            'Centralized Panel: Real-time zone monitoring and precise fault identification.',
-            'Emergency Sirens: High decibel audio alarms for immediate facility evacuation.',
-            'Reliable Backup: Integrated battery support to ensure 24/7 active protection.'
-        ])">
-            <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=80" alt="Fire Alarm">
+        <!-- 3. FIRE ALARM SYSTEM -->
+        <div class="card searchable" data-text="fire safety alarm system smoke detector panel conventional addressable" onclick="openModal(
+            'Fire Alarm Control & Detection System',
+            'Life & Property Safety Infrastructure',
+            ['https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80'],
+            'Comprehensive fire safety and detection infrastructure featuring centralized micro-processor panels, smoke sensors, and emergency warning strobes.',
+            [
+                'Smart Optical Sensors: Highly sensitive smoke and thermal detectors for instant hazard identification.',
+                'Centralized Monitoring Panel: Real-time zone tracking display pinpointing the exact location of danger.',
+                'High-Decibel Siren & Strobes: Loud emergency audio-visual alerts to ensure fast building evacuation.',
+                'Battery Backup Support: Inbuilt uninterrupted power supply to maintain vigilance during power outages.'
+            ]
+        )">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80" alt="Fire Alarm System">
+            </div>
             <div class="card-content">
                 <div class="badge">Fire Safety</div>
                 <h3>Fire Alarm & Control Panel</h3>
-                <p>Advanced fire detection control panels with smoke sensors and sirens.</p>
-                <button class="card-btn"><i class="fas fa-info-circle"></i> View Product Details</button>
+                <p>Advanced smoke sensors and emergency hazard warning systems.</p>
+                <button class="card-btn"><i class="fas fa-search-plus"></i> View Details & Specs</button>
+            </div>
+        </div>
+
+        <!-- 4. ELECTRICAL DISTRIBUTION PANEL -->
+        <div class="card searchable" data-text="electrical works power distribution panel industrial wiring mcb rccb" onclick="openModal(
+            'Industrial Electrical Distribution Panel',
+            'Heavy Commercial Power Setup',
+            ['https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80'],
+            'Heavy-duty industrial power distribution panels and commercial wiring solutions engineered for safe, balanced 3-phase power management.',
+            [
+                'Industrial Grade Fabrication: Robust enclosure built to withstand heavy commercial loads and stress.',
+                'Balanced 3-Phase Distribution: Efficient electrical power channeling across industrial and office units.',
+                'Advanced Circuit Protection: Equipped with premium MCB, RCCB, and earth fault safeguards.',
+                'Compliance Standard: Fully tested for safety regulations and industrial electrical codes.'
+            ]
+        )">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80" alt="Electrical Panel">
+            </div>
+            <div class="card-content">
+                <div class="badge">Electrical Works</div>
+                <h3>Power Distribution Panels</h3>
+                <p>Commercial power distribution and industrial panel installations.</p>
+                <button class="card-btn"><i class="fas fa-search-plus"></i> View Details & Specs</button>
             </div>
         </div>
 
     </div>
 </div>
 
+<!-- AMAZON STYLE MULTI-VIEW MODAL -->
 <div class="modal-overlay" id="itemModal" onclick="closeModalOutside(event)">
     <div class="modal-box">
         <button class="modal-close" onclick="closeModal()">&times;</button>
         
         <div class="modal-content-grid">
-            <div class="modal-img-container">
-                <img id="modalImg" src="" class="modal-img" alt="Product Image">
+            <!-- Left: Multi Angle Image Gallery -->
+            <div class="modal-gallery">
+                <div class="modal-main-img-container">
+                    <img id="mainModalImg" src="" class="modal-main-img" alt="Product Main View">
+                </div>
+                <div class="thumbnail-row" id="thumbContainer">
+                    <!-- Thumbnails populated dynamically -->
+                </div>
             </div>
 
+            <!-- Right: Details & Specs -->
             <div class="modal-details">
                 <h2 id="modalTitle">Title</h2>
+                <div id="modalAuthBadge" class="auth-badge">Badge</div>
                 <p id="modalDesc">Description</p>
                 
-                <div class="about-title">Product Specifications:</div>
+                <div class="about-title">About this item & Specifications:</div>
                 <ul class="about-list" id="modalSpecs"></ul>
 
                 <a id="modalWaBtn" href="#" target="_blank" class="whatsapp-order-btn">
@@ -392,9 +494,11 @@ footer strong{color:#fff;}
 <footer>
     <p><strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong></p>
     <p>Professional Security, Networking, Electrical & Fire Safety Integrator</p>
+    <p style="margin-top:5px;">Contact / WhatsApp: +91 8390909845</p>
 </footer>
 
 <script>
+/* SEARCH FILTER WITH AMAZON THEME SWITCH */
 function searchFilter() {
     let query = document.getElementById("searchInput").value.toLowerCase().trim();
     let cards = document.querySelectorAll(".searchable");
@@ -417,23 +521,46 @@ function searchFilter() {
     });
 }
 
-function openModal(title, img, desc, specs) {
+/* OPEN MODAL WITH MULTI-ANGLE IMAGES & SPECS */
+function openModal(title, badgeText, images, desc, specs) {
     document.getElementById("modalTitle").innerText = title;
-    document.getElementById("modalImg").src = img;
+    document.getElementById("modalAuthBadge").innerText = badgeText;
     document.getElementById("modalDesc").innerText = desc;
     
+    // Set Main Image to first image
+    let mainImg = document.getElementById("mainModalImg");
+    mainImg.src = images[0];
+
+    // Build Thumbnails for multi-angle view
+    let thumbContainer = document.getElementById("thumbContainer");
+    thumbContainer.innerHTML = "";
+    images.forEach((imgUrl, index) => {
+        let thumbBox = document.createElement("div");
+        thumbBox.className = index === 0 ? "thumb-box active" : "thumb-box";
+        thumbBox.innerHTML = `<img src="${imgUrl}" alt="Angle ${index+1}">`;
+        thumbBox.onclick = function() {
+            mainImg.src = imgUrl;
+            document.querySelectorAll(".thumb-box").forEach(b => b.classList.remove("active"));
+            thumbBox.classList.add("active");
+        };
+        thumbContainer.appendChild(thumbBox);
+    });
+
+    // Populate Specs
     let specsList = document.getElementById("modalSpecs");
     specsList.innerHTML = "";
     specs.forEach(s => {
         specsList.innerHTML += `<li>${s}</li>`;
     });
 
-    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire about: ${title}. Please share further details.`);
+    // WhatsApp Order Link
+    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire about: ${title}. Please share specifications and pricing.`);
     document.getElementById("modalWaBtn").href = `https://wa.me/918390909845?text=${waText}`;
 
     document.getElementById("itemModal").style.display = "flex";
 }
 
+/* CLOSE MODAL */
 function closeModal() {
     document.getElementById("itemModal").style.display = "none";
 }
