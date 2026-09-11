@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dynamic Technology Solutions | Store</title>
+<title>Dynamic Technology Solutions | Store Catalogue</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Amazon Ember",Arial,sans-serif;}
-body{background:#eaeded;color:#0f1111;transition:0.3s;}
+body{background:#eaeded;color:#0f1111;}
 
-/* AMAZON TOP HEADER */
+/* AMAZON HEADER */
 .amz-header{
     background:#131921;
     padding:12px 20px;
@@ -19,7 +19,6 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     position:sticky;
     top:0;
     z-index:1000;
-    box-shadow:0 2px 5px rgba(0,0,0,0.2);
 }
 .amz-logo{
     color:#fff;
@@ -32,7 +31,6 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
 }
 .amz-logo span{color:#febd69;}
 
-/* SEARCH BAR */
 .amz-search-box{
     flex-grow:1;
     max-width:700px;
@@ -42,7 +40,6 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     border-radius:8px;
     overflow:hidden;
     border:2px solid transparent;
-    transition:0.2s;
 }
 .amz-search-box:focus-within{border-color:#febd69;}
 .amz-search-input{
@@ -51,8 +48,6 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     font-size:15px;
     border:none;
     outline:none;
-    background:#fff;
-    color:#111;
 }
 .amz-search-btn{
     background:#febd69;
@@ -60,9 +55,7 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     padding:0 20px;
     cursor:pointer;
     font-size:18px;
-    color:#111;
 }
-.amz-search-btn:hover{background:#f3a847;}
 
 .whatsapp-top-btn{
     background:#25d366;
@@ -98,7 +91,7 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     gap:20px;
 }
 
-/* AMAZON PRODUCT CARD STYLE */
+/* CARD */
 .card{
     background:#fff;
     border:1px solid #d5d9d9;
@@ -106,14 +99,11 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     overflow:hidden;
     display:flex;
     flex-direction:column;
-    transition:0.2s;
     cursor:pointer;
     padding:15px;
+    transition:0.2s;
 }
-.card:hover{
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
-    border-color:#a6a6a6;
-}
+.card:hover{box-shadow:0 0 10px rgba(0,0,0,0.1);border-color:#a6a6a6;}
 .card-img-wrapper{
     width:100%;
     height:180px;
@@ -121,13 +111,8 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     align-items:center;
     justify-content:center;
     margin-bottom:10px;
-    background:#fff;
 }
-.card img{
-    max-width:100%;
-    max-height:100%;
-    object-fit:contain;
-}
+.card img{max-width:100%;max-height:100%;object-fit:contain;}
 .badge{
     font-size:11px;
     color:#007185;
@@ -153,18 +138,9 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
     -webkit-box-orient:vertical;
     overflow:hidden;
 }
-.rating{
-    color:#de7921;
-    font-size:12px;
-    margin-bottom:8px;
-}
+.rating{color:#de7921;font-size:12px;margin-bottom:8px;}
 .rating span{color:#007185;margin-left:5px;}
-.price{
-    font-size:18px;
-    font-weight:bold;
-    color:#0f1111;
-    margin-bottom:10px;
-}
+.price{font-size:18px;font-weight:bold;color:#0f1111;margin-bottom:10px;}
 .price sup{font-size:11px;}
 .card-btn{
     background:#ffd814;
@@ -181,91 +157,161 @@ body{background:#eaeded;color:#0f1111;transition:0.3s;}
 }
 .card-btn:hover{background:#f7ca00;}
 
-/* AMAZON STYLE DETAILED MODAL WITH MULTI-VIEWS */
+/* EXACT AMAZON PRODUCT DETAIL PAGE POPUP MODAL */
 .modal-overlay{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.7);
     display:none;
     align-items:center;
     justify-content:center;
     z-index:2000;
-    padding:20px;
+    padding:15px;
 }
 .modal-box{
     background:#fff;
     border-radius:8px;
-    max-width:900px;
+    max-width:1000px;
     width:100%;
-    max-height:90vh;
+    max-height:92vh;
     overflow-y:auto;
     position:relative;
-    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    box-shadow:0 4px 25px rgba(0,0,0,0.3);
     display:flex;
     flex-direction:column;
     color:#0f1111;
 }
 .modal-close{
     position:absolute;
-    top:10px; right:15px;
+    top:12px; right:15px;
     background:transparent;
     border:none;
-    font-size:24px;
+    font-size:26px;
     cursor:pointer;
     color:#565959;
+    z-index:10;
 }
-.modal-content-grid{
+
+/* AMAZON 3-COLUMN DETAIL LAYOUT (Thumbnails | Main Image | Details & Buy box) */
+.amz-detail-grid{
     display:grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap:25px;
-    padding:25px;
+    grid-template-columns: 80px 380px 1fr;
+    gap:20px;
+    padding:30px;
 }
-.modal-gallery{display:flex;flex-direction:column;gap:12px;}
-.modal-main-img-container{
-    border:1px solid #d5d9d9;
-    border-radius:8px;
-    height:280px;
+
+/* Vertical Thumbnails (Just like Amazon screenshot) */
+.amz-vertical-thumbs{
     display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:10px;
+    flex-direction:column;
+    gap:10px;
 }
-.modal-main-img{max-width:100%;max-height:100%;object-fit:contain;}
-.thumbnail-row{display:flex;gap:8px;}
-.thumb-box{
-    width:60px; height:50px;
-    border:1px solid #d5d9d9;
+.amz-thumb{
+    width:70px;
+    height:70px;
+    border:2px solid #d5d9d9;
     border-radius:4px;
     padding:4px;
     cursor:pointer;
     display:flex;
     align-items:center;
     justify-content:center;
+    background:#fff;
 }
-.thumb-box img{max-width:100%;max-height:100%;object-fit:contain;}
-.thumb-box.active{border-color:#e77600;box-shadow:0 0 3px rgba(229,121,0,0.5);}
+.amz-thumb img{max-width:100%;max-height:100%;object-fit:contain;}
+.amz-thumb.active{border-color:#e77600;box-shadow:0 0 3px rgba(229,121,0,0.6);}
 
-.modal-details h2{font-size:20px;color:#0f1111;margin-bottom:6px;}
-.auth-tag{font-size:12px;color:#007185;font-weight:bold;margin-bottom:10px;display:inline-block;}
-.modal-details p{font-size:13px;color:#565959;margin-bottom:12px;line-height:1.4;}
+/* Main Zoomable Image View */
+.amz-main-img-box{
+    border:1px solid #e7e7e7;
+    border-radius:8px;
+    height:420px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    background:#fff;
+    position:sticky;
+    top:10px;
+}
+.amz-main-img{max-width:100%;max-height:100%;object-fit:contain;}
 
-.about-title{font-weight:bold;font-size:13px;color:#0f1111;margin-bottom:6px;border-bottom:1px solid #eee;padding-bottom:3px;}
-.about-list{list-style:disc;padding-left:16px;margin-bottom:15px;}
-.about-list li{font-size:12px;color:#333;margin-bottom:4px;}
+/* Right Side Details */
+.amz-product-info h2{
+    font-size:22px;
+    font-weight:normal;
+    color:#0f1111;
+    margin-bottom:8px;
+    line-height:1.3;
+}
+.amz-store-link{
+    font-size:13px;
+    color:#007185;
+    margin-bottom:10px;
+    display:block;
+    font-weight:bold;
+}
+.amz-rating-row{
+    font-size:13px;
+    color:#de7921;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.amz-rating-row span{color:#007185;}
+.amz-price-box{
+    font-size:24px;
+    font-weight:500;
+    color:#0f1111;
+    margin-bottom:15px;
+    border-bottom:1px solid #e7e7e7;
+    padding-bottom:12px;
+}
+.amz-price-box sup{font-size:13px;}
+.amz-price-box span{font-size:13px;color:#565959;font-weight:normal;}
 
+.amz-feature-title{
+    font-weight:bold;
+    font-size:14px;
+    color:#0f1111;
+    margin-bottom:8px;
+}
+.amz-feature-list{
+    list-style:disc;
+    padding-left:18px;
+    margin-bottom:20px;
+}
+.amz-feature-list li{
+    font-size:13px;
+    color:#333;
+    margin-bottom:6px;
+    line-height:1.4;
+}
+
+/* Amazon Buy Box / WhatsApp Order Button */
+.amz-buy-box{
+    background:#f0f2f2;
+    border:1px solid #d5d9d9;
+    border-radius:8px;
+    padding:15px;
+    text-align:center;
+}
 .whatsapp-order-btn{
     display:block;
-    background:#ffa41c;
-    border:1px solid #ff8f00;
+    background:#ffd814;
+    border:1px solid #fcd200;
     color:#0f1111;
     text-align:center;
-    padding:10px;
+    padding:12px;
     border-radius:20px;
     font-weight:bold;
     text-decoration:none;
-    font-size:13px;
+    font-size:14px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
-.whatsapp-order-btn:hover{background:#fa9500;}
+.whatsapp-order-btn:hover{background:#f7ca00;}
+.whatsapp-order-btn i{color:#25d366;margin-right:6px;font-size:16px;}
 
 footer{
     background:#232f3e;
@@ -276,21 +322,21 @@ footer{
     margin-top:40px;
 }
 
-@media(max-width:768px){
-    .amz-header{flex-direction:column;gap:10px;}
-    .amz-search-box{width:100%;margin:0;}
-    .modal-content-grid{grid-template-columns:1fr;padding:15px;}
+@media(max-width:850px){
+    .amz-detail-grid{grid-template-columns:1fr;padding:15px;}
+    .amz-vertical-thumbs{flex-direction:row;justify-content:center;overflow-x:auto;}
+    .amz-main-img-box{height:280px;}
 }
 </style>
 </head>
 <body>
 
-<!-- TOP HEADER -->
+<!-- HEADER -->
 <div class="amz-header">
     <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Tech Solutions</span></a>
     
     <div class="amz-search-box">
-        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search Prizor Camera, HCS Cables, Fire Alarm..." onkeyup="searchFilter()">
+        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC Cables, Prizor Camera, Fire Alarm..." onkeyup="searchFilter()">
         <button class="amz-search-btn"><i class="fas fa-search"></i></button>
     </div>
 
@@ -302,16 +348,39 @@ footer{
 <!-- CONTAINER -->
 <div class="container">
     <div class="section-header">
-        <h2>Authorized & Professional Products Catalogue</h2>
-        <span>Click any product for multi-angle view & specifications</span>
+        <h2>Authorized & Professional Catalogue</h2>
+        <span>Click any product to open Amazon-style multi-angle view</span>
     </div>
 
     <div class="grid" id="productGrid">
 
-        <!-- 1. PRIZOR SMART WI-FI / IP CAMERA (ADDED) -->
+        <!-- 1. HOC CABLES -->
+        <div class="card searchable" data-text="hoc cables cat6 lan copper networking structured authorized" onclick="openModal(
+            'HOC Structured Networking CAT6 Pure Copper LAN Cable',
+            'Authorized HOC Partner Product',
+            ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80'],
+            'Official authorized HOC high-speed structured LAN copper cabling engineered for enterprise data transfer, zero signal loss, and high bandwidth reliability.',
+            [
+                '100% Pure Copper Conductor: High-grade solid copper ensuring maximum signal velocity.',
+                'Gigabit Performance: Supports up to 250 MHz frequency bandwidth for seamless 1 Gbps data.',
+                'Robust Outer Jacket: Flame-retardant outer sheath designed for heavy conduit deployment.',
+                'Authorized Channel Partner Stock: 100% genuine guaranteed.'
+            ]
+        )">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80" alt="HOC Cable">
+            </div>
+            <div class="badge auth">Authorized HOC Partner</div>
+            <h3>HOC Structured CAT6 Pure Copper LAN Cable</h3>
+            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>48</span></div>
+            <div class="price">Enquire <sup>for Bulk Order</sup></div>
+            <button class="card-btn">See Details & Angles</button>
+        </div>
+
+        <!-- 2. PRIZOR CAMERA -->
         <div class="card searchable" data-text="prizor camera wifi ip security surveillance smart cctv robot ptz" onclick="openModal(
-            'Prizor Smart Wi-Fi & IP Security Camera',
-            'Authorized Partner Product',
+            'Prizor Smart Wi-Fi & IP Security PTZ Camera',
+            'Authorized Prizor Partner Product',
             ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
             'Official authorized Prizor smart Wi-Fi PTZ and IP security camera featuring crystal-clear high-definition recording, motion tracking, and remote mobile app viewing.',
             [
@@ -328,33 +397,10 @@ footer{
             <h3>Prizor Smart Wi-Fi PTZ Security Camera</h3>
             <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>54</span></div>
             <div class="price">Enquire <sup>for Best Price</sup></div>
-            <button class="card-btn">View Details & Specs</button>
+            <button class="card-btn">See Details & Angles</button>
         </div>
 
-        <!-- 2. HCS CABLES -->
-        <div class="card searchable" data-text="hcs cables cat6 lan copper networking structured authorized" onclick="openModal(
-            'HCS Structured Networking CAT6 Cable',
-            'Authorized Partner Product',
-            ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80'],
-            'Official authorized HCS high-speed structured LAN copper cabling engineered for supreme enterprise data transfer, zero signal loss, and high bandwidth reliability.',
-            [
-                'Authorized Genuine Stock: Directly sourced high-performance HCS copper cabling.',
-                'Pure Copper Conductor: Designed for maximum signal velocity and high reliability.',
-                'Gigabit Support: Fully supports 250 MHz frequency bandwidth for seamless 1 Gbps networks.',
-                'Robust Outer Sheath: Durable flame-retardant outer jacket for commercial conduits.'
-            ]
-        )">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80" alt="HCS Cable">
-            </div>
-            <div class="badge auth">Authorized HCS Partner</div>
-            <h3>HCS Structured CAT6 Pure Copper LAN Cable</h3>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>48</span></div>
-            <div class="price">Enquire <sup>for Bulk</sup></div>
-            <button class="card-btn">View Details & Specs</button>
-        </div>
-
-        <!-- 3. FIRE ALARM -->
+        <!-- 3. FIRE ALARM SYSTEM -->
         <div class="card searchable" data-text="fire safety alarm system smoke detector panel conventional addressable" onclick="openModal(
             'Fire Alarm Control & Detection System',
             'Life & Property Safety Infrastructure',
@@ -374,10 +420,10 @@ footer{
             <h3>Fire Alarm Control Panel & Smoke Detectors</h3>
             <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>19</span></div>
             <div class="price">Commercial <sup>Setup</sup></div>
-            <button class="card-btn">View Details & Specs</button>
+            <button class="card-btn">See Details & Angles</button>
         </div>
 
-        <!-- 4. ELECTRICAL -->
+        <!-- 4. ELECTRICAL DISTRIBUTION -->
         <div class="card searchable" data-text="electrical works power distribution panel industrial wiring mcb rccb" onclick="openModal(
             'Industrial Electrical Distribution Panel',
             'Heavy Commercial Power Setup',
@@ -397,36 +443,49 @@ footer{
             <h3>Industrial Electrical Distribution Panels</h3>
             <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>24</span></div>
             <div class="price">Heavy Duty <sup>Panels</sup></div>
-            <button class="card-btn">View Details & Specs</button>
+            <button class="card-btn">See Details & Angles</button>
         </div>
 
     </div>
 </div>
 
-<!-- MODAL -->
+<!-- AMAZON DETAIL PAGE MODAL -->
 <div class="modal-overlay" id="itemModal" onclick="closeModalOutside(event)">
     <div class="modal-box">
         <button class="modal-close" onclick="closeModal()">&times;</button>
         
-        <div class="modal-content-grid">
-            <div class="modal-gallery">
-                <div class="modal-main-img-container">
-                    <img id="mainModalImg" src="" class="modal-main-img" alt="Product Main">
-                </div>
-                <div class="thumbnail-row" id="thumbContainer"></div>
+        <div class="amz-detail-grid">
+            <!-- Column 1: Vertical Thumbnails -->
+            <div class="amz-vertical-thumbs" id="thumbContainer"></div>
+
+            <!-- Column 2: Main Image View -->
+            <div class="amz-main-img-box">
+                <img id="mainModalImg" src="" class="amz-main-img" alt="Product Zoom View">
             </div>
 
-            <div class="modal-details">
-                <h2 id="modalTitle">Title</h2>
-                <div id="modalAuthBadge" class="auth-tag">Badge</div>
-                <p id="modalDesc">Description</p>
+            <!-- Column 3: Product Info & Buy Box -->
+            <div class="amz-product-info">
+                <h2 id="modalTitle">Product Title</h2>
+                <span class="amz-store-link" id="modalAuthBadge">Visit the Store</span>
                 
-                <div class="about-title">Product Specifications & Features:</div>
-                <ul class="about-list" id="modalSpecs"></ul>
+                <div class="amz-rating-row">
+                    <div><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <span>4.8 out of 5 stars</span>
+                </div>
 
-                <a id="modalWaBtn" href="#" target="_blank" class="whatsapp-order-btn">
-                    <i class="fab fa-whatsapp"></i> Enquire / Order on WhatsApp
-                </a>
+                <div class="amz-price-box">
+                    <span>Price:</span> <strong>Enquire Now</strong> <sup>(Bulk / Project Pricing)</sup>
+                </div>
+
+                <div class="amz-feature-title">About this item:</div>
+                <p id="modalDesc" style="font-size:13px;color:#333;margin-bottom:12px;line-height:1.4;"></p>
+                <ul class="amz-feature-list" id="modalSpecs"></ul>
+
+                <div class="amz-buy-box">
+                    <a id="modalWaBtn" href="#" target="_blank" class="whatsapp-order-btn">
+                        <i class="fab fa-whatsapp"></i> Enquire / Order on WhatsApp
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -434,7 +493,7 @@ footer{
 
 <footer>
     <p><strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong></p>
-    <p>Authorized Partner for HCS & Prizor | Security, Networking, Electrical & Fire Safety Integrator</p>
+    <p>Authorized Partner for HOC & Prizor | Security, Networking, Electrical & Fire Safety Integrator</p>
     <p style="margin-top:5px;">Contact / WhatsApp: +91 8390909845</p>
 </footer>
 
@@ -466,11 +525,16 @@ function openModal(title, badgeText, images, desc, specs) {
     thumbContainer.innerHTML = "";
     images.forEach((imgUrl, index) => {
         let thumbBox = document.createElement("div");
-        thumbBox.className = index === 0 ? "thumb-box active" : "thumb-box";
-        thumbBox.innerHTML = `<img src="${imgUrl}" alt="Angle">`;
+        thumbBox.className = index === 0 ? "amz-thumb active" : "amz-thumb";
+        thumbBox.innerHTML = `<img src="${imgUrl}" alt="Thumbnail">`;
+        thumbBox.onmouseover = function() {
+            mainImg.src = imgUrl;
+            document.querySelectorAll(".amz-thumb").forEach(b => b.classList.remove("active"));
+            thumbBox.classList.add("active");
+        };
         thumbBox.onclick = function() {
             mainImg.src = imgUrl;
-            document.querySelectorAll(".thumb-box").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".amz-thumb").forEach(b => b.classList.remove("active"));
             thumbBox.classList.add("active");
         };
         thumbContainer.appendChild(thumbBox);
@@ -482,7 +546,7 @@ function openModal(title, badgeText, images, desc, specs) {
         specsList.innerHTML += `<li>${s}</li>`;
     });
 
-    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire about: ${title}. Please share specifications and pricing.`);
+    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire about: ${title}. Please share specs and pricing.`);
     document.getElementById("modalWaBtn").href = `https://wa.me/918390909845?text=${waText}`;
 
     document.getElementById("itemModal").style.display = "flex";
