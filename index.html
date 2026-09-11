@@ -26,14 +26,29 @@
             align-items: center;
         }
 
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-badge {
+            background: #f39c12;
+            color: #111;
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
         header h1 {
-            font-size: 22px;
-            color: #f39c12;
+            font-size: 20px;
+            color: #fff;
         }
 
         .search-bar input {
             padding: 8px 15px;
-            width: 350px;
+            width: 320px;
             border-radius: 4px;
             border: none;
         }
@@ -241,6 +256,16 @@
             margin-bottom: 8px;
         }
 
+        .footer-col a {
+            color: #ddd;
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            color: #f39c12;
+            text-decoration: underline;
+        }
+
         .footer-bottom {
             background-color: #0f1318;
             text-align: center;
@@ -283,7 +308,7 @@
             background: #fff;
             padding: 25px;
             border-radius: 8px;
-            width: 750px;
+            width: 850px;
             max-width: 95%;
             max-height: 80vh;
             overflow-y: auto;
@@ -377,7 +402,10 @@
 <body>
 
     <header>
-        <h1>Dynamic Technology Solutions</h1>
+        <div class="logo-area">
+            <div class="logo-badge">DTS</div>
+            <h1>Dynamic Technology Solutions</h1>
+        </div>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search HOC cables, Prizor cameras, DVR, NVR..." onkeyup="trackSearch()">
         </div>
@@ -418,7 +446,7 @@
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
                     <div class="rating">★★★★★ <span>(48)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
-                    <a href="https://wa.me/?text=Hi, I am interested in HOC Structured CAT6 Pure Copper LAN Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20HOC%20Structured%20CAT6%20Pure%20Copper%20LAN%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', ['images/cat6.jpg', 'images/cat6-side.jpg', 'images/cat6-box.jpg'], 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">See Details & Angles</button>
                 </div>
 
@@ -430,7 +458,7 @@
                     <div class="specs">1080p Full HD, 360 Rotation, Night Vision</div>
                     <div class="rating">★★★★★ <span>(54)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
-                    <a href="https://wa.me/?text=Hi, I am interested in Prizor Smart Wi-Fi IP PTZ Security Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Smart%20Wi-Fi%20IP%20PTZ%20Security%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', ['images/ptz.jpg', 'images/ptz-angle2.jpg', 'images/ptz-angle3.jpg'], '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">See Details & Angles</button>
                 </div>
 
@@ -442,7 +470,7 @@
                     <div class="specs">2MP HD Resolution, Weatherproof Metal Body</div>
                     <div class="rating">★★★★★ <span>(42)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
-                    <a href="https://wa.me/?text=Hi, I am interested in Prizor HD Analog CCTV Security Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20HD%20Analog%20CCTV%20Security%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', ['images/analog.jpg', 'images/analog-side.jpg', 'images/analog-back.jpg'], '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">See Details & Angles</button>
                 </div>
 
@@ -454,7 +482,7 @@
                     <div class="specs">5-in-1 Support, H.265 Pro Compression, Motion Detect</div>
                     <div class="rating">★★★★★ <span>(36)</span></div>
                     <button class="btn-enquire">Enquire for Pricing</button>
-                    <a href="https://wa.me/?text=Hi, I am interested in Prizor Digital Video Recorder (DVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Digital%20Video%20Recorder%20(DVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', ['images/dvr.png', 'images/dvr-back.jpg', 'images/dvr-ports.jpg'], '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">See Details & Angles</button>
                 </div>
 
@@ -466,7 +494,7 @@
                     <div class="specs">4K Ultra HD Output, PoE Support, Smart Playback</div>
                     <div class="rating">★★★★★ <span>(29)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
-                    <a href="https://wa.me/?text=Hi, I am interested in Prizor 4K Network Video Recorder (NVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%204K%20Network%20Video%20Recorder%20(NVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', ['images/nvr.jpg', 'images/nvr-back.jpg', 'images/nvr-side.jpg'], '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">See Details & Angles</button>
                 </div>
 
@@ -478,7 +506,7 @@
                     <div class="specs">Conventional/Addressable, High Sensitivity Sensors</div>
                     <div class="rating">★★★★★ <span>(18)</span></div>
                     <button class="btn-enquire">Commercial Enquire</button>
-                    <a href="https://wa.me/?text=Hi, I am interested in Fire Alarm Control Panel & Smoke Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm%20Control%20Panel%20&%20Smoke%20Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', ['images/fire-alarm.jpg', 'images/fire-detector.jpg', 'images/fire-panel.jpg'], 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">See Details & Angles</button>
                 </div>
 
@@ -490,7 +518,7 @@
                     <div class="specs">Heavy Duty, Custom Circuit Breakers, Safe Design</div>
                     <div class="rating">★★★★★ <span>(24)</span></div>
                     <button class="btn-enquire">Heavy Duty Enquire</button>
-                    <a href="https://wa.me/?text=Hi, I am interested in Industrial Electrical Distribution Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Industrial%20Electrical%20Distribution%20Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <button class="btn-details" onclick="openModal('Industrial Electrical Distribution Panels', ['images/electrical-panel.jpg', 'images/electrical-open.jpg', 'images/electrical-side.jpg'], 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">See Details & Angles</button>
                 </div>
 
@@ -521,9 +549,9 @@
             <div class="footer-col">
                 <h4>Contact Us</h4>
                 <ul>
-                    <li>Email: support@dynamictechsolutions.com</li>
+                    <li>Email: <a href="mailto:dtsboisar@gmail.com">dtsboisar@gmail.com</a></li>
+                    <li>WhatsApp: <a href="https://wa.me/918390909845" target="_blank">83909 09845</a></li>
                     <li>Support & Sales Inquiry</li>
-                    <li>Available on WhatsApp</li>
                 </ul>
             </div>
         </div>
@@ -535,22 +563,24 @@
     <!-- Password-Protected Admin Button -->
     <button class="admin-panel-btn" onclick="verifyAdmin()">🔒 Admin Visitor Log</button>
 
-    <!-- Admin Modal Popup with IP & Location -->
+    <!-- Admin Modal Popup with IP, Location & Device Model -->
     <div id="adminModal" class="admin-modal">
         <div class="admin-content">
             <span class="close-btn" onclick="closeAdminModal()">&times;</span>
-            <h3 style="color: #f39c12; margin-bottom: 10px;">Private Visitor, IP & Location Log</h3>
-            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Yeh data sirf aapke paas password (Pankaj@1980) hone par hi dikh raha hai.</p>
+            <h3 style="color: #f39c12; margin-bottom: 5px;">Private Visitor Log (IP, Location & Device)</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Yeh data sirf aapko password (Pankaj@1980) enter karne par hi dikh raha hai.</p>
             <table>
                 <thead>
                     <tr>
                         <th>Date & Time</th>
-                        <th>Visitor IP & Location</th>
-                        <th>Activity / Search Query</th>
+                        <th>Visitor IP Address</th>
+                        <th>Live Location</th>
+                        <th>Device / Model</th>
+                        <th>Activity / Search</th>
                     </tr>
                 </thead>
                 <tbody id="visitorLogBody">
-                    <tr><td colspan="3" style="text-align:center;">Loading visitor details...</td></tr>
+                    <tr><td colspan="5" style="text-align:center;">Loading visitor details...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -571,17 +601,18 @@
     <script>
         let visitorIP = "Fetching IP...";
         let visitorLocation = "Fetching Location...";
+        let deviceModel = navigator.platform + " (" + (navigator.userAgent.includes("Mobile") ? "Mobile" : "Desktop") + ")";
 
-        // Fetch IP and Location automatically
+        // Fetch IP and Live Location automatically
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
                 visitorIP = data.ip || "Unknown IP";
-                visitorLocation = (data.city || "Unknown") + ", " + (data.country_name || "");
+                visitorLocation = (data.city || "Unknown City") + ", " + (data.region || "") + ", " + (data.country_name || "");
             })
             .catch(() => {
-                visitorIP = "Direct Connection";
-                visitorLocation = "Local Network";
+                visitorIP = "Local IP";
+                visitorLocation = "Local Network / Offline";
             });
 
         // Track Visitor on Page Load
@@ -589,12 +620,17 @@
             setTimeout(() => {
                 let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
                 let now = new Date().toLocaleString();
-                let clientInfo = visitorIP + " (" + visitorLocation + ")";
                 
-                logs.unshift({ time: now, ipLoc: clientInfo, action: "Visited Home Page / Catalog" });
+                logs.unshift({ 
+                    time: now, 
+                    ip: visitorIP, 
+                    location: visitorLocation, 
+                    device: deviceModel, 
+                    action: "Visited Catalog Home Page" 
+                });
                 if(logs.length > 25) logs.pop();
                 localStorage.setItem('visitorLogs', JSON.stringify(logs));
-            }, 1000);
+            }, 1200);
         }
 
         // Track Search Query
@@ -603,9 +639,14 @@
             if(query.trim() !== "") {
                 let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
                 let now = new Date().toLocaleString();
-                let clientInfo = visitorIP + " (" + visitorLocation + ")";
                 
-                logs.unshift({ time: now, ipLoc: clientInfo, action: "Searched: '" + query + "'" });
+                logs.unshift({ 
+                    time: now, 
+                    ip: visitorIP, 
+                    location: visitorLocation, 
+                    device: deviceModel, 
+                    action: "Searched: '" + query + "'" 
+                });
                 localStorage.setItem('visitorLogs', JSON.stringify(logs));
             }
         }
@@ -626,11 +667,15 @@
             tbody.innerHTML = '';
             
             if(logs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No visits recorded yet.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No visits recorded yet.</td></tr>';
             } else {
                 logs.forEach(log => {
                     let tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + log.time + '</td><td>' + log.ipLoc + '</td><td>' + log.action + '</td>';
+                    tr.innerHTML = '<td>' + log.time + '</td>' +
+                                   '<td>' + log.ip + '</td>' +
+                                   '<td>' + log.location + '</td>' +
+                                   '<td>' + log.device + '</td>' +
+                                   '<td>' + log.action + '</td>';
                     tbody.appendChild(tr);
                 });
             }
