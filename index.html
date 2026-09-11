@@ -1,304 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Tech Solutions - Product Catalog</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Technology Solutions | Store Catalogue</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Amazon Ember",Arial,sans-serif;}
+body{background:#eaeded;color:#0f1111;}
 
-        body {
-            background-color: #f4f4f4;
-            color: #333;
-        }
+/* AMAZON TOP HEADER */
+.amz-header{
+    background:#131921;
+    padding:10px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+.amz-logo{
+    color:#fff;
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+.amz-logo span{color:#febd69;}
 
-        /* Top Bar / Header */
-        header {
-            background-color: #111;
-            color: #fff;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.amz-search-container{
+    flex-grow:1;
+    max-width:750px;
+    margin:0 20px;
+    display:flex;
+    background:#fff;
+    border-radius:8px;
+    overflow:hidden;
+    border:2px solid transparent;
+}
+.amz-search-container:focus-within{border-color:#febd69;}
+.amz-search-input{
+    width:100%;
+    padding:10px 15px;
+    font-size:15px;
+    border:none;
+    outline:none;
+}
+.amz-search-btn{
+    background:#febd69;
+    border:none;
+    padding:0 20px;
+    cursor:pointer;
+    font-size:18px;
+}
 
-        header h1 {
-            font-size: 20px;
-            color: #f39c12;
-        }
+.whatsapp-top-btn{
+    background:#25d366;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:4px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
 
-        .search-bar input {
-            padding: 8px 15px;
-            width: 350px;
-            border-radius: 4px;
-            border: none;
-        }
+/* MAIN LAYOUT */
+.main-layout{
+    max-width:1450px;
+    margin:15px auto;
+    display:flex;
+    gap:20px;
+    padding:0 15px;
+}
 
-        /* Main Layout */
-        .container {
-            display: flex;
-            max-width: 1200px;
-            margin: 20px auto;
-            gap: 20px;
-            padding: 0 15px;
-        }
+/* LEFT SIDEBAR */
+.amz-sidebar{
+    width:240px;
+    background:#fff;
+    border-right:1px solid #d5d9d9;
+    padding:15px;
+    font-size:13px;
+    flex-shrink:0;
+    border-radius:4px;
+    height:fit-content;
+}
+.amz-sidebar h3{font-size:14px;margin-bottom:8px;color:#0f1111;}
+.amz-sidebar ul{list-style:none;margin-bottom:15px;}
+.amz-sidebar li{padding:4px 0;color:#007185;cursor:pointer;}
+.amz-sidebar li:hover{text-decoration:underline;color:#c45500;}
+.filter-group{margin-bottom:15px;border-bottom:1px solid #d5d9d9;padding-bottom:12px;}
 
-        /* Sidebar */
-        aside {
-            width: 250px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            height: fit-content;
-        }
+/* RIGHT CONTENT */
+.amz-content{flex-grow:1;}
+.search-results-bar{
+    font-size:14px;
+    color:#565959;
+    margin-bottom:15px;
+    background:#fff;
+    padding:10px 15px;
+    border-radius:4px;
+    border:1px solid #d5d9d9;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.search-results-bar strong{color:#0f1111;}
 
-        aside h3 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #222;
-        }
+/* PRODUCT GRID */
+.amz-product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+    gap:18px;
+}
 
-        aside ul {
-            list-style: none;
-            margin-bottom: 20px;
-        }
+.amz-card{
+    background:#fff;
+    border:1px solid #d5d9d9;
+    border-radius:6px;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    cursor:pointer;
+    transition:0.2s;
+}
+.amz-card:hover{box-shadow:0 0 12px rgba(0,0,0,0.12);border-color:#a6a6a6;}
+.amz-card-img{
+    width:100%;
+    height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:10px;
+    background:#fcfcfc;
+}
+.amz-card-img img{max-width:100%;max-height:100%;object-fit:contain;}
 
-        aside ul li {
-            padding: 6px 0;
-            font-size: 14px;
-            color: #555;
-            cursor: pointer;
-        }
+.amz-badge{
+    font-size:10px;
+    background:#007185;
+    color:#fff;
+    padding:2px 6px;
+    border-radius:3px;
+    width:fit-content;
+    margin-bottom:5px;
+    text-transform:uppercase;
+    font-weight:bold;
+}
+.amz-badge.partner{background:#065f46;color:#d1fae5;}
 
-        aside ul li:hover {
-            color: #f39c12;
-        }
+.amz-card-title{
+    font-size:14px;
+    color:#0f1111;
+    line-height:1.3;
+    height:36px;
+    overflow:hidden;
+    margin-bottom:6px;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+}
+.amz-card-rating{font-size:12px;color:#de7921;margin-bottom:6px;}
+.amz-card-rating span{color:#007185;margin-left:4px;}
+.amz-card-price{font-size:18px;font-weight:bold;color:#0f1111;margin-bottom:10px;}
+.amz-card-price sup{font-size:10px;}
 
-        /* Content Area */
-        .main-content {
-            flex: 1;
-        }
+.amz-add-btn{
+    background:#ffd814;
+    border:1px solid #fcd200;
+    border-radius:20px;
+    padding:6px 10px;
+    font-size:12px;
+    cursor:pointer;
+    font-weight:500;
+    text-align:center;
+    width:100%;
+    margin-top:auto;
+}
+.amz-add-btn:hover{background:#f7ca00;}
 
-        .catalog-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #666;
-        }
+/* DETAIL POPUP MODAL */
+.modal-overlay{
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    padding:15px;
+}
+.modal-box{
+    background:#fff;
+    border-radius:8px;
+    max-width:1000px;
+    width:100%;
+    max-height:92vh;
+    overflow-y:auto;
+    position:relative;
+    box-shadow:0 4px 25px rgba(0,0,0,0.3);
+    display:flex;
+    flex-direction:column;
+    color:#0f1111;
+}
+.modal-close{
+    position:absolute;
+    top:12px; right:15px;
+    background:transparent;
+    border:none;
+    font-size:26px;
+    cursor:pointer;
+    color:#565959;
+    z-index:10;
+}
+.amz-detail-grid{
+    display:grid;
+    grid-template-columns: 80px 360px 1fr;
+    gap:20px;
+    padding:25px;
+}
+.amz-vertical-thumbs{display:flex;flex-direction:column;gap:10px;}
+.amz-thumb{
+    width:70px; height:70px;
+    border:2px solid #d5d9d9;
+    border-radius:4px;
+    padding:4px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.amz-thumb img{max-width:100%;max-height:100%;object-fit:contain;}
+.amz-thumb.active{border-color:#e77600;box-shadow:0 0 3px rgba(229,121,0,0.6);}
 
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
+.amz-main-img-box{
+    border:1px solid #e7e7e7;
+    border-radius:8px;
+    height:400px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px;
+    background:#fff;
+    position:sticky;
+    top:10px;
+}
+.amz-main-img{max-width:100%;max-height:100%;object-fit:contain;}
 
-        .product-card {
-            background: #fff;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+.amz-product-info h2{font-size:22px;font-weight:normal;margin-bottom:8px;}
+.amz-store-link{font-size:13px;color:#007185;margin-bottom:8px;display:block;font-weight:bold;}
+.amz-rating-row{font-size:13px;color:#de7921;margin-bottom:10px;display:flex;gap:8px;}
+.amz-rating-row span{color:#007185;}
+.amz-price-box{font-size:24px;font-weight:500;margin-bottom:15px;border-bottom:1px solid #e7e7e7;padding-bottom:10px;}
+.amz-price-box sup{font-size:13px;}
+.amz-price-box span{font-size:13px;color:#565959;font-weight:normal;}
 
-        .product-card img {
-            width: 100%;
-            height: 140px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
+.amz-feature-title{font-weight:bold;font-size:14px;margin-bottom:6px;}
+.amz-feature-list{list-style:disc;padding-left:18px;margin-bottom:15px;}
+.amz-feature-list li{font-size:13px;color:#333;margin-bottom:5px;line-height:1.4;}
 
-        .badge {
-            background: #e1f5fe;
-            color: #0277bd;
-            font-size: 10px;
-            padding: 3px 6px;
-            border-radius: 3px;
-            align-self: flex-start;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
+.amz-buy-box{
+    background:#f0f2f2;
+    border:1px solid #d5d9d9;
+    border-radius:8px;
+    padding:15px;
+    text-align:center;
+}
+.whatsapp-order-btn{
+    display:block;
+    background:#ffd814;
+    border:1px solid #fcd200;
+    color:#0f1111;
+    text-align:center;
+    padding:12px;
+    border-radius:20px;
+    font-weight:bold;
+    text-decoration:none;
+    font-size:14px;
+}
+.whatsapp-order-btn:hover{background:#f7ca00;}
+.whatsapp-order-btn i{color:#25d366;margin-right:6px;font-size:16px;}
 
-        .badge-fire {
-            background: #ffebee;
-            color: #c62828;
-        }
+.admin-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 11px;
+    cursor: pointer;
+    margin-top: 10px;
+    text-decoration: underline;
+}
+.admin-btn:hover { color: #fff; }
 
-        .badge-electrical {
-            background: #fff8e1;
-            color: #f57f17;
-        }
+footer{background:#232f3e;color:#ddd;text-align:center;padding:25px;font-size:12px;margin-top:40px;}
 
-        .product-card h4 {
-            font-size: 14px;
-            margin-bottom: 8px;
-            text-align: left;
-            color: #333;
-            height: 40px;
-            overflow: hidden;
-        }
-
-        .rating {
-            color: #f39c12;
-            font-size: 12px;
-            text-align: left;
-            margin-bottom: 10px;
-        }
-
-        .btn-enquire {
-            background-color: #f39c12;
-            color: #fff;
-            border: none;
-            padding: 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            width: 100%;
-            margin-bottom: 8px;
-        }
-
-        .btn-enquire:hover {
-            background-color: #e67e22;
-        }
-
-        .btn-details {
-            background: none;
-            border: none;
-            color: #007bff;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .btn-details:hover {
-            text-decoration: underline;
-        }
-    </style>
+@media(max-width:850px){
+    .main-layout{flex-direction:column;}
+    .amz-sidebar{width:100%;}
+    .amz-detail-grid{grid-template-columns:1fr;padding:15px;}
+    .amz-vertical-thumbs{flex-direction:row;justify-content:center;overflow-x:auto;}
+}
+</style>
 </head>
 <body>
 
-    <!-- Header Section -->
-    <header>
-        <h1>Dynamic Tech Solutions</h1>
-        <div class="search-bar">
-            <input type="text" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR...">
-        </div>
-    </header>
-
-    <!-- Main Container -->
-    <div class="container">
-        
-        <!-- Sidebar Categories & Brands -->
-        <aside>
-            <h3>Popular Categories</h3>
-            <ul>
-                <li>All Products</li>
-                <li>Prizor Cameras & Recorders</li>
-                <li>HOC Networking Cables</li>
-                <li>Fire & Electrical Safety</li>
-            </ul>
-
-            <h3>Brands</h3>
-            <ul>
-                <li>Prizor</li>
-                <li>HOC</li>
-                <li>Dynamic Tech</li>
-            </ul>
-        </aside>
-
-        <!-- Product Listing Grid -->
-        <div class="main-content">
-            <div class="catalog-header">
-                <span>Showing all security & networking products</span>
-                <span>Sort by: <strong>Featured</strong></span>
-            </div>
-
-            <div class="product-grid">
-                
-                <!-- Product 1: CAT6 Cable -->
-                <div class="product-card">
-                    <span class="badge">AUTHORIZED HOC PARTNER</span>
-                    <img src="images/cat6.jpg" alt="CAT6 Cable">
-                    <h4>HOC Structured CAT6 Pure Copper LAN Cable</h4>
-                    <div class="rating">★★★★★ <span>(48)</span></div>
-                    <button class="btn-enquire">Enquire & Get Price</button>
-                    <button class="btn-details">See Details & Angles</button>
-                </div>
-
-                <!-- Product 2: PTZ Camera -->
-                <div class="product-card">
-                    <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="images/ptz.jpg" alt="PTZ Camera">
-                    <h4>Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
-                    <div class="rating">★★★★★ <span>(54)</span></div>
-                    <button class="btn-enquire">Enquire & Get Price</button>
-                    <button class="btn-details">See Details & Angles</button>
-                </div>
-
-                <!-- Product 3: Analog Camera -->
-                <div class="product-card">
-                    <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="images/analog.jpg" alt="Analog Camera">
-                    <h4>Prizor HD Analog CCTV Security Camera</h4>
-                    <div class="rating">★★★★★ <span>(42)</span></div>
-                    <button class="btn-enquire">Enquire for Quote</button>
-                    <button class="btn-details">See Details & Angles</button>
-                </div>
-
-                <!-- Product 4: DVR -->
-                <div class="product-card">
-                    <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="images/dvr.jpg" alt="DVR">
-                    <h4>Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
-                    <div class="rating">★★★★★ <span>(36)</span></div>
-                    <button class="btn-enquire">Enquire for Pricing</button>
-                    <button class="btn-details">See Details & Angles</button>
-                </div>
-
-                <!-- Product 5: NVR -->
-                <div class="product-card">
-                    <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="images/nvr.jpg" alt="NVR">
-                    <h4>Prizor 4K Network Video Recorder (NVR)</h4>
-                    <div class="rating">★★★★★ <span>(29)</span></div>
-                    <button class="btn-enquire">Enquire for Quote</button>
-                    <button class="btn-details">See Details & Angles</button>
-                </div>
-
-                <!-- Product 6: Fire Alarm -->
-                <div class="product-card">
-                    <span class="badge badge-fire">FIRE SAFETY</span>
-                    <img src="images/fire-alarm.jpg" alt="Fire Alarm">
-                    <h4>Fire Alarm Control Panel & Smoke Detectors</h4>
-                    <div class="rating">★★★★★ <span>(18)</span></div>
-                    <button class="btn-enquire">Commercial Enquire</button>
-                    <button class="btn-details">See Details & Angles</button>
-                </div>
-
-                <!-- Product 7: Electrical Panels -->
-                <div class="product-card">
-                    <span class="badge badge-electrical">ELECTRICAL WORKS</span>
-                    <img src="images/electrical-panel.jpg" alt="Electrical Panel">
-                    <h4>Industrial Electrical Distribution Panels</h4>
-                    <div class="rating">★★★★★ <span>(24)</span></div>
-                    <button class="btn-enquire">Heavy Duty Enquire</button>
-                    <button class="btn-details">See Details & Angles</button>
-                </div>
-
-            </div>
-        </div>
-
+<!-- HEADER -->
+<div class="amz-header">
+    <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Tech Solutions</span></a>
+    
+    <div class="amz-search-container">
+        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR..." onkeyup="filterProducts(); trackSearch(this.value);">
+        <button class="amz-search-btn"><i class="fas fa-search"></i></button>
     </div>
 
-</body>
-</html>
+    <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20to%20enquire." target="_blank" class="whatsapp-top-btn">
+        <i class="fab fa-whatsapp"></i> WhatsApp Us
+    </a>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <div class="amz-sidebar">
+        <div class="filter-group">
+            <h3>Popular Categories</h3>
+            <ul>
+                <li onclick="filterByCategory('all')">All Products</li>
+                <li onclick="filterByCategory('prizor')">Prizor Cameras & Recorders</li>
+                <li onclick="filterByCategory('hoc')">HOC Networking Cables</li>
+                <li onclick="filterByCategory('safety')">Fire & Electrical Safety</li>
+            </ul>
+        </div>
+        <div class="filter-group">
+            <h3>Brands</h3>
+            <ul>
+                <li onclick="filterByBrand('Prizor')">Prizor</li>
+                <li onclick="filterByBrand('HOC')">HOC</li>
+                <li onclick="filterByBrand('Dynamic')">Dynamic Tech</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="amz-content">
+        <div class="search-results-bar">
+            <span>Showing all security & networking products</span>
+            <span>Sort by: <strong>Featured</strong></span>
+        </div>
+
+        <div class="amz-product-grid" id="productGrid">
+
+            <!-- 1. HOC CABLES -->
+            <div class="amz-card searchable" data-cat="hoc" data-brand="HOC" data-text="hoc cables cat6 lan copper networking structured authorized" onclick="openModal(
+                'HOC Structured Networking CAT6 Pure Copper LAN Cable',
+                'Authorized HOC Partner Product',
+                'HOC CAT6 Pure Copper LAN Cable',
+                'Official authorized HOC high-speed structured LAN copper cabling engineered for enterprise data transfer, zero signal loss
