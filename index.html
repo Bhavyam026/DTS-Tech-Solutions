@@ -17,7 +17,6 @@
             color: #333;
         }
 
-        /* Top Bar / Header */
         header {
             background-color: #111;
             color: #fff;
@@ -39,7 +38,6 @@
             border: none;
         }
 
-        /* Main Layout */
         .container {
             display: flex;
             max-width: 1200px;
@@ -48,7 +46,6 @@
             padding: 0 15px;
         }
 
-        /* Sidebar */
         aside {
             width: 250px;
             background: #fff;
@@ -80,7 +77,6 @@
             color: #f39c12;
         }
 
-        /* Content Area */
         .main-content {
             flex: 1;
         }
@@ -93,7 +89,6 @@
             color: #666;
         }
 
-        /* Product Grid */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -148,7 +143,6 @@
             overflow: hidden;
         }
 
-        /* Specifications text */
         .specs {
             font-size: 11px;
             color: #666;
@@ -182,7 +176,6 @@
             background-color: #e67e22;
         }
 
-        /* WhatsApp Button Style */
         .btn-whatsapp {
             background-color: #25d366;
             color: #fff;
@@ -213,11 +206,73 @@
         .btn-details:hover {
             text-decoration: underline;
         }
+
+        /* Modal / Popup Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            width: 520px;
+            max-width: 90%;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .modal-images {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .modal-images img {
+            width: 130px;
+            height: 100px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            background: #fafafa;
+        }
+
+        .modal-specs-list {
+            font-size: 13px;
+            color: #444;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
     <header>
         <h1>Dynamic Tech Solutions</h1>
         <div class="search-bar">
@@ -225,10 +280,8 @@
         </div>
     </header>
 
-    <!-- Main Container -->
     <div class="container">
         
-        <!-- Sidebar Categories & Brands -->
         <aside>
             <h3>Popular Categories</h3>
             <ul>
@@ -246,7 +299,6 @@
             </ul>
         </aside>
 
-        <!-- Product Listing Grid -->
         <div class="main-content">
             <div class="catalog-header">
                 <span>Showing all security & networking products</span>
@@ -264,7 +316,7 @@
                     <div class="rating">★★★★★ <span>(48)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/?text=Hi, I am interested in HOC Structured CAT6 Pure Copper LAN Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', ['images/cat6.jpg'], 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 2: PTZ Camera -->
@@ -276,7 +328,7 @@
                     <div class="rating">★★★★★ <span>(54)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Prizor Smart Wi-Fi IP PTZ Security Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', ['images/ptz.jpg', 'images/ptz1.jpg'], '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 3: Analog Camera -->
@@ -288,7 +340,7 @@
                     <div class="rating">★★★★★ <span>(42)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Prizor HD Analog CCTV Security Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', ['images/analog.jpg'], '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 4: DVR -->
@@ -300,7 +352,7 @@
                     <div class="rating">★★★★★ <span>(36)</span></div>
                     <button class="btn-enquire">Enquire for Pricing</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Prizor Digital Video Recorder (DVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', ['images/dvr.png'], '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 5: NVR -->
@@ -311,8 +363,8 @@
                     <div class="specs">4K Ultra HD Output, PoE Support, Smart Playback</div>
                     <div class="rating">★★★★★ <span>(29)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
-                    <a href="https://wa.me/?text=HHi, I am interested in Prizor 4K Network Video Recorder (NVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details">See Details & Angles</button>
+                    <a href="https://wa.me/?text=Hi, I am interested in Prizor 4K Network Video Recorder (NVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', ['images/nvr.jpg'], '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 6: Fire Alarm -->
@@ -324,11 +376,11 @@
                     <div class="rating">★★★★★ <span>(18)</span></div>
                     <button class="btn-enquire">Commercial Enquire</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Fire Alarm Control Panel & Smoke Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', ['images/fire-alarm.jpg'], 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 7: Electrical Panels -->
-                    <div class="product-card">
+                <div class="product-card">
                     <span class="badge badge-electrical">ELECTRICAL WORKS</span>
                     <img src="images/electrical-panel.jpg" alt="Electrical Panel">
                     <h4>Industrial Electrical Distribution Panels</h4>
@@ -336,13 +388,56 @@
                     <div class="rating">★★★★★ <span>(24)</span></div>
                     <button class="btn-enquire">Heavy Duty Enquire</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Industrial Electrical Distribution Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Industrial Electrical Distribution Panels', ['images/electrical-panel.jpg'], 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">See Details & Angles</button>
                 </div>
 
             </div>
         </div>
 
     </div>
+
+    <!-- Product Detail Modal Popup -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" style="margin-bottom: 5px; color: #333;"></h3>
+            <p style="font-size: 12px; color: #666;">Product Gallery & Angles:</p>
+            <div class="modal-images" id="modalImagesContainer">
+                <!-- Dynamic images will load here -->
+            </div>
+            <h4 style="font-size: 14px; margin-top: 10px; color: #f39c12;">Full Specifications:</h4>
+            <div class="modal-specs-list" id="modalSpecs"></div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, images, specs) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalSpecs').innerText = specs;
+            
+            const imgContainer = document.getElementById('modalImagesContainer');
+            imgContainer.innerHTML = '';
+            
+            images.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                imgContainer.appendChild(img);
+            });
+
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
 
 </body>
 </html>
