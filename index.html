@@ -70,7 +70,7 @@ body{background:#eaeded;color:#0f1111;}
     gap:6px;
 }
 
-/* MAIN LAYOUT (SIDEBAR + RESULTS) */
+/* MAIN LAYOUT */
 .main-layout{
     max-width:1450px;
     margin:15px auto;
@@ -96,7 +96,7 @@ body{background:#eaeded;color:#0f1111;}
 .amz-sidebar li:hover{text-decoration:underline;color:#c45500;}
 .filter-group{margin-bottom:15px;border-bottom:1px solid #d5d9d9;padding-bottom:12px;}
 
-/* RIGHT CONTENT RESULTS */
+/* RIGHT CONTENT */
 .amz-content{flex-grow:1;}
 .search-results-bar{
     font-size:14px;
@@ -286,7 +286,7 @@ body{background:#eaeded;color:#0f1111;}
 .whatsapp-order-btn:hover{background:#f7ca00;}
 .whatsapp-order-btn i{color:#25d366;margin-right:6px;font-size:16px;}
 
-/* ADMIN PANEL BUTTON STYLING */
+/* ADMIN PANEL BUTTON */
 .admin-btn {
     background: transparent;
     border: none;
@@ -315,7 +315,7 @@ footer{background:#232f3e;color:#ddd;text-align:center;padding:25px;font-size:12
     <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Tech Solutions</span></a>
     
     <div class="amz-search-container">
-        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR..." onkeyup="filterProducts()">
+        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR..." onkeyup="filterProducts(); trackSearch(this.value);">
         <button class="amz-search-btn"><i class="fas fa-search"></i></button>
     </div>
 
@@ -508,11 +508,10 @@ footer{background:#232f3e;color:#ddd;text-align:center;padding:25px;font-size:12
     </div>
 </div>
 
-<!-- DETAIL PAGE MODAL -->
+<!-- DETAIL MODAL -->
 <div class="modal-overlay" id="itemModal" onclick="closeModalOutside(event)">
     <div class="modal-box">
         <button class="modal-close" onclick="closeModal()">&times;</button>
-        
         <div class="amz-detail-grid">
             <div class="amz-vertical-thumbs" id="thumbContainer"></div>
             <div class="amz-main-img-box">
@@ -521,20 +520,16 @@ footer{background:#232f3e;color:#ddd;text-align:center;padding:25px;font-size:12
             <div class="amz-product-info">
                 <h2 id="modalTitle">Product Title</h2>
                 <span class="amz-store-link" id="modalAuthBadge">Visit the Store</span>
-                
                 <div class="amz-rating-row">
                     <div><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                     <span>4.8 out of 5 stars</span>
                 </div>
-
                 <div class="amz-price-box">
                     <span>Price:</span> <strong>Enquire Now</strong> <sup>(Bulk / Project Pricing)</sup>
                 </div>
-
                 <div class="amz-feature-title">About this item:</div>
                 <p id="modalDesc" style="font-size:13px;color:#333;margin-bottom:12px;line-height:1.4;"></p>
                 <ul class="amz-feature-list" id="modalSpecs"></ul>
-
                 <div class="amz-buy-box">
                     <a id="modalWaBtn" href="#" target="_blank" class="whatsapp-order-btn">
                         <i class="fab fa-whatsapp"></i> Enquire / Order on WhatsApp
@@ -545,23 +540,33 @@ footer{background:#232f3e;color:#ddd;text-align:center;padding:25px;font-size:12
     </div>
 </div>
 
-<!-- FOOTER WITH HIDDEN ADMIN COUNTER -->
+<!-- FOOTER WITH ADMIN BUTTON -->
 <footer>
     <p><strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong></p>
     <p>Authorized Partner for HOC & Prizor (Cameras, DVR, NVR, LAN Cables) | Security & Safety Integrator</p>
     <p style="margin-top:5px;">Contact / WhatsApp: +91 8390909845</p>
-
-    <!-- Ye button aam customers ko dikhega par counter chupaya hua hai -->
     <div>
         <button class="admin-btn" onclick="checkAdmin()">Admin Visitor Stats</button>
     </div>
 </footer>
 
 <script>
+// Track visits and searches locally in browser session/storage
+(function() {
+    let visits = localStorage.getItem('site_visits') || 0;
+    visits++;
+    localStorage.setItem('site_visits', visits);
+})();
+
+function trackSearch(query) {
+    if(query.length > 1) {
+        localStorage.setItem('last_search', query);
+    }
+}
+
 function filterProducts() {
     let query = document.getElementById("searchInput").value.toLowerCase().trim();
     let cards = document.querySelectorAll(".searchable");
-
     cards.forEach(card => {
         let text = card.getAttribute("data-text");
         let content = card.innerText.toLowerCase();
@@ -601,7 +606,6 @@ function openModal(title, badgeText, images, desc, specs) {
     document.getElementById("modalTitle").innerText = title;
     document.getElementById("modalAuthBadge").innerText = badgeText;
     document.getElementById("modalDesc").innerText = desc;
-    
     let mainImg = document.getElementById("mainModalImg");
     mainImg.src = images[0];
 
@@ -611,11 +615,6 @@ function openModal(title, badgeText, images, desc, specs) {
         let thumbBox = document.createElement("div");
         thumbBox.className = index === 0 ? "amz-thumb active" : "amz-thumb";
         thumbBox.innerHTML = `<img src="${imgUrl}" alt="Thumbnail">`;
-        thumbBox.onmouseover = function() {
-            mainImg.src = imgUrl;
-            document.querySelectorAll(".amz-thumb").forEach(b => b.classList.remove("active"));
-            thumbBox.classList.add("active");
-        };
         thumbBox.onclick = function() {
             mainImg.src = imgUrl;
             document.querySelectorAll(".amz-thumb").forEach(b => b.classList.remove("active"));
@@ -626,13 +625,10 @@ function openModal(title, badgeText, images, desc, specs) {
 
     let specsList = document.getElementById("modalSpecs");
     specsList.innerHTML = "";
-    specs.forEach(s => {
-        specsList.innerHTML += `<li>${s}</li>`;
-    });
+    specs.forEach(s => { specsList.innerHTML += `<li>${s}</li>`; });
 
-    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire about: ${title}. Please share specs and pricing.`);
+    let waText = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to enquire about: ${title}.`);
     document.getElementById("modalWaBtn").href = `https://wa.me/918390909845?text=${waText}`;
-
     document.getElementById("itemModal").style.display = "flex";
 }
 
@@ -641,26 +637,50 @@ function closeModal() {
 }
 
 function closeModalOutside(e) {
-    if(e.target.id === "itemModal") {
-        closeModal();
-    }
+    if(e.target.id === "itemModal") { closeModal(); }
 }
 
-// Admin Password Protection Function
-function checkAdmin() {
+// ADMIN PANEL WITH PASSWORD & VISITOR LIVE DETAILS FETCHING
+async function checkAdmin() {
     let password = prompt("Enter Admin Password:");
-    // Aap apna password yahan 'admin123' ki jagah kuch bhi rakh sakte hain
-    if (password === "admin123") {
-        let win = window.open("", "Visitor Stats", "width=400,height=200");
+    if (password === "Pankaj@1980") {
+        let win = window.open("", "Visitor Details", "width=550,height=450");
         win.document.write(`
-            <body style="font-family: Arial; text-align: center; padding-top: 30px; background: #131921; color: #fff;">
-                <h2>Website Visitor Stats</h2>
-                <p style="margin-top: 15px; font-size: 14px; color: #febd69;">Total Visitors Count:</p>
-                <div style="margin-top: 10px;">
-                    <img src="https://counter9.optistat.ovh/private/freecounterstat.sh?c=99exz4b3252s5z8b99x239k5x239k5x2" border="0" title="visitor counter" alt="visitor counter">
+            <body style="font-family: Arial; padding: 20px; background: #131921; color: #fff;">
+                <h2 style="color: #febd69; text-align: center;">🔐 Admin Visitor Log</h2>
+                <hr style="border-color: #444; margin: 15px 0;">
+                <p><b>Total Local Visits:</b> <span id="vCount" style="color:#febd69;">Loading...</span></p>
+                <p><b>Last Search on Site:</b> <span id="sQuery" style="color:#25d366;">Loading...</span></p>
+                <p><b>Your Browser/Device:</b> <span style="font-size: 12px; color: #ccc;">${navigator.userAgent}</span></p>
+                <hr style="border-color: #444; margin: 15px 0;">
+                <h3 style="color: #febd69; font-size: 14px;">Live Network & IP Details (Current Visitor):</h3>
+                <div id="ipDetails" style="background: #232f3e; padding: 10px; border-radius: 5px; margin-top: 10px; font-size: 13px; line-height: 1.6;">
+                    Fetching IP & Location...
                 </div>
             </body>
         `);
+
+        // Load Local Storage Data into Popup
+        let visits = localStorage.getItem('site_visits') || 1;
+        let lastSearch = localStorage.getItem('last_search') || 'None yet';
+        win.document.getElementById('vCount').innerText = visits;
+        win.document.getElementById('sQuery').innerText = lastSearch;
+
+        // Fetch IP & Location using free API
+        try {
+            let response = await fetch('https://ipapi.co/json/');
+            let data = await response.json();
+            win.document.getElementById('ipDetails').innerHTML = `
+                <b>IP Address:</b> ${data.ip || 'N/A'}<br>
+                <b>City:</b> ${data.city || 'N/A'}<br>
+                <b>State/Region:</b> ${data.region || 'N/A'}<br>
+                <b>Country:</b> ${data.country_name || 'N/A'}<br>
+                <b>Network Provider (ISP):</b> ${data.org || 'N/A'}
+            `;
+        } catch(e) {
+            win.document.getElementById('ipDetails').innerText = "Could not fetch IP location details.";
+        }
+
     } else if (password !== null) {
         alert("Incorrect Password!");
     }
