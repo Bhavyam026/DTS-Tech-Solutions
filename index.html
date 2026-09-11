@@ -79,7 +79,7 @@ body{background:#eaeded;color:#0f1111;}
     padding:0 15px;
 }
 
-/* LEFT SIDEBAR (AMAZON STYLE FILTERS) */
+/* LEFT SIDEBAR */
 .amz-sidebar{
     width:240px;
     background:#fff;
@@ -112,7 +112,7 @@ body{background:#eaeded;color:#0f1111;}
 }
 .search-results-bar strong{color:#0f1111;}
 
-/* PRODUCT GRID (AMAZON STYLE CARDS) */
+/* PRODUCT GRID */
 .amz-product-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
@@ -286,7 +286,19 @@ body{background:#eaeded;color:#0f1111;}
 .whatsapp-order-btn:hover{background:#f7ca00;}
 .whatsapp-order-btn i{color:#25d366;margin-right:6px;font-size:16px;}
 
-footer{background:#232f3e;color:#ddd;text-align:center;padding:20px;font-size:12px;margin-top:40px;}
+/* ADMIN PANEL BUTTON STYLING */
+.admin-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 11px;
+    cursor: pointer;
+    margin-top: 10px;
+    text-decoration: underline;
+}
+.admin-btn:hover { color: #fff; }
+
+footer{background:#232f3e;color:#ddd;text-align:center;padding:25px;font-size:12px;margin-top:40px;}
 
 @media(max-width:850px){
     .main-layout{flex-direction:column;}
@@ -496,7 +508,7 @@ footer{background:#232f3e;color:#ddd;text-align:center;padding:20px;font-size:12
     </div>
 </div>
 
-<!-- AMAZON DETAIL PAGE MODAL -->
+<!-- DETAIL PAGE MODAL -->
 <div class="modal-overlay" id="itemModal" onclick="closeModalOutside(event)">
     <div class="modal-box">
         <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -533,10 +545,16 @@ footer{background:#232f3e;color:#ddd;text-align:center;padding:20px;font-size:12
     </div>
 </div>
 
+<!-- FOOTER WITH HIDDEN ADMIN COUNTER -->
 <footer>
     <p><strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong></p>
     <p>Authorized Partner for HOC & Prizor (Cameras, DVR, NVR, LAN Cables) | Security & Safety Integrator</p>
     <p style="margin-top:5px;">Contact / WhatsApp: +91 8390909845</p>
+
+    <!-- Ye button aam customers ko dikhega par counter chupaya hua hai -->
+    <div>
+        <button class="admin-btn" onclick="checkAdmin()">Admin Visitor Stats</button>
+    </div>
 </footer>
 
 <script>
@@ -625,6 +643,26 @@ function closeModal() {
 function closeModalOutside(e) {
     if(e.target.id === "itemModal") {
         closeModal();
+    }
+}
+
+// Admin Password Protection Function
+function checkAdmin() {
+    let password = prompt("Enter Admin Password:");
+    // Aap apna password yahan 'admin123' ki jagah kuch bhi rakh sakte hain
+    if (password === "admin123") {
+        let win = window.open("", "Visitor Stats", "width=400,height=200");
+        win.document.write(`
+            <body style="font-family: Arial; text-align: center; padding-top: 30px; background: #131921; color: #fff;">
+                <h2>Website Visitor Stats</h2>
+                <p style="margin-top: 15px; font-size: 14px; color: #febd69;">Total Visitors Count:</p>
+                <div style="margin-top: 10px;">
+                    <img src="https://counter9.optistat.ovh/private/freecounterstat.sh?c=99exz4b3252s5z8b99x239k5x239k5x2" border="0" title="visitor counter" alt="visitor counter">
+                </div>
+            </body>
+        `);
+    } else if (password !== null) {
+        alert("Incorrect Password!");
     }
 }
 </script>
