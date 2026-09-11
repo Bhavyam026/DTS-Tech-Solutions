@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Tech Solutions - Product Catalog</title>
+    <title>Dynamic Technology Solutions - Product Catalog</title>
     <style>
         * {
             margin: 0;
@@ -27,7 +27,7 @@
         }
 
         header h1 {
-            font-size: 20px;
+            font-size: 22px;
             color: #f39c12;
         }
 
@@ -91,7 +91,7 @@
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 20px;
         }
 
@@ -106,11 +106,12 @@
             justify-content: space-between;
         }
 
+        /* Bade Size ki Image */
         .product-card img {
             width: 100%;
-            height: 140px;
+            height: 180px;
             object-fit: contain;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .badge {
@@ -249,12 +250,12 @@
             border-top: 1px solid #232f3e;
         }
 
-        /* Admin Visitor Tracking Panel (Hidden by default, click button to view) */
+        /* Password-Protected Admin Button */
         .admin-panel-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #e74c3c;
+            background: #c0392b;
             color: white;
             padding: 10px 15px;
             border-radius: 30px;
@@ -282,7 +283,7 @@
             background: #fff;
             padding: 25px;
             border-radius: 8px;
-            width: 700px;
+            width: 750px;
             max-width: 95%;
             max-height: 80vh;
             overflow-y: auto;
@@ -327,7 +328,7 @@
             background: #fff;
             padding: 25px;
             border-radius: 8px;
-            width: 520px;
+            width: 600px;
             max-width: 90%;
             text-align: left;
             position: relative;
@@ -349,15 +350,15 @@
 
         .modal-images {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin: 15px 0;
             overflow-x: auto;
-            padding-bottom: 5px;
+            padding-bottom: 8px;
         }
 
         .modal-images img {
-            width: 130px;
-            height: 100px;
+            width: 150px;
+            height: 120px;
             object-fit: contain;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -376,9 +377,9 @@
 <body>
 
     <header>
-        <h1>Dynamic Tech Solutions</h1>
+        <h1>Dynamic Technology Solutions</h1>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR..." onkeyup="trackSearch()">
+            <input type="text" id="searchInput" placeholder="Search HOC cables, Prizor cameras, DVR, NVR..." onkeyup="trackSearch()">
         </div>
     </header>
 
@@ -418,7 +419,7 @@
                     <div class="rating">★★★★★ <span>(48)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/?text=Hi, I am interested in HOC Structured CAT6 Pure Copper LAN Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', ['images/cat6.jpg'], 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', ['images/cat6.jpg', 'images/cat6-side.jpg', 'images/cat6-box.jpg'], 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 2: PTZ Camera -->
@@ -430,7 +431,7 @@
                     <div class="rating">★★★★★ <span>(54)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Prizor Smart Wi-Fi IP PTZ Security Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', ['images/ptz.jpg', 'images/ptz1.jpg'], '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', ['images/ptz.jpg', 'images/ptz-angle2.jpg', 'images/ptz-angle3.jpg'], '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 3: Analog Camera -->
@@ -442,7 +443,7 @@
                     <div class="rating">★★★★★ <span>(42)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Prizor HD Analog CCTV Security Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', ['images/analog.jpg'], '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', ['images/analog.jpg', 'images/analog-side.jpg', 'images/analog-back.jpg'], '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 4: DVR -->
@@ -454,7 +455,7 @@
                     <div class="rating">★★★★★ <span>(36)</span></div>
                     <button class="btn-enquire">Enquire for Pricing</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Prizor Digital Video Recorder (DVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', ['images/dvr.png'], '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', ['images/dvr.png', 'images/dvr-back.jpg', 'images/dvr-ports.jpg'], '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 5: NVR -->
@@ -466,7 +467,7 @@
                     <div class="rating">★★★★★ <span>(29)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Prizor 4K Network Video Recorder (NVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', ['images/nvr.jpg'], '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', ['images/nvr.jpg', 'images/nvr-back.jpg', 'images/nvr-side.jpg'], '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 6: Fire Alarm -->
@@ -478,7 +479,7 @@
                     <div class="rating">★★★★★ <span>(18)</span></div>
                     <button class="btn-enquire">Commercial Enquire</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Fire Alarm Control Panel & Smoke Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', ['images/fire-alarm.jpg'], 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', ['images/fire-alarm.jpg', 'images/fire-detector.jpg', 'images/fire-panel.jpg'], 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">See Details & Angles</button>
                 </div>
 
                 <!-- Product 7: Electrical Panels -->
@@ -490,7 +491,7 @@
                     <div class="rating">★★★★★ <span>(24)</span></div>
                     <button class="btn-enquire">Heavy Duty Enquire</button>
                     <a href="https://wa.me/?text=Hi, I am interested in Industrial Electrical Distribution Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Industrial Electrical Distribution Panels', ['images/electrical-panel.jpg'], 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">See Details & Angles</button>
+                    <button class="btn-details" onclick="openModal('Industrial Electrical Distribution Panels', ['images/electrical-panel.jpg', 'images/electrical-open.jpg', 'images/electrical-side.jpg'], 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">See Details & Angles</button>
                 </div>
 
             </div>
@@ -502,7 +503,7 @@
     <footer>
         <div class="footer-links">
             <div class="footer-col">
-                <h4>Dynamic Tech Solutions</h4>
+                <h4>Dynamic Technology Solutions</h4>
                 <ul>
                     <li>Authorized Partner: Prizor & HOC</li>
                     <li>Security & Networking Solutions</li>
@@ -520,36 +521,36 @@
             <div class="footer-col">
                 <h4>Contact Us</h4>
                 <ul>
-                    <li>Email: info@dynamictech.com</li>
+                    <li>Email: support@dynamictechsolutions.com</li>
                     <li>Support & Sales Inquiry</li>
                     <li>Available on WhatsApp</li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Dynamic Tech Solutions. All Rights Reserved.</p>
+            <p>&copy; 2026 Dynamic Technology Solutions. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Hidden Admin Dashboard Button (Only visible to you on bottom-right) -->
-    <button class="admin-panel-btn" onclick="openAdminModal()">🔒 Admin Visitor Log</button>
+    <!-- Password-Protected Admin Button -->
+    <button class="admin-panel-btn" onclick="verifyAdmin()">🔒 Admin Visitor Log</button>
 
-    <!-- Admin Modal Popup -->
+    <!-- Admin Modal Popup with IP & Location -->
     <div id="adminModal" class="admin-modal">
         <div class="admin-content">
             <span class="close-btn" onclick="closeAdminModal()">&times;</span>
-            <h3 style="color: #f39c12; margin-bottom: 10px;">Private Visitor & Search Tracking Log</h3>
-            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Yeh keval aapko (Admin ko) dikhega ki kisne kab website kholi aur kya search kiya.</p>
+            <h3 style="color: #f39c12; margin-bottom: 10px;">Private Visitor, IP & Location Log</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Yeh data sirf aapke paas password (Pankaj@1980) hone par hi dikh raha hai.</p>
             <table>
                 <thead>
                     <tr>
                         <th>Date & Time</th>
+                        <th>Visitor IP & Location</th>
                         <th>Activity / Search Query</th>
-                        <th>Device / Browser Info</th>
                     </tr>
                 </thead>
                 <tbody id="visitorLogBody">
-                    <!-- Log data will load here dynamically -->
+                    <tr><td colspan="3" style="text-align:center;">Loading visitor details...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -560,7 +561,7 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h3 id="modalTitle" style="margin-bottom: 5px; color: #333;"></h3>
-            <p style="font-size: 12px; color: #666;">Product Gallery & Angles:</p>
+            <p style="font-size: 12px; color: #666;">Product Gallery & Multiple Angles:</p>
             <div class="modal-images" id="modalImagesContainer"></div>
             <h4 style="font-size: 14px; margin-top: 10px; color: #f39c12;">Full Specifications:</h4>
             <div class="modal-specs-list" id="modalSpecs"></div>
@@ -568,15 +569,32 @@
     </div>
 
     <script>
+        let visitorIP = "Fetching IP...";
+        let visitorLocation = "Fetching Location...";
+
+        // Fetch IP and Location automatically
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                visitorIP = data.ip || "Unknown IP";
+                visitorLocation = (data.city || "Unknown") + ", " + (data.country_name || "");
+            })
+            .catch(() => {
+                visitorIP = "Direct Connection";
+                visitorLocation = "Local Network";
+            });
+
         // Track Visitor on Page Load
         window.onload = function() {
-            let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
-            let now = new Date().toLocaleString();
-            let deviceInfo = navigator.userAgent.substring(0, 45) + "...";
-            
-            logs.unshift({ time: now, action: "Visited Website / Home Page", device: deviceInfo });
-            if(logs.length > 20) logs.pop(); // Keep last 20 logs
-            localStorage.setItem('visitorLogs', JSON.stringify(logs));
+            setTimeout(() => {
+                let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
+                let now = new Date().toLocaleString();
+                let clientInfo = visitorIP + " (" + visitorLocation + ")";
+                
+                logs.unshift({ time: now, ipLoc: clientInfo, action: "Visited Home Page / Catalog" });
+                if(logs.length > 25) logs.pop();
+                localStorage.setItem('visitorLogs', JSON.stringify(logs));
+            }, 1000);
         }
 
         // Track Search Query
@@ -585,10 +603,20 @@
             if(query.trim() !== "") {
                 let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
                 let now = new Date().toLocaleString();
-                let deviceInfo = "Searched text";
+                let clientInfo = visitorIP + " (" + visitorLocation + ")";
                 
-                logs.unshift({ time: now, action: "Searched: '" + query + "'", device: deviceInfo });
+                logs.unshift({ time: now, ipLoc: clientInfo, action: "Searched: '" + query + "'" });
                 localStorage.setItem('visitorLogs', JSON.stringify(logs));
+            }
+        }
+
+        // Password Verification for Admin
+        function verifyAdmin() {
+            let pwd = prompt("Enter Admin Password:");
+            if(pwd === "Pankaj@1980") {
+                openAdminModal();
+            } else if(pwd !== null) {
+                alert("Incorrect Password! Access Denied.");
             }
         }
 
@@ -602,7 +630,7 @@
             } else {
                 logs.forEach(log => {
                     let tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + log.time + '</td><td>' + log.action + '</td><td>' + log.device + '</td>';
+                    tr.innerHTML = '<td>' + log.time + '</td><td>' + log.ipLoc + '</td><td>' + log.action + '</td>';
                     tbody.appendChild(tr);
                 });
             }
