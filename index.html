@@ -111,6 +111,7 @@ body{background:#eaeded;color:#0f1111;}
     align-items:center;
     justify-content:center;
     margin-bottom:10px;
+    background:#fff;
 }
 .card img{max-width:100%;max-height:100%;object-fit:contain;}
 .badge{
@@ -192,7 +193,6 @@ body{background:#eaeded;color:#0f1111;}
     z-index:10;
 }
 
-/* AMAZON 3-COLUMN DETAIL LAYOUT (Thumbnails | Main Image | Details & Buy box) */
 .amz-detail-grid{
     display:grid;
     grid-template-columns: 80px 380px 1fr;
@@ -200,7 +200,6 @@ body{background:#eaeded;color:#0f1111;}
     padding:30px;
 }
 
-/* Vertical Thumbnails (Just like Amazon screenshot) */
 .amz-vertical-thumbs{
     display:flex;
     flex-direction:column;
@@ -221,7 +220,6 @@ body{background:#eaeded;color:#0f1111;}
 .amz-thumb img{max-width:100%;max-height:100%;object-fit:contain;}
 .amz-thumb.active{border-color:#e77600;box-shadow:0 0 3px rgba(229,121,0,0.6);}
 
-/* Main Zoomable Image View */
 .amz-main-img-box{
     border:1px solid #e7e7e7;
     border-radius:8px;
@@ -236,7 +234,6 @@ body{background:#eaeded;color:#0f1111;}
 }
 .amz-main-img{max-width:100%;max-height:100%;object-fit:contain;}
 
-/* Right Side Details */
 .amz-product-info h2{
     font-size:22px;
     font-weight:normal;
@@ -289,7 +286,6 @@ body{background:#eaeded;color:#0f1111;}
     line-height:1.4;
 }
 
-/* Amazon Buy Box / WhatsApp Order Button */
 .amz-buy-box{
     background:#f0f2f2;
     border:1px solid #d5d9d9;
@@ -336,7 +332,7 @@ footer{
     <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Tech Solutions</span></a>
     
     <div class="amz-search-box">
-        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC Cables, Prizor Camera, Fire Alarm..." onkeyup="searchFilter()">
+        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC Cables, Prizor IP Camera, Prizor Analog Camera..." onkeyup="searchFilter()">
         <button class="amz-search-btn"><i class="fas fa-search"></i></button>
     </div>
 
@@ -377,30 +373,53 @@ footer{
             <button class="card-btn">See Details & Angles</button>
         </div>
 
-        <!-- 2. PRIZOR CAMERA -->
-        <div class="card searchable" data-text="prizor camera wifi ip security surveillance smart cctv robot ptz" onclick="openModal(
+        <!-- 2. PRIZOR IP CAMERA (SEPARATE) -->
+        <div class="card searchable" data-text="prizor ip camera wifi security surveillance smart cctv ptz robot network" onclick="openModal(
             'Prizor Smart Wi-Fi & IP Security PTZ Camera',
             'Authorized Prizor Partner Product',
             ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
-            'Official authorized Prizor smart Wi-Fi PTZ and IP security camera featuring crystal-clear high-definition recording, motion tracking, and remote mobile app viewing.',
+            'Official authorized Prizor smart Wi-Fi IP network camera featuring ultra-HD resolution, 360-degree pan-tilt control, and mobile app live streaming.',
             [
-                'Authorized Prizor Stock: Genuine high-performance surveillance hardware.',
-                'Pan, Tilt & Smart Tracking: Covers full 360-degree angles automatically following motion.',
-                'Color Night Vision: Advanced infrared and LED lights for clear night monitoring.',
-                'Two-Way Audio: Built-in speaker and mic for real-time communication.'
+                'Ultra HD Resolution: Crystal clear digital IP video streaming.',
+                'Pan & Tilt Control: Full 360-degree remote movement via smartphone app.',
+                'Smart Motion Tracking: Automatically follows moving objects in real time.',
+                'Two-Way Audio: Built-in high sensitivity microphone and speaker.'
             ]
         )">
             <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80" alt="Prizor Camera">
+                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80" alt="Prizor IP Camera">
             </div>
             <div class="badge auth">Authorized Prizor Partner</div>
-            <h3>Prizor Smart Wi-Fi PTZ Security Camera</h3>
+            <h3>Prizor Smart Wi-Fi IP PTZ Security Camera</h3>
             <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>54</span></div>
             <div class="price">Enquire <sup>for Best Price</sup></div>
             <button class="card-btn">See Details & Angles</button>
         </div>
 
-        <!-- 3. FIRE ALARM SYSTEM -->
+        <!-- 3. PRIZOR ANALOG CAMERA (SEPARATE) -->
+        <div class="card searchable" data-text="prizor analog camera cctv dome bullet dvr security surveillance wired" onclick="openModal(
+            'Prizor High-Definition Analog CCTV Camera',
+            'Authorized Prizor Partner Product',
+            ['https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
+            'Official authorized Prizor high-definition wired analog CCTV dome/bullet camera designed for reliable 24/7 DVR security surveillance setups.',
+            [
+                'HD Analog Clarity: Sharp image output compatible with standard DVR systems.',
+                'Weatherproof Metal Housing: IP66 rated robust build for indoor and outdoor use.',
+                'Infrared Night Vision: Clear black and white visibility up to 20 meters in total darkness.',
+                'Zero Latency Wiring: Stable BNC cable transmission without network delays.'
+            ]
+        )">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80" alt="Prizor Analog Camera">
+            </div>
+            <div class="badge auth">Authorized Prizor Partner</div>
+            <h3>Prizor HD Analog CCTV Security Camera</h3>
+            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>42</span></div>
+            <div class="price">Enquire <sup>for Quote</sup></div>
+            <button class="card-btn">See Details & Angles</button>
+        </div>
+
+        <!-- 4. FIRE ALARM SYSTEM -->
         <div class="card searchable" data-text="fire safety alarm system smoke detector panel conventional addressable" onclick="openModal(
             'Fire Alarm Control & Detection System',
             'Life & Property Safety Infrastructure',
@@ -423,7 +442,7 @@ footer{
             <button class="card-btn">See Details & Angles</button>
         </div>
 
-        <!-- 4. ELECTRICAL DISTRIBUTION -->
+        <!-- 5. ELECTRICAL DISTRIBUTION -->
         <div class="card searchable" data-text="electrical works power distribution panel industrial wiring mcb rccb" onclick="openModal(
             'Industrial Electrical Distribution Panel',
             'Heavy Commercial Power Setup',
