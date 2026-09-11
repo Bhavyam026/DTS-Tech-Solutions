@@ -207,6 +207,108 @@
             text-decoration: underline;
         }
 
+        /* Professional Footer Styling */
+        footer {
+            background-color: #131a22;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-around;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-col h4 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #f39c12;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            font-size: 13px;
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            background-color: #0f1318;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #232f3e;
+        }
+
+        /* Admin Visitor Tracking Panel (Hidden by default, click button to view) */
+        .admin-panel-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 999;
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-content {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            width: 700px;
+            max-width: 95%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f39c12;
+            color: white;
+        }
+
         /* Modal / Popup Styling */
         .modal {
             display: none;
@@ -276,7 +378,7 @@
     <header>
         <h1>Dynamic Tech Solutions</h1>
         <div class="search-bar">
-            <input type="text" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR...">
+            <input type="text" id="searchInput" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR..." onkeyup="trackSearch()">
         </div>
     </header>
 
@@ -396,21 +498,121 @@
 
     </div>
 
+    <!-- Professional Company Footer -->
+    <footer>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Dynamic Tech Solutions</h4>
+                <ul>
+                    <li>Authorized Partner: Prizor & HOC</li>
+                    <li>Security & Networking Solutions</li>
+                    <li>Industrial Safety & Fire Alarms</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li>All Products</li>
+                    <li>CCTV & Recorders</li>
+                    <li>Networking Cables</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li>Email: info@dynamictech.com</li>
+                    <li>Support & Sales Inquiry</li>
+                    <li>Available on WhatsApp</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Dynamic Tech Solutions. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Hidden Admin Dashboard Button (Only visible to you on bottom-right) -->
+    <button class="admin-panel-btn" onclick="openAdminModal()">🔒 Admin Visitor Log</button>
+
+    <!-- Admin Modal Popup -->
+    <div id="adminModal" class="admin-modal">
+        <div class="admin-content">
+            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+            <h3 style="color: #f39c12; margin-bottom: 10px;">Private Visitor & Search Tracking Log</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Yeh keval aapko (Admin ko) dikhega ki kisne kab website kholi aur kya search kiya.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Activity / Search Query</th>
+                        <th>Device / Browser Info</th>
+                    </tr>
+                </thead>
+                <tbody id="visitorLogBody">
+                    <!-- Log data will load here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- Product Detail Modal Popup -->
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h3 id="modalTitle" style="margin-bottom: 5px; color: #333;"></h3>
             <p style="font-size: 12px; color: #666;">Product Gallery & Angles:</p>
-            <div class="modal-images" id="modalImagesContainer">
-                <!-- Dynamic images will load here -->
-            </div>
+            <div class="modal-images" id="modalImagesContainer"></div>
             <h4 style="font-size: 14px; margin-top: 10px; color: #f39c12;">Full Specifications:</h4>
             <div class="modal-specs-list" id="modalSpecs"></div>
         </div>
     </div>
 
     <script>
+        // Track Visitor on Page Load
+        window.onload = function() {
+            let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
+            let now = new Date().toLocaleString();
+            let deviceInfo = navigator.userAgent.substring(0, 45) + "...";
+            
+            logs.unshift({ time: now, action: "Visited Website / Home Page", device: deviceInfo });
+            if(logs.length > 20) logs.pop(); // Keep last 20 logs
+            localStorage.setItem('visitorLogs', JSON.stringify(logs));
+        }
+
+        // Track Search Query
+        function trackSearch() {
+            let query = document.getElementById('searchInput').value;
+            if(query.trim() !== "") {
+                let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
+                let now = new Date().toLocaleString();
+                let deviceInfo = "Searched text";
+                
+                logs.unshift({ time: now, action: "Searched: '" + query + "'", device: deviceInfo });
+                localStorage.setItem('visitorLogs', JSON.stringify(logs));
+            }
+        }
+
+        function openAdminModal() {
+            let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
+            let tbody = document.getElementById('visitorLogBody');
+            tbody.innerHTML = '';
+            
+            if(logs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No visits recorded yet.</td></tr>';
+            } else {
+                logs.forEach(log => {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = '<td>' + log.time + '</td><td>' + log.action + '</td><td>' + log.device + '</td>';
+                    tbody.appendChild(tr);
+                });
+            }
+            document.getElementById('adminModal').style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
         function openModal(title, images, specs) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalSpecs').innerText = specs;
@@ -433,9 +635,9 @@
 
         window.onclick = function(event) {
             const modal = document.getElementById('productModal');
-            if (event.target == modal) {
-                closeModal();
-            }
+            const adminModal = document.getElementById('adminModal');
+            if (event.target == modal) closeModal();
+            if (event.target == adminModal) closeAdminModal();
         }
     </script>
 
