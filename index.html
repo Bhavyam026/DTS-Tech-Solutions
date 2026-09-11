@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dynamic Technology Solutions | Store Catalogue</title>
+<title>Amazon.in Search: CCTV, DVR, NVR & Networking</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Amazon Ember",Arial,sans-serif;}
 body{background:#eaeded;color:#0f1111;}
 
-/* AMAZON HEADER */
+/* AMAZON TOP HEADER */
 .amz-header{
     background:#131921;
-    padding:12px 20px;
+    padding:10px 20px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -31,9 +31,9 @@ body{background:#eaeded;color:#0f1111;}
 }
 .amz-logo span{color:#febd69;}
 
-.amz-search-box{
+.amz-search-container{
     flex-grow:1;
-    max-width:700px;
+    max-width:750px;
     margin:0 20px;
     display:flex;
     background:#fff;
@@ -41,7 +41,7 @@ body{background:#eaeded;color:#0f1111;}
     overflow:hidden;
     border:2px solid transparent;
 }
-.amz-search-box:focus-within{border-color:#febd69;}
+.amz-search-container:focus-within{border-color:#febd69;}
 .amz-search-input{
     width:100%;
     padding:10px 15px;
@@ -70,95 +70,120 @@ body{background:#eaeded;color:#0f1111;}
     gap:6px;
 }
 
-/* CONTAINER & GRID */
-.container{
-    max-width:1300px;
-    margin:20px auto;
+/* MAIN LAYOUT (SIDEBAR + RESULTS) */
+.main-layout{
+    max-width:1450px;
+    margin:15px auto;
+    display:flex;
+    gap:20px;
     padding:0 15px;
 }
-.section-header{
+
+/* LEFT SIDEBAR (AMAZON STYLE FILTERS) */
+.amz-sidebar{
+    width:240px;
+    background:#fff;
+    border-right:1px solid #d5d9d9;
+    padding:15px;
+    font-size:13px;
+    flex-shrink:0;
+    border-radius:4px;
+    height:fit-content;
+}
+.amz-sidebar h3{font-size:14px;margin-bottom:8px;color:#0f1111;}
+.amz-sidebar ul{list-style:none;margin-bottom:15px;}
+.amz-sidebar li{padding:4px 0;color:#007185;cursor:pointer;}
+.amz-sidebar li:hover{text-decoration:underline;color:#c45500;}
+.filter-group{margin-bottom:15px;border-bottom:1px solid #d5d9d9;padding-bottom:12px;}
+
+/* RIGHT CONTENT RESULTS */
+.amz-content{flex-grow:1;}
+.search-results-bar{
+    font-size:14px;
+    color:#565959;
     margin-bottom:15px;
+    background:#fff;
+    padding:10px 15px;
+    border-radius:4px;
+    border:1px solid #d5d9d9;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
-.section-header h2{font-size:20px;color:#0f1111;}
-.section-header span{font-size:13px;color:#565959;}
+.search-results-bar strong{color:#0f1111;}
 
-.grid{
+/* PRODUCT GRID (AMAZON STYLE CARDS) */
+.amz-product-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+    gap:18px;
 }
 
-/* CARD */
-.card{
+.amz-card{
     background:#fff;
     border:1px solid #d5d9d9;
-    border-radius:8px;
-    overflow:hidden;
+    border-radius:6px;
+    padding:15px;
     display:flex;
     flex-direction:column;
     cursor:pointer;
-    padding:15px;
     transition:0.2s;
 }
-.card:hover{box-shadow:0 0 10px rgba(0,0,0,0.1);border-color:#a6a6a6;}
-.card-img-wrapper{
+.amz-card:hover{box-shadow:0 0 12px rgba(0,0,0,0.12);border-color:#a6a6a6;}
+.amz-card-img{
     width:100%;
-    height:180px;
+    height:170px;
     display:flex;
     align-items:center;
     justify-content:center;
     margin-bottom:10px;
-    background:#fff;
 }
-.card img{max-width:100%;max-height:100%;object-fit:contain;}
-.badge{
-    font-size:11px;
-    color:#007185;
-    font-weight:bold;
+.amz-card-img img{max-width:100%;max-height:100%;object-fit:contain;}
+
+.amz-badge{
+    font-size:10px;
+    background:#007185;
+    color:#fff;
+    padding:2px 6px;
+    border-radius:3px;
+    width:fit-content;
     margin-bottom:5px;
     text-transform:uppercase;
+    font-weight:bold;
 }
-.badge.auth{
-    color:#065f46;
-    background:#d1fae5;
-    padding:2px 6px;
-    border-radius:4px;
-    width:fit-content;
-}
-.card h3{
-    font-size:15px;
+.amz-badge.partner{background:#065f46;color:#d1fae5;}
+
+.amz-card-title{
+    font-size:14px;
     color:#0f1111;
-    font-weight:normal;
-    margin-bottom:5px;
     line-height:1.3;
+    height:36px;
+    overflow:hidden;
+    margin-bottom:6px;
     display:-webkit-box;
     -webkit-line-clamp:2;
     -webkit-box-orient:vertical;
-    overflow:hidden;
 }
-.rating{color:#de7921;font-size:12px;margin-bottom:8px;}
-.rating span{color:#007185;margin-left:5px;}
-.price{font-size:18px;font-weight:bold;color:#0f1111;margin-bottom:10px;}
-.price sup{font-size:11px;}
-.card-btn{
+.amz-card-rating{font-size:12px;color:#de7921;margin-bottom:6px;}
+.amz-card-rating span{color:#007185;margin-left:4px;}
+.amz-card-price{font-size:18px;font-weight:bold;color:#0f1111;margin-bottom:10px;}
+.amz-card-price sup{font-size:10px;}
+
+.amz-add-btn{
     background:#ffd814;
     border:1px solid #fcd200;
     border-radius:20px;
-    color:#0f1111;
-    padding:6px 12px;
+    padding:6px 10px;
     font-size:12px;
-    font-weight:500;
     cursor:pointer;
+    font-weight:500;
     text-align:center;
     width:100%;
     margin-top:auto;
 }
-.card-btn:hover{background:#f7ca00;}
+.amz-add-btn:hover{background:#f7ca00;}
 
-/* EXACT AMAZON PRODUCT DETAIL PAGE POPUP MODAL */
+/* DETAIL POPUP MODAL (AMAZON STYLE PRODUCT PAGE) */
 .modal-overlay{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
@@ -192,22 +217,15 @@ body{background:#eaeded;color:#0f1111;}
     color:#565959;
     z-index:10;
 }
-
 .amz-detail-grid{
     display:grid;
-    grid-template-columns: 80px 380px 1fr;
+    grid-template-columns: 80px 360px 1fr;
     gap:20px;
-    padding:30px;
+    padding:25px;
 }
-
-.amz-vertical-thumbs{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
+.amz-vertical-thumbs{display:flex;flex-direction:column;gap:10px;}
 .amz-thumb{
-    width:70px;
-    height:70px;
+    width:70px; height:70px;
     border:2px solid #d5d9d9;
     border-radius:4px;
     padding:4px;
@@ -215,7 +233,6 @@ body{background:#eaeded;color:#0f1111;}
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#fff;
 }
 .amz-thumb img{max-width:100%;max-height:100%;object-fit:contain;}
 .amz-thumb.active{border-color:#e77600;box-shadow:0 0 3px rgba(229,121,0,0.6);}
@@ -223,68 +240,28 @@ body{background:#eaeded;color:#0f1111;}
 .amz-main-img-box{
     border:1px solid #e7e7e7;
     border-radius:8px;
-    height:420px;
+    height:400px;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:15px;
+    padding:10px;
     background:#fff;
     position:sticky;
     top:10px;
 }
 .amz-main-img{max-width:100%;max-height:100%;object-fit:contain;}
 
-.amz-product-info h2{
-    font-size:22px;
-    font-weight:normal;
-    color:#0f1111;
-    margin-bottom:8px;
-    line-height:1.3;
-}
-.amz-store-link{
-    font-size:13px;
-    color:#007185;
-    margin-bottom:10px;
-    display:block;
-    font-weight:bold;
-}
-.amz-rating-row{
-    font-size:13px;
-    color:#de7921;
-    margin-bottom:12px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
+.amz-product-info h2{font-size:22px;font-weight:normal;margin-bottom:8px;}
+.amz-store-link{font-size:13px;color:#007185;margin-bottom:8px;display:block;font-weight:bold;}
+.amz-rating-row{font-size:13px;color:#de7921;margin-bottom:10px;display:flex;gap:8px;}
 .amz-rating-row span{color:#007185;}
-.amz-price-box{
-    font-size:24px;
-    font-weight:500;
-    color:#0f1111;
-    margin-bottom:15px;
-    border-bottom:1px solid #e7e7e7;
-    padding-bottom:12px;
-}
+.amz-price-box{font-size:24px;font-weight:500;margin-bottom:15px;border-bottom:1px solid #e7e7e7;padding-bottom:10px;}
 .amz-price-box sup{font-size:13px;}
 .amz-price-box span{font-size:13px;color:#565959;font-weight:normal;}
 
-.amz-feature-title{
-    font-weight:bold;
-    font-size:14px;
-    color:#0f1111;
-    margin-bottom:8px;
-}
-.amz-feature-list{
-    list-style:disc;
-    padding-left:18px;
-    margin-bottom:20px;
-}
-.amz-feature-list li{
-    font-size:13px;
-    color:#333;
-    margin-bottom:6px;
-    line-height:1.4;
-}
+.amz-feature-title{font-weight:bold;font-size:14px;margin-bottom:6px;}
+.amz-feature-list{list-style:disc;padding-left:18px;margin-bottom:15px;}
+.amz-feature-list li{font-size:13px;color:#333;margin-bottom:5px;line-height:1.4;}
 
 .amz-buy-box{
     background:#f0f2f2;
@@ -304,24 +281,17 @@ body{background:#eaeded;color:#0f1111;}
     font-weight:bold;
     text-decoration:none;
     font-size:14px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 .whatsapp-order-btn:hover{background:#f7ca00;}
 .whatsapp-order-btn i{color:#25d366;margin-right:6px;font-size:16px;}
 
-footer{
-    background:#232f3e;
-    color:#ddd;
-    text-align:center;
-    padding:20px;
-    font-size:12px;
-    margin-top:40px;
-}
+footer{background:#232f3e;color:#ddd;text-align:center;padding:20px;font-size:12px;margin-top:40px;}
 
 @media(max-width:850px){
+    .main-layout{flex-direction:column;}
+    .amz-sidebar{width:100%;}
     .amz-detail-grid{grid-template-columns:1fr;padding:15px;}
     .amz-vertical-thumbs{flex-direction:row;justify-content:center;overflow-x:auto;}
-    .amz-main-img-box{height:280px;}
 }
 </style>
 </head>
@@ -331,8 +301,8 @@ footer{
 <div class="amz-header">
     <a href="#" class="amz-logo"><i class="fas fa-shield-alt"></i> Dynamic <span>Tech Solutions</span></a>
     
-    <div class="amz-search-box">
-        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC Cables, Prizor IP Camera, Prizor Analog Camera..." onkeyup="searchFilter()">
+    <div class="amz-search-container">
+        <input type="text" id="searchInput" class="amz-search-input" placeholder="Search HOC cables, Prizor IP/Analog cameras, DVR, NVR..." onkeyup="filterProducts()">
         <button class="amz-search-btn"><i class="fas fa-search"></i></button>
     </div>
 
@@ -341,130 +311,193 @@ footer{
     </a>
 </div>
 
-<!-- CONTAINER -->
-<div class="container">
-    <div class="section-header">
-        <h2>Authorized & Professional Catalogue</h2>
-        <span>Click any product to open Amazon-style multi-angle view</span>
+<!-- MAIN LAYOUT WITH SIDEBAR -->
+<div class="main-layout">
+    
+    <!-- LEFT FILTER SIDEBAR -->
+    <div class="amz-sidebar">
+        <div class="filter-group">
+            <h3>Popular Categories</h3>
+            <ul>
+                <li onclick="filterByCategory('all')">All Products</li>
+                <li onclick="filterByCategory('prizor')">Prizor Cameras & Recorders</li>
+                <li onclick="filterByCategory('hoc')">HOC Networking Cables</li>
+                <li onclick="filterByCategory('safety')">Fire & Electrical Safety</li>
+            </ul>
+        </div>
+        <div class="filter-group">
+            <h3>Brands</h3>
+            <ul>
+                <li onclick="filterByBrand('Prizor')">Prizor</li>
+                <li onclick="filterByBrand('HOC')">HOC</li>
+                <li onclick="filterByBrand('Dynamic')">Dynamic Tech</li>
+            </ul>
+        </div>
+        <div class="filter-group">
+            <h3>Customer Review</h3>
+            <ul>
+                <li><i class="fas fa-star" style="color:#de7921;"></i><i class="fas fa-star" style="color:#de7921;"></i><i class="fas fa-star" style="color:#de7921;"></i><i class="fas fa-star" style="color:#de7921;"></i><i class="fas fa-star" style="color:#de7921;"></i> & Up</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="grid" id="productGrid">
-
-        <!-- 1. HOC CABLES -->
-        <div class="card searchable" data-text="hoc cables cat6 lan copper networking structured authorized" onclick="openModal(
-            'HOC Structured Networking CAT6 Pure Copper LAN Cable',
-            'Authorized HOC Partner Product',
-            ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80'],
-            'Official authorized HOC high-speed structured LAN copper cabling engineered for enterprise data transfer, zero signal loss, and high bandwidth reliability.',
-            [
-                '100% Pure Copper Conductor: High-grade solid copper ensuring maximum signal velocity.',
-                'Gigabit Performance: Supports up to 250 MHz frequency bandwidth for seamless 1 Gbps data.',
-                'Robust Outer Jacket: Flame-retardant outer sheath designed for heavy conduit deployment.',
-                'Authorized Channel Partner Stock: 100% genuine guaranteed.'
-            ]
-        )">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80" alt="HOC Cable">
-            </div>
-            <div class="badge auth">Authorized HOC Partner</div>
-            <h3>HOC Structured CAT6 Pure Copper LAN Cable</h3>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>48</span></div>
-            <div class="price">Enquire <sup>for Bulk Order</sup></div>
-            <button class="card-btn">See Details & Angles</button>
+    <!-- RIGHT RESULTS -->
+    <div class="amz-content">
+        <div class="search-results-bar">
+            <span>1-8 of over 8 results for <strong>"Security, DVR, NVR & Networking"</strong></span>
+            <span>Sort by: <strong>Featured</strong></span>
         </div>
 
-        <!-- 2. PRIZOR IP CAMERA (SEPARATE) -->
-        <div class="card searchable" data-text="prizor ip camera wifi security surveillance smart cctv ptz robot network" onclick="openModal(
-            'Prizor Smart Wi-Fi & IP Security PTZ Camera',
-            'Authorized Prizor Partner Product',
-            ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
-            'Official authorized Prizor smart Wi-Fi IP network camera featuring ultra-HD resolution, 360-degree pan-tilt control, and mobile app live streaming.',
-            [
-                'Ultra HD Resolution: Crystal clear digital IP video streaming.',
-                'Pan & Tilt Control: Full 360-degree remote movement via smartphone app.',
-                'Smart Motion Tracking: Automatically follows moving objects in real time.',
-                'Two-Way Audio: Built-in high sensitivity microphone and speaker.'
-            ]
-        )">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80" alt="Prizor IP Camera">
-            </div>
-            <div class="badge auth">Authorized Prizor Partner</div>
-            <h3>Prizor Smart Wi-Fi IP PTZ Security Camera</h3>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>54</span></div>
-            <div class="price">Enquire <sup>for Best Price</sup></div>
-            <button class="card-btn">See Details & Angles</button>
-        </div>
+        <div class="amz-product-grid" id="productGrid">
 
-        <!-- 3. PRIZOR ANALOG CAMERA (SEPARATE) -->
-        <div class="card searchable" data-text="prizor analog camera cctv dome bullet dvr security surveillance wired" onclick="openModal(
-            'Prizor High-Definition Analog CCTV Camera',
-            'Authorized Prizor Partner Product',
-            ['https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
-            'Official authorized Prizor high-definition wired analog CCTV dome/bullet camera designed for reliable 24/7 DVR security surveillance setups.',
-            [
-                'HD Analog Clarity: Sharp image output compatible with standard DVR systems.',
-                'Weatherproof Metal Housing: IP66 rated robust build for indoor and outdoor use.',
-                'Infrared Night Vision: Clear black and white visibility up to 20 meters in total darkness.',
-                'Zero Latency Wiring: Stable BNC cable transmission without network delays.'
-            ]
-        )">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80" alt="Prizor Analog Camera">
+            <!-- 1. HOC CABLES -->
+            <div class="amz-card searchable" data-cat="hoc" data-brand="HOC" data-text="hoc cables cat6 lan copper networking structured authorized" onclick="openModal(
+                'HOC Structured Networking CAT6 Pure Copper LAN Cable',
+                'Authorized HOC Partner Product',
+                ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80'],
+                'Official authorized HOC high-speed structured LAN copper cabling engineered for enterprise data transfer, zero signal loss, and high bandwidth reliability.',
+                [
+                    '100% Pure Copper Conductor: High-grade solid copper ensuring maximum signal velocity.',
+                    'Gigabit Performance: Supports up to 250 MHz frequency bandwidth for seamless 1 Gbps data.',
+                    'Robust Outer Jacket: Flame-retardant outer sheath designed for heavy conduit deployment.',
+                    'Authorized Channel Partner Stock: 100% genuine guaranteed.'
+                ]
+            )">
+                <div class="amz-card-img"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80" alt="HOC Cable"></div>
+                <div class="amz-badge partner">Authorized HOC Partner</div>
+                <div class="amz-card-title">HOC Structured CAT6 Pure Copper LAN Cable</div>
+                <div class="amz-card-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>48</span></div>
+                <div class="amz-card-price">Enquire <sup>Bulk Price</sup></div>
+                <button class="amz-add-btn">See Details & Angles</button>
             </div>
-            <div class="badge auth">Authorized Prizor Partner</div>
-            <h3>Prizor HD Analog CCTV Security Camera</h3>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>42</span></div>
-            <div class="price">Enquire <sup>for Quote</sup></div>
-            <button class="card-btn">See Details & Angles</button>
-        </div>
 
-        <!-- 4. FIRE ALARM SYSTEM -->
-        <div class="card searchable" data-text="fire safety alarm system smoke detector panel conventional addressable" onclick="openModal(
-            'Fire Alarm Control & Detection System',
-            'Life & Property Safety Infrastructure',
-            ['https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80'],
-            'Comprehensive fire safety and detection infrastructure featuring centralized micro-processor panels, smoke sensors, and emergency warning strobes.',
-            [
-                'Smart Optical Sensors: Highly sensitive smoke and thermal detectors for instant hazard identification.',
-                'Centralized Monitoring Panel: Real-time zone tracking display pinpointing danger locations.',
-                'High-Decibel Siren & Strobes: Loud emergency audio-visual alerts to ensure fast evacuation.',
-                'Battery Backup Support: Inbuilt uninterrupted power supply during outages.'
-            ]
-        )">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80" alt="Fire Alarm System">
+            <!-- 2. PRIZOR IP CAMERA -->
+            <div class="amz-card searchable" data-cat="prizor" data-brand="Prizor" data-text="prizor ip camera wifi security surveillance smart cctv ptz robot network" onclick="openModal(
+                'Prizor Smart Wi-Fi & IP Security PTZ Camera',
+                'Authorized Prizor Partner Product',
+                ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
+                'Official authorized Prizor smart Wi-Fi IP network camera featuring ultra-HD resolution, 360-degree pan-tilt control, and mobile app live streaming.',
+                [
+                    'Ultra HD Resolution: Crystal clear digital IP video streaming.',
+                    'Pan & Tilt Control: Full 360-degree remote movement via smartphone app.',
+                    'Smart Motion Tracking: Automatically follows moving objects in real time.',
+                    'Two-Way Audio: Built-in high sensitivity microphone and speaker.'
+                ]
+            )">
+                <div class="amz-card-img"><img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80" alt="Prizor IP Camera"></div>
+                <div class="amz-badge partner">Authorized Prizor Partner</div>
+                <div class="amz-card-title">Prizor Smart Wi-Fi IP PTZ Security Camera</div>
+                <div class="amz-card-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>54</span></div>
+                <div class="amz-card-price">Enquire <sup>Best Price</sup></div>
+                <button class="amz-add-btn">See Details & Angles</button>
             </div>
-            <div class="badge">Fire Safety</div>
-            <h3>Fire Alarm Control Panel & Smoke Detectors</h3>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>19</span></div>
-            <div class="price">Commercial <sup>Setup</sup></div>
-            <button class="card-btn">See Details & Angles</button>
-        </div>
 
-        <!-- 5. ELECTRICAL DISTRIBUTION -->
-        <div class="card searchable" data-text="electrical works power distribution panel industrial wiring mcb rccb" onclick="openModal(
-            'Industrial Electrical Distribution Panel',
-            'Heavy Commercial Power Setup',
-            ['https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80'],
-            'Heavy-duty industrial power distribution panels and commercial wiring solutions engineered for safe, balanced 3-phase power management.',
-            [
-                'Industrial Grade Fabrication: Robust enclosure built to withstand heavy commercial loads.',
-                'Balanced 3-Phase Distribution: Efficient electrical power channeling across industrial units.',
-                'Advanced Circuit Protection: Equipped with premium MCB, RCCB, and earth fault safeguards.',
-                'Compliance Standard: Fully tested for industrial electrical codes.'
-            ]
-        )">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80" alt="Electrical Panel">
+            <!-- 3. PRIZOR ANALOG CAMERA -->
+            <div class="amz-card searchable" data-cat="prizor" data-brand="Prizor" data-text="prizor analog camera cctv dome bullet dvr security surveillance wired" onclick="openModal(
+                'Prizor High-Definition Analog CCTV Camera',
+                'Authorized Prizor Partner Product',
+                ['https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1541888946425-d0fbb18f86f8?w=600&auto=format&fit=crop&q=80'],
+                'Official authorized Prizor high-definition wired analog CCTV dome/bullet camera designed for reliable 24/7 DVR security surveillance setups.',
+                [
+                    'HD Analog Clarity: Sharp image output compatible with standard DVR systems.',
+                    'Weatherproof Metal Housing: IP66 rated robust build for indoor and outdoor use.',
+                    'Infrared Night Vision: Clear black and white visibility up to 20 meters in total darkness.',
+                    'Zero Latency Wiring: Stable BNC cable transmission without network delays.'
+                ]
+            )">
+                <div class="amz-card-img"><img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80" alt="Prizor Analog Camera"></div>
+                <div class="amz-badge partner">Authorized Prizor Partner</div>
+                <div class="amz-card-title">Prizor HD Analog CCTV Security Camera</div>
+                <div class="amz-card-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>42</span></div>
+                <div class="amz-card-price">Enquire <sup>Quote</sup></div>
+                <button class="amz-add-btn">See Details & Angles</button>
             </div>
-            <div class="badge">Electrical Works</div>
-            <h3>Industrial Electrical Distribution Panels</h3>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>24</span></div>
-            <div class="price">Heavy Duty <sup>Panels</sup></div>
-            <button class="card-btn">See Details & Angles</button>
-        </div>
 
+            <!-- 4. PRIZOR DVR SYSTEM -->
+            <div class="amz-card searchable" data-cat="prizor" data-brand="Prizor" data-text="prizor dvr digital video recorder cctv 4 channel 8 channel hdd support" onclick="openModal(
+                'Prizor Multi-Channel Digital Video Recorder (DVR)',
+                'Authorized Prizor Partner Product',
+                ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80'],
+                'Official authorized Prizor high-performance Digital Video Recorder (DVR) supporting multi-channel analog camera recording with cloud backup and mobile monitoring.',
+                [
+                    'Multi-Channel Support: Available in 4, 8, and 16 channel configurations.',
+                    'Advanced H.265+ Compression: Saves storage space while retaining crystal clear video quality.',
+                    'Smart Playback & Motion Alert: Instant notification on mobile app upon motion detection.',
+                    'SATA Hard Drive Support: Expandable storage capacity for long-term archiving.'
+                ]
+            )">
+                <div class="amz-card-img"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80" alt="Prizor DVR"></div>
+                <div class="amz-badge partner">Authorized Prizor Partner</div>
+                <div class="amz-card-title">Prizor Multi-Channel Digital Video Recorder (DVR)</div>
+                <div class="amz-card-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>36</span></div>
+                <div class="amz-card-price">Enquire <sup>for Pricing</sup></div>
+                <button class="amz-add-btn">See Details & Angles</button>
+            </div>
+
+            <!-- 5. PRIZOR NVR SYSTEM -->
+            <div class="amz-card searchable" data-cat="prizor" data-brand="Prizor" data-text="prizor nvr network video recorder ip camera poe 4k recording" onclick="openModal(
+                'Prizor 4K Network Video Recorder (NVR)',
+                'Authorized Prizor Partner Product',
+                ['https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80'],
+                'Official authorized Prizor 4K Network Video Recorder (NVR) engineered for seamless IP camera integration, high-bandwidth throughput, and ultra-HD recording.',
+                [
+                    '4K Ultra HD Resolution: Supports high-resolution IP camera streams simultaneously.',
+                    'Plug & Play PoE Ports: Easy setup with power over ethernet camera connections.',
+                    'Remote Access via App: Monitor live feeds and recorded clips directly on smartphones.',
+                    'Robust Security Protocol: Advanced data encryption for secure surveillance.'
+                ]
+            )">
+                <div class="amz-card-img"><img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80" alt="Prizor NVR"></div>
+                <div class="amz-badge partner">Authorized Prizor Partner</div>
+                <div class="amz-card-title">Prizor 4K Network Video Recorder (NVR)</div>
+                <div class="amz-card-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>29</span></div>
+                <div class="amz-card-price">Enquire <sup>for Quote</sup></div>
+                <button class="amz-add-btn">See Details & Angles</button>
+            </div>
+
+            <!-- 6. FIRE ALARM SYSTEM -->
+            <div class="amz-card searchable" data-cat="safety" data-brand="Dynamic" data-text="fire safety alarm system smoke detector panel conventional addressable" onclick="openModal(
+                'Fire Alarm Control & Detection System',
+                'Life & Property Safety Infrastructure',
+                ['https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80'],
+                'Comprehensive fire safety and detection infrastructure featuring centralized micro-processor panels, smoke sensors, and emergency warning strobes.',
+                [
+                    'Smart Optical Sensors: Highly sensitive smoke and thermal detectors for instant hazard identification.',
+                    'Centralized Monitoring Panel: Real-time zone tracking display pinpointing danger locations.',
+                    'High-Decibel Siren & Strobes: Loud emergency audio-visual alerts to ensure fast evacuation.',
+                    'Battery Backup Support: Inbuilt uninterrupted power supply during outages.'
+                ]
+            )">
+                <div class="amz-card-img"><img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80" alt="Fire Alarm System"></div>
+                <div class="amz-badge">Fire Safety</div>
+                <div class="amz-card-title">Fire Alarm Control Panel & Smoke Detectors</div>
+                <div class="amz-card-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>19</span></div>
+                <div class="amz-card-price">Commercial <sup>Setup</sup></div>
+                <button class="amz-add-btn">See Details & Angles</button>
+            </div>
+
+            <!-- 7. ELECTRICAL DISTRIBUTION -->
+            <div class="amz-card searchable" data-cat="safety" data-brand="Dynamic" data-text="electrical works power distribution panel industrial wiring mcb rccb" onclick="openModal(
+                'Industrial Electrical Distribution Panel',
+                'Heavy Commercial Power Setup',
+                ['https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80'],
+                'Heavy-duty industrial power distribution panels and commercial wiring solutions engineered for safe, balanced 3-phase power management.',
+                [
+                    'Industrial Grade Fabrication: Robust enclosure built to withstand heavy commercial loads.',
+                    'Balanced 3-Phase Distribution: Efficient electrical power channeling across industrial units.',
+                    'Advanced Circuit Protection: Equipped with premium MCB, RCCB, and earth fault safeguards.',
+                    'Compliance Standard: Fully tested for industrial electrical codes.'
+                ]
+            )">
+                <div class="amz-card-img"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80" alt="Electrical Panel"></div>
+                <div class="amz-badge">Electrical Works</div>
+                <div class="amz-card-title">Industrial Electrical Distribution Panels</div>
+                <div class="amz-card-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>24</span></div>
+                <div class="amz-card-price">Heavy Duty <sup>Panels</sup></div>
+                <button class="amz-add-btn">See Details & Angles</button>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -474,15 +507,10 @@ footer{
         <button class="modal-close" onclick="closeModal()">&times;</button>
         
         <div class="amz-detail-grid">
-            <!-- Column 1: Vertical Thumbnails -->
             <div class="amz-vertical-thumbs" id="thumbContainer"></div>
-
-            <!-- Column 2: Main Image View -->
             <div class="amz-main-img-box">
-                <img id="mainModalImg" src="" class="amz-main-img" alt="Product Zoom View">
+                <img id="mainModalImg" src="" class="amz-main-img" alt="Zoom View">
             </div>
-
-            <!-- Column 3: Product Info & Buy Box -->
             <div class="amz-product-info">
                 <h2 id="modalTitle">Product Title</h2>
                 <span class="amz-store-link" id="modalAuthBadge">Visit the Store</span>
@@ -512,12 +540,12 @@ footer{
 
 <footer>
     <p><strong>DYNAMIC TECHNOLOGY SOLUTIONS</strong></p>
-    <p>Authorized Partner for HOC & Prizor | Security, Networking, Electrical & Fire Safety Integrator</p>
+    <p>Authorized Partner for HOC & Prizor (Cameras, DVR, NVR, LAN Cables) | Security & Safety Integrator</p>
     <p style="margin-top:5px;">Contact / WhatsApp: +91 8390909845</p>
 </footer>
 
 <script>
-function searchFilter() {
+function filterProducts() {
     let query = document.getElementById("searchInput").value.toLowerCase().trim();
     let cards = document.querySelectorAll(".searchable");
 
@@ -525,6 +553,30 @@ function searchFilter() {
         let text = card.getAttribute("data-text");
         let content = card.innerText.toLowerCase();
         if(text.includes(query) || content.includes(query)) {
+            card.style.display = "flex";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+function filterByCategory(category) {
+    let cards = document.querySelectorAll(".searchable");
+    cards.forEach(card => {
+        let cat = card.getAttribute("data-cat");
+        if(category === 'all' || cat === category) {
+            card.style.display = "flex";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+function filterByBrand(brandName) {
+    let cards = document.querySelectorAll(".searchable");
+    cards.forEach(card => {
+        let brand = card.getAttribute("data-brand");
+        if(brand === brandName) {
             card.style.display = "flex";
         } else {
             card.style.display = "none";
