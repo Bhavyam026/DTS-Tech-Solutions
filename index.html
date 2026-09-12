@@ -150,7 +150,6 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
 
-        /* Clickable Product Image */
         .product-card img {
             width: 100%;
             height: 180px;
@@ -222,7 +221,6 @@
             font-size: 13px;
             width: 100%;
             margin-bottom: 6px;
-            transition: background 0.2s;
         }
 
         .btn-enquire:hover {
@@ -242,7 +240,6 @@
             margin-bottom: 6px;
             text-decoration: none;
             display: inline-block;
-            transition: background 0.2s;
         }
 
         .btn-whatsapp:hover {
@@ -262,7 +259,7 @@
             text-decoration: underline;
         }
 
-        /* Professional Footer Styling */
+        /* Professional Footer */
         footer {
             background-color: #131a22;
             color: #fff;
@@ -314,7 +311,7 @@
             border-top: 1px solid #232f3e;
         }
 
-        /* Password-Protected Admin Button */
+        /* Admin Button & Modal */
         .admin-panel-btn {
             position: fixed;
             bottom: 20px;
@@ -328,11 +325,6 @@
             font-weight: bold;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             z-index: 999;
-            transition: transform 0.2s;
-        }
-
-        .admin-panel-btn:hover {
-            transform: scale(1.05);
         }
 
         .admin-modal {
@@ -352,9 +344,9 @@
             background: #fff;
             padding: 25px;
             border-radius: 8px;
-            width: 850px;
+            width: 900px;
             max-width: 95%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
@@ -363,22 +355,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .btn-refresh {
             background-color: #27ae60;
             color: #fff;
             border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 8px 15px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 12px;
             font-weight: bold;
-        }
-
-        .btn-refresh:hover {
-            background-color: #219653;
         }
 
         table {
@@ -393,7 +381,7 @@
         }
 
         th, td {
-            padding: 8px;
+            padding: 9px;
             text-align: left;
         }
 
@@ -402,7 +390,7 @@
             color: white;
         }
 
-        /* Modal / Popup Styling */
+        /* Amazon Style Multi-Image Zoom Modal */
         .modal {
             display: none;
             position: fixed;
@@ -411,7 +399,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
+            background-color: rgba(0,0,0,0.7);
             justify-content: center;
             align-items: center;
         }
@@ -419,19 +407,19 @@
         .modal-content {
             background: #fff;
             padding: 25px;
-            border-radius: 8px;
-            width: 650px;
-            max-width: 90%;
+            border-radius: 10px;
+            width: 750px;
+            max-width: 95%;
             text-align: left;
             position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
         .close-btn {
             position: absolute;
             right: 15px;
             top: 10px;
-            font-size: 22px;
+            font-size: 26px;
             cursor: pointer;
             color: #888;
         }
@@ -440,22 +428,48 @@
             color: #000;
         }
 
-        .modal-images {
+        .amazon-zoom-container {
             display: flex;
-            gap: 12px;
+            flex-direction: column;
+            align-items: center;
             margin: 15px 0;
-            overflow-x: auto;
-            padding-bottom: 8px;
         }
 
-        .modal-images img {
-            width: 160px;
-            height: 130px;
+        .main-zoom-img {
+            width: 100%;
+            height: 320px;
             object-fit: contain;
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+        }
+
+        .thumbnail-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            width: 100%;
+            padding-bottom: 5px;
+        }
+
+        .thumbnail-row img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            border: 2px solid #ddd;
             border-radius: 6px;
-            padding: 5px;
+            padding: 4px;
             background: #fafafa;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .thumbnail-row img:hover, .thumbnail-row img.active-thumb {
+            border-color: #f39c12;
+            transform: scale(1.05);
         }
 
         .modal-specs-list {
@@ -463,6 +477,9 @@
             color: #444;
             margin-top: 10px;
             line-height: 1.6;
+            background: #fdfdfd;
+            padding: 10px;
+            border-left: 3px solid #f39c12;
         }
     </style>
 </head>
@@ -595,7 +612,7 @@
 
     </div>
 
-    <!-- Professional Company Footer -->
+    <!-- Professional Company Footer with Instagram Link -->
     <footer>
         <div class="footer-links">
             <div class="footer-col">
@@ -615,11 +632,11 @@
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Contact Us</h4>
+                <h4>Connect With Us</h4>
                 <ul>
                     <li>Email: <a href="mailto:dtsboisar@gmail.com">dtsboisar@gmail.com</a></li>
                     <li>WhatsApp: <a href="https://wa.me/918390909845" target="_blank">83909 09845</a></li>
-                    <li>Support & Sales Inquiry</li>
+                    <li>Instagram: <a href="https://www.instagram.com/dynamic_technology_solutions" target="_blank" style="color: #f39c12; font-weight: bold;">@dynamic_technology_solutions</a></li>
                 </ul>
             </div>
         </div>
@@ -631,15 +648,15 @@
     <!-- Password-Protected Admin Button -->
     <button class="admin-panel-btn" onclick="verifyAdmin()">🔒 Admin Visitor Log</button>
 
-    <!-- Admin Modal Popup with Refresh Button -->
+    <!-- Admin Modal Popup -->
     <div id="adminModal" class="admin-modal">
         <div class="admin-content">
             <div class="admin-header-row">
                 <div>
-                    <h3 style="color: #f39c12; margin-bottom: 2px;">Private Visitor Log (IP, Location & Device)</h3>
+                    <h3 style="color: #f39c12; margin-bottom: 2px;">Private Visitor Log (IP, Location & Phone Model)</h3>
                     <p style="font-size: 11px; color: #666;">Secured via password (Pankaj@1980)</p>
                 </div>
-                <button class="btn-refresh" onclick="openAdminModal()">🔄 Refresh Data</button>
+                <button class="btn-refresh" onclick="refreshAdminLogs()">🔄 Refresh New Entries</button>
             </div>
             <table>
                 <thead>
@@ -647,7 +664,7 @@
                         <th>Date & Time</th>
                         <th>Visitor IP Address</th>
                         <th>Live Location</th>
-                        <th>Device / Model</th>
+                        <th>Phone / Device Model</th>
                         <th>Activity / Search</th>
                     </tr>
                 </thead>
@@ -656,19 +673,26 @@
                 </tbody>
             </table>
             <div style="text-align: right; margin-top: 15px;">
-                <button onclick="closeAdminModal()" style="padding: 6px 15px; background: #555; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+                <button onclick="closeAdminModal()" style="padding: 7px 16px; background: #555; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Product Detail Modal Popup -->
+    <!-- Amazon-Style Multi-Image Detail Modal Popup -->
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h3 id="modalTitle" style="margin-bottom: 5px; color: #222;"></h3>
-            <p style="font-size: 12px; color: #666;">Product Gallery & Multiple Angles (Clickable View):</p>
-            <div class="modal-images" id="modalImagesContainer"></div>
-            <h4 style="font-size: 14px; margin-top: 10px; color: #f39c12;">Full Specifications:</h4>
+            <p style="font-size: 12px; color: #666;">Amazon Style Gallery & Multi-Angles (Click thumbnail to zoom):</p>
+            
+            <div class="amazon-zoom-container">
+                <!-- Big Main Image View -->
+                <img id="mainZoomImg" class="main-zoom-img" src="" alt="Main Product View">
+                <!-- Thumbnail Multi-Images Row -->
+                <div class="thumbnail-row" id="modalThumbnails"></div>
+            </div>
+
+            <h4 style="font-size: 14px; margin-top: 5px; color: #f39c12;">Full Specifications:</h4>
             <div class="modal-specs-list" id="modalSpecs"></div>
         </div>
     </div>
@@ -676,7 +700,35 @@
     <script>
         let visitorIP = "Fetching IP...";
         let visitorLocation = "Fetching Location...";
-        let deviceModel = navigator.platform + " (" + (navigator.userAgent.includes("Mobile") ? "Mobile" : "Desktop") + ")";
+        
+        // Advanced Mobile & Phone Model Detection Script
+        function getDeviceModel() {
+            let ua = navigator.userAgent;
+            let device = "Desktop / PC";
+
+            if (/iphone/i.test(ua)) {
+                return "Apple iPhone";
+            } else if (/ipad/i.test(ua)) {
+                return "Apple iPad";
+            } else if (/android/i.test(ua)) {
+                let match = ua.match(/\b(SM-[A-Z0-9]+|M2[0-9]{3}[A-Z]{1,2}|CPH[0-9]{4}|RMX[0-9]{4}|Vivo\s[0-9A-Z]+|IN20[0-9]{2}|KB20[0-9]{2}|LE21[0-9]{2}|Moto\s[a-zA-Z0-9]+)\b/i);
+                if (match) {
+                    return "Android (" + match[0] + ")";
+                }
+                let buildMatch = ua.match(/;\s([^\)]+)\sBuild\//);
+                if (buildMatch) {
+                    return "Android (" + buildMatch[1] + ")";
+                }
+                return "Android Phone";
+            } else if (/Win/.test(navigator.platform)) {
+                return "Windows PC";
+            } else if (/Mac/.test(navigator.platform)) {
+                return "Mac OS";
+            }
+            return device;
+        }
+
+        let deviceModel = getDeviceModel();
 
         // Fetch IP and Live Location automatically
         fetch('https://ipapi.co/json/')
@@ -703,9 +755,9 @@
                     device: deviceModel, 
                     action: "Visited Catalog Home Page" 
                 });
-                if(logs.length > 30) logs.pop();
+                if(logs.length > 40) logs.pop();
                 localStorage.setItem('visitorLogs', JSON.stringify(logs));
-            }, 1200);
+            }, 1000);
         }
 
         // Track Search Query
@@ -737,6 +789,11 @@
         }
 
         function openAdminModal() {
+            refreshAdminLogs();
+            document.getElementById('adminModal').style.display = 'flex';
+        }
+
+        function refreshAdminLogs() {
             let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
             let tbody = document.getElementById('visitorLogBody');
             tbody.innerHTML = '';
@@ -754,24 +811,38 @@
                     tbody.appendChild(tr);
                 });
             }
-            document.getElementById('adminModal').style.display = 'flex';
         }
 
         function closeAdminModal() {
             document.getElementById('adminModal').style.display = 'none';
         }
 
+        // Amazon Style Modal Function with Thumbnails switching
         function openModal(title, images, specs) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalSpecs').innerText = specs;
             
-            const imgContainer = document.getElementById('modalImagesContainer');
-            imgContainer.innerHTML = '';
+            const mainImg = document.getElementById('mainZoomImg');
+            const thumbContainer = document.getElementById('modalThumbnails');
             
-            images.forEach(imgSrc => {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                imgContainer.appendChild(img);
+            thumbContainer.innerHTML = '';
+            
+            if (images.length > 0) {
+                mainImg.src = images[0];
+            }
+
+            images.forEach((imgSrc, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgSrc;
+                if(index === 0) thumb.classList.add('active-thumb');
+                
+                thumb.onclick = function() {
+                    mainImg.src = imgSrc;
+                    document.querySelectorAll('.thumbnail-row img').forEach(t => t.classList.remove('active-thumb'));
+                    thumb.classList.add('active-thumb');
+                };
+                
+                thumbContainer.appendChild(thumb);
             });
 
             document.getElementById('productModal').style.display = 'flex';
