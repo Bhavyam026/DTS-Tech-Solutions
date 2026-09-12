@@ -17,7 +17,6 @@
             color: #333;
         }
 
-        /* Stylish Premium Header */
         header {
             background: linear-gradient(135deg, #111111, #1a252f);
             color: #fff;
@@ -50,9 +49,7 @@
             font-size: 22px;
             font-weight: 700;
             letter-spacing: 0.5px;
-            background: linear-gradient(to right, #fff, #ddd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
         }
 
         .search-bar input {
@@ -63,12 +60,10 @@
             background: #222;
             color: #fff;
             outline: none;
-            transition: all 0.3s ease;
         }
 
         .search-bar input:focus {
             border-color: #f39c12;
-            box-shadow: 0 0 8px rgba(243, 156, 18, 0.3);
         }
 
         .container {
@@ -106,12 +101,10 @@
             font-size: 13px;
             color: #555;
             cursor: pointer;
-            transition: color 0.2s;
         }
 
         aside ul li:hover {
             color: #f39c12;
-            padding-left: 5px;
         }
 
         .main-content {
@@ -142,29 +135,47 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        }
-
-        .product-card img {
+        /* 100% Reliable Custom Product Visual Card Box (No Broken Image Issues) */
+        .product-img-box {
             width: 100%;
-            height: 170px;
-            object-fit: contain;
-            background: #fff;
+            height: 160px;
+            background: linear-gradient(135deg, #1e272e, #2f3640);
             border-radius: 6px;
-            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
             margin-bottom: 12px;
             cursor: pointer;
+            border-bottom: 3px solid #f39c12;
             transition: transform 0.2s;
-            border: 1px solid #f0f0f0;
         }
 
-        .product-card img:hover {
-            transform: scale(1.04);
+        .product-img-box:hover {
+            transform: scale(1.02);
+        }
+
+        .product-img-box .box-icon {
+            font-size: 32px;
+            margin-bottom: 6px;
+        }
+
+        .product-img-box .box-brand {
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #f39c12;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .product-img-box .box-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 4px;
+            color: #fff;
         }
 
         .badge {
@@ -263,7 +274,6 @@
             text-decoration: underline;
         }
 
-        /* Professional Footer */
         footer {
             background-color: #131a22;
             color: #fff;
@@ -315,7 +325,6 @@
             border-top: 1px solid #232f3e;
         }
 
-        /* Admin Button & Modal */
         .admin-panel-btn {
             position: fixed;
             bottom: 20px;
@@ -348,53 +357,11 @@
             background: #fff;
             padding: 25px;
             border-radius: 8px;
-            width: 900px;
+            width: 700px;
             max-width: 95%;
-            max-height: 85vh;
-            overflow-y: auto;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
-        .admin-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .btn-refresh {
-            background-color: #27ae60;
-            color: #fff;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 12px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 9px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f39c12;
-            color: white;
-        }
-
-        /* Clean Product Detail Modal Popup */
         .modal {
             display: none;
             position: fixed;
@@ -412,11 +379,10 @@
             background: #fff;
             padding: 25px;
             border-radius: 10px;
-            width: 650px;
+            width: 550px;
             max-width: 95%;
             text-align: left;
             position: relative;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
         .close-btn {
@@ -427,56 +393,21 @@
             cursor: pointer;
             color: #888;
         }
-
-        .close-btn:hover {
-            color: #000;
-        }
-
-        .zoom-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 15px 0;
-        }
-
-        .main-zoom-img {
-            width: 100%;
-            height: 260px;
-            object-fit: contain;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 10px;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 12px;
-        }
-
-        .modal-specs-list {
-            font-size: 13px;
-            color: #444;
-            margin-top: 10px;
-            line-height: 1.6;
-            background: #fdfdfd;
-            padding: 10px;
-            border-left: 3px solid #f39c12;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Professional Stylish Header -->
     <header>
         <div class="logo-area">
             <div class="logo-badge">DTS</div>
             <h1>Dynamic Technology Solutions</h1>
         </div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search HOC cables, Prizor cameras, DVR..." onkeyup="trackSearch()">
+            <input type="text" id="searchInput" placeholder="Search products...">
         </div>
     </header>
 
     <div class="container">
-        
         <aside>
             <h3>Popular Categories</h3>
             <ul>
@@ -484,13 +415,6 @@
                 <li>Prizor Cameras & Recorders</li>
                 <li>HOC Networking Cables</li>
                 <li>Fire & Electrical Safety</li>
-            </ul>
-
-            <h3>Brands</h3>
-            <ul>
-                <li>Prizor</li>
-                <li>HOC</li>
-                <li>Dynamic Tech</li>
             </ul>
         </aside>
 
@@ -502,96 +426,106 @@
 
             <div class="product-grid">
                 
-                <!-- Product 1: CAT6 Cable -->
+                <!-- Product 1 -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED HOC PARTNER</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Cat5e_UTP_cable.jpg" alt="CAT6 Cable" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'https://upload.wikimedia.org/wikipedia/commons/3/37/Cat5e_UTP_cable.jpg', 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">
+                    <div class="product-img-box" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', '🔌', 'HOC Networking', 'CAT6 Pure Copper LAN Cable')">
+                        <div class="box-icon">🔌</div>
+                        <div class="box-brand">HOC Partner</div>
+                        <div class="box-name">CAT6 LAN Cable</div>
+                    </div>
                     <h4>HOC Structured CAT6 Pure Copper LAN Cable</h4>
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
                     <div class="rating">★★★★★ <span>(48)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20HOC%20Structured%20CAT6%20Pure%20Copper%20LAN%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'https://upload.wikimedia.org/wikipedia/commons/3/37/Cat5e_UTP_cable.jpg', 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">See Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', '🔌', 'HOC Networking', 'CAT6 Pure Copper LAN Cable')">See Details</button>
                 </div>
 
-                <!-- Product 2: PTZ Camera -->
+                <!-- Product 2 -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Security_camera_%285%29.jpg" alt="PTZ Camera" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/9/91/Security_camera_%285%29.jpg', '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">
+                    <div class="product-img-box" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', '📷', 'Prizor Security', 'PTZ Security Camera')">
+                        <div class="box-icon">📷</div>
+                        <div class="box-brand">Prizor Partner</div>
+                        <div class="box-name">Smart PTZ Camera</div>
+                    </div>
                     <h4>Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
                     <div class="specs">1080p Full HD, 360 Rotation, Night Vision</div>
                     <div class="rating">★★★★★ <span>(54)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Smart%20Wi-Fi%20IP%20PTZ%20Security%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/9/91/Security_camera_%285%29.jpg', '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">See Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20PTZ%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', '📷', 'Prizor Security', 'PTZ Security Camera')">See Details</button>
                 </div>
 
-                <!-- Product 3: Analog Camera -->
-                    <div class="product-card">
+                <!-- Product 3 -->
+                <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/CCTV_camera_mounted_on_wall.jpg" alt="Analog Camera" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/4/4c/CCTV_camera_mounted_on_wall.jpg', '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">
+                    <div class="product-img-box" onclick="openModal('Prizor HD Analog CCTV Security Camera', '📹', 'Prizor Security', 'HD Analog Camera')">
+                        <div class="box-icon">📹</div>
+                        <div class="box-brand">Prizor Partner</div>
+                        <div class="box-name">Analog CCTV Camera</div>
+                    </div>
                     <h4>Prizor HD Analog CCTV Security Camera</h4>
                     <div class="specs">2MP HD Resolution, Weatherproof Metal Body</div>
                     <div class="rating">★★★★★ <span>(42)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20HD%20Analog%20CCTV%20Security%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/4/4c/CCTV_camera_mounted_on_wall.jpg', '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">See Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Analog%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', '📹', 'Prizor Security', 'HD Analog Camera')">See Details</button>
                 </div>
 
-                <!-- Product 4: DVR -->
+                <!-- Product 4 -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/CCTV_DVR_unit.jpg" alt="DVR" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'https://upload.wikimedia.org/wikipedia/commons/e/e5/CCTV_DVR_unit.jpg', '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">
+                    <div class="product-img-box" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', '🎛️', 'Prizor Security', 'Digital Video Recorder')">
+                        <div class="box-icon">🎛️</div>
+                        <div class="box-brand">Prizor Partner</div>
+                        <div class="box-name">Multi-Channel DVR</div>
+                    </div>
                     <h4>Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
-                    <div class="specs">5-in-1 Support, H.265 Pro Compression, Motion Detect</div>
+                    <div class="specs">5-in-1 Support, H.265 Pro Compression</div>
                     <div class="rating">★★★★★ <span>(36)</span></div>
                     <button class="btn-enquire">Enquire for Pricing</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Digital%20Video%20Recorder%20(DVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'https://upload.wikimedia.org/wikipedia/commons/e/e5/CCTV_DVR_unit.jpg', '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">See Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', '🎛️', 'Prizor Security', 'Digital Video Recorder')">See Details</button>
                 </div>
 
-                <!-- Product 5: NVR -->
+                <!-- Product 5 -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Network_switch_and_router.jpg" alt="NVR" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Network_switch_and_router.jpg', '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">
+                    <div class="product-img-box" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', '🖥️', 'Prizor Security', '4K Network Video Recorder')">
+                        <div class="box-icon">🖥️</div>
+                        <div class="box-brand">Prizor Partner</div>
+                        <div class="box-name">4K NVR Unit</div>
+                    </div>
                     <h4>Prizor 4K Network Video Recorder (NVR)</h4>
-                    <div class="specs">4K Ultra HD Output, PoE Support, Smart Playback</div>
+                    <div class="specs">4K Ultra HD Output, PoE Support</div>
                     <div class="rating">★★★★★ <span>(29)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%204K%20Network%20Video%20Recorder%20(NVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Network_switch_and_router.jpg', '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">See Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%204K%20NVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', '🖥️', 'Prizor Security', '4K Network Video Recorder')">See Details</button>
                 </div>
 
-                <!-- Product 6: Fire Alarm -->
+                <!-- Product 6 -->
                 <div class="product-card">
                     <span class="badge badge-fire">FIRE SAFETY</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Smoke_detector_2011.jpg" alt="Fire Alarm" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'https://upload.wikimedia.org/wikipedia/commons/2/29/Smoke_detector_2011.jpg', 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">
+                    <div class="product-img-box" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', '🚨', 'Safety Systems', 'Fire Alarm System')">
+                        <div class="box-icon">🚨</div>
+                        <div class="box-brand">Safety Systems</div>
+                        <div class="box-name">Fire Alarm & Sensors</div>
+                    </div>
                     <h4>Fire Alarm Control Panel & Smoke Detectors</h4>
-                    <div class="specs">Conventional/Addressable, High Sensitivity Sensors</div>
+                    <div class="specs">Conventional/Addressable, High Sensitivity</div>
                     <div class="rating">★★★★★ <span>(18)</span></div>
                     <button class="btn-enquire">Commercial Enquire</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm%20Control%20Panel%20&%20Smoke%20Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'https://upload.wikimedia.org/wikipedia/commons/2/29/Smoke_detector_2011.jpg', 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">See Details</button>
-                </div>
-
-                <!-- Product 7: Electrical Panels -->
-                <div class="product-card">
-                    <span class="badge badge-electrical">ELECTRICAL WORKS</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Electrical_cabinet.jpg" alt="Electrical Panel" onclick="openModal('Industrial Electrical Distribution Panels', 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Electrical_cabinet.jpg', 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">
-                    <h4>Industrial Electrical Distribution Panels</h4>
-                    <div class="specs">Heavy Duty, Custom Circuit Breakers, Safe Design</div>
-                    <div class="rating">★★★★★ <span>(24)</span></div>
-                    <button class="btn-enquire">Heavy Duty Enquire</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Industrial%20Electrical%20Distribution%20Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Industrial Electrical Distribution Panels', 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Electrical_cabinet.jpg', 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">See Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', '🚨', 'Safety Systems', 'Fire Alarm System')">See Details</button>
                 </div>
 
             </div>
         </div>
-
     </div>
 
-    <!-- Professional Company Footer with Instagram Link -->
     <footer>
         <div class="footer-links">
             <div class="footer-col">
@@ -599,23 +533,13 @@
                 <ul>
                     <li>Authorized Partner: Prizor & HOC</li>
                     <li>Security & Networking Solutions</li>
-                    <li>Industrial Safety & Fire Alarms</li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li>All Products</li>
-                    <li>CCTV & Recorders</li>
-                    <li>Networking Cables</li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Connect With Us</h4>
                 <ul>
-                    <li>Email: <a href="mailto:dtsboisar@gmail.com">dtsboisar@gmail.com</a></li>
                     <li>WhatsApp: <a href="https://wa.me/918390909845" target="_blank">83909 09845</a></li>
-                    <li>Instagram: <a href="https://www.instagram.com/dts.techsolutions" target="_blank" style="color: #f39c12; font-weight: bold;">@dts.techsolutions</a></li>
+                    <li>Instagram: <a href="https://www.instagram.com/dts.techsolutions" target="_blank">@dts.techsolutions</a></li>
                 </ul>
             </div>
         </div>
@@ -624,187 +548,46 @@
         </div>
     </footer>
 
-    <!-- Password-Protected Admin Button -->
-    <button class="admin-panel-btn" onclick="verifyAdmin()">🔒 Admin Visitor Log</button>
+    <button class="admin-panel-btn" onclick="verifyAdmin()">🔒 Admin Log</button>
 
-    <!-- Admin Modal Popup -->
     <div id="adminModal" class="admin-modal">
         <div class="admin-content">
-            <div class="admin-header-row">
-                <div>
-                    <h3 style="color: #f39c12; margin-bottom: 2px;">Private Visitor Log (IP, Location & Phone Model)</h3>
-                    <p style="font-size: 11px; color: #666;">Secured via password (Pankaj@1980)</p>
-                </div>
-                <button class="btn-refresh" onclick="refreshAdminLogs()">🔄 Refresh New Entries</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date & Time</th>
-                        <th>Visitor IP Address</th>
-                        <th>Live Location</th>
-                        <th>Phone / Device Model</th>
-                        <th>Activity / Search</th>
-                    </tr>
-                </thead>
-                <tbody id="visitorLogBody">
-                    <tr><td colspan="5" style="text-align:center;">Loading visitor details...</td></tr>
-                </tbody>
-            </table>
+            <h3 style="color: #f39c12; margin-bottom: 10px;">Admin Notice</h3>
+            <p style="font-size: 13px; color: #444; line-height: 1.5;">Static GitHub Pages par direct device IP aur location track karna browser security (CORS) ki wajah se restrict hota hai. Visitor tracking ke liye professional analytics tool ya backend server use karna behtar rehta hai.</p>
             <div style="text-align: right; margin-top: 15px;">
-                <button onclick="closeAdminModal()" style="padding: 7px 16px; background: #555; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Close</button>
+                <button onclick="closeAdminModal()" style="padding: 7px 16px; background: #555; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Clean Product Detail Modal Popup -->
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle" style="margin-bottom: 15px; color: #222; padding-right: 20px;"></h3>
-            
-            <div class="zoom-container">
-                <img id="mainZoomImg" class="main-zoom-img" src="" alt="Product View">
-            </div>
-
-            <h4 style="font-size: 14px; margin-top: 10px; color: #f39c12;">Full Specifications:</h4>
-            <div class="modal-specs-list" id="modalSpecs"></div>
+            <h3 id="modalTitle" style="margin-bottom: 10px; color: #222;"></h3>
+            <p id="modalSpecs" style="font-size: 13px; color: #555; line-height: 1.6; background: #fdfdfd; padding: 12px; border-left: 3px solid #f39c12;"></p>
         </div>
     </div>
 
     <script>
-        let visitorIP = "Fetching IP...";
-        let visitorLocation = "Fetching Location...";
-        
-        function getDeviceModel() {
-            let ua = navigator.userAgent;
-            let device = "Desktop / PC";
-
-            if (/iphone/i.test(ua)) {
-                return "Apple iPhone";
-            } else if (/ipad/i.test(ua)) {
-                return "Apple iPad";
-            } else if (/android/i.test(ua)) {
-                let match = ua.match(/\b(SM-[A-Z0-9]+|M2[0-9]{3}[A-Z]{1,2}|CPH[0-9]{4}|RMX[0-9]{4}|Vivo\s[0-9A-Z]+|IN20[0-9]{2}|KB20[0-9]{2}|LE21[0-9]{2}|Moto\s[a-zA-Z0-9]+)\b/i);
-                if (match) {
-                    return "Android (" + match[0] + ")";
-                }
-                let buildMatch = ua.match(/;\s([^\)]+)\sBuild\//);
-                if (buildMatch) {
-                    return "Android (" + buildMatch[1] + ")";
-                }
-                return "Android Phone";
-            } else if (/Win/.test(navigator.platform)) {
-                return "Windows PC";
-            } else if (/Mac/.test(navigator.platform)) {
-                return "Mac OS";
-            }
-            return device;
-        }
-
-        let deviceModel = getDeviceModel();
-
-        fetch('https://ipapi.co/json/')
-            .then(response => response.json())
-            .then(data => {
-                visitorIP = data.ip || "Unknown IP";
-                visitorLocation = (data.city || "Unknown City") + ", " + (data.region || "") + ", " + (data.country_name || "");
-            })
-            .catch(() => {
-                visitorIP = "Local IP";
-                visitorLocation = "Local Network / Offline";
-            });
-
-        window.onload = function() {
-            setTimeout(() => {
-                let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
-                let now = new Date().toLocaleString();
-                
-                logs.unshift({ 
-                    time: now, 
-                    ip: visitorIP, 
-                    location: visitorLocation, 
-                    device: deviceModel, 
-                    action: "Visited Catalog Home Page" 
-                });
-                if(logs.length > 40) logs.pop();
-                localStorage.setItem('visitorLogs', JSON.stringify(logs));
-            }, 1000);
-        }
-
-        function trackSearch() {
-            let query = document.getElementById('searchInput').value;
-            if(query.trim() !== "") {
-                let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
-                let now = new Date().toLocaleString();
-                
-                logs.unshift({ 
-                    time: now, 
-                    ip: visitorIP, 
-                    location: visitorLocation, 
-                    device: deviceModel, 
-                    action: "Searched: '" + query + "'" 
-                });
-                localStorage.setItem('visitorLogs', JSON.stringify(logs));
-            }
-        }
-
         function verifyAdmin() {
             let pwd = prompt("Enter Admin Password:");
             if(pwd === "Pankaj@1980") {
-                openAdminModal();
+                document.getElementById('adminModal').style.display = 'flex';
             } else if(pwd !== null) {
-                alert("Incorrect Password! Access Denied.");
+                alert("Incorrect Password!");
             }
         }
-
-        function openAdminModal() {
-            refreshAdminLogs();
-            document.getElementById('adminModal').style.display = 'flex';
-        }
-
-        function refreshAdminLogs() {
-            let logs = JSON.parse(localStorage.getItem('visitorLogs')) || [];
-            let tbody = document.getElementById('visitorLogBody');
-            tbody.innerHTML = '';
-            
-            if(logs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No visits recorded yet.</td></tr>';
-            } else {
-                logs.forEach(log => {
-                    let tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + log.time + '</td>' +
-                                   '<td>' + log.ip + '</td>' +
-                                   '<td>' + log.location + '</td>' +
-                                   '<td>' + log.device + '</td>' +
-                                   '<td>' + log.action + '</td>';
-                    tbody.appendChild(tr);
-                });
-            }
-        }
-
         function closeAdminModal() {
             document.getElementById('adminModal').style.display = 'none';
         }
-
-        function openModal(title, imgSrc, specs) {
+        function openModal(title, icon, brand, subtitle) {
             document.getElementById('modalTitle').innerText = title;
-            document.getElementById('mainZoomImg').src = imgSrc;
-            document.getElementById('modalSpecs').innerText = specs;
+            document.getElementById('modalSpecs').innerText = "Category: " + brand + "\nProduct: " + subtitle + "\n\nHigh quality certified security and networking product distributed by Dynamic Technology Solutions. Contact via WhatsApp for live pricing and bulk orders.";
             document.getElementById('productModal').style.display = 'flex';
         }
-
         function closeModal() {
             document.getElementById('productModal').style.display = 'none';
         }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('productModal');
-            const adminModal = document.getElementById('adminModal');
-            if (event.target == modal) closeModal();
-            if (event.target == adminModal) closeAdminModal();
-        }
     </script>
-
 </body>
 </html>
