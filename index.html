@@ -150,47 +150,21 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
 
-        /* Professional Product Visual Box replacing random broken images */
-        .product-visual-box {
+        .product-card img {
             width: 100%;
-            height: 160px;
-            background: linear-gradient(135deg, #1a252f, #2c3e50);
+            height: 170px;
+            object-fit: contain;
+            background: #fff;
             border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
+            padding: 8px;
             margin-bottom: 12px;
             cursor: pointer;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 3px solid #f39c12;
             transition: transform 0.2s;
+            border: 1px solid #f0f0f0;
         }
 
-        .product-visual-box:hover {
-            transform: scale(1.02);
-        }
-
-        .product-visual-box .p-icon {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .product-visual-box .p-brand {
-            font-size: 11px;
-            letter-spacing: 1px;
-            color: #f39c12;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .product-visual-box .p-title-short {
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 4px;
-            color: #fff;
+        .product-card img:hover {
+            transform: scale(1.04);
         }
 
         .badge {
@@ -438,7 +412,7 @@
             background: #fff;
             padding: 25px;
             border-radius: 10px;
-            width: 600px;
+            width: 650px;
             max-width: 95%;
             text-align: left;
             position: relative;
@@ -458,18 +432,23 @@
             color: #000;
         }
 
-        .modal-banner {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(135deg, #111, #2c3e50);
-            border-radius: 8px;
+        .zoom-container {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            color: #fff;
             margin: 15px 0;
-            border-bottom: 4px solid #f39c12;
+        }
+
+        .main-zoom-img {
+            width: 100%;
+            height: 260px;
+            object-fit: contain;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
         }
 
         .modal-specs-list {
@@ -526,113 +505,85 @@
                 <!-- Product 1: CAT6 Cable -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED HOC PARTNER</span>
-                    <div class="product-visual-box" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'CAT6 Pure Copper LAN Cable', '🔌')">
-                        <div class="p-icon">🔌</div>
-                        <div class="p-brand">HOC Partner</div>
-                        <div class="p-title-short">CAT6 Pure Copper LAN Cable</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Cat5e_UTP_cable.jpg" alt="CAT6 Cable" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'https://upload.wikimedia.org/wikipedia/commons/3/37/Cat5e_UTP_cable.jpg', 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">
                     <h4>HOC Structured CAT6 Pure Copper LAN Cable</h4>
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
                     <div class="rating">★★★★★ <span>(48)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20HOC%20Structured%20CAT6%20Pure%20Copper%20LAN%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'CAT6 Pure Copper LAN Cable', '🔌')">See Details</button>
+                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'https://upload.wikimedia.org/wikipedia/commons/3/37/Cat5e_UTP_cable.jpg', 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.')">See Details</button>
                 </div>
 
                 <!-- Product 2: PTZ Camera -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-visual-box" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', 'Smart Wi-Fi IP PTZ Camera', '📷')">
-                        <div class="p-icon">📷</div>
-                        <div class="p-brand">Prizor Partner</div>
-                        <div class="p-title-short">Smart Wi-Fi IP PTZ Camera</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Security_camera_%285%29.jpg" alt="PTZ Camera" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/9/91/Security_camera_%285%29.jpg', '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">
                     <h4>Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
                     <div class="specs">1080p Full HD, 360 Rotation, Night Vision</div>
                     <div class="rating">★★★★★ <span>(54)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Smart%20Wi-Fi%20IP%20PTZ%20Security%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', 'Smart Wi-Fi IP PTZ Camera', '📷')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/9/91/Security_camera_%285%29.jpg', '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.')">See Details</button>
                 </div>
 
                 <!-- Product 3: Analog Camera -->
-                <div class="product-card">
+                    <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-visual-box" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', 'HD Analog CCTV Camera', '📹')">
-                        <div class="p-icon">📹</div>
-                        <div class="p-brand">Prizor Partner</div>
-                        <div class="p-title-short">HD Analog CCTV Camera</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/CCTV_camera_mounted_on_wall.jpg" alt="Analog Camera" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/4/4c/CCTV_camera_mounted_on_wall.jpg', '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">
                     <h4>Prizor HD Analog CCTV Security Camera</h4>
                     <div class="specs">2MP HD Resolution, Weatherproof Metal Body</div>
                     <div class="rating">★★★★★ <span>(42)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20HD%20Analog%20CCTV%20Security%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', 'HD Analog CCTV Camera', '📹')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'https://upload.wikimedia.org/wikipedia/commons/4/4c/CCTV_camera_mounted_on_wall.jpg', '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.')">See Details</button>
                 </div>
 
                 <!-- Product 4: DVR -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-visual-box" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', 'Multi-Channel DVR Unit', '🎛️')">
-                        <div class="p-icon">🎛️</div>
-                        <div class="p-brand">Prizor Partner</div>
-                        <div class="p-title-short">Multi-Channel DVR Unit</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/CCTV_DVR_unit.jpg" alt="DVR" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'https://upload.wikimedia.org/wikipedia/commons/e/e5/CCTV_DVR_unit.jpg', '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">
                     <h4>Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
                     <div class="specs">5-in-1 Support, H.265 Pro Compression, Motion Detect</div>
                     <div class="rating">★★★★★ <span>(36)</span></div>
                     <button class="btn-enquire">Enquire for Pricing</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Digital%20Video%20Recorder%20(DVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', 'Multi-Channel DVR Unit', '🎛️')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'https://upload.wikimedia.org/wikipedia/commons/e/e5/CCTV_DVR_unit.jpg', '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.')">See Details</button>
                 </div>
 
                 <!-- Product 5: NVR -->
                 <div class="product-card">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-visual-box" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Network Video Recorder', '🖥️')">
-                        <div class="p-icon">🖥️</div>
-                        <div class="p-brand">Prizor Partner</div>
-                        <div class="p-title-short">4K Network Video Recorder</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Network_switch_and_router.jpg" alt="NVR" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Network_switch_and_router.jpg', '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">
                     <h4>Prizor 4K Network Video Recorder (NVR)</h4>
                     <div class="specs">4K Ultra HD Output, PoE Support, Smart Playback</div>
                     <div class="rating">★★★★★ <span>(29)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%204K%20Network%20Video%20Recorder%20(NVR)" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Network Video Recorder', '🖥️')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Network_switch_and_router.jpg', '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.')">See Details</button>
                 </div>
 
                 <!-- Product 6: Fire Alarm -->
                 <div class="product-card">
                     <span class="badge badge-fire">FIRE SAFETY</span>
-                    <div class="product-visual-box" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Fire Alarm & Detectors', '🚨')">
-                        <div class="p-icon">🚨</div>
-                        <div class="p-brand">Safety Systems</div>
-                        <div class="p-title-short">Fire Alarm & Smoke Detectors</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Smoke_detector_2011.jpg" alt="Fire Alarm" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'https://upload.wikimedia.org/wikipedia/commons/2/29/Smoke_detector_2011.jpg', 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">
                     <h4>Fire Alarm Control Panel & Smoke Detectors</h4>
                     <div class="specs">Conventional/Addressable, High Sensitivity Sensors</div>
                     <div class="rating">★★★★★ <span>(18)</span></div>
                     <button class="btn-enquire">Commercial Enquire</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm%20Control%20Panel%20&%20Smoke%20Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Fire Alarm & Detectors', '🚨')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'https://upload.wikimedia.org/wikipedia/commons/2/29/Smoke_detector_2011.jpg', 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.')">See Details</button>
                 </div>
 
                 <!-- Product 7: Electrical Panels -->
                 <div class="product-card">
                     <span class="badge badge-electrical">ELECTRICAL WORKS</span>
-                    <div class="product-visual-box" onclick="openModal('Industrial Electrical Distribution Panels', 'Electrical Works', 'Industrial Distribution Panels', '⚡')">
-                        <div class="p-icon">⚡</div>
-                        <div class="p-brand">Electrical Works</div>
-                        <div class="p-title-short">Industrial Distribution Panels</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Electrical_cabinet.jpg" alt="Electrical Panel" onclick="openModal('Industrial Electrical Distribution Panels', 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Electrical_cabinet.jpg', 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">
                     <h4>Industrial Electrical Distribution Panels</h4>
                     <div class="specs">Heavy Duty, Custom Circuit Breakers, Safe Design</div>
                     <div class="rating">★★★★★ <span>(24)</span></div>
                     <button class="btn-enquire">Heavy Duty Enquire</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Industrial%20Electrical%20Distribution%20Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Industrial Electrical Distribution Panels', 'Electrical Works', 'Industrial Distribution Panels', '⚡')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Industrial Electrical Distribution Panels', 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Electrical_cabinet.jpg', 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.')">See Details</button>
                 </div>
 
             </div>
@@ -710,12 +661,10 @@
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle" style="margin-bottom: 5px; color: #222; padding-right: 20px;"></h3>
+            <h3 id="modalTitle" style="margin-bottom: 15px; color: #222; padding-right: 20px;"></h3>
             
-            <div class="modal-banner" id="modalBannerBox">
-                <div id="modalBannerIcon" style="font-size: 40px; margin-bottom: 8px;"></div>
-                <div id="modalBannerBrand" style="font-size: 11px; letter-spacing: 1px; color: #f39c12; font-weight: bold; text-transform: uppercase;"></div>
-                <div id="modalBannerTitle" style="font-size: 14px; font-weight: 600; margin-top: 4px; color: #fff;"></div>
+            <div class="zoom-container">
+                <img id="mainZoomImg" class="main-zoom-img" src="" alt="Product View">
             </div>
 
             <h4 style="font-size: 14px; margin-top: 10px; color: #f39c12;">Full Specifications:</h4>
@@ -838,23 +787,10 @@
             document.getElementById('adminModal').style.display = 'none';
         }
 
-        const productSpecsData = {
-            'HOC Structured CAT6 Pure Copper LAN Cable': 'Pure Copper conductor, 305 meters easy pull box, high-speed Gigabit network support, UV resistant outer jacket for superior durability.',
-            'Prizor Smart Wi-Fi IP PTZ Security Camera': '1080p Full HD resolution, 360-degree pan and tilt rotation, smart motion tracking, infrared night vision up to 20m, two-way audio support.',
-            'Prizor HD Analog CCTV Security Camera': '2 Megapixel high definition output, IP66 weatherproof metal body construction, Smart IR for crystal clear night visibility, easy installation.',
-            'Prizor Multi-Channel Digital Video Recorder (DVR)': '5-in-1 hybrid support (AHD/TVI/CVI/IP/CVBS), H.265 Pro video compression, smart motion detection and mobile app integration for remote viewing.',
-            'Prizor 4K Network Video Recorder (NVR)': '4K Ultra HD video output, built-in PoE ports for direct plug-and-play camera connection, advanced smart playback and secure data backup capabilities.',
-            'Fire Alarm Control Panel & Smoke Detectors': 'Conventional and addressable system options, high sensitivity optical smoke and heat detectors, emergency sounders and battery backup support.',
-            'Industrial Electrical Distribution Panels': 'Heavy duty powder-coated enclosure, custom circuit breaker integration, designed strictly following industrial safety and protection standards.'
-        };
-
-        function openModal(title, brand, subtitle, icon) {
+        function openModal(title, imgSrc, specs) {
             document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalBannerBrand').innerText = brand;
-            document.getElementById('modalBannerTitle').innerText = subtitle;
-            document.getElementById('modalBannerIcon').innerText = icon;
-            document.getElementById('modalSpecs').innerText = productSpecsData[title] || 'High quality certified product from Dynamic Technology Solutions.';
-            
+            document.getElementById('mainZoomImg').src = imgSrc;
+            document.getElementById('modalSpecs').innerText = specs;
             document.getElementById('productModal').style.display = 'flex';
         }
 
