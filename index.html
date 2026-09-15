@@ -283,7 +283,7 @@
             color: #c45500;
         }
 
-        /* Amazon Style Multi-Image Modal Popup */
+        /* Amazon Style Detailed Modal with Multi-Images & Related Products */
         .modal {
             display: none;
             position: fixed;
@@ -295,18 +295,22 @@
             background-color: rgba(0,0,0,0.7);
             justify-content: center;
             align-items: center;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .modal-container {
             background: #fff;
-            width: 900px;
-            max-width: 95%;
+            width: 950px;
+            max-width: 100%;
             border-radius: 8px;
             display: flex;
+            flex-direction: column;
             position: relative;
             padding: 30px;
-            gap: 30px;
             box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .close-btn {
@@ -317,6 +321,12 @@
             cursor: pointer;
             color: #555;
             font-weight: bold;
+            z-index: 10;
+        }
+
+        .modal-top-section {
+            display: flex;
+            gap: 30px;
         }
 
         .modal-left {
@@ -366,7 +376,7 @@
         }
 
         .main-zoom-view:hover img {
-            transform: scale(1.3); /* Amazon style zoom on hover */
+            transform: scale(1.3);
         }
 
         .modal-right {
@@ -398,6 +408,48 @@
             padding: 12px;
             border-radius: 6px;
             margin-bottom: 20px;
+        }
+
+        /* Amazon Style Related Products Section inside Modal */
+        .related-section {
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .related-section h3 {
+            font-size: 16px;
+            color: #111;
+            margin-bottom: 15px;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .related-item {
+            border: 1px solid #e7e7e7;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        .related-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .related-item p {
+            font-size: 12px;
+            color: #007185;
+            font-weight: 600;
+            height: 30px;
+            overflow: hidden;
         }
 
         /* Professional Footer */
@@ -499,7 +551,7 @@
 
             <div class="product-grid" id="productGrid">
                 
-                <!-- Product 1 -->
+                <!-- Product 1: HOC CAT6 Cable -->
                 <div class="product-card" data-category="hoc">
                     <span class="badge">AUTHORIZED HOC PARTNER</span>
                     <div class="product-img-container" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500'])">
@@ -513,7 +565,7 @@
                     <button class="btn-details" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500'])">See full specifications</button>
                 </div>
 
-                <!-- Product 2 -->
+                <!-- Product 2: Prizor PTZ Camera -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
                     <div class="product-img-container" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500', 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500'])">
@@ -527,7 +579,7 @@
                     <button class="btn-details" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500', 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500'])">See full specifications</button>
                 </div>
 
-                <!-- Product 3 -->
+                <!-- Product 3: Prizor Analog Camera -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
                     <div class="product-img-container" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500'])">
@@ -541,7 +593,7 @@
                     <button class="btn-details" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500'])">See full specifications</button>
                 </div>
 
-                <!-- Product 4 -->
+                <!-- Product 4: Prizor DVR -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
                     <div class="product-img-container" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500'])">
@@ -555,7 +607,7 @@
                     <button class="btn-details" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500'])">See full specifications</button>
                 </div>
 
-                <!-- Product 5 -->
+                <!-- Product 5: Prizor NVR -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
                     <div class="product-img-container" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500'])">
@@ -569,7 +621,7 @@
                     <button class="btn-details" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500'])">See full specifications</button>
                 </div>
 
-                <!-- Product 6 -->
+                <!-- Product 6: Fire Alarm -->
                 <div class="product-card" data-category="fire">
                     <span class="badge badge-fire">FIRE SAFETY</span>
                     <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=500', 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500'])">
@@ -587,26 +639,49 @@
         </div>
     </div>
 
-    <!-- Amazon Style Multi-Image Gallery Modal Popup -->
+    <!-- Amazon Style Detailed Modal with Multi-Images & Related Products -->
     <div id="amazonModal" class="modal">
         <div class="modal-container">
             <span class="close-btn" onclick="closeAmazonModal()">&times;</span>
-            <div class="modal-left">
-                <div class="thumbnail-list" id="thumbnailList">
-                    <!-- Thumbnails generated dynamically -->
+            
+            <div class="modal-top-section">
+                <div class="modal-left">
+                    <div class="thumbnail-list" id="thumbnailList">
+                        <!-- Thumbnails injected via JS -->
+                    </div>
+                    <div class="main-zoom-view">
+                        <img id="mainModalImg" src="" alt="Zoom Product View">
+                    </div>
                 </div>
-                <div class="main-zoom-view">
-                    <img id="mainModalImg" src="" alt="Zoom Product View">
+                <div class="modal-right">
+                    <div id="modalBrand" class="modal-brand"></div>
+                    <h2 id="modalTitle"></h2>
+                    <div class="rating">★★★★★ <span style="color:#007185; font-size:13px;">4.8 out of 5 stars</span></div>
+                    <hr style="border:0; border-top:1px solid #eee; margin: 15px 0;">
+                    <div id="modalSpecs" class="modal-specs"></div>
+                    <a id="modalWhatsAppBtn" href="#" target="_blank" class="btn-whatsapp" style="margin-top: 10px;">Chat on WhatsApp for Best Price</a>
                 </div>
             </div>
-            <div class="modal-right">
-                <div id="modalBrand" class="modal-brand"></div>
-                <h2 id="modalTitle"></h2>
-                <div class="rating">★★★★★ <span style="color:#007185; font-size:13px;">4.8 out of 5 stars</span></div>
-                <hr style="border:0; border-top:1px solid #eee; margin: 15px 0;">
-                <div id="modalSpecs" class="modal-specs"></div>
-                <a id="modalWhatsAppBtn" href="#" target="_blank" class="btn-whatsapp" style="margin-top: 10px;">Chat on WhatsApp for Best Price</a>
+
+            <!-- Amazon Style Related Products Section -->
+            <div class="related-section">
+                <h3>Products related to this item</h3>
+                <div class="related-grid">
+                    <div class="related-item">
+                        <img src="https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500" alt="Related">
+                        <p>Prizor PTZ WiFi Camera</p>
+                    </div>
+                    <div class="related-item">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="Related">
+                        <p>HOC CAT6 Copper Cable</p>
+                    </div>
+                    <div class="related-item">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500" alt="Related">
+                        <p>Prizor 5-in-1 DVR Unit</p>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -628,7 +703,7 @@
                 <ul>
                     <li><a href="https://wa.me/918390909845" target="_blank">WhatsApp: 83909 09845</a></li>
                     <li><a href="https://www.instagram.com/dts.techsolutions" target="_blank">Instagram: @dts.techsolutions</a></li>
-                    <li><a href="mailto:contact@dtstechsolutions.com">Email Support</a></li>
+                    <li><a href="mailto:dtsboisar@gmail.com">Email: dtsboisar@gmail.com</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -687,11 +762,9 @@
             document.getElementById('modalBrand').innerText = "Brand / Category: " + brand;
             document.getElementById('modalSpecs').innerText = "Product Highlights & Specifications:\n• " + specs + "\n• Certified security hardware distributed by Dynamic Technology Solutions.\n• Contact via WhatsApp for instant quotations and bulk orders.";
             
-            // Set WhatsApp link dynamically
             let waLink = "https://wa.me/918390909845?text=" + encodeURIComponent("Hi, I am interested in " + title);
             document.getElementById('modalWhatsAppBtn').setAttribute('href', waLink);
 
-            // Populate Thumbnails
             let thumbContainer = document.getElementById('thumbnailList');
             thumbContainer.innerHTML = "";
             
