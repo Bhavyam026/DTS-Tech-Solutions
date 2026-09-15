@@ -297,7 +297,7 @@
 
         .btn-details:hover { text-decoration: underline; color: #c45500; }
 
-        /* Amazon Style Multi-Image & Port Modal */
+        /* Amazon Style Multi-Image / Port Modal */
         .modal {
             display: none;
             position: fixed;
@@ -500,7 +500,7 @@
             <h1>Dynamic Technology Solutions <span style="font-size: 12px; color: #febd69; font-weight: normal;">(Authorized Prizor & HOC Partner)</span></h1>
         </div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search Prizor NVR, HOC Cables, CCTV, AMC Services..." onkeyup="searchProducts()">
+            <input type="text" id="searchInput" placeholder="Search Prizor NVR, DVR, HOC Cables, CCTV..." onkeyup="searchProducts()">
             <button class="search-btn">🔍</button>
         </div>
         <div class="header-contact">
@@ -514,7 +514,7 @@
             <h3>Categories & Services</h3>
             <ul id="categoryList">
                 <li class="active" onclick="filterCategory('all', this)">All Products & Services</li>
-                <li onclick="filterCategory('prizor', this)">Prizor NVR & Security Cameras</li>
+                <li onclick="filterCategory('prizor', this)">Prizor NVR, DVR & Cameras</li>
                 <li onclick="filterCategory('hoc', this)">HOC Networking Cables</li>
                 <li onclick="filterCategory('electrical', this)">Electrical Power Panels</li>
                 <li onclick="filterCategory('fire', this)">Fire Safety Systems</li>
@@ -530,88 +530,102 @@
 
             <div class="product-grid" id="productGrid">
                 
-                <!-- 1. Prizor 8-Channel NVR System (Authorized Product with Multi-Image Ports View) -->
+                <!-- 1. Prizor 8-Channel NVR System (Network Video Recorder) -->
                 <div class="product-card" data-category="prizor">
-                    <span class="badge badge-auth">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR) System', 'Authorized Prizor Partner - DTS', '8 Channel IP Camera Input, H.265+ Video Bandwidth Monitoring, HDMI/VGA Video Output, 2x USB Ports for Mouse & Backup, LAN Port for Ethernet, Audio In/Out for Two-Way Audio.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg'])">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg" alt="Prizor 8-Channel NVR">
+                    <span class="badge badge-auth">AUTHORIZED PRIZOR NVR</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Prizor 8-Channel NVR (Network Video Recorder)', 'Authorized Prizor Partner - DTS', 'Dedicated IP Camera NVR Input, RJ45 Ethernet Network Ports, HDMI & VGA Monitor Output, USB Ports for Backup and Mouse Control.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'])">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Prizor 8-Channel NVR">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR) System', 'Authorized Prizor Partner - DTS', '8 Channel IP Camera Input, H.265+ Video Bandwidth Monitoring, HDMI/VGA Video Output, 2x USB Ports for Mouse & Backup, LAN Port for Ethernet, Audio In/Out for Two-Way Audio.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg'])">Prizor 8-Channel Network Video Recorder (NVR)</h4>
-                    <div class="specs">8 Channels, H.265+, HDMI/VGA, 2x USB, LAN Port</div>
+                    <h4 onclick="openAmazonModal('Prizor 8-Channel NVR (Network Video Recorder)', 'Authorized Prizor Partner - DTS', 'Dedicated IP Camera NVR Input, RJ45 Ethernet Network Ports, HDMI & VGA Monitor Output, USB Ports for Backup and Mouse Control.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'])">Prizor 8-Channel NVR (Network Video Recorder)</h4>
+                    <div class="specs">IP Camera Support, RJ45 LAN, HDMI/VGA Output</div>
                     <div class="rating">★★★★★ <span>4.9 (142)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR) System', 'Authorized Prizor Partner - DTS', '8 Channel IP Camera Input, H.265+ Video Bandwidth Monitoring, HDMI/VGA Video Output, 2x USB Ports for Mouse & Backup, LAN Port for Ethernet, Audio In/Out for Two-Way Audio.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg'])">Check Ports & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20to%20enquire%20about%20Authorized%20Prizor%208-Channel%20NVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR) System', 'Authorized Prizor Partner - DTS', '8 Channel IP Camera Input, H.265+ Video Bandwidth Monitoring, HDMI/VGA Video Output, 2x USB Ports for Mouse & Backup, LAN Port for Ethernet, Audio In/Out for Two-Way Audio.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg'])">View Ports & Multi-Images</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 8-Channel NVR (Network Video Recorder)', 'Authorized Prizor Partner - DTS', 'Dedicated IP Camera NVR Input, RJ45 Ethernet Network Ports, HDMI & VGA Monitor Output, USB Ports for Backup and Mouse Control.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'])">View NVR Ports & Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%208-Channel%20NVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openAmazonModal('Prizor 8-Channel NVR (Network Video Recorder)', 'Authorized Prizor Partner - DTS', 'Dedicated IP Camera NVR Input, RJ45 Ethernet Network Ports, HDMI & VGA Monitor Output, USB Ports for Backup and Mouse Control.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'])">Check Ports & Multi-Images</button>
                 </div>
 
-                <!-- 2. Prizor PTZ Camera -->
+                <!-- 2. Prizor 8-Channel DVR System (Digital Video Recorder for Analog Cameras) -->
                 <div class="product-card" data-category="prizor">
-                    <span class="badge badge-auth">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD, 360 Degree Pan/Tilt Rotation, Night Vision, Two-Way Audio Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Dome_cctv.jpg/640px-Dome_cctv.jpg'])">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg" alt="Prizor PTZ Camera">
+                    <span class="badge badge-auth">AUTHORIZED PRIZOR DVR</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Prizor 8-Channel DVR (Digital Video Recorder)', 'Authorized Prizor Partner - DTS', 'BNC Video Inputs for Analog/CCTV Cameras, Audio RCA Inputs/Outputs, HDMI/VGA Display Ports, 12V DC Power Port.', ['https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60'])">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60" alt="Prizor 8-Channel DVR">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD, 360 Degree Pan/Tilt Rotation, Night Vision, Two-Way Audio Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Dome_cctv.jpg/640px-Dome_cctv.jpg'])">Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
-                    <div class="specs">1080p Full HD, 360 Rotation, Night Vision</div>
-                    <div class="rating">★★★★★ <span>4.9 (98)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD, 360 Degree Pan/Tilt Rotation, Night Vision, Two-Way Audio Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Dome_cctv.jpg/640px-Dome_cctv.jpg'])">Enquire & Get Price</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20PTZ%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD, 360 Degree Pan/Tilt Rotation, Night Vision, Two-Way Audio Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/CCTV_security_camera.jpg/640px-CCTV_security_camera.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Dome_cctv.jpg/640px-Dome_cctv.jpg'])">See full specifications</button>
+                    <h4 onclick="openAmazonModal('Prizor 8-Channel DVR (Digital Video Recorder)', 'Authorized Prizor Partner - DTS', 'BNC Video Inputs for Analog/CCTV Cameras, Audio RCA Inputs/Outputs, HDMI/VGA Display Ports, 12V DC Power Port.', ['https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60'])">Prizor 8-Channel DVR (Digital Video Recorder)</h4>
+                    <div class="specs">BNC Camera Inputs, Audio RCA, HDMI/VGA</div>
+                    <div class="rating">★★★★★ <span>4.9 (120)</span></div>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 8-Channel DVR (Digital Video Recorder)', 'Authorized Prizor Partner - DTS', 'BNC Video Inputs for Analog/CCTV Cameras, Audio RCA Inputs/Outputs, HDMI/VGA Display Ports, 12V DC Power Port.', ['https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60'])">View DVR Ports & Details</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%208-Channel%20DVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openAmazonModal('Prizor 8-Channel DVR (Digital Video Recorder)', 'Authorized Prizor Partner - DTS', 'BNC Video Inputs for Analog/CCTV Cameras, Audio RCA Inputs/Outputs, HDMI/VGA Display Ports, 12V DC Power Port.', ['https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60'])">Check Ports & Multi-Images</button>
                 </div>
 
-                <!-- 3. HOC CAT6 Cable (Authorized Product) -->
-                <div class="product-card" data-category="hoc">
-                    <span class="badge badge-auth">AUTHORIZED HOC PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', 'Pure Copper Conductor, 305m Box, Gigabit Network Support, Low Signal Loss, Heavy Shielding.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/UTP_cable.jpg/640px-UTP_cable.jpg'])">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg" alt="HOC CAT6 Cable">
+                <!-- 3. Prizor PTZ Security Camera -->
+                <div class="product-card" data-category="prizor">
+                    <span class="badge badge-auth">AUTHORIZED PRIZOR CAMERA</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD Resolution, 360 Degree Motorized Pan & Tilt, IR Night Vision, Two-Way Intercom Audio.', ['https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60'])">
+                        <img src="https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60" alt="Prizor PTZ Camera">
                     </div>
-                    <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', 'Pure Copper Conductor, 305m Box, Gigabit Network Support, Low Signal Loss, Heavy Shielding.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/UTP_cable.jpg/640px-UTP_cable.jpg'])">HOC Structured CAT6 Pure Copper LAN Cable</h4>
+                    <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD Resolution, 360 Degree Motorized Pan & Tilt, IR Night Vision, Two-Way Intercom Audio.', ['https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60'])">Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
+                    <div class="specs">1080p HD, 360 Rotation, Night Vision</div>
+                    <div class="rating">★★★★★ <span>4.9 (98)</span></div>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD Resolution, 360 Degree Motorized Pan & Tilt, IR Night Vision, Two-Way Intercom Audio.', ['https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60'])">Enquire & Get Price</button>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20PTZ%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <button class="btn-details" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Authorized Prizor Partner - DTS', '1080p Full HD Resolution, 360 Degree Motorized Pan & Tilt, IR Night Vision, Two-Way Intercom Audio.', ['https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60'])">See full specifications</button>
+                </div>
+
+                <!-- 4. HOC CAT6 Cable -->
+                <div class="product-card" data-category="hoc">
+                    <span class="badge badge-auth">AUTHORIZED HOC CABLE</span>
+                    <div class="product-img-container" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', '100% Pure Copper Conductor, 305 Meter Pull Box, Gigabit Network Speed, Heavy Outer Shielding for Zero Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1574482620826-40673d49f648?w=500&auto=format&fit=crop&q=60'])">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="HOC CAT6 Cable">
+                    </div>
+                    <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', '100% Pure Copper Conductor, 305 Meter Pull Box, Gigabit Network Speed, Heavy Outer Shielding for Zero Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1574482620826-40673d49f648?w=500&auto=format&fit=crop&q=60'])">HOC Structured CAT6 Pure Copper LAN Cable</h4>
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
                     <div class="rating">★★★★★ <span>4.9 (110)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', 'Pure Copper Conductor, 305m Box, Gigabit Network Support, Low Signal Loss, Heavy Shielding.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/UTP_cable.jpg/640px-UTP_cable.jpg'])">Enquire & Get Price</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', '100% Pure Copper Conductor, 305 Meter Pull Box, Gigabit Network Speed, Heavy Outer Shielding for Zero Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1574482620826-40673d49f648?w=500&auto=format&fit=crop&q=60'])">Enquire & Get Price</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20need%20Authorized%20HOC%20CAT6%20Cables" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', 'Pure Copper Conductor, 305m Box, Gigabit Network Support, Low Signal Loss, Heavy Shielding.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ethernet_Cables.jpg/640px-Ethernet_Cables.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/UTP_cable.jpg/640px-UTP_cable.jpg'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', '100% Pure Copper Conductor, 305 Meter Pull Box, Gigabit Network Speed, Heavy Outer Shielding for Zero Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1574482620826-40673d49f648?w=500&auto=format&fit=crop&q=60'])">See full specifications</button>
                 </div>
 
-                <!-- 4. Electrical Power Distribution Panel -->
+                <!-- 5. Electrical Power Distribution Panel -->
                 <div class="product-card" data-category="electrical">
                     <span class="badge badge-elec">DTS ELECTRICAL SYSTEMS</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Power Distribution.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Electrical_substation.jpg/640px-Electrical_substation.jpg'])">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg" alt="Electrical Panel">
+                    <div class="product-img-container" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Industrial Power Distribution.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop&q=60'])">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" alt="Electrical Panel">
                     </div>
-                    <h4 onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Power Distribution.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Electrical_substation.jpg/640px-Electrical_substation.jpg'])">Industrial Electrical Power Distribution Panel</h4>
+                    <h4 onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Industrial Power Distribution.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop&q=60'])">Industrial Electrical Power Distribution Panel</h4>
                     <div class="specs">Heavy Duty Switchgear, MCB Integration</div>
                     <div class="rating">★★★★★ <span>4.8 (45)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Power Distribution.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Electrical_substation.jpg/640px-Electrical_substation.jpg'])">Enquire for Quote</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Industrial Power Distribution.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop&q=60'])">Enquire for Quote</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Electrical%20Distribution%20Panel" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Power Distribution.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Circuit_breaker_panel.jpg/640px-Circuit_breaker_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Electrical_substation.jpg/640px-Electrical_substation.jpg'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', 'Heavy Duty Switchgear, MCB Integration, Surge Protection, Safe Industrial Power Distribution.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop&q=60'])">See full specifications</button>
                 </div>
 
-                <!-- 5. Fire Safety System -->
+                <!-- 6. Fire Safety System -->
                 <div class="product-card" data-category="fire">
                     <span class="badge badge-fire">DTS FIRE SAFETY</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable, High Sensitivity Smoke Detectors, Battery Backup Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Fire_alarm_control_panel.jpg/640px-Fire_alarm_control_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Smoke_detector.jpg/640px-Smoke_detector.jpg'])">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Fire_alarm_control_panel.jpg/640px-Fire_alarm_control_panel.jpg" alt="Fire Alarm">
+                    <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable Fire Control, High Sensitivity Smoke Sensors, Emergency Battery Backup Integration.', ['https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'])">
+                        <img src="https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60" alt="Fire Alarm">
                     </div>
-                    <h4 onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable, High Sensitivity Smoke Detectors, Battery Backup Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Fire_alarm_control_panel.jpg/640px-Fire_alarm_control_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Smoke_detector.jpg/640px-Smoke_detector.jpg'])">Fire Alarm Control Panel & Smoke Detectors</h4>
+                    <h4 onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable Fire Control, High Sensitivity Smoke Sensors, Emergency Battery Backup Integration.', ['https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'])">Fire Alarm Control Panel & Smoke Detectors</h4>
                     <div class="specs">Conventional/Addressable, High Sensitivity</div>
                     <div class="rating">★★★★★ <span>4.7 (28)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable, High Sensitivity Smoke Detectors, Battery Backup Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Fire_alarm_control_panel.jpg/640px-Fire_alarm_control_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Smoke_detector.jpg/640px-Smoke_detector.jpg'])">Commercial Enquire</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable Fire Control, High Sensitivity Smoke Sensors, Emergency Battery Backup Integration.', ['https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'])">Commercial Enquire</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm%20Systems" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable, High Sensitivity Smoke Detectors, Battery Backup Integration.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Fire_alarm_control_panel.jpg/640px-Fire_alarm_control_panel.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Smoke_detector.jpg/640px-Smoke_detector.jpg'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', 'Conventional/Addressable Fire Control, High Sensitivity Smoke Sensors, Emergency Battery Backup Integration.', ['https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'])">See full specifications</button>
                 </div>
 
-                <!-- 6. Engineering & AMC Services -->
+                <!-- 7. Engineering & AMC Services -->
                 <div class="product-card" data-category="services">
                     <span class="badge badge-serv">DTS PROFESSIONAL SERVICES</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, CCTV, Networking, and Electrical systems.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Electrical_contractor.jpg/640px-Electrical_contractor.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Engineers_at_work.jpg/640px-Engineers_at_work.jpg'])">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Electrical_contractor.jpg/640px-Electrical_contractor.jpg" alt="Engineering Services">
+                    <div class="product-img-container" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, DVR, CCTV, and Networking.', ['https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60'])">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="Engineering Services">
                     </div>
-                    <h4 onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, CCTV, Networking, and Electrical systems.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Electrical_contractor.jpg/640px-Electrical_contractor.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Engineers_at_work.jpg/640px-Engineers_at_work.jpg'])">Turnkey Installation & AMC Services</h4>
+                    <h4 onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, DVR, CCTV, and Networking.', ['https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60'])">Turnkey Installation & AMC Services</h4>
                     <div class="specs">Expert Installation, 24/7 Support Contracts</div>
                     <div class="rating">★★★★★ <span>5.0 (80)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, CCTV, Networking, and Electrical systems.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Electrical_contractor.jpg/640px-Electrical_contractor.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Engineers_at_work.jpg/640px-Engineers_at_work.jpg'])">Book Service Consultation</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, DVR, CCTV, and Networking.', ['https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60'])">Book Service Consultation</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20need%20more%20details%20on%20DTS%20Engineering%20and%20AMC%20Services" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, CCTV, Networking, and Electrical systems.', ['https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Electrical_contractor.jpg/640px-Electrical_contractor.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Engineers_at_work.jpg/640px-Engineers_at_work.jpg'])">View Service Details</button>
+                    <button class="btn-details" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', 'Expert on-site installation by certified engineers, 24/7 technical support, preventative maintenance contracts for NVR, DVR, CCTV, and Networking.', ['https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60'])">View Service Details</button>
                 </div>
 
             </div>
@@ -634,7 +648,7 @@
                     <h2 id="modalTitle"></h2>
                     <div class="rating">★★★★★ <span style="color:#007185; font-size:13px;">4.9 out of 5 stars (Authorized DTS Standard)</span></div>
                     <hr style="border:0; border-top:1px solid #eee; margin: 15px 0;">
-                    <div style="font-size: 13px; font-weight: bold; color: #111; margin-bottom: 5px;">Technical Specifications & Highlights:</div>
+                    <div style="font-size: 13px; font-weight: bold; color: #111; margin-bottom: 5px;">Technical Specifications & Port Highlights:</div>
                     <div id="modalSpecs" class="modal-specs"></div>
                     <div style="font-size: 12px; color: #007185; font-weight: 600; margin-bottom: 10px;">✔ Authorized Partner & Direct Service Provider: Dynamic Technology Solutions</div>
                     <a id="modalWhatsAppBtn" href="#" target="_blank" class="btn-whatsapp" style="margin-top: 5px;">Chat on WhatsApp with DTS Expert</a>
@@ -643,7 +657,7 @@
         </div>
     </div>
 
-    <!-- Footer with dtsboisar@gmail.com & Instagram dts.techsolutions -->
+    <!-- Footer -->
     <footer>
         <div class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Back to top</div>
         
@@ -674,7 +688,7 @@
             <div class="footer-col">
                 <h3>Services & AMC</h3>
                 <ul>
-                    <li><a href="#">Prizor NVR & CCTV Installation</a></li>
+                    <li><a href="#">Prizor NVR, DVR & CCTV Installation</a></li>
                     <li><a href="#">HOC Cable Networking Solutions</a></li>
                     <li><a href="#">Annual Maintenance Contracts (AMC)</a></li>
                 </ul>
