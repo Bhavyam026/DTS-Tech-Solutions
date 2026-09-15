@@ -172,6 +172,8 @@
             padding: 12px 20px;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .product-grid {
@@ -536,7 +538,7 @@
     <div class="container">
         <aside>
             <div class="sidebar-brand-box">
-                <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=100&auto=format&fit=crop&q=60" alt="DTS Logo" class="sidebar-logo-img">
+                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=100&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="DTS Logo" class="sidebar-logo-img">
                 <h3>Product Categories</h3>
             </div>
             <ul id="categoryList">
@@ -572,7 +574,7 @@
                         'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60" alt="Prizor IP Camera">
+                        <img src="https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor IP Camera">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', [
                         'Crystal clear 4MP high-definition resolution with advanced CMOS sensor for sharp video surveillance.',
@@ -609,7 +611,7 @@
                         'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=500&auto=format&fit=crop&q=60" alt="Prizor Wi-Fi Camera">
+                        <img src="https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor Wi-Fi Camera">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi Wireless PTZ Security Camera', 'Authorized Prizor Partner - DTS', [
                         'Wireless Wi-Fi connectivity allows easy setup without complex wiring across your home or office.',
@@ -646,7 +648,7 @@
                         'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="Prizor 8-Channel NVR">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor 8-Channel NVR">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR)', 'Authorized Prizor Partner - DTS', [
                         'Supports up to 8 IP cameras with high-bandwidth network processing capability.',
@@ -683,7 +685,7 @@
                         'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60" alt="Prizor 8-Channel DVR">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor 8-Channel DVR">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 8-Channel Digital Video Recorder (DVR)', 'Authorized Prizor Partner - DTS', [
                         'Multi-format support compatible with traditional analog CCTV cameras.',
@@ -720,7 +722,7 @@
                         'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" alt="HOC CAT6 Cable">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="HOC CAT6 Cable">
                     </div>
                     <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', [
                         '100% Pure Copper conductor for optimal data transmission speeds and zero signal degradation.',
@@ -742,205 +744,208 @@
                         'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
                     ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20need%20Authorized%20HOC%20CAT6%20Cables" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20HOC%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
-                <!-- 6. Electrical Power Distribution Panel -->
+                <!-- 6. Electrical Power Panels -->
                 <div class="product-card" data-category="electrical">
-                    <span class="badge badge-elec">DTS ELECTRICAL SYSTEMS</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
-                        'Heavy duty industrial switchgear integration for safe electrical distribution.',
-                        'Integrated Miniature Circuit Breakers (MCB) and Earth Leakage protection.',
-                        'Powder-coated rugged metallic enclosure built for heavy industrial usage.',
-                        'Designed in compliance with standard safety electrical regulations.'
+                    <span class="badge badge-elec">ELECTRICAL SYSTEMS</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'DTS Engineering Solutions', [
+                        'Heavy-duty industrial grade construction designed for safe power distribution.',
+                        'Equipped with standard MCCB, MCB, and digital metering displays.',
+                        'Built following strict electrical safety standards and load protection.',
+                        'Customizable configurations available as per factory or commercial building requirements.'
                     ], [
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" alt="Electrical Panel">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Electrical Panel">
                     </div>
-                    <h4 onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
-                        'Heavy duty industrial switchgear integration for safe electrical distribution.',
-                        'Integrated Miniature Circuit Breakers (MCB) and Earth Leakage protection.',
-                        'Powder-coated rugged metallic enclosure built for heavy industrial usage.',
-                        'Designed in compliance with standard safety electrical regulations.'
+                    <h4 onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'DTS Engineering Solutions', [
+                        'Heavy-duty industrial grade construction designed for safe power distribution.',
+                        'Equipped with standard MCCB, MCB, and digital metering displays.',
+                        'Built following strict electrical safety standards and load protection.',
+                        'Customizable configurations available as per factory or commercial building requirements.'
                     ], [
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
                     ])">Industrial Electrical Power Distribution Panel</h4>
-                    <div class="specs">Heavy Duty Switchgear, MCB Integration</div>
-                    <div class="rating">★★★★★ <span>4.8 (45)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
-                        'Heavy duty industrial switchgear integration for safe electrical distribution.',
-                        'Integrated Miniature Circuit Breakers (MCB) and Earth Leakage protection.',
-                        'Powder-coated rugged metallic enclosure built for heavy industrial usage.',
-                        'Designed in compliance with standard safety electrical regulations.'
+                    <div class="specs">MCCB/MCB Protection, Digital Metering</div>
+                    <div class="rating">★★★★★ <span>4.8 (85)</span></div>
+                    <button class="btn-enquire" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'DTS Engineering Solutions', [
+                        'Heavy-duty industrial grade construction designed for safe power distribution.',
+                        'Equipped with standard MCCB, MCB, and digital metering displays.',
+                        'Built following strict electrical safety standards and load protection.',
+                        'Customizable configurations available as per factory or commercial building requirements.'
                     ], [
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
                     ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Electrical%20Distribution%20Panel" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Electrical%20Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
-                <!-- 7. Fire Safety System -->
+                <!-- 7. Fire Safety Systems -->
                 <div class="product-card" data-category="fire">
-                    <span class="badge badge-fire">DTS FIRE SAFETY</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', [
-                        'Conventional/Addressable Fire Alarm Control Panel with digital display status.',
-                        'High sensitivity optical smoke detectors for early fire outbreak detection.',
-                        'Thermal sensors and loud sounder strobes for emergency evacuation alerts.',
-                        'Emergency battery backup integration to operate even during total power outages.'
+                    <span class="badge badge-fire">FIRE SAFETY</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'DTS Fire Safety Division', [
+                        'Advanced micro-processor based fire alarm control panel.',
+                        'High sensitivity optical smoke detectors and thermal sensors.',
+                        'Manual call points and loud hooters for emergency evacuation.',
+                        'Fully compliant with fire safety guidelines for commercial complexes.'
                     ], [
-                        'https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60" alt="Fire Alarm & Smoke Detectors">
+                        <img src="https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Fire Safety System">
                     </div>
-                    <h4 onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', [
-                        'Conventional/Addressable Fire Alarm Control Panel with digital display status.',
-                        'High sensitivity optical smoke detectors for early fire outbreak detection.',
-                        'Thermal sensors and loud sounder strobes for emergency evacuation alerts.',
-                        'Emergency battery backup integration to operate even during total power outages.'
+                    <h4 onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'DTS Fire Safety Division', [
+                        'Advanced micro-processor based fire alarm control panel.',
+                        'High sensitivity optical smoke detectors and thermal sensors.',
+                        'Manual call points and loud hooters for emergency evacuation.',
+                        'Fully compliant with fire safety guidelines for commercial complexes.'
                     ], [
-                        'https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60'
                     ])">Fire Alarm Control Panel & Smoke Detectors</h4>
-                    <div class="specs">Conventional/Addressable Panel, Smoke Sensors</div>
-                    <div class="rating">★★★★★ <span>4.7 (28)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Dynamic Technology Solutions', [
-                        'Conventional/Addressable Fire Alarm Control Panel with digital display status.',
-                        'High sensitivity optical smoke detectors for early fire outbreak detection.',
-                        'Thermal sensors and loud sounder strobes for emergency evacuation alerts.',
-                        'Emergency battery backup integration to operate even during total power outages.'
+                    <div class="specs">Conventional/Addressable, Smoke Sensors</div>
+                    <div class="rating">★★★★★ <span>4.9 (95)</span></div>
+                    <button class="btn-enquire" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'DTS Fire Safety Division', [
+                        'Advanced micro-processor based fire alarm control panel.',
+                        'High sensitivity optical smoke detectors and thermal sensors.',
+                        'Manual call points and loud hooters for emergency evacuation.',
+                        'Fully compliant with fire safety guidelines for commercial complexes.'
                     ], [
-                        'https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60'
                     ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm%20and%20Smoke%20Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Fire%20Safety%20Systems" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
                 <!-- 8. Engineering & AMC Services -->
                 <div class="product-card" data-category="services">
-                    <span class="badge badge-serv">DTS PROFESSIONAL SERVICES</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', [
-                        'Expert on-site installation performed by certified security and networking engineers.',
-                        '24/7 technical support and rapid response maintenance teams.',
-                        'Customized preventative maintenance service contracts for corporate and residential security systems.'
+                    <span class="badge badge-serv">SERVICES & AMC</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance Contracts (AMC)', 'Dynamic Technology Solutions', [
+                        'End-to-end professional installation by certified technical engineers.',
+                        'Comprehensive Annual Maintenance Contracts (AMC) for security & electrical systems.',
+                        '24/7 priority breakdown support and routine preventive maintenance visits.',
+                        'Trusted service partner across industrial and residential zones.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="Engineering Services">
+                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Engineering Services">
                     </div>
-                    <h4 onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', [
-                        'Expert on-site installation performed by certified security and networking engineers.',
-                        '24/7 technical support and rapid response maintenance teams.',
-                        'Customized preventative maintenance service contracts for corporate and residential security systems.'
+                    <h4 onclick="openAmazonModal('Turnkey Installation & Annual Maintenance Contracts (AMC)', 'Dynamic Technology Solutions', [
+                        'End-to-end professional installation by certified technical engineers.',
+                        'Comprehensive Annual Maintenance Contracts (AMC) for security & electrical systems.',
+                        '24/7 priority breakdown support and routine preventive maintenance visits.',
+                        'Trusted service partner across industrial and residential zones.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60'
-                    ])">Turnkey Installation & AMC Services</h4>
+                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60'
+                    ])">Turnkey Installation & Annual Maintenance Contracts (AMC)</h4>
                     <div class="specs">Expert Installation, 24/7 Support Contracts</div>
-                    <div class="rating">★★★★★ <span>5.0 (80)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance (AMC) Services', 'Dynamic Technology Solutions', [
-                        'Expert on-site installation performed by certified security and networking engineers.',
-                        '24/7 technical support and rapid response maintenance teams.',
-                        'Customized preventative maintenance service contracts for corporate and residential security systems.'
+                    <div class="rating">★★★★★ <span>5.0 (150)</span></div>
+                    <button class="btn-enquire" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance Contracts (AMC)', 'Dynamic Technology Solutions', [
+                        'End-to-end professional installation by certified technical engineers.',
+                        'Comprehensive Annual Maintenance Contracts (AMC) for security & electrical systems.',
+                        '24/7 priority breakdown support and routine preventive maintenance visits.',
+                        'Trusted service partner across industrial and residential zones.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60'
                     ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20need%20more%20details%20on%20DTS%20Engineering%20and%20AMC%20Services" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20AMC%20Services" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Product Modal Popup -->
     <div id="amazonModal" class="modal">
         <div class="modal-container">
-            <span class="close-btn" onclick="closeAmazonModal()">&times;</span>
+            <span class="close-btn" onclick="closeAmazonModalWindow()">&times;</span>
             <div class="modal-top-section">
                 <div class="modal-left">
-                    <div class="thumbnail-list" id="thumbnailList"></div>
+                    <div class="thumbnail-list" id="modalThumbnails"></div>
                     <div class="main-zoom-view">
-                        <img id="mainModalImg" src="" alt="Product View">
+                        <img id="modalMainImg" src="" referrerpolicy="no-referrer" alt="Zoom View">
                     </div>
                 </div>
                 <div class="modal-right">
-                    <div id="modalBrand" class="modal-brand"></div>
-                    <h2 id="modalTitle"></h2>
-                    <div class="rating">★★★★★ <span style="color:#007185; font-size:13px;">4.9 out of 5 stars</span></div>
-                    <hr style="border:0; border-top:1px solid #eee; margin: 12px 0;">
+                    <div class="modal-brand" id="modalBrandText">Brand Partner</div>
+                    <h2 id="modalProductTitle">Product Title</h2>
+                    <div class="rating" style="margin-bottom: 10px;">★★★★★ <span style="color:#007185;">4.9 out of 5 stars</span></div>
+                    <hr style="border:0; border-top:1px solid #eee; margin-bottom:12px;">
                     <div class="about-item-section">
                         <h4>About this item</h4>
-                        <ul id="modalSpecsList"></ul>
+                        <ul id="modalBulletPoints"></ul>
                     </div>
-                    <div style="font-size: 12px; color: #007185; font-weight: 600; margin-bottom: 10px;">✔ Authorized Partner & Direct Service Provider: Dynamic Technology Solutions</div>
-                    <a id="modalWhatsAppBtn" href="#" target="_blank" class="btn-whatsapp" style="margin-top: 5px;">Chat on WhatsApp with DTS Expert</a>
+                    <a href="#" id="modalWhatsappLink" target="_blank" class="btn-whatsapp" style="padding: 12px; font-size: 15px; border-radius: 4px;">Chat on WhatsApp to Buy / Enquire</a>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Back to top</div>
-        
+        <div class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+            Back to top
+        </div>
         <div class="footer-links-container">
             <div class="footer-col">
-                <h3>About DTS</h3>
+                <h3>Our Partnerships</h3>
                 <ul>
-                    <li><a href="#">Dynamic Technology Solutions</a></li>
-                    <li><a href="#">Authorized Prizor & HOC Partner</a></li>
-                    <li><a href="#">Engineering & Security Projects</a></li>
+                    <li><span>Authorized Prizor Partner</span></li>
+                    <li><span>Authorized HOC Partner</span></li>
+                    <li><span>DTS Certified Engineering</span></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Contact & Support</h3>
+                <h3>Core Products</h3>
                 <ul>
-                    <li><span>📞 <a href="https://wa.me/918390909845" target="_blank" style="color:#ddd; text-decoration:none;">+91 8390909845</a></span></li>
-                    <li><span>✉️ <a href="mailto:dtsboisar@gmail.com" style="color:#ddd; text-decoration:none;">dtsboisar@gmail.com</a></span></li>
-                    <li><a href="https://wa.me/918390909845" target="_blank">Direct WhatsApp Support</a></li>
+                    <li><span>IP & Wi-Fi PTZ Cameras</span></li>
+                    <li><span>NVR & DVR Systems</span></li>
+                    <li><span>CAT6 Pure Copper Cables</span></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Connect on Social Media</h3>
+                <h3>Solutions & Services</h3>
                 <ul>
-                    <li><a href="https://instagram.com/dts.techsolutions" target="_blank">📷 Instagram (@dts.techsolutions)</a></li>
-                    <li><a href="#" target="_blank">💼 LinkedIn Profile</a></li>
+                    <li><span>Electrical Power Panels</span></li>
+                    <li><span>Fire Safety Alarm Systems</span></li>
+                    <li><span>Turnkey AMC Services</span></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Services & AMC</h3>
+                <h3>Contact DTS</h3>
                 <ul>
-                    <li><a href="#">Prizor Camera, NVR & DVR Installation</a></li>
-                    <li><a href="#">HOC Cable Networking Solutions</a></li>
-                    <li><a href="#">Annual Maintenance Contracts (AMC)</a></li>
+                    <li><span>Phone: +91 8390909845</span></li>
+                    <li><span>Email: dtsboisar@gmail.com</span></li>
+                    <li><span>Location: Boisar, Maharashtra</span></li>
                 </ul>
             </div>
         </div>
-
         <div class="footer-divider"></div>
-
         <div class="footer-brand-section">
-            <div class="footer-logo">DYNAMIC TECHNOLOGY SOLUTIONS (DTS)</div>
+            <div class="footer-logo">DYNAMIC TECHNOLOGY SOLUTIONS</div>
         </div>
-
         <div class="footer-bottom">
-            <p>&copy; 2026 Dynamic Technology Solutions. All Rights Reserved. Authorized Partner for Prizor & HOC.</p>
+            &copy; 2026 Dynamic Technology Solutions. All Rights Reserved. Powered for GitHub Pages.
         </div>
     </footer>
 
     <script>
+        // Category Filtering Logic
         function filterCategory(category, element) {
-            let items = document.querySelectorAll('#categoryList li');
-            items.forEach(li => li.classList.remove('active'));
+            const items = document.querySelectorAll('.product-grid .product-card');
+            const listItems = document.querySelectorAll('#categoryList li');
+
+            listItems.forEach(li => li.classList.remove('active'));
             element.classList.add('active');
 
-            let cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                if(category === 'all' || card.getAttribute('data-category') === category) {
+            items.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -948,12 +953,14 @@
             });
         }
 
+        // Search Filter Logic
         function searchProducts() {
             let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.product-card');
+            let cards = document.querySelectorAll('.product-grid .product-card');
+
             cards.forEach(card => {
-                let title = card.querySelector('h4').innerText.toLowerCase();
-                if(title.includes(input)) {
+                let text = card.innerText.toLowerCase();
+                if (text.includes(input)) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -961,55 +968,55 @@
             });
         }
 
-        function openAmazonModal(title, brand, specsArray, images) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalBrand').innerText = "Supplier/Partner: " + brand;
+        // Amazon Style Modal Logic
+        function openAmazonModal(title, brand, features, images) {
+            document.getElementById('modalProductTitle').innerText = title;
+            document.getElementById('modalBrandText').innerText = brand;
             
-            let specsListContainer = document.getElementById('modalSpecsList');
-            specsListContainer.innerHTML = '';
-            specsArray.forEach(spec => {
-                let li = document.createElement('li');
-                li.innerText = spec;
-                specsListContainer.appendChild(li);
+            // Populate Bullet Points
+            let bulletContainer = document.getElementById('modalBulletPoints');
+            bulletContainer.innerHTML = '';
+            features.forEach(feat => {
+                bulletContainer.innerHTML += `<li>${feat}</li>`;
             });
-            
-            let waLink = "https://wa.me/918390909845?text=" + encodeURIComponent("Hi DTS Team, I want enquiry/details about " + title);
-            document.getElementById('modalWhatsAppBtn').setAttribute('href', waLink);
 
-            let thumbListContainer = document.getElementById('thumbnailList');
-            thumbListContainer.innerHTML = '';
+            // Populate Thumbnails & Main Image
+            let thumbContainer = document.getElementById('modalThumbnails');
+            thumbContainer.innerHTML = '';
             
-            if(images && images.length > 0) {
-                // Modal main image route through proxy
-                document.getElementById('mainModalImg').src = "http://localhost:5000/get-image?url=" + encodeURIComponent(images[0]);
+            if (images && images.length > 0) {
+                document.getElementById('modalMainImg').src = images[0];
                 
-                images.forEach((imgSrc, index) => {
-                    let thumbImg = document.createElement('img');
-                    // Thumbnail images route through proxy
-                    thumbImg.src = "http://localhost:5000/get-image?url=" + encodeURIComponent(imgSrc);
-                    if(index === 0) thumbImg.classList.add('active-thumb');
-                    
-                    thumbImg.onclick = function() {
-                        document.getElementById('mainModalImg').src = "http://localhost:5000/get-image?url=" + encodeURIComponent(imgSrc);
-                        let allThumbs = thumbListContainer.querySelectorAll('img');
-                        allThumbs.forEach(t => t.classList.remove('active-thumb'));
-                        thumbImg.classList.add('active-thumb');
-                    };
-                    thumbListContainer.appendChild(thumbImg);
+                images.forEach((imgUrl, index) => {
+                    let thumbClass = index === 0 ? 'active-thumb' : '';
+                    thumbContainer.innerHTML += `<img src="${imgUrl}" referrerpolicy="no-referrer" class="${thumbClass}" onclick="changeMainImage('${imgUrl}', this)">`;
                 });
             }
 
+            // WhatsApp Button Link Update
+            let encodedMsg = encodeURIComponent(`Hi, I am interested in enquiry/purchase for: ${title} (${brand})`);
+            document.getElementById('modalWhatsappLink').href = `https://wa.me/918390909845?text=${encodedMsg}`;
+
+            // Show Modal
             document.getElementById('amazonModal').style.display = 'flex';
         }
 
-        function closeAmazonModal() {
+        function changeMainImage(url, thumbElement) {
+            document.getElementById('modalMainImg').src = url;
+            let allThumbs = document.querySelectorAll('.thumbnail-list img');
+            allThumbs.forEach(t => t.classList.remove('active-thumb'));
+            thumbElement.classList.add('active-thumb');
+        }
+
+        function closeAmazonModalWindow() {
             document.getElementById('amazonModal').style.display = 'none';
         }
 
+        // Close when clicking outside modal content
         window.onclick = function(event) {
             let modal = document.getElementById('amazonModal');
             if (event.target === modal) {
-                modal.style.display = 'none';
+                closeAmazonModalWindow();
             }
         }
     </script>
