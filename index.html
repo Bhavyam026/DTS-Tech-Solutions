@@ -25,6 +25,8 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .logo-area {
@@ -52,8 +54,8 @@
         .search-bar {
             display: flex;
             flex: 1;
-            max-width: 600px;
-            margin: 0 20px;
+            max-width: 500px;
+            min-width: 250px;
         }
 
         .search-bar input {
@@ -73,6 +75,18 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 16px;
+        }
+
+        .header-contact {
+            display: flex;
+            flex-direction: column;
+            font-size: 13px;
+            color: #ccc;
+            text-align: right;
+        }
+
+        .header-contact span strong {
+            color: #febd69;
         }
 
         .container {
@@ -450,7 +464,7 @@
             margin-bottom: 10px;
         }
 
-        .footer-col ul li a {
+        .footer-col ul li a, .footer-col ul li span {
             color: #dddddd;
             text-decoration: none;
             font-size: 14px;
@@ -500,6 +514,10 @@
             <input type="text" id="searchInput" placeholder="Search security cameras, cables, DVRs..." onkeyup="searchProducts()">
             <button class="search-btn">🔍</button>
         </div>
+        <div class="header-contact">
+            <span>📞 <strong>+91 8390909845</strong></span>
+            <span>✉️ <strong>support@dynamictech.com</strong></span>
+        </div>
     </header>
 
     <div class="container">
@@ -524,85 +542,85 @@
                 <!-- 1. HOC CAT6 Cable -->
                 <div class="product-card" data-category="hoc">
                     <span class="badge">AUTHORIZED HOC PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">
+                    <div class="product-img-container" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">
                         <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80" alt="CAT6 LAN Cable">
                     </div>
-                    <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">HOC Structured CAT6 Pure Copper LAN Cable</h4>
+                    <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">HOC Structured CAT6 Pure Copper LAN Cable</h4>
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
                     <div class="rating">★★★★★ <span>4.8 (48)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">Enquire & Get Price</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">Enquire & Get Price</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
                 </div>
 
                 <!-- 2. Prizor PTZ Camera -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">
+                    <div class="product-img-container" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">
                         <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80" alt="PTZ Camera">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
+                    <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
                     <div class="specs">1080p Full HD, 360 Rotation, Night Vision</div>
                     <div class="rating">★★★★★ <span>4.9 (54)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">Enquire & Get Price</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">Enquire & Get Price</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20PTZ%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
                 </div>
 
                 <!-- 3. Prizor Analog Camera -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">
+                    <div class="product-img-container" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">
                         <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Analog Camera">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">Prizor HD Analog CCTV Security Camera</h4>
+                    <h4 onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">Prizor HD Analog CCTV Security Camera</h4>
                     <div class="specs">2MP HD Resolution, Weatherproof Metal Body</div>
                     <div class="rating">★★★★★ <span>4.7 (42)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">Enquire for Quote</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">Enquire for Quote</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Analog%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
                 </div>
 
                 <!-- 4. Prizor DVR -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">
+                    <div class="product-img-container" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">
                         <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" alt="DVR Unit">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
+                    <h4 onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
                     <div class="specs">5-in-1 Support, H.265 Pro Compression</div>
                     <div class="rating">★★★★★ <span>4.8 (36)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">Enquire for Pricing</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">Enquire for Pricing</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
                 </div>
 
                 <!-- 5. Prizor NVR -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">
+                    <div class="product-img-container" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">
                         <img src="https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80" alt="4K NVR">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">Prizor 4K Network Video Recorder (NVR)</h4>
+                    <h4 onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">Prizor 4K Network Video Recorder (NVR)</h4>
                     <div class="specs">4K Ultra HD Output, PoE Support</div>
                     <div class="rating">★★★★★ <span>4.9 (29)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">Enquire for Quote</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">Enquire for Quote</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%204K%20NVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.', ['https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
                 </div>
 
-                <!-- 6. Fire Alarm -->
+                <!-- 6. Fire Alarm (Fixed Correct Fire Safety Image) -->
                 <div class="product-card" data-category="fire">
                     <span class="badge badge-fire">FIRE SAFETY</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">
+                    <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=600&q=80'])">
                         <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80" alt="Fire Alarm">
                     </div>
-                    <h4 onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">Fire Alarm Control Panel & Smoke Detectors</h4>
+                    <h4 onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=600&q=80'])">Fire Alarm Control Panel & Smoke Detectors</h4>
                     <div class="specs">Conventional/Addressable, High Sensitivity</div>
                     <div class="rating">★★★★★ <span>4.6 (18)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">Commercial Enquire</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=600&q=80'])">Commercial Enquire</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
+                    <button class="btn-details" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.', ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=600&q=80'])">See full specifications</button>
                 </div>
 
             </div>
@@ -632,7 +650,7 @@
         </div>
     </div>
 
-    <!-- Real Amazon Style Footer -->
+    <!-- Real Amazon Style Footer with Contact Info -->
     <footer>
         <div class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Back to top</div>
         
@@ -647,11 +665,11 @@
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Connect with Us</h3>
+                <h3>Contact & Support</h3>
                 <ul>
-                    <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
-                    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+                    <li><span>📞 +91 8390909845</span></li>
+                    <li><span>✉️ support@dynamictech.com</span></li>
+                    <li><a href="https://wa.me/918390909845" target="_blank">WhatsApp Chat</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -750,7 +768,6 @@
             document.getElementById('amazonModal').style.display = 'none';
         }
 
-        // Close modal when clicking outside of modal container
         window.onclick = function(event) {
             let modal = document.getElementById('amazonModal');
             if (event.target === modal) {
