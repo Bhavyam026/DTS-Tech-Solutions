@@ -35,14 +35,19 @@
             gap: 12px;
         }
 
-        .logo-badge {
+        .brand-logo-img {
+            width: 45px;
+            height: 45px;
             background: #febd69;
-            color: #111;
-            font-weight: 800;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 16px;
-            letter-spacing: 1px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            color: #131921;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
         }
 
         header h1 {
@@ -111,12 +116,31 @@
             height: fit-content;
         }
 
-        aside h3 {
-            font-size: 15px;
-            margin-bottom: 10px;
-            color: #111;
+        .sidebar-brand-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
             border-bottom: 2px solid #febd69;
-            padding-bottom: 5px;
+        }
+
+        .sidebar-logo {
+            width: 35px;
+            height: 35px;
+            background: #131921;
+            color: #febd69;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        aside h3 {
+            font-size: 14px;
+            color: #333;
         }
 
         aside ul {
@@ -285,17 +309,6 @@
         }
 
         .btn-whatsapp:hover { background-color: #20ba5a; }
-
-        .btn-details {
-            background: none;
-            border: none;
-            color: #007185;
-            font-size: 12px;
-            cursor: pointer;
-            text-align: left;
-        }
-
-        .btn-details:hover { text-decoration: underline; color: #c45500; }
 
         /* Amazon Style Multi-Image & Details Modal */
         .modal {
@@ -512,7 +525,7 @@
 
     <header>
         <div class="logo-area">
-            <div class="logo-badge">DTS</div>
+            <div class="brand-logo-img">DTS</div>
             <h1>Dynamic Technology Solutions <span style="font-size: 12px; color: #febd69; font-weight: normal;">(Authorized Prizor & HOC Partner)</span></h1>
         </div>
         <div class="search-bar">
@@ -527,7 +540,10 @@
 
     <div class="container">
         <aside>
-            <h3>Product Categories</h3>
+            <div class="sidebar-brand-box">
+                <div class="sidebar-logo">DTS</div>
+                <h3>Product Categories</h3>
+            </div>
             <ul id="categoryList">
                 <li class="active" onclick="filterCategory('all', this)">All Products & Services</li>
                 <li onclick="filterCategory('ip-camera', this)">🌐 Prizor IP Cameras (PoE / LAN)</li>
@@ -558,11 +574,11 @@
                         'Weatherproof IP67 rated rugged metal housing designed for harsh outdoor and indoor environments.',
                         'Smart IR Night Vision up to 30 meters for clear visibility in total darkness.'
                     ], [
-                        'https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/61t0b1XU21L._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/71X8gY8T1OL._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/61N+VwQ9h4L._SL1500_.jpg'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60" alt="Prizor IP Camera">
+                        <img src="https://m.media-amazon.com/images/I/61t0b1XU21L._SL1500_.jpg" alt="Prizor IP Camera">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', [
                         'Crystal clear 4MP high-definition resolution with advanced CMOS sensor for sharp video surveillance.',
@@ -570,9 +586,9 @@
                         'Weatherproof IP67 rated rugged metal housing designed for harsh outdoor and indoor environments.',
                         'Smart IR Night Vision up to 30 meters for clear visibility in total darkness.'
                     ], [
-                        'https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/61t0b1XU21L._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/71X8gY8T1OL._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/61N+VwQ9h4L._SL1500_.jpg'
                     ])">Prizor 4MP Outdoor PoE IP Security Camera</h4>
                     <div class="specs">4MP HD, PoE RJ45 Port, IP67 Weatherproof</div>
                     <div class="rating">★★★★★ <span>4.9 (130)</span></div>
@@ -582,9 +598,9 @@
                         'Weatherproof IP67 rated rugged metal housing designed for harsh outdoor and indoor environments.',
                         'Smart IR Night Vision up to 30 meters for clear visibility in total darkness.'
                     ], [
-                        'https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/61t0b1XU21L._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/71X8gY8T1OL._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/61N+VwQ9h4L._SL1500_.jpg'
                     ])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20IP%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
@@ -598,11 +614,11 @@
                         'Built-in microphone and speaker for real-time two-way audio communication.',
                         'Motion detection alert notifications sent straight to your smartphone instantly.'
                     ], [
-                        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/51Gz3m74W1L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61sV6xR6TLL._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61nN4lR1g8L._SL1000_.jpg'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60" alt="Prizor Wi-Fi Camera">
+                        <img src="https://m.media-amazon.com/images/I/51Gz3m74W1L._SL1000_.jpg" alt="Prizor Wi-Fi Camera">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi Wireless PTZ Security Camera', 'Authorized Prizor Partner - DTS', [
                         'Wireless Wi-Fi connectivity allows easy setup without complex wiring across your home or office.',
@@ -610,9 +626,9 @@
                         'Built-in microphone and speaker for real-time two-way audio communication.',
                         'Motion detection alert notifications sent straight to your smartphone instantly.'
                     ], [
-                        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/51Gz3m74W1L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61sV6xR6TLL._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61nN4lR1g8L._SL1000_.jpg'
                     ])">Prizor Smart Wi-Fi Wireless PTZ Security Camera</h4>
                     <div class="specs">Wireless Wi-Fi, 360 PTZ, Two-Way Audio</div>
                     <div class="rating">★★★★★ <span>4.9 (98)</span></div>
@@ -622,9 +638,9 @@
                         'Built-in microphone and speaker for real-time two-way audio communication.',
                         'Motion detection alert notifications sent straight to your smartphone instantly.'
                     ], [
-                        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/51Gz3m74W1L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61sV6xR6TLL._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61nN4lR1g8L._SL1000_.jpg'
                     ])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20Wi-Fi%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
@@ -638,11 +654,10 @@
                         'Includes RJ45 Ethernet network ports and multiple USB ports for easy mouse control and video backup.',
                         'Advanced H.265 video compression format to save massive hard disk storage space.'
                     ], [
-                        'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/51ZJ10Y4C5L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61J2y1h5L6L._SL1000_.jpg'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Prizor 8-Channel NVR">
+                        <img src="https://m.media-amazon.com/images/I/51ZJ10Y4C5L._SL1000_.jpg" alt="Prizor 8-Channel NVR">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR)', 'Authorized Prizor Partner - DTS', [
                         'Supports up to 8 IP cameras with high-bandwidth network processing capability.',
@@ -650,9 +665,8 @@
                         'Includes RJ45 Ethernet network ports and multiple USB ports for easy mouse control and video backup.',
                         'Advanced H.265 video compression format to save massive hard disk storage space.'
                     ], [
-                        'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/51ZJ10Y4C5L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61J2y1h5L6L._SL1000_.jpg'
                     ])">Prizor 8-Channel Network Video Recorder (NVR)</h4>
                     <div class="specs">8 IP Channels, RJ45 LAN, HDMI/VGA Port</div>
                     <div class="rating">★★★★★ <span>4.9 (142)</span></div>
@@ -662,9 +676,8 @@
                         'Includes RJ45 Ethernet network ports and multiple USB ports for easy mouse control and video backup.',
                         'Advanced H.265 video compression format to save massive hard disk storage space.'
                     ], [
-                        'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/51ZJ10Y4C5L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/61J2y1h5L6L._SL1000_.jpg'
                     ])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20NVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
@@ -678,11 +691,10 @@
                         'Equipped with standard HDMI and VGA ports for local display monitors.',
                         'Easy remote viewing support via mobile applications and computer software.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/61l6a1L9v+L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/71V2xR7vLKL._SL1000_.jpg'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60" alt="Prizor 8-Channel DVR">
+                        <img src="https://m.media-amazon.com/images/I/61l6a1L9v+L._SL1000_.jpg" alt="Prizor 8-Channel DVR">
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 8-Channel Digital Video Recorder (DVR)', 'Authorized Prizor Partner - DTS', [
                         'Multi-format support compatible with traditional analog CCTV cameras.',
@@ -690,9 +702,8 @@
                         'Equipped with standard HDMI and VGA ports for local display monitors.',
                         'Easy remote viewing support via mobile applications and computer software.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/61l6a1L9v+L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/71V2xR7vLKL._SL1000_.jpg'
                     ])">Prizor 8-Channel Digital Video Recorder (DVR)</h4>
                     <div class="specs">8 BNC Channels, Audio RCA, HDMI/VGA Output</div>
                     <div class="rating">★★★★★ <span>4.9 (120)</span></div>
@@ -702,9 +713,8 @@
                         'Equipped with standard HDMI and VGA ports for local display monitors.',
                         'Easy remote viewing support via mobile applications and computer software.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/61l6a1L9v+L._SL1000_.jpg',
+                        'https://m.media-amazon.com/images/I/71V2xR7vLKL._SL1000_.jpg'
                     ])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
@@ -718,10 +728,10 @@
                         'Supports high-speed Gigabit Ethernet networks and PoE security camera setups.',
                         'Heavy outer PVC shielding provides high durability and protects against electrical interference.'
                     ], [
-                        'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1574482620826-40673d49f648?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/71v1Q6KjNOL._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/81P8sH3vU2L._SL1500_.jpg'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="HOC CAT6 Cable">
+                        <img src="https://m.media-amazon.com/images/I/71v1Q6KjNOL._SL1500_.jpg" alt="HOC CAT6 Cable">
                     </div>
                     <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', [
                         '100% Pure Copper conductor for optimal data transmission speeds and zero signal degradation.',
@@ -729,8 +739,8 @@
                         'Supports high-speed Gigabit Ethernet networks and PoE security camera setups.',
                         'Heavy outer PVC shielding provides high durability and protects against electrical interference.'
                     ], [
-                        'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1574482620826-40673d49f648?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/71v1Q6KjNOL._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/81P8sH3vU2L._SL1500_.jpg'
                     ])">HOC Structured CAT6 Pure Copper LAN Cable</h4>
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
                     <div class="rating">★★★★★ <span>4.9 (110)</span></div>
@@ -740,8 +750,8 @@
                         'Supports high-speed Gigabit Ethernet networks and PoE security camera setups.',
                         'Heavy outer PVC shielding provides high durability and protects against electrical interference.'
                     ], [
-                        'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1574482620826-40673d49f648?w=500&auto=format&fit=crop&q=60'
+                        'https://m.media-amazon.com/images/I/71v1Q6KjNOL._SL1500_.jpg',
+                        'https://m.media-amazon.com/images/I/81P8sH3vU2L._SL1500_.jpg'
                     ])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20need%20Authorized%20HOC%20CAT6%20Cables" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
@@ -793,9 +803,7 @@
                         'Emergency battery backup integration to operate even during total power outages.'
                     ], [
                         'https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1527439502930-d3a39e78297a?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
                     ])">
                         <img src="https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60" alt="Fire Alarm & Smoke Detectors">
                     </div>
@@ -806,9 +814,7 @@
                         'Emergency battery backup integration to operate even during total power outages.'
                     ], [
                         'https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1527439502930-d3a39e78297a?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
                     ])">Fire Alarm Control Panel & Smoke Detectors</h4>
                     <div class="specs">Conventional/Addressable Panel, Smoke Sensors</div>
                     <div class="rating">★★★★★ <span>4.7 (28)</span></div>
@@ -819,9 +825,7 @@
                         'Emergency battery backup integration to operate even during total power outages.'
                     ], [
                         'https://images.unsplash.com/photo-1542013936693-84d49a5cc3ab?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1527439502930-d3a39e78297a?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
                     ])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm%20and%20Smoke%20Detectors" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
