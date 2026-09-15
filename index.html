@@ -125,17 +125,13 @@
             border-bottom: 2px solid #febd69;
         }
 
-        .sidebar-logo {
-            width: 35px;
-            height: 35px;
-            background: #131921;
-            color: #febd69;
+        .sidebar-logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 14px;
+            background: #131921;
+            padding: 2px;
         }
 
         aside h3 {
@@ -541,7 +537,8 @@
     <div class="container">
         <aside>
             <div class="sidebar-brand-box">
-                <div class="sidebar-logo">DTS</div>
+                <!-- Yahan side category section me image logo add kar diya gaya hai -->
+                <img src="https://m.media-amazon.com/images/I/51Gz3m74W1L._SL1000_.jpg" alt="DTS Logo" class="sidebar-logo-img">
                 <h3>Product Categories</h3>
             </div>
             <ul id="categoryList">
