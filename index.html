@@ -156,29 +156,30 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.12);
         }
 
-        /* Real Image Container */
-        .product-img-box {
+        /* Clean Icon Box instead of Images */
+        .product-icon-box {
             width: 100%;
-            height: 180px;
+            height: 150px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 6px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             margin-bottom: 12px;
-            background: #fff;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
+            cursor: pointer;
+            border: 1px dashed #ced4da;
         }
 
-        .product-img-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s ease;
+        .product-icon-box .icon-symbol {
+            font-size: 40px;
+            margin-bottom: 5px;
         }
 
-        .product-img-box img:hover {
-            transform: scale(1.05);
+        .product-icon-box .icon-text {
+            font-size: 12px;
+            color: #495057;
+            font-weight: 600;
         }
 
         .badge {
@@ -419,10 +420,11 @@
                 <!-- Product 1: HOC CAT6 Cable -->
                 <div class="product-card" data-category="hoc">
                     <span class="badge">AUTHORIZED HOC PARTNER</span>
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="HOC CAT6 Cable">
+                    <div class="product-icon-box" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.')">
+                        <div class="icon-symbol">🔌</div>
+                        <div class="icon-text">HOC CAT6 Cable</div>
                     </div>
-                    <h4>HOC Structured CAT6 Pure Copper LAN Cable</h4>
+                    <h4 onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support, Low Signal Loss.')">HOC Structured CAT6 Pure Copper LAN Cable</h4>
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
                     <div class="rating">★★★★★ <span>4.8 (48)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
@@ -433,10 +435,11 @@
                 <!-- Product 2: Prizor PTZ Camera -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Prizor PTZ Camera">
+                    <div class="product-icon-box" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.')">
+                        <div class="icon-symbol">📷</div>
+                        <div class="icon-text">Prizor PTZ Camera</div>
                     </div>
-                    <h4>Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
+                    <h4 onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision, Two-Way Audio.')">Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
                     <div class="specs">1080p Full HD, 360 Rotation, Night Vision</div>
                     <div class="rating">★★★★★ <span>4.9 (54)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
@@ -447,10 +450,11 @@
                 <!-- Product 3: Prizor Analog Camera -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?w=500&auto=format&fit=crop&q=60" alt="Prizor Analog Camera">
+                    <div class="product-icon-box" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.')">
+                        <div class="icon-symbol">📹</div>
+                        <div class="icon-text">Prizor Analog Camera</div>
                     </div>
-                    <h4>Prizor HD Analog CCTV Security Camera</h4>
+                    <h4 onclick="openModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body, IR Night Vision.')">Prizor HD Analog CCTV Security Camera</h4>
                     <div class="specs">2MP HD Resolution, Weatherproof Metal Body</div>
                     <div class="rating">★★★★★ <span>4.7 (42)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
@@ -461,10 +465,11 @@
                 <!-- Product 4: Prizor DVR -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" alt="Prizor DVR Unit">
+                    <div class="product-icon-box" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.')">
+                        <div class="icon-symbol">🎛️</div>
+                        <div class="icon-text">Prizor DVR Unit</div>
                     </div>
-                    <h4>Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
+                    <h4 onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression, HDMI/VGA Output.')">Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
                     <div class="specs">5-in-1 Support, H.265 Pro Compression</div>
                     <div class="rating">★★★★★ <span>4.8 (36)</span></div>
                     <button class="btn-enquire">Enquire for Pricing</button>
@@ -475,10 +480,11 @@
                 <!-- Product 5: Prizor NVR -->
                 <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=60" alt="Prizor 4K NVR">
+                    <div class="product-icon-box" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.')">
+                        <div class="icon-symbol">🖥️</div>
+                        <div class="icon-text">Prizor 4K NVR</div>
                     </div>
-                    <h4>Prizor 4K Network Video Recorder (NVR)</h4>
+                    <h4 onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support, Smart Search.')">Prizor 4K Network Video Recorder (NVR)</h4>
                     <div class="specs">4K Ultra HD Output, PoE Support</div>
                     <div class="rating">★★★★★ <span>4.9 (29)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
@@ -489,10 +495,11 @@
                 <!-- Product 6: Fire Alarm -->
                 <div class="product-card" data-category="fire">
                     <span class="badge badge-fire">FIRE SAFETY</span>
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=500&auto=format&fit=crop&q=60" alt="Fire Alarm System">
+                    <div class="product-icon-box" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.')">
+                        <div class="icon-symbol">🚨</div>
+                        <div class="icon-text">Fire Alarm System</div>
                     </div>
-                    <h4>Fire Alarm Control Panel & Smoke Detectors</h4>
+                    <h4 onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity, Battery Backup.')">Fire Alarm Control Panel & Smoke Detectors</h4>
                     <div class="specs">Conventional/Addressable, High Sensitivity</div>
                     <div class="rating">★★★★★ <span>4.6 (18)</span></div>
                     <button class="btn-enquire">Commercial Enquire</button>
