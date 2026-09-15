@@ -150,6 +150,9 @@
             border-radius: 4px;
             margin-bottom: 4px;
             transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         aside ul li:hover, aside ul li.active {
@@ -200,7 +203,7 @@
         .product-img-container {
             width: 100%;
             height: 180px;
-            background: #fff;
+            background: #f9f9f9;
             border-radius: 6px;
             overflow: hidden;
             display: flex;
@@ -209,6 +212,7 @@
             margin-bottom: 12px;
             cursor: pointer;
             border: 1px solid #f0f0f0;
+            position: relative;
         }
 
         .product-img-container img {
@@ -220,6 +224,15 @@
 
         .product-img-container:hover img {
             transform: scale(1.05);
+        }
+
+        .image-error-text {
+            position: absolute;
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+            padding: 10px;
+            display: none;
         }
 
         .badge {
@@ -526,7 +539,7 @@
             <h1>Dynamic Technology Solutions <span style="font-size: 12px; color: #febd69; font-weight: normal;">(Authorized Prizor & HOC Partner)</span></h1>
         </div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search IP Camera, Wi-Fi Camera, NVR, DVR, Cables..." onkeyup="searchProducts()">
+            <input type="text" id="searchInput" placeholder="Search IP Camera, Wi-Fi Camera, NVR, DVR, Cables, Panels..." onkeyup="searchProducts()">
             <button class="search-btn">🔍</button>
         </div>
         <div class="header-contact">
@@ -542,15 +555,15 @@
                 <h3>Product Categories</h3>
             </div>
             <ul id="categoryList">
-                <li class="active" onclick="filterCategory('all', this)">All Products & Services</li>
-                <li onclick="filterCategory('ip-camera', this)">🌐 Prizor IP Cameras (PoE / LAN)</li>
-                <li onclick="filterCategory('wifi-camera', this)">📶 Prizor Wi-Fi PTZ Cameras</li>
-                <li onclick="filterCategory('nvr', this)">🖥️ Prizor NVR Systems</li>
-                <li onclick="filterCategory('dvr', this)">📼 Prizor DVR Systems</li>
-                <li onclick="filterCategory('hoc', this)">🔌 HOC Networking Cables</li>
-                <li onclick="filterCategory('electrical', this)">⚡ Electrical Power Panels</li>
-                <li onclick="filterCategory('fire', this)">🔥 Fire Safety Systems</li>
-                <li onclick="filterCategory('services', this)">🛠️ Engineering & AMC Services</li>
+                <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
+                <li onclick="filterCategory('ip-camera', this)">🌐 <span>Prizor IP Cameras (PoE / LAN)</span></li>
+                <li onclick="filterCategory('wifi-camera', this)">📶 <span>Prizor Wi-Fi PTZ Cameras</span></li>
+                <li onclick="filterCategory('nvr', this)">🖥️ <span>Prizor NVR Systems</span></li>
+                <li onclick="filterCategory('dvr', this)">📼 <span>Prizor DVR Systems</span></li>
+                <li onclick="filterCategory('hoc', this)">🔌 <span>HOC Networking Cables</span></li>
+                <li onclick="filterCategory('electrical', this)">⚡ <span>Electrical Power Panels</span></li>
+                <li onclick="filterCategory('fire', this)">🔥 <span>Fire Safety Systems</span></li>
+                <li onclick="filterCategory('services', this)">🛠️ <span>Engineering & AMC Services</span></li>
             </ul>
         </aside>
 
@@ -574,7 +587,8 @@
                         'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor IP Camera">
+                        <img src="https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor IP Camera" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', [
                         'Crystal clear 4MP high-definition resolution with advanced CMOS sensor for sharp video surveillance.',
@@ -611,7 +625,8 @@
                         'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor Wi-Fi Camera">
+                        <img src="https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor Wi-Fi Camera" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
                     <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi Wireless PTZ Security Camera', 'Authorized Prizor Partner - DTS', [
                         'Wireless Wi-Fi connectivity allows easy setup without complex wiring across your home or office.',
@@ -648,7 +663,8 @@
                         'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor 8-Channel NVR">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor 8-Channel NVR" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR)', 'Authorized Prizor Partner - DTS', [
                         'Supports up to 8 IP cameras with high-bandwidth network processing capability.',
@@ -685,7 +701,8 @@
                         'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor 8-Channel DVR">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Prizor 8-Channel DVR" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
                     <h4 onclick="openAmazonModal('Prizor 8-Channel Digital Video Recorder (DVR)', 'Authorized Prizor Partner - DTS', [
                         'Multi-format support compatible with traditional analog CCTV cameras.',
@@ -722,7 +739,8 @@
                         'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="HOC CAT6 Cable">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="HOC CAT6 Cable" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
                     <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', [
                         '100% Pure Copper conductor for optimal data transmission speeds and zero signal degradation.',
@@ -749,34 +767,35 @@
 
                 <!-- 6. Electrical Power Panels -->
                 <div class="product-card" data-category="electrical">
-                    <span class="badge badge-elec">ELECTRICAL SYSTEMS</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'DTS Engineering Solutions', [
-                        'Heavy-duty industrial grade construction designed for safe power distribution.',
-                        'Equipped with standard MCCB, MCB, and digital metering displays.',
-                        'Built following strict electrical safety standards and load protection.',
-                        'Customizable configurations available as per factory or commercial building requirements.'
+                    <span class="badge badge-elec">INDUSTRIAL ELECTRICAL</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
+                        'Heavy-duty industrial power distribution enclosures built for safety and reliability.',
+                        'Custom configurable modular compartments for MCC, PCC, and LT panel setups.',
+                        'High-grade copper busbars designed for efficient load distribution and minimal heat loss.',
+                        'Complies with standard electrical safety compliance frameworks for commercial and industrial plants.'
                     ], [
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Electrical Panel">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Electrical Power Panels" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
-                    <h4 onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'DTS Engineering Solutions', [
-                        'Heavy-duty industrial grade construction designed for safe power distribution.',
-                        'Equipped with standard MCCB, MCB, and digital metering displays.',
-                        'Built following strict electrical safety standards and load protection.',
-                        'Customizable configurations available as per factory or commercial building requirements.'
+                    <h4 onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
+                        'Heavy-duty industrial power distribution enclosures built for safety and reliability.',
+                        'Custom configurable modular compartments for MCC, PCC, and LT panel setups.',
+                        'High-grade copper busbars designed for efficient load distribution and minimal heat loss.',
+                        'Complies with standard electrical safety compliance frameworks for commercial and industrial plants.'
                     ], [
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
                     ])">Industrial Electrical Power Distribution Panel</h4>
-                    <div class="specs">MCCB/MCB Protection, Digital Metering</div>
+                    <div class="specs">LT / MCC / PCC Panels, Copper Busbar</div>
                     <div class="rating">★★★★★ <span>4.8 (85)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'DTS Engineering Solutions', [
-                        'Heavy-duty industrial grade construction designed for safe power distribution.',
-                        'Equipped with standard MCCB, MCB, and digital metering displays.',
-                        'Built following strict electrical safety standards and load protection.',
-                        'Customizable configurations available as per factory or commercial building requirements.'
+                    <button class="btn-enquire" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
+                        'Heavy-duty industrial power distribution enclosures built for safety and reliability.',
+                        'Custom configurable modular compartments for MCC, PCC, and LT panel setups.',
+                        'High-grade copper busbars designed for efficient load distribution and minimal heat loss.',
+                        'Complies with standard electrical safety compliance frameworks for commercial and industrial plants.'
                     ], [
                         'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60',
                         'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'
@@ -786,103 +805,103 @@
 
                 <!-- 7. Fire Safety Systems -->
                 <div class="product-card" data-category="fire">
-                    <span class="badge badge-fire">FIRE SAFETY</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'DTS Fire Safety Division', [
-                        'Advanced micro-processor based fire alarm control panel.',
-                        'High sensitivity optical smoke detectors and thermal sensors.',
-                        'Manual call points and loud hooters for emergency evacuation.',
-                        'Fully compliant with fire safety guidelines for commercial complexes.'
+                    <span class="badge badge-fire">LIFE SAFETY SYSTEMS</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Integrated Fire Alarm & Safety System', 'Dynamic Technology Solutions', [
+                        'Advanced addressable and conventional fire alarm control panels for prompt emergency detection.',
+                        'High-sensitivity smoke, heat, and multi-sensor detectors for early hazard identification.',
+                        'Integrated emergency hooters, strobe lights, and manual pull stations.',
+                        'Designed for commercial buildings, warehouses, factories, and residential complexes.'
                     ], [
-                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Fire Safety System">
+                        <img src="https://images.unsplash.com/photo-1527061011665-3652c757a4d4?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Fire Safety Systems" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
-                    <h4 onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'DTS Fire Safety Division', [
-                        'Advanced micro-processor based fire alarm control panel.',
-                        'High sensitivity optical smoke detectors and thermal sensors.',
-                        'Manual call points and loud hooters for emergency evacuation.',
-                        'Fully compliant with fire safety guidelines for commercial complexes.'
+                    <h4 onclick="openAmazonModal('Integrated Fire Alarm & Safety System', 'Dynamic Technology Solutions', [
+                        'Advanced addressable and conventional fire alarm control panels for prompt emergency detection.',
+                        'High-sensitivity smoke, heat, and multi-sensor detectors for early hazard identification.',
+                        'Integrated emergency hooters, strobe lights, and manual pull stations.',
+                        'Designed for commercial buildings, warehouses, factories, and residential complexes.'
                     ], [
-                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60'
-                    ])">Fire Alarm Control Panel & Smoke Detectors</h4>
-                    <div class="specs">Conventional/Addressable, Smoke Sensors</div>
-                    <div class="rating">★★★★★ <span>4.9 (95)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Fire Alarm Control Panel & Smoke Detectors', 'DTS Fire Safety Division', [
-                        'Advanced micro-processor based fire alarm control panel.',
-                        'High sensitivity optical smoke detectors and thermal sensors.',
-                        'Manual call points and loud hooters for emergency evacuation.',
-                        'Fully compliant with fire safety guidelines for commercial complexes.'
+                        'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
+                    ])">Integrated Fire Alarm & Safety System</h4>
+                    <div class="specs">Fire Alarm Control, Smoke Detectors, Hooters</div>
+                    <div class="rating">★★★★★ <span>4.9 (74)</span></div>
+                    <button class="btn-enquire" onclick="openAmazonModal('Integrated Fire Alarm & Safety System', 'Dynamic Technology Solutions', [
+                        'Advanced addressable and conventional fire alarm control panels for prompt emergency detection.',
+                        'High-sensitivity smoke, heat, and multi-sensor detectors for early hazard identification.',
+                        'Integrated emergency hooters, strobe lights, and manual pull stations.',
+                        'Designed for commercial buildings, warehouses, factories, and residential complexes.'
                     ], [
-                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'
                     ])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Fire%20Safety%20Systems" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
                 <!-- 8. Engineering & AMC Services -->
                 <div class="product-card" data-category="services">
-                    <span class="badge badge-serv">SERVICES & AMC</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance Contracts (AMC)', 'Dynamic Technology Solutions', [
-                        'End-to-end professional installation by certified technical engineers.',
-                        'Comprehensive Annual Maintenance Contracts (AMC) for security & electrical systems.',
-                        '24/7 priority breakdown support and routine preventive maintenance visits.',
-                        'Trusted service partner across industrial and residential zones.'
+                    <span class="badge badge-serv">PROFESSIONAL SERVICES</span>
+                    <div class="product-img-container" onclick="openAmazonModal('Engineering Installation & AMC Maintenance Services', 'Dynamic Technology Solutions', [
+                        'Professional end-to-end installation and commissioning by certified technicians.',
+                        'Comprehensive Annual Maintenance Contracts (AMC) for uninterrupted security and power systems.',
+                        'Regular preventive maintenance checks, firmware updates, and rapid on-site troubleshooting support.',
+                        'Tailored service packages for corporate offices, industrial plants, and residential societies.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
                     ])">
-                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Engineering Services">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60" referrerpolicy="no-referrer" alt="Engineering & AMC Services" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="image-error-text">Image Unavailable</span>
                     </div>
-                    <h4 onclick="openAmazonModal('Turnkey Installation & Annual Maintenance Contracts (AMC)', 'Dynamic Technology Solutions', [
-                        'End-to-end professional installation by certified technical engineers.',
-                        'Comprehensive Annual Maintenance Contracts (AMC) for security & electrical systems.',
-                        '24/7 priority breakdown support and routine preventive maintenance visits.',
-                        'Trusted service partner across industrial and residential zones.'
+                    <h4 onclick="openAmazonModal('Engineering Installation & AMC Maintenance Services', 'Dynamic Technology Solutions', [
+                        'Professional end-to-end installation and commissioning by certified technicians.',
+                        'Comprehensive Annual Maintenance Contracts (AMC) for uninterrupted security and power systems.',
+                        'Regular preventive maintenance checks, firmware updates, and rapid on-site troubleshooting support.',
+                        'Tailored service packages for corporate offices, industrial plants, and residential societies.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60'
-                    ])">Turnkey Installation & Annual Maintenance Contracts (AMC)</h4>
-                    <div class="specs">Expert Installation, 24/7 Support Contracts</div>
+                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
+                    ])">Engineering Installation & AMC Maintenance Services</h4>
+                    <div class="specs">Professional Setup, AMC Support, On-Site Help</div>
                     <div class="rating">★★★★★ <span>5.0 (150)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Turnkey Installation & Annual Maintenance Contracts (AMC)', 'Dynamic Technology Solutions', [
-                        'End-to-end professional installation by certified technical engineers.',
-                        'Comprehensive Annual Maintenance Contracts (AMC) for security & electrical systems.',
-                        '24/7 priority breakdown support and routine preventive maintenance visits.',
-                        'Trusted service partner across industrial and residential zones.'
+                    <button class="btn-enquire" onclick="openAmazonModal('Engineering Installation & AMC Maintenance Services', 'Dynamic Technology Solutions', [
+                        'Professional end-to-end installation and commissioning by certified technicians.',
+                        'Comprehensive Annual Maintenance Contracts (AMC) for uninterrupted security and power systems.',
+                        'Regular preventive maintenance checks, firmware updates, and rapid on-site troubleshooting support.',
+                        'Tailored service packages for corporate offices, industrial plants, and residential societies.'
                     ], [
-                        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&auto=format&fit=crop&q=60',
-                        'https://images.unsplash.com/photo-1582136015694-8186101918a2?w=500&auto=format&fit=crop&q=60'
+                        'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60',
+                        'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'
                     ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20AMC%20Services" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Engineering%20and%20AMC%20Services" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- Product Modal Popup -->
-    <div id="amazonModal" class="modal">
+    <!-- Product Details Modal -->
+    <div id="productModal" class="modal">
         <div class="modal-container">
-            <span class="close-btn" onclick="closeAmazonModalWindow()">&times;</span>
+            <span class="close-btn" onclick="closeAmazonModal()">&times;</span>
             <div class="modal-top-section">
                 <div class="modal-left">
                     <div class="thumbnail-list" id="modalThumbnails"></div>
                     <div class="main-zoom-view">
-                        <img id="modalMainImg" src="" referrerpolicy="no-referrer" alt="Zoom View">
+                        <img id="modalMainImage" src="" alt="Product zoom view" onerror="this.src='https://images.unsplash.com/photo-1557324232-b8917d4c3dcd?w=500&auto=format&fit=crop&q=60'">
                     </div>
                 </div>
                 <div class="modal-right">
-                    <div class="modal-brand" id="modalBrandText">Brand Partner</div>
-                    <h2 id="modalProductTitle">Product Title</h2>
-                    <div class="rating" style="margin-bottom: 10px;">★★★★★ <span style="color:#007185;">4.9 out of 5 stars</span></div>
-                    <hr style="border:0; border-top:1px solid #eee; margin-bottom:12px;">
+                    <h2 id="modalTitle">Product Title</h2>
+                    <div class="modal-brand" id="modalBrand">Brand / Partner</div>
                     <div class="about-item-section">
                         <h4>About this item</h4>
-                        <ul id="modalBulletPoints"></ul>
+                        <ul id="modalBullets"></ul>
                     </div>
-                    <a href="#" id="modalWhatsappLink" target="_blank" class="btn-whatsapp" style="padding: 12px; font-size: 15px; border-radius: 4px;">Chat on WhatsApp to Buy / Enquire</a>
+                    <a id="modalWhatsappBtn" href="#" target="_blank" class="btn-whatsapp" style="margin-top: 10px; padding: 12px; font-size: 15px;">💬 Enquire Now on WhatsApp</a>
                 </div>
             </div>
         </div>
@@ -894,35 +913,37 @@
         </div>
         <div class="footer-links-container">
             <div class="footer-col">
-                <h3>Our Partnerships</h3>
+                <h3>About DTS</h3>
                 <ul>
-                    <li><span>Authorized Prizor Partner</span></li>
-                    <li><span>Authorized HOC Partner</span></li>
-                    <li><span>DTS Certified Engineering</span></li>
+                    <li><span>Dynamic Technology Solutions</span></li>
+                    <li><span>Authorized Partner for Prizor & HOC</span></li>
+                    <li><span>Boisar, Maharashtra, India</span></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Core Products</h3>
+                <h3>Product Range</h3>
                 <ul>
-                    <li><span>IP & Wi-Fi PTZ Cameras</span></li>
-                    <li><span>NVR & DVR Systems</span></li>
-                    <li><span>CAT6 Pure Copper Cables</span></li>
+                    <li><a href="#" onclick="filterCategory('ip-camera', document.querySelectorAll('#categoryList li')[1]); return false;">Prizor IP Cameras</a></li>
+                    <li><a href="#" onclick="filterCategory('wifi-camera', document.querySelectorAll('#categoryList li')[2]); return false;">Wi-Fi PTZ Cameras</a></li>
+                    <li><a href="#" onclick="filterCategory('nvr', document.querySelectorAll('#categoryList li')[3]); return false;">NVR Systems</a></li>
+                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('#categoryList li')[4]); return false;">DVR Systems</a></li>
+                    <li><a href="#" onclick="filterCategory('hoc', document.querySelectorAll('#categoryList li')[5]); return false;">HOC Cables</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Solutions & Services</h3>
+                <h3>Industrial & Services</h3>
                 <ul>
-                    <li><span>Electrical Power Panels</span></li>
-                    <li><span>Fire Safety Alarm Systems</span></li>
-                    <li><span>Turnkey AMC Services</span></li>
+                    <li><a href="#" onclick="filterCategory('electrical', document.querySelectorAll('#categoryList li')[6]); return false;">Electrical Power Panels</a></li>
+                    <li><a href="#" onclick="filterCategory('fire', document.querySelectorAll('#categoryList li')[7]); return false;">Fire Safety Systems</a></li>
+                    <li><a href="#" onclick="filterCategory('services', document.querySelectorAll('#categoryList li')[8]); return false;">Engineering & AMC</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Contact DTS</h3>
+                <h3>Let Us Help You</h3>
                 <ul>
+                    <li><a href="https://wa.me/918390909845" target="_blank">WhatsApp Support</a></li>
+                    <li><a href="mailto:dtsboisar@gmail.com">Email Us</a></li>
                     <li><span>Phone: +91 8390909845</span></li>
-                    <li><span>Email: dtsboisar@gmail.com</span></li>
-                    <li><span>Location: Boisar, Maharashtra</span></li>
                 </ul>
             </div>
         </div>
@@ -931,20 +952,18 @@
             <div class="footer-logo">DYNAMIC TECHNOLOGY SOLUTIONS</div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 Dynamic Technology Solutions. All Rights Reserved. Powered for GitHub Pages.
+            &copy; 2026 Dynamic Technology Solutions, Boisar. All Rights Reserved. Authorized Prizor & HOC Partner.
         </div>
     </footer>
 
+    <!-- JavaScript code for filtering, searching, and modal popup functionality -->
     <script>
-        // Category Filtering Logic
         function filterCategory(category, element) {
-            const items = document.querySelectorAll('.product-grid .product-card');
-            const listItems = document.querySelectorAll('#categoryList li');
+            document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
+            if (element) element.classList.add('active');
 
-            listItems.forEach(li => li.classList.remove('active'));
-            element.classList.add('active');
-
-            items.forEach(card => {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
                 } else {
@@ -953,11 +972,9 @@
             });
         }
 
-        // Search Filter Logic
         function searchProducts() {
             let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.product-grid .product-card');
-
+            let cards = document.querySelectorAll('.product-card');
             cards.forEach(card => {
                 let text = card.innerText.toLowerCase();
                 if (text.includes(input)) {
@@ -968,55 +985,50 @@
             });
         }
 
-        // Amazon Style Modal Logic
-        function openAmazonModal(title, brand, features, images) {
-            document.getElementById('modalProductTitle').innerText = title;
-            document.getElementById('modalBrandText').innerText = brand;
+        function openAmazonModal(title, brand, bullets, images) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBrand').innerText = brand;
             
-            // Populate Bullet Points
-            let bulletContainer = document.getElementById('modalBulletPoints');
-            bulletContainer.innerHTML = '';
-            features.forEach(feat => {
-                bulletContainer.innerHTML += `<li>${feat}</li>`;
+            const bulletsContainer = document.getElementById('modalBullets');
+            bulletsContainer.innerHTML = '';
+            bullets.forEach(bullet => {
+                const li = document.createElement('li');
+                li.innerText = bullet;
+                bulletsContainer.appendChild(li);
             });
 
-            // Populate Thumbnails & Main Image
-            let thumbContainer = document.getElementById('modalThumbnails');
-            thumbContainer.innerHTML = '';
+            const thumbsContainer = document.getElementById('modalThumbnails');
+            thumbsContainer.innerHTML = '';
             
-            if (images && images.length > 0) {
-                document.getElementById('modalMainImg').src = images[0];
-                
-                images.forEach((imgUrl, index) => {
-                    let thumbClass = index === 0 ? 'active-thumb' : '';
-                    thumbContainer.innerHTML += `<img src="${imgUrl}" referrerpolicy="no-referrer" class="${thumbClass}" onclick="changeMainImage('${imgUrl}', this)">`;
-                });
-            }
+            const mainImg = document.getElementById('modalMainImage');
+            mainImg.src = images[0];
 
-            // WhatsApp Button Link Update
-            let encodedMsg = encodeURIComponent(`Hi, I am interested in enquiry/purchase for: ${title} (${brand})`);
-            document.getElementById('modalWhatsappLink').href = `https://wa.me/918390909845?text=${encodedMsg}`;
+            images.forEach((imgUrl, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgUrl;
+                if(index === 0) thumb.classList.add('active-thumb');
+                thumb.onclick = () => {
+                    mainImg.src = imgUrl;
+                    document.querySelectorAll('.thumbnail-list img').forEach(t => t.classList.remove('active-thumb'));
+                    thumb.classList.add('active-thumb');
+                };
+                thumbsContainer.appendChild(thumb);
+            });
 
-            // Show Modal
-            document.getElementById('amazonModal').style.display = 'flex';
+            const whatsappBtn = document.getElementById('modalWhatsappBtn');
+            whatsappBtn.href = `https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20${encodeURIComponent(title)}. Please share pricing and details.`;
+
+            document.getElementById('productModal').style.display = 'flex';
         }
 
-        function changeMainImage(url, thumbElement) {
-            document.getElementById('modalMainImg').src = url;
-            let allThumbs = document.querySelectorAll('.thumbnail-list img');
-            allThumbs.forEach(t => t.classList.remove('active-thumb'));
-            thumbElement.classList.add('active-thumb');
+        function closeAmazonModal() {
+            document.getElementById('productModal').style.display = 'none';
         }
 
-        function closeAmazonModalWindow() {
-            document.getElementById('amazonModal').style.display = 'none';
-        }
-
-        // Close when clicking outside modal content
         window.onclick = function(event) {
-            let modal = document.getElementById('amazonModal');
+            const modal = document.getElementById('productModal');
             if (event.target === modal) {
-                closeAmazonModalWindow();
+                closeAmazonModal();
             }
         }
     </script>
