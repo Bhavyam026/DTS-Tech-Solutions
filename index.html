@@ -13,98 +13,110 @@
         }
 
         body {
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: #eaeded;
+            color: #111;
         }
 
         header {
-            background: linear-gradient(135deg, #111111, #1a252f);
+            background-color: #131921;
             color: #fff;
-            padding: 20px 40px;
+            padding: 12px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            border-bottom: 3px solid #f39c12;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .logo-badge {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: #fff;
+            background: #febd69;
+            color: #111;
             font-weight: 800;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 18px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 16px;
             letter-spacing: 1px;
-            box-shadow: 0 2px 5px rgba(243, 156, 18, 0.4);
         }
 
         header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 18px;
+            font-weight: 600;
             color: #fff;
+        }
+
+        .search-bar {
+            display: flex;
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
         }
 
         .search-bar input {
-            padding: 10px 18px;
-            width: 350px;
-            border-radius: 30px;
-            border: 2px solid #444;
-            background: #222;
-            color: #fff;
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 4px 0 0 4px;
+            border: none;
             outline: none;
+            font-size: 15px;
         }
 
-        .search-bar input:focus {
-            border-color: #f39c12;
+        .search-btn {
+            background: #febd69;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
         }
 
         .container {
             display: flex;
-            max-width: 1200px;
-            margin: 25px auto;
-            gap: 25px;
+            max-width: 1400px;
+            margin: 20px auto;
+            gap: 20px;
             padding: 0 15px;
         }
 
         aside {
-            width: 260px;
+            width: 250px;
             background: #fff;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             height: fit-content;
         }
 
         aside h3 {
             font-size: 15px;
-            margin-bottom: 12px;
-            color: #222;
-            border-bottom: 2px solid #f39c12;
+            margin-bottom: 10px;
+            color: #111;
+            border-bottom: 2px solid #febd69;
             padding-bottom: 5px;
         }
 
         aside ul {
             list-style: none;
-            margin-bottom: 25px;
         }
 
         aside ul li {
-            padding: 7px 0;
+            padding: 8px 10px;
             font-size: 13px;
-            color: #555;
+            color: #333;
             cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 4px;
         }
 
-        aside ul li:hover {
-            color: #f39c12;
+        aside ul li:hover, aside ul li.active {
+            background-color: #f0f2f2;
+            color: #007185;
+            font-weight: bold;
         }
 
         .main-content {
@@ -116,66 +128,58 @@
             justify-content: space-between;
             margin-bottom: 15px;
             font-size: 14px;
-            color: #666;
-            font-weight: 500;
+            color: #555;
+            background: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
+        /* Amazon Style Product Card with Smooth Zoom Image */
         .product-card {
             background: #fff;
             border-radius: 8px;
             padding: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: box-shadow 0.3s ease;
         }
 
-        /* 100% Reliable Custom Product Visual Card Box (No Broken Image Issues) */
-        .product-img-box {
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+
+        .product-img-container {
             width: 100%;
-            height: 160px;
-            background: linear-gradient(135deg, #1e272e, #2f3640);
+            height: 180px;
+            background: #f7f7f7;
             border-radius: 6px;
+            overflow: hidden;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
             margin-bottom: 12px;
             cursor: pointer;
-            border-bottom: 3px solid #f39c12;
-            transition: transform 0.2s;
         }
 
-        .product-img-box:hover {
-            transform: scale(1.02);
+        .product-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
         }
 
-        .product-img-box .box-icon {
-            font-size: 32px;
-            margin-bottom: 6px;
-        }
-
-        .product-img-box .box-brand {
-            font-size: 11px;
-            letter-spacing: 1px;
-            color: #f39c12;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .product-img-box .box-name {
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 4px;
-            color: #fff;
+        /* Amazon Zoom-In Effect on Hover */
+        .product-img-container:hover img {
+            transform: scale(1.15);
         }
 
         .badge {
@@ -194,67 +198,73 @@
             color: #c62828;
         }
 
-        .badge-electrical {
-            background: #fff8e1;
-            color: #f57f17;
-        }
-
         .product-card h4 {
             font-size: 14px;
-            margin-bottom: 5px;
-            text-align: left;
-            color: #222;
-            height: 38px;
+            color: #007185;
+            margin-bottom: 6px;
+            height: 40px;
             overflow: hidden;
             font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .product-card h4:hover {
+            color: #c45500;
+            text-decoration: underline;
+            cursor: pointer;
         }
 
         .specs {
-            font-size: 11px;
-            color: #666;
-            text-align: left;
+            font-size: 12px;
+            color: #565959;
             margin-bottom: 8px;
-            height: 30px;
+            height: 35px;
             overflow: hidden;
         }
 
         .rating {
-            color: #f39c12;
+            color: #ffa41c;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .rating span {
+            color: #007185;
             font-size: 12px;
-            text-align: left;
-            margin-bottom: 10px;
         }
 
         .btn-enquire {
-            background-color: #f39c12;
-            color: #fff;
-            border: none;
+            background-color: #ffd814;
+            color: #111;
+            border: 1px solid #fcd200;
             padding: 8px;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 13px;
             width: 100%;
             margin-bottom: 6px;
+            box-shadow: 0 2px 5px rgba(213,217,217,.5);
         }
 
         .btn-enquire:hover {
-            background-color: #e67e22;
+            background-color: #f7ca00;
         }
 
         .btn-whatsapp {
             background-color: #25d366;
             color: #fff;
             border: none;
-            padding: 7px;
-            border-radius: 5px;
+            padding: 8px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 12px;
+            font-weight: 600;
+            font-size: 13px;
             width: 100%;
             margin-bottom: 6px;
             text-decoration: none;
             display: inline-block;
+            text-align: center;
         }
 
         .btn-whatsapp:hover {
@@ -264,104 +274,27 @@
         .btn-details {
             background: none;
             border: none;
-            color: #007bff;
+            color: #007185;
             font-size: 12px;
             cursor: pointer;
-            font-weight: 500;
+            text-align: left;
         }
 
         .btn-details:hover {
             text-decoration: underline;
+            color: #c45500;
         }
 
         footer {
-            background-color: #131a22;
+            background-color: #232f3e;
             color: #fff;
-            margin-top: 50px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: space-around;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .footer-col h4 {
-            font-size: 15px;
-            margin-bottom: 15px;
-            color: #f39c12;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            font-size: 13px;
-            color: #ddd;
-            margin-bottom: 8px;
-        }
-
-        .footer-col a {
-            color: #ddd;
-            text-decoration: none;
-        }
-
-        .footer-col a:hover {
-            color: #f39c12;
-            text-decoration: underline;
-        }
-
-        .footer-bottom {
-            background-color: #0f1318;
+            margin-top: 40px;
             text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #aaa;
-            border-top: 1px solid #232f3e;
-        }
-
-        .admin-panel-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #c0392b;
-            color: white;
-            padding: 12px 18px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 999;
-        }
-
-        .admin-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .admin-content {
-            background: #fff;
             padding: 25px;
-            border-radius: 8px;
-            width: 700px;
-            max-width: 95%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            font-size: 13px;
         }
 
+        /* Product Detail Modal */
         .modal {
             display: none;
             position: fixed;
@@ -370,18 +303,17 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0,0,0,0.6);
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
             background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            width: 550px;
-            max-width: 95%;
-            text-align: left;
+            padding: 30px;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
             position: relative;
         }
 
@@ -389,9 +321,9 @@
             position: absolute;
             right: 15px;
             top: 10px;
-            font-size: 26px;
+            font-size: 24px;
             cursor: pointer;
-            color: #888;
+            color: #555;
         }
     </style>
 </head>
@@ -403,123 +335,112 @@
             <h1>Dynamic Technology Solutions</h1>
         </div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search products...">
+            <input type="text" id="searchInput" placeholder="Search security cameras, cables, DVRs..." onkeyup="searchProducts()">
+            <button class="search-btn">🔍</button>
         </div>
     </header>
 
     <div class="container">
         <aside>
             <h3>Popular Categories</h3>
-            <ul>
-                <li>All Products</li>
-                <li>Prizor Cameras & Recorders</li>
-                <li>HOC Networking Cables</li>
-                <li>Fire & Electrical Safety</li>
+            <ul id="categoryList">
+                <li class="active" onclick="filterCategory('all', this)">All Products</li>
+                <li onclick="filterCategory('prizor', this)">Prizor Cameras & Recorders</li>
+                <li onclick="filterCategory('hoc', this)">HOC Networking Cables</li>
+                <li onclick="filterCategory('fire', this)">Fire & Electrical Safety</li>
             </ul>
         </aside>
 
         <div class="main-content">
             <div class="catalog-header">
-                <span>Showing all security & networking products</span>
+                <span>Showing verified security & networking products</span>
                 <span>Sort by: <strong>Featured</strong></span>
             </div>
 
-            <div class="product-grid">
+            <div class="product-grid" id="productGrid">
                 
-                <!-- Product 1 -->
-                <div class="product-card">
+                <!-- Product 1: LAN Cable -->
+                <div class="product-card" data-category="hoc">
                     <span class="badge">AUTHORIZED HOC PARTNER</span>
-                    <div class="product-img-box" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', '🔌', 'HOC Networking', 'CAT6 Pure Copper LAN Cable')">
-                        <div class="box-icon">🔌</div>
-                        <div class="box-brand">HOC Partner</div>
-                        <div class="box-name">CAT6 LAN Cable</div>
+                    <div class="product-img-container" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500')">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="CAT6 LAN Cable">
                     </div>
-                    <h4>HOC Structured CAT6 Pure Copper LAN Cable</h4>
+                    <h4 onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500')">HOC Structured CAT6 Pure Copper LAN Cable</h4>
                     <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
-                    <div class="rating">★★★★★ <span>(48)</span></div>
+                    <div class="rating">★★★★★ <span>4.8 (48)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', '🔌', 'HOC Networking', 'CAT6 Pure Copper LAN Cable')">See Details</button>
+                    <button class="btn-details" onclick="openModal('HOC Structured CAT6 Pure Copper LAN Cable', 'HOC Networking', 'Pure Copper, 305m Box, Gigabit Support', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500')">See full specifications</button>
                 </div>
 
-                <!-- Product 2 -->
-                <div class="product-card">
+                <!-- Product 2: PTZ Camera -->
+                <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', '📷', 'Prizor Security', 'PTZ Security Camera')">
-                        <div class="box-icon">📷</div>
-                        <div class="box-brand">Prizor Partner</div>
-                        <div class="box-name">Smart PTZ Camera</div>
+                    <div class="product-img-container" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500')">
+                        <img src="https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500" alt="PTZ Camera">
                     </div>
-                    <h4>Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
+                    <h4 onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500')">Prizor Smart Wi-Fi IP PTZ Security Camera</h4>
                     <div class="specs">1080p Full HD, 360 Rotation, Night Vision</div>
-                    <div class="rating">★★★★★ <span>(54)</span></div>
+                    <div class="rating">★★★★★ <span>4.9 (54)</span></div>
                     <button class="btn-enquire">Enquire & Get Price</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20PTZ%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', '📷', 'Prizor Security', 'PTZ Security Camera')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor Smart Wi-Fi IP PTZ Security Camera', 'Prizor Security', '1080p Full HD, 360 Rotation, Night Vision', 'https://images.unsplash.com/photo-1557324232-b8917d4c3d6e?w=500')">See full specifications</button>
                 </div>
 
-                <!-- Product 3 -->
-                <div class="product-card">
+                <!-- Product 3: Analog Camera -->
+                <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box" onclick="openModal('Prizor HD Analog CCTV Security Camera', '📹', 'Prizor Security', 'HD Analog Camera')">
-                        <div class="box-icon">📹</div>
-                        <div class="box-brand">Prizor Partner</div>
-                        <div class="box-name">Analog CCTV Camera</div>
+                    <div class="product-img-container" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body', 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500')">
+                        <img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500" alt="Analog Camera">
                     </div>
-                    <h4>Prizor HD Analog CCTV Security Camera</h4>
+                    <h4 onclick="openModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body', 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500')">Prizor HD Analog CCTV Security Camera</h4>
                     <div class="specs">2MP HD Resolution, Weatherproof Metal Body</div>
-                    <div class="rating">★★★★★ <span>(42)</span></div>
+                    <div class="rating">★★★★★ <span>4.7 (42)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20Analog%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', '📹', 'Prizor Security', 'HD Analog Camera')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor HD Analog CCTV Security Camera', 'Prizor Security', '2MP HD Resolution, Weatherproof Metal Body', 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500')">See full specifications</button>
                 </div>
 
-                <!-- Product 4 -->
-                <div class="product-card">
+                <!-- Product 4: DVR -->
+                <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', '🎛️', 'Prizor Security', 'Digital Video Recorder')">
-                        <div class="box-icon">🎛️</div>
-                        <div class="box-brand">Prizor Partner</div>
-                        <div class="box-name">Multi-Channel DVR</div>
+                    <div class="product-img-container" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500')">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500" alt="DVR Unit">
                     </div>
-                    <h4>Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
+                    <h4 onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500')">Prizor Multi-Channel Digital Video Recorder (DVR)</h4>
                     <div class="specs">5-in-1 Support, H.265 Pro Compression</div>
-                    <div class="rating">★★★★★ <span>(36)</span></div>
+                    <div class="rating">★★★★★ <span>4.8 (36)</span></div>
                     <button class="btn-enquire">Enquire for Pricing</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', '🎛️', 'Prizor Security', 'Digital Video Recorder')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor Multi-Channel Digital Video Recorder (DVR)', 'Prizor Security', '5-in-1 Support, H.265 Pro Compression', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500')">See full specifications</button>
                 </div>
 
-                <!-- Product 5 -->
-                <div class="product-card">
+                <!-- Product 5: NVR -->
+                <div class="product-card" data-category="prizor">
                     <span class="badge">AUTHORIZED PRIZOR PARTNER</span>
-                    <div class="product-img-box" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', '🖥️', 'Prizor Security', '4K Network Video Recorder')">
-                        <div class="box-icon">🖥️</div>
-                        <div class="box-brand">Prizor Partner</div>
-                        <div class="box-name">4K NVR Unit</div>
+                    <div class="product-img-container" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500')">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="4K NVR">
                     </div>
-                    <h4>Prizor 4K Network Video Recorder (NVR)</h4>
+                    <h4 onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500')">Prizor 4K Network Video Recorder (NVR)</h4>
                     <div class="specs">4K Ultra HD Output, PoE Support</div>
-                    <div class="rating">★★★★★ <span>(29)</span></div>
+                    <div class="rating">★★★★★ <span>4.9 (29)</span></div>
                     <button class="btn-enquire">Enquire for Quote</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Prizor%204K%20NVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', '🖥️', 'Prizor Security', '4K Network Video Recorder')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Prizor 4K Network Video Recorder (NVR)', 'Prizor Security', '4K Ultra HD Output, PoE Support', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500')">See full specifications</button>
                 </div>
 
-                <!-- Product 6 -->
-                <div class="product-card">
+                <!-- Product 6: Fire Alarm -->
+                <div class="product-card" data-category="fire">
                     <span class="badge badge-fire">FIRE SAFETY</span>
-                    <div class="product-img-box" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', '🚨', 'Safety Systems', 'Fire Alarm System')">
-                        <div class="box-icon">🚨</div>
-                        <div class="box-brand">Safety Systems</div>
-                        <div class="box-name">Fire Alarm & Sensors</div>
+                    <div class="product-img-container" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity', 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=500')">
+                        <img src="https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=500" alt="Fire Alarm">
                     </div>
-                    <h4>Fire Alarm Control Panel & Smoke Detectors</h4>
+                    <h4 onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity', 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=500')">Fire Alarm Control Panel & Smoke Detectors</h4>
                     <div class="specs">Conventional/Addressable, High Sensitivity</div>
-                    <div class="rating">★★★★★ <span>(18)</span></div>
+                    <div class="rating">★★★★★ <span>4.6 (18)</span></div>
                     <button class="btn-enquire">Commercial Enquire</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20Fire%20Alarm" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', '🚨', 'Safety Systems', 'Fire Alarm System')">See Details</button>
+                    <button class="btn-details" onclick="openModal('Fire Alarm Control Panel & Smoke Detectors', 'Safety Systems', 'Conventional/Addressable, High Sensitivity', 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=500')">See full specifications</button>
                 </div>
 
             </div>
@@ -527,64 +448,55 @@
     </div>
 
     <footer>
-        <div class="footer-links">
-            <div class="footer-col">
-                <h4>Dynamic Technology Solutions</h4>
-                <ul>
-                    <li>Authorized Partner: Prizor & HOC</li>
-                    <li>Security & Networking Solutions</li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Connect With Us</h4>
-                <ul>
-                    <li>WhatsApp: <a href="https://wa.me/918390909845" target="_blank">83909 09845</a></li>
-                    <li>Instagram: <a href="https://www.instagram.com/dts.techsolutions" target="_blank">@dts.techsolutions</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Dynamic Technology Solutions. All Rights Reserved.</p>
-        </div>
+        <p>&copy; 2026 Dynamic Technology Solutions. Authorized Partner for Prizor & HOC Systems.</p>
     </footer>
 
-    <button class="admin-panel-btn" onclick="verifyAdmin()">🔒 Admin Log</button>
-
-    <div id="adminModal" class="admin-modal">
-        <div class="admin-content">
-            <h3 style="color: #f39c12; margin-bottom: 10px;">Admin Notice</h3>
-            <p style="font-size: 13px; color: #444; line-height: 1.5;">Static GitHub Pages par direct device IP aur location track karna browser security (CORS) ki wajah se restrict hota hai. Visitor tracking ke liye professional analytics tool ya backend server use karna behtar rehta hai.</p>
-            <div style="text-align: right; margin-top: 15px;">
-                <button onclick="closeAdminModal()" style="padding: 7px 16px; background: #555; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Close</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- Modal for details -->
     <div id="productModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle" style="margin-bottom: 10px; color: #222;"></h3>
-            <p id="modalSpecs" style="font-size: 13px; color: #555; line-height: 1.6; background: #fdfdfd; padding: 12px; border-left: 3px solid #f39c12;"></p>
+            <h3 id="modalTitle" style="color: #007185; margin-bottom: 10px;"></h3>
+            <p id="modalBrand" style="font-weight: bold; color: #555; margin-bottom: 8px; font-size: 13px;"></p>
+            <p id="modalSpecs" style="font-size: 13px; color: #333; line-height: 1.6; background: #f7f7f7; padding: 12px; border-radius: 4px;"></p>
         </div>
     </div>
 
     <script>
-        function verifyAdmin() {
-            let pwd = prompt("Enter Admin Password:");
-            if(pwd === "Pankaj@1980") {
-                document.getElementById('adminModal').style.display = 'flex';
-            } else if(pwd !== null) {
-                alert("Incorrect Password!");
-            }
+        function filterCategory(category, element) {
+            let items = document.querySelectorAll('#categoryList li');
+            items.forEach(li => li.classList.remove('active'));
+            element.classList.add('active');
+
+            let cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if(category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
+
+        function searchProducts() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                let title = card.querySelector('h4').innerText.toLowerCase();
+                if(title.includes(input)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
-        function openModal(title, icon, brand, subtitle) {
+
+        function openModal(title, brand, specs, imgUrl) {
             document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalSpecs').innerText = "Category: " + brand + "\nProduct: " + subtitle + "\n\nHigh quality certified security and networking product distributed by Dynamic Technology Solutions. Contact via WhatsApp for live pricing and bulk orders.";
+            document.getElementById('modalBrand').innerText = "Category / Brand: " + brand;
+            document.getElementById('modalSpecs').innerText = "Specifications:\n" + specs + "\n\nCertified security and networking hardware distributed by Dynamic Technology Solutions. Contact via WhatsApp or Enquire for bulk pricing and installation support.";
             document.getElementById('productModal').style.display = 'flex';
         }
+
         function closeModal() {
             document.getElementById('productModal').style.display = 'none';
         }
