@@ -227,8 +227,6 @@
         }
 
         .badge {
-            background: #e1f5fe;
-            color: #0277bd;
             font-size: 10px;
             padding: 4px 8px;
             border-radius: 4px;
@@ -237,9 +235,6 @@
             font-weight: bold;
         }
 
-        .badge-fire { background: #ffebee; color: #c62828; }
-        .badge-elec { background: #fff8e1; color: #f57f17; }
-        .badge-serv { background: #e8f5e9; color: #2e7d32; }
         .badge-auth { background: #e0f2f1; color: #00695c; }
 
         .product-card h4 {
@@ -311,7 +306,7 @@
 
         .btn-whatsapp:hover { background-color: #20ba5a; }
 
-        /* Amazon Style Modal Styles */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -352,9 +347,7 @@
             z-index: 10;
         }
 
-        .close-btn:hover {
-            color: #000;
-        }
+        .close-btn:hover { color: #000; }
 
         .modal-top-section {
             display: flex;
@@ -406,7 +399,6 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            transition: transform 0.3s ease;
         }
 
         .modal-right {
@@ -494,31 +486,12 @@
 
         .footer-col ul { list-style: none; }
         .footer-col ul li { margin-bottom: 10px; }
-        .footer-col ul li a, .footer-col ul li span {
+        .footer-col ul li a {
             color: #dddddd;
             text-decoration: none;
             font-size: 14px;
         }
         .footer-col ul li a:hover { text-decoration: underline; }
-
-        .footer-divider {
-            border-top: 1px solid #3a4553;
-            margin: 0 auto;
-            max-width: 1000px;
-        }
-
-        .footer-brand-section {
-            text-align: center;
-            padding: 30px 20px;
-            background-color: #232f3e;
-        }
-
-        .footer-logo {
-            font-size: 22px;
-            font-weight: bold;
-            color: #fff;
-            letter-spacing: 2px;
-        }
 
         .footer-bottom {
             background-color: #131a22;
@@ -538,7 +511,7 @@
             <h1>Dynamic Technology Solutions <span style="font-size: 12px; color: #febd69; font-weight: normal;">(Authorized Prizor & HOC Partner)</span></h1>
         </div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search IP Camera, Wi-Fi Camera, NVR, DVR, Cables, Panels..." onkeyup="searchProducts()">
+            <input type="text" id="searchInput" placeholder="Search IP Camera, Wi-Fi Camera, NVR, DVR, Cables..." onkeyup="searchProducts()">
             <button class="search-btn">🔍</button>
         </div>
         <div class="header-contact">
@@ -550,7 +523,7 @@
     <div class="container">
         <aside>
             <div class="sidebar-brand-box">
-                <img src="http://localhost:5000/get-image?url=https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg" alt="DTS Logo" class="sidebar-logo-img">
+                <div class="brand-logo-img" style="width:38px; height:38px; font-size:14px;">DTS</div>
                 <h3>Product Categories</h3>
             </div>
             <ul id="categoryList">
@@ -560,9 +533,6 @@
                 <li onclick="filterCategory('nvr', this)">🖥️ <span>Prizor NVR Systems</span></li>
                 <li onclick="filterCategory('dvr', this)">📼 <span>Prizor DVR Systems</span></li>
                 <li onclick="filterCategory('hoc', this)">🔌 <span>HOC Networking Cables</span></li>
-                <li onclick="filterCategory('electrical', this)">⚡ <span>Electrical Power Panels</span></li>
-                <li onclick="filterCategory('fire', this)">🔥 <span>Fire Safety Systems</span></li>
-                <li onclick="filterCategory('services', this)">🛠️ <span>Engineering & AMC Services</span></li>
             </ul>
         </aside>
 
@@ -578,39 +548,18 @@
                 <div class="product-card" data-category="ip-camera">
                     <span class="badge badge-auth">AUTHORIZED IP CAMERA</span>
                     <div class="product-img-container" onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', [
-                        'Crystal clear 4MP high-definition resolution with advanced CMOS sensor for sharp video surveillance.',
-                        'Power over Ethernet (PoE) support enables data and power transmission over a single RJ45 network cable.',
-                        'Weatherproof IP67 rated rugged metal housing designed for harsh outdoor and indoor environments.',
-                        'Smart IR Night Vision up to 30 meters for clear visibility in total darkness.'
+                        'Crystal clear 4MP high-definition resolution with advanced CMOS sensor.',
+                        'Power over Ethernet (PoE) support enables data and power transmission over single RJ45.',
+                        'Weatherproof IP67 rated rugged metal housing designed for harsh outdoor conditions.'
                     ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg',
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png'
+                        'https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg" alt="Prizor IP Camera">
+                        <img src="https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg" alt="Prizor IP Camera">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', [
-                        'Crystal clear 4MP high-definition resolution with advanced CMOS sensor for sharp video surveillance.',
-                        'Power over Ethernet (PoE) support enables data and power transmission over a single RJ45 network cable.',
-                        'Weatherproof IP67 rated rugged metal housing designed for harsh outdoor and indoor environments.',
-                        'Smart IR Night Vision up to 30 meters for clear visibility in total darkness.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg',
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png'
-                    ])">Prizor 4MP Outdoor PoE IP Security Camera</h4>
+                    <h4 onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', ['Crystal clear 4MP high-definition resolution.'], ['https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg'])">Prizor 4MP Outdoor PoE IP Security Camera</h4>
                     <div class="specs">4MP HD, PoE RJ45 Port, IP67 Weatherproof</div>
                     <div class="rating">★★★★★ <span>4.9 (130)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', [
-                        'Crystal clear 4MP high-definition resolution with advanced CMOS sensor for sharp video surveillance.',
-                        'Power over Ethernet (PoE) support enables data and power transmission over a single RJ45 network cable.',
-                        'Weatherproof IP67 rated rugged metal housing designed for harsh outdoor and indoor environments.',
-                        'Smart IR Night Vision up to 30 meters for clear visibility in total darkness.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg',
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png'
-                    ])">See Details & Specs</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 4MP Outdoor PoE IP Security Camera', 'Authorized Prizor Partner - DTS', ['Crystal clear 4MP high-definition resolution.'], ['https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg'])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20IP%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
@@ -618,36 +567,18 @@
                 <div class="product-card" data-category="wifi-camera">
                     <span class="badge badge-auth">AUTHORIZED WI-FI CAMERA</span>
                     <div class="product-img-container" onclick="openAmazonModal('Prizor Smart Wi-Fi Wireless PTZ Security Camera', 'Authorized Prizor Partner - DTS', [
-                        'Wireless Wi-Fi connectivity allows easy setup without complex wiring across your home or office.',
-                        'Full 360 degree horizontal and 90 degree vertical rotation controlled directly from your mobile app.',
-                        'Built-in microphone and speaker for real-time two-way audio communication.',
-                        'Motion detection alert notifications sent straight to your smartphone instantly.'
+                        'Wireless Wi-Fi connectivity allows easy setup without complex wiring.',
+                        'Full 360 degree horizontal and 90 degree vertical rotation controlled via app.',
+                        'Built-in microphone and speaker for real-time two-way audio.'
                     ], [
-                        'https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg'
+                        'https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg" alt="Prizor Wi-Fi Camera">
+                        <img src="https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg" alt="Prizor Wi-Fi Camera">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor Smart Wi-Fi Wireless PTZ Security Camera', 'Authorized Prizor Partner - DTS', [
-                        'Wireless Wi-Fi connectivity allows easy setup without complex wiring across your home or office.',
-                        'Full 360 degree horizontal and 90 degree vertical rotation controlled directly from your mobile app.',
-                        'Built-in microphone and speaker for real-time two-way audio communication.',
-                        'Motion detection alert notifications sent straight to your smartphone instantly.'
-                    ], [
-                        'https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg'
-                    ])">Prizor Smart Wi-Fi Wireless PTZ Security Camera</h4>
+                    <h4>Prizor Smart Wi-Fi Wireless PTZ Security Camera</h4>
                     <div class="specs">Wireless Wi-Fi, 360 PTZ, Two-Way Audio</div>
                     <div class="rating">★★★★★ <span>4.9 (98)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Smart Wi-Fi Wireless PTZ Security Camera', 'Authorized Prizor Partner - DTS', [
-                        'Wireless Wi-Fi connectivity allows easy setup without complex wiring across your home or office.',
-                        'Full 360 degree horizontal and 90 degree vertical rotation controlled directly from your mobile app.',
-                        'Built-in microphone and speaker for real-time two-way audio communication.',
-                        'Motion detection alert notifications sent straight to your smartphone instantly.'
-                    ], [
-                        'https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/10/354714104/PV/WR/HW/2850708632/prizor-pp4080ipbwlr732-4-mp-ip-anpr-bullet-camera-500x500.jpg'
-                    ])">See Details & Specs</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor Smart Wi-Fi Wireless PTZ Security Camera', 'Authorized Prizor Partner - DTS', ['Wireless Wi-Fi connectivity.'], ['https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg'])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20Wi-Fi%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
@@ -655,229 +586,43 @@
                 <div class="product-card" data-category="nvr">
                     <span class="badge badge-auth">AUTHORIZED NVR SYSTEM</span>
                     <div class="product-img-container" onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR)', 'Authorized Prizor Partner - DTS', [
-                        'Supports up to 8 IP cameras with high-bandwidth network processing capability.',
-                        'Equipped with HDMI and VGA display output ports for high-definition monitor connectivity.',
-                        'Includes RJ45 Ethernet network ports and multiple USB ports for easy mouse control and video backup.',
-                        'Advanced H.265 video compression format to save massive hard disk storage space.'
+                        'Supports up to 8 IP cameras with high-bandwidth processing.',
+                        'Equipped with HDMI and VGA display output ports.'
                     ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg',
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png'
+                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg" alt="Prizor 8-Channel NVR">
+                        <img src="https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg" alt="Prizor 8-Channel NVR">
                     </div>
-                    <h4 onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR)', 'Authorized Prizor Partner - DTS', [
-                        'Supports up to 8 IP cameras with high-bandwidth network processing capability.',
-                        'Equipped with HDMI and VGA display output ports for high-definition monitor connectivity.',
-                        'Includes RJ45 Ethernet network ports and multiple USB ports for easy mouse control and video backup.',
-                        'Advanced H.265 video compression format to save massive hard disk storage space.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg',
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png'
-                    ])">Prizor 8-Channel Network Video Recorder (NVR)</h4>
+                    <h4>Prizor 8-Channel Network Video Recorder (NVR)</h4>
                     <div class="specs">8 IP Channels, RJ45 LAN, HDMI/VGA Port</div>
                     <div class="rating">★★★★★ <span>4.9 (142)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR)', 'Authorized Prizor Partner - DTS', [
-                        'Supports up to 8 IP cameras with high-bandwidth network processing capability.',
-                        'Equipped with HDMI and VGA display output ports for high-definition monitor connectivity.',
-                        'Includes RJ45 Ethernet network ports and multiple USB ports for easy mouse control and video backup.',
-                        'Advanced H.265 video compression format to save massive hard disk storage space.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg',
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png'
-                    ])">See Details & Specs</button>
+                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 8-Channel Network Video Recorder (NVR)', 'Authorized Prizor Partner - DTS', ['Supports up to 8 IP cameras.'], ['https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg'])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20NVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
-                <!-- 4. Prizor 8-Channel DVR System -->
-                <div class="product-card" data-category="dvr">
-                    <span class="badge badge-auth">AUTHORIZED DVR SYSTEM</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Prizor 8-Channel Digital Video Recorder (DVR)', 'Authorized Prizor Partner - DTS', [
-                        'Multi-format support compatible with traditional analog CCTV cameras.',
-                        'BNC video input ports along with audio RCA inputs and outputs for audio recording.',
-                        'Equipped with standard HDMI and VGA ports for local display monitors.',
-                        'Easy remote viewing support via mobile applications and computer software.'
-                    ], [
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg'
-                    ])">
-                        <img src="http://localhost:5000/get-image?url=https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png" alt="Prizor 8-Channel DVR">
-                    </div>
-                    <h4 onclick="openAmazonModal('Prizor 8-Channel Digital Video Recorder (DVR)', 'Authorized Prizor Partner - DTS', [
-                        'Multi-format support compatible with traditional analog CCTV cameras.',
-                        'BNC video input ports along with audio RCA inputs and outputs for audio recording.',
-                        'Equipped with standard HDMI and VGA ports for local display monitors.',
-                        'Easy remote viewing support via mobile applications and computer software.'
-                    ], [
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg'
-                    ])">Prizor 8-Channel Digital Video Recorder (DVR)</h4>
-                    <div class="specs">8 BNC Channels, Audio RCA, HDMI/VGA Output</div>
-                    <div class="rating">★★★★★ <span>4.9 (120)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Prizor 8-Channel Digital Video Recorder (DVR)', 'Authorized Prizor Partner - DTS', [
-                        'Multi-format support compatible with traditional analog CCTV cameras.',
-                        'BNC video input ports along with audio RCA inputs and outputs for audio recording.',
-                        'Equipped with standard HDMI and VGA ports for local display monitors.',
-                        'Easy remote viewing support via mobile applications and computer software.'
-                    ], [
-                        'https://www.prizor.in/cdn/shop/files/RP-HDV0801-5M-PRO.png',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/2/SU/QZ/WD/17872313/prizor-black-8-channel-nvr-system-500x500.jpg'
-                    ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                </div>
-
-                <!-- 5. HOC CAT6 Cable -->
+                <!-- 4. HOC CAT6 Cable -->
                 <div class="product-card" data-category="hoc">
                     <span class="badge badge-auth">AUTHORIZED HOC CABLE</span>
                     <div class="product-img-container" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', [
-                        '100% Pure Copper conductor for optimal data transmission speeds and zero signal degradation.',
-                        '305 Meter pull box packaging with tangle-free cable dispensing.',
-                        'Supports high-speed Gigabit Ethernet networks and PoE security camera setups.',
-                        'Heavy outer PVC shielding provides high durability and protects against electrical interference.'
+                        '100% Pure Copper conductor for optimal data transmission speeds.',
+                        '305 Meter pull box packaging with tangle-free dispensing.'
                     ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg',
-                        'https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg'
+                        'https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg'
                     ])">
-                        <img src="http://localhost:5000/get-image?url=https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg" alt="HOC CAT6 Cable">
+                        <img src="https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg" alt="HOC CAT6 Cable">
                     </div>
-                    <h4 onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', [
-                        '100% Pure Copper conductor for optimal data transmission speeds and zero signal degradation.',
-                        '305 Meter pull box packaging with tangle-free cable dispensing.',
-                        'Supports high-speed Gigabit Ethernet networks and PoE security camera setups.',
-                        'Heavy outer PVC shielding provides high durability and protects against electrical interference.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg',
-                        'https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg'
-                    ])">HOC Structured CAT6 Pure Copper LAN Cable</h4>
-                    <div class="specs">Pure Copper, 305m Box, Gigabit Support</div>
-                    <div class="rating">★★★★★ <span>4.9 (110)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', [
-                        '100% Pure Copper conductor for optimal data transmission speeds and zero signal degradation.',
-                        '305 Meter pull box packaging with tangle-free cable dispensing.',
-                        'Supports high-speed Gigabit Ethernet networks and PoE security camera setups.',
-                        'Heavy outer PVC shielding provides high durability and protects against electrical interference.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg',
-                        'https://rukminim2.flixcart.com/image/832/832/xif0q/security-camera/s/g/9/smart-hidden-camera-wifi-wireless-prizor-original-imags6j5zzhuzgfs.jpeg'
-                    ])">See Details & Specs</button>
+                    <h4>HOC Structured CAT6 Pure Copper LAN Cable</h4>
+                    <div class="specs">100% Pure Copper, 305M Box, Gigabit Support</div>
+                    <div class="rating">★★★★★ <span>4.8 (210)</span></div>
+                    <button class="btn-enquire" onclick="openAmazonModal('HOC Structured CAT6 Pure Copper LAN Cable', 'Authorized HOC Partner - DTS', ['100% Pure Copper conductor.'], ['https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg'])">See Details & Specs</button>
                     <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20HOC%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                </div>
-
-                <!-- 6. Electrical Power Panels -->
-                <div class="product-card" data-category="electrical">
-                    <span class="badge badge-elec">INDUSTRIAL ELECTRICAL</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
-                        'Heavy-duty industrial power distribution enclosures built for safety and reliability.',
-                        'Custom configurable modular compartments for MCC, PCC, and LT panel setups.',
-                        'High-grade copper busbars designed for efficient load distribution and minimal heat loss.',
-                        'Complies with standard electrical safety compliance frameworks for commercial and industrial plants.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/6/315901248/XQ/QY/OC/15049380/electrical-power-distribution-panel-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg'
-                    ])">
-                        <img src="http://localhost:5000/get-image?url=https://5.imimg.com/data5/SELLER/Default/2023/6/315901248/XQ/QY/OC/15049380/electrical-power-distribution-panel-500x500.jpg" alt="Electrical Power Panels">
-                    </div>
-                    <h4 onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
-                        'Heavy-duty industrial power distribution enclosures built for safety and reliability.',
-                        'Custom configurable modular compartments for MCC, PCC, and LT panel setups.',
-                        'High-grade copper busbars designed for efficient load distribution and minimal heat loss.',
-                        'Complies with standard electrical safety compliance frameworks for commercial and industrial plants.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/6/315901248/XQ/QY/OC/15049380/electrical-power-distribution-panel-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg'
-                    ])">Industrial Electrical Power Distribution Panel</h4>
-                    <div class="specs">LT / MCC / PCC Panels, Copper Busbar</div>
-                    <div class="rating">★★★★★ <span>4.8 (85)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Industrial Electrical Power Distribution Panel', 'Dynamic Technology Solutions', [
-                        'Heavy-duty industrial power distribution enclosures built for safety and reliability.',
-                        'Custom configurable modular compartments for MCC, PCC, and LT panel setups.',
-                        'High-grade copper busbars designed for efficient load distribution and minimal heat loss.',
-                        'Complies with standard electrical safety compliance frameworks for commercial and industrial plants.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/6/315901248/XQ/QY/OC/15049380/electrical-power-distribution-panel-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/8/335349603/DS/OG/XD/64467319/cat6-lan-cable-500x500.jpg'
-                    ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Electrical%20Panels" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                </div>
-
-                <!-- 7. Fire Safety Systems -->
-                <div class="product-card" data-category="fire">
-                    <span class="badge badge-fire">LIFE SAFETY SYSTEMS</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Integrated Fire Alarm & Safety System', 'Dynamic Technology Solutions', [
-                        'Advanced addressable and conventional fire alarm control panels for prompt emergency detection.',
-                        'High-sensitivity smoke, heat, and multi-sensor detectors for early hazard identification.',
-                        'Integrated emergency hooters, strobe lights, and manual pull stations.',
-                        'Designed for commercial buildings, warehouses, factories, and residential complexes.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2022/9/UV/OG/LE/4068574/fire-alarm-and-safety-system-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/6/315901248/XQ/QY/OC/15049380/electrical-power-distribution-panel-500x500.jpg'
-                    ])">
-                        <img src="http://localhost:5000/get-image?url=https://5.imimg.com/data5/SELLER/Default/2022/9/UV/OG/LE/4068574/fire-alarm-and-safety-system-500x500.jpg" alt="Fire Safety Systems">
-                    </div>
-                    <h4 onclick="openAmazonModal('Integrated Fire Alarm & Safety System', 'Dynamic Technology Solutions', [
-                        'Advanced addressable and conventional fire alarm control panels for prompt emergency detection.',
-                        'High-sensitivity smoke, heat, and multi-sensor detectors for early hazard identification.',
-                        'Integrated emergency hooters, strobe lights, and manual pull stations.',
-                        'Designed for commercial buildings, warehouses, factories, and residential complexes.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2022/9/UV/OG/LE/4068574/fire-alarm-and-safety-system-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/6/315901248/XQ/QY/OC/15049380/electrical-power-distribution-panel-500x500.jpg'
-                    ])">Integrated Fire Alarm & Safety System</h4>
-                    <div class="specs">Fire Alarm Control, Smoke Detectors, Hooters</div>
-                    <div class="rating">★★★★★ <span>4.9 (74)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Integrated Fire Alarm & Safety System', 'Dynamic Technology Solutions', [
-                        'Advanced addressable and conventional fire alarm control panels for prompt emergency detection.',
-                        'High-sensitivity smoke, heat, and multi-sensor detectors for early hazard identification.',
-                        'Integrated emergency hooters, strobe lights, and manual pull stations.',
-                        'Designed for commercial buildings, warehouses, factories, and residential complexes.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2022/9/UV/OG/LE/4068574/fire-alarm-and-safety-system-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2023/6/315901248/XQ/QY/OC/15049380/electrical-power-distribution-panel-500x500.jpg'
-                    ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Fire%20Safety%20Systems" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                </div>
-
-                <!-- 8. Engineering & AMC Services -->
-                <div class="product-card" data-category="services">
-                    <span class="badge badge-serv">PROFESSIONAL SERVICES</span>
-                    <div class="product-img-container" onclick="openAmazonModal('Engineering Installation & AMC Maintenance Services', 'Dynamic Technology Solutions', [
-                        'Professional end-to-end installation and commissioning by certified technicians.',
-                        'Comprehensive Annual Maintenance Contracts (AMC) for uninterrupted security and power systems.',
-                        'Regular preventive maintenance checks, firmware updates, and rapid on-site troubleshooting support.',
-                        'Tailored service packages for corporate offices, industrial plants, and residential societies.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/3/VD/QQ/XW/18485292/cctv-camera-installation-and-amc-services-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2022/9/UV/OG/LE/4068574/fire-alarm-and-safety-system-500x500.jpg'
-                    ])">
-                        <img src="http://localhost:5000/get-image?url=https://5.imimg.com/data5/SELLER/Default/2023/3/VD/QQ/XW/18485292/cctv-camera-installation-and-amc-services-500x500.jpg" alt="Engineering & AMC Services">
-                    </div>
-                    <h4 onclick="openAmazonModal('Engineering Installation & AMC Maintenance Services', 'Dynamic Technology Solutions', [
-                        'Professional end-to-end installation and commissioning by certified technicians.',
-                        'Comprehensive Annual Maintenance Contracts (AMC) for uninterrupted security and power systems.',
-                        'Regular preventive maintenance checks, firmware updates, and rapid on-site troubleshooting support.',
-                        'Tailored service packages for corporate offices, industrial plants, and residential societies.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/3/VD/QQ/XW/18485292/cctv-camera-installation-and-amc-services-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2022/9/UV/OG/LE/4068574/fire-alarm-and-safety-system-500x500.jpg'
-                    ])">Engineering Installation & AMC Maintenance Services</h4>
-                    <div class="specs">Professional Setup, AMC Support, On-Site Help</div>
-                    <div class="rating">★★★★★ <span>5.0 (150)</span></div>
-                    <button class="btn-enquire" onclick="openAmazonModal('Engineering Installation & AMC Maintenance Services', 'Dynamic Technology Solutions', [
-                        'Professional end-to-end installation and commissioning by certified technicians.',
-                        'Comprehensive Annual Maintenance Contracts (AMC) for uninterrupted security and power systems.',
-                        'Regular preventive maintenance checks, firmware updates, and rapid on-site troubleshooting support.',
-                        'Tailored service packages for corporate offices, industrial plants, and residential societies.'
-                    ], [
-                        'https://5.imimg.com/data5/SELLER/Default/2023/3/VD/QQ/XW/18485292/cctv-camera-installation-and-amc-services-500x500.jpg',
-                        'https://5.imimg.com/data5/SELLER/Default/2022/9/UV/OG/LE/4068574/fire-alarm-and-safety-system-500x500.jpg'
-                    ])">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Engineering%20and%20AMC%20Services" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- Product Details Modal (Amazon Style) -->
+    <!-- Modal Structure -->
     <div id="productModal" class="modal">
         <div class="modal-container">
             <span class="close-btn" onclick="closeAmazonModal()">&times;</span>
@@ -885,80 +630,93 @@
                 <div class="modal-left">
                     <div class="thumbnail-list" id="modalThumbnails"></div>
                     <div class="main-zoom-view">
-                        <img id="modalMainImage" src="" alt="Product zoom view">
+                        <img id="modalMainImg" src="" alt="Zoom View">
                     </div>
                 </div>
                 <div class="modal-right">
                     <h2 id="modalTitle">Product Title</h2>
-                    <div class="modal-brand" id="modalBrand">Brand / Partner</div>
+                    <div class="modal-brand" id="modalBrand">Brand Partner</div>
                     <div class="about-item-section">
                         <h4>About this item</h4>
-                        <ul id="modalBullets"></ul>
+                        <ul id="modalFeatures"></ul>
                     </div>
-                    <a id="modalWhatsappBtn" href="#" target="_blank" class="btn-whatsapp" style="margin-top: 10px; padding: 12px; font-size: 15px;">💬 Enquire Now on WhatsApp</a>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-            Back to top
-        </div>
+        <div class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Back to top</div>
         <div class="footer-links-container">
             <div class="footer-col">
-                <h3>About DTS</h3>
+                <h3>Get to Know Us</h3>
                 <ul>
-                    <li><span>Dynamic Technology Solutions</span></li>
-                    <li><span>Authorized Partner for Prizor & HOC</span></li>
-                    <li><span>Boisar, Maharashtra, India</span></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>Product Range</h3>
-                <ul>
-                    <li><a href="#" onclick="filterCategory('ip-camera', document.querySelectorAll('#categoryList li')[1]); return false;">Prizor IP Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('wifi-camera', document.querySelectorAll('#categoryList li')[2]); return false;">Wi-Fi PTZ Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('nvr', document.querySelectorAll('#categoryList li')[3]); return false;">NVR Systems</a></li>
-                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('#categoryList li')[4]); return false;">DVR Systems</a></li>
-                    <li><a href="#" onclick="filterCategory('hoc', document.querySelectorAll('#categoryList li')[5]); return false;">HOC Cables</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>Industrial & Services</h3>
-                <ul>
-                    <li><a href="#" onclick="filterCategory('electrical', document.querySelectorAll('#categoryList li')[6]); return false;">Electrical Power Panels</a></li>
-                    <li><a href="#" onclick="filterCategory('fire', document.querySelectorAll('#categoryList li')[7]); return false;">Fire Safety Systems</a></li>
-                    <li><a href="#" onclick="filterCategory('services', document.querySelectorAll('#categoryList li')[8]); return false;">Engineering & AMC</a></li>
+                    <li><a href="#">About Dynamic Technology Solutions</a></li>
+                    <li><a href="#">Authorized Prizor & HOC Partnership</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Connect With Us</h3>
                 <ul>
-                    <li><a href="https://wa.me/918390909845" target="_blank">WhatsApp: +91 8390909845</a></li>
+                    <li><a href="https://wa.me/918390909845" target="_blank">WhatsApp Support</a></li>
                     <li><a href="mailto:dtsboisar@gmail.com">Email Us</a></li>
-                    <li><a href="https://instagram.com/dts.techsolutions" target="_blank">Instagram: @dts.techsolutions</a></li>
                 </ul>
             </div>
         </div>
-        <div class="footer-divider"></div>
-        <div class="footer-brand-section">
-            <div class="footer-logo">DYNAMIC TECHNOLOGY SOLUTIONS</div>
-        </div>
         <div class="footer-bottom">
-            &copy; 2026 Dynamic Technology Solutions, Boisar. All Rights Reserved. Authorized Prizor & HOC Partner.
+            &copy; 2026 Dynamic Technology Solutions (DTS). All Rights Reserved.
         </div>
     </footer>
 
     <script>
-        // Python Proxy helper function
-        function getProxyUrl(originalUrl) {
-            return `http://localhost:5000/get-image?url=${encodeURIComponent(originalUrl)}`;
+        // Modal Functions
+        function openAmazonModal(title, brand, features, images) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBrand').innerText = brand;
+            
+            const featureList = document.getElementById('modalFeatures');
+            featureList.innerHTML = '';
+            features.forEach(feat => {
+                const li = document.createElement('li');
+                li.innerText = feat;
+                featureList.appendChild(li);
+            });
+
+            const thumbContainer = document.getElementById('modalThumbnails');
+            thumbContainer.innerHTML = '';
+            images.forEach((imgSrc, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgSrc;
+                if (index === 0) {
+                    thumb.classList.add('active-thumb');
+                    document.getElementById('modalMainImg').src = imgSrc;
+                }
+                thumb.onclick = () => {
+                    document.getElementById('modalMainImg').src = imgSrc;
+                    document.querySelectorAll('.thumbnail-list img').forEach(t => t.classList.remove('active-thumb'));
+                    thumb.classList.add('active-thumb');
+                };
+                thumbContainer.appendChild(thumb);
+            });
+
+            document.getElementById('productModal').style.display = 'flex';
         }
 
+        function closeAmazonModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                closeAmazonModal();
+            }
+        }
+
+        // Category Filtering
         function filterCategory(category, element) {
             document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
-            if (element) element.classList.add('active');
+            element.classList.add('active');
 
             const cards = document.querySelectorAll('.product-card');
             cards.forEach(card => {
@@ -970,65 +728,20 @@
             });
         }
 
+        // Live Search Function
         function searchProducts() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.querySelectorAll('.product-card');
+
             cards.forEach(card => {
-                let text = card.innerText.toLowerCase();
-                if (text.includes(input)) {
+                let title = card.querySelector('h4').innerText.toLowerCase();
+                let specs = card.querySelector('.specs').innerText.toLowerCase();
+                if (title.includes(input) || specs.includes(input)) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
                 }
             });
-        }
-
-        function openAmazonModal(title, brand, bullets, images) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalBrand').innerText = brand;
-            
-            const bulletsContainer = document.getElementById('modalBullets');
-            bulletsContainer.innerHTML = '';
-            bullets.forEach(bullet => {
-                const li = document.createElement('li');
-                li.innerText = bullet;
-                bulletsContainer.appendChild(li);
-            });
-
-            const thumbsContainer = document.getElementById('modalThumbnails');
-            thumbsContainer.innerHTML = '';
-            
-            const mainImg = document.getElementById('modalMainImage');
-            mainImg.src = getProxyUrl(images[0]);
-
-            images.forEach((imgUrl, index) => {
-                const thumb = document.createElement('img');
-                const proxiedUrl = getProxyUrl(imgUrl);
-                thumb.src = proxiedUrl;
-                if(index === 0) thumb.classList.add('active-thumb');
-                thumb.onclick = () => {
-                    mainImg.src = proxiedUrl;
-                    document.querySelectorAll('.thumbnail-list img').forEach(t => t.classList.remove('active-thumb'));
-                    thumb.classList.add('active-thumb');
-                };
-                thumbsContainer.appendChild(thumb);
-            });
-
-            const whatsappBtn = document.getElementById('modalWhatsappBtn');
-            whatsappBtn.href = `https://wa.me/918390909845?text=Hi,%20I%20am%20interested%20in%20${encodeURIComponent(title)}. Please share pricing and details.`;
-
-            document.getElementById('productModal').style.display = 'flex';
-        }
-
-        function closeAmazonModal() {
-            document.getElementById('productModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('productModal');
-            if (event.target === modal) {
-                closeAmazonModal();
-            }
         }
     </script>
 </body>
