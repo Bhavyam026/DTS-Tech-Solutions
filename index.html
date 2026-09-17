@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #f1f2f4;
+            background-color: #eaeded;
             color: #111;
         }
 
@@ -64,7 +64,7 @@
             font-weight: normal;
         }
 
-        /* --- Flipkart-Style Live Search Dropdown --- */
+        /* Live Search Bar */
         .search-bar {
             display: flex;
             flex: 1;
@@ -80,18 +80,13 @@
 
         .search-bar input {
             width: 100%;
-            padding: 11px 40px 11px 40px;
+            padding: 11px 40px;
             border-radius: 8px;
             border: none;
             outline: none;
             font-size: 14px;
-            background: #f0f5ff;
+            background: #fff;
             color: #212121;
-        }
-
-        .search-bar input:focus {
-            background: #ffffff;
-            box-shadow: 0 0 5px rgba(40,116,240,0.5);
         }
 
         .search-icon-inside {
@@ -114,7 +109,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.2);
             z-index: 1000;
-            max-height: 420px;
+            max-height: 400px;
             overflow-y: auto;
             border: 1px solid #e0e0e0;
         }
@@ -126,7 +121,6 @@
             gap: 15px;
             cursor: pointer;
             border-bottom: 1px solid #f0f0f0;
-            transition: background 0.2s;
         }
 
         .suggestion-item:hover {
@@ -134,8 +128,8 @@
         }
 
         .suggestion-item img {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
             border-radius: 4px;
             border: 1px solid #eee;
@@ -149,15 +143,14 @@
 
         .suggestion-title {
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
             color: #212121;
         }
 
         .suggestion-category {
             font-size: 12px;
-            color: #2874f0;
+            color: #007185;
             margin-top: 2px;
-            font-weight: 500;
         }
 
         .header-contact {
@@ -185,8 +178,9 @@
             padding: 0 15px;
         }
 
+        /* Sidebar Navigation */
         aside {
-            width: 260px;
+            width: 280px;
             background: #fff;
             padding: 15px;
             border-radius: 8px;
@@ -213,7 +207,7 @@
         }
 
         aside ul li {
-            padding: 9px 10px;
+            padding: 10px;
             font-size: 13px;
             color: #333;
             cursor: pointer;
@@ -306,6 +300,9 @@
         }
 
         .badge-auth { background: #e0f2f1; color: #00695c; }
+        .badge-fire { background: #ffebee; color: #c62828; }
+        .badge-elec { background: #fff8e1; color: #f57f17; }
+        .badge-service { background: #e8eaf6; color: #283593; }
 
         .product-card h4 {
             font-size: 14px;
@@ -353,7 +350,6 @@
             font-size: 13px;
             width: 100%;
             margin-bottom: 6px;
-            box-shadow: 0 2px 5px rgba(213,217,217,.5);
         }
 
         .btn-enquire:hover { background-color: #f7ca00; }
@@ -388,7 +384,6 @@
             background-color: rgba(0,0,0,0.7);
             justify-content: center;
             align-items: center;
-            overflow-y: auto;
             padding: 20px;
         }
 
@@ -399,7 +394,6 @@
             border-radius: 8px;
             position: relative;
             padding: 30px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -413,8 +407,6 @@
             color: #555;
             font-weight: bold;
         }
-
-        .close-btn:hover { color: #000; }
 
         .modal-top-section {
             display: flex;
@@ -430,7 +422,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
             padding: 10px;
         }
 
@@ -447,18 +438,8 @@
             min-width: 280px;
         }
 
-        .modal-right h2 {
-            font-size: 20px;
-            color: #0f1111;
-            margin-bottom: 6px;
-        }
-
-        .modal-brand {
-            font-size: 13px;
-            color: #007185;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
+        .modal-right h2 { font-size: 20px; color: #0f1111; margin-bottom: 6px; }
+        .modal-brand { font-size: 13px; color: #007185; font-weight: 600; margin-bottom: 12px; }
 
         .about-item-section {
             font-size: 13px;
@@ -469,22 +450,11 @@
             border: 1px solid #e3e6e6;
         }
 
-        .about-item-section h4 {
-            font-size: 14px;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
+        .about-item-section h4 { font-size: 14px; margin-bottom: 8px; font-weight: 700; }
+        .about-item-section ul { padding-left: 18px; }
+        .about-item-section ul li { margin-bottom: 6px; line-height: 1.4; }
 
-        .about-item-section ul {
-            padding-left: 18px;
-        }
-
-        .about-item-section ul li {
-            margin-bottom: 6px;
-            line-height: 1.4;
-        }
-
-        /* --- Amazon Exact Multi-Column Footer Styles --- */
+        /* Amazon-style Cleaned Footer */
         footer {
             margin-top: 60px;
             background-color: #232f3e;
@@ -499,12 +469,9 @@
             padding: 15px 0;
             font-size: 13px;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
-        .back-to-top:hover {
-            background-color: #485769;
-        }
+        .back-to-top:hover { background-color: #485769; }
 
         .footer-middle {
             max-width: 1000px;
@@ -516,108 +483,27 @@
         }
 
         .footer-col h3 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
-        .footer-col ul {
-            list-style: none;
-        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col ul li a { color: #dddddd; text-decoration: none; font-size: 13px; }
+        .footer-col ul li a:hover { text-decoration: underline; }
 
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            color: #dddddd;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .footer-col ul li a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-brand-strip {
+        .footer-bottom {
+            background-color: #131a22;
+            padding: 20px;
+            text-align: center;
             border-top: 1px solid #3a4553;
-            padding: 25px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
         }
 
-        .footer-logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #fff;
-            background: #febd69;
-            color: #111;
-            padding: 4px 12px;
-            border-radius: 4px;
-        }
-
-        .footer-lang-btn {
-            border: 1px solid #848688;
-            padding: 6px 15px;
-            border-radius: 3px;
+        .footer-bottom p {
             color: #ccc;
             font-size: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .footer-bottom-links {
-            background-color: #131a22;
-            padding: 30px 20px 20px 20px;
-        }
-
-        .footer-services-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .service-item h5 {
-            color: #fff;
-            font-size: 12px;
-            margin-bottom: 2px;
-        }
-
-        .service-item p {
-            color: #999;
-            font-size: 11px;
-            line-height: 1.3;
-        }
-
-        .footer-copyright {
-            text-align: center;
-            color: #ddd;
-            font-size: 12px;
-        }
-
-        .footer-copyright a {
-            color: #ddd;
-            margin: 0 8px;
-            text-decoration: none;
-        }
-
-        .footer-copyright a:hover {
-            text-decoration: underline;
-        }
-
-        .copy-text {
-            margin-top: 8px;
-            color: #999;
         }
     </style>
 </head>
@@ -629,11 +515,10 @@
             <h1>Dynamic Technology Solutions <span class="partner-subtitle">(Authorized Partner)</span></h1>
         </div>
         
-        <!-- Live Search Bar -->
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search IP Camera, Wi-Fi Camera, NVR, DVR, Cables..." onkeyup="handleSearchInput(this.value)" autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search CCTV, Fire Alarm, Electrical, Cable, Services..." onkeyup="handleSearchInput(this.value)" autocomplete="off">
                 <div id="searchSuggestions" class="suggestions-dropdown"></div>
             </div>
         </div>
@@ -646,11 +531,11 @@
     </header>
 
     <div class="container">
-        <!-- Sidebar Categories -->
+        <!-- Sidebar Categories (Added Fire, Electrical & Services) -->
         <aside>
             <div class="sidebar-brand-box">
                 <div class="brand-logo-img" style="width:38px; height:38px; font-size:14px;">DTS</div>
-                <h3>Product Categories</h3>
+                <h3>Products & Services</h3>
             </div>
             <ul id="categoryList">
                 <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
@@ -659,13 +544,16 @@
                 <li onclick="filterCategory('nvr', this)">🖥️ NVR Systems</li>
                 <li onclick="filterCategory('dvr', this)">📼 DVR Systems</li>
                 <li onclick="filterCategory('cables', this)">🔌 Cables & Accessories</li>
+                <li onclick="filterCategory('fire-alarm', this)">🚨 Fire Alarm & Safety</li>
+                <li onclick="filterCategory('electrical', this)">⚡ Electrical & Power</li>
+                <li onclick="filterCategory('services', this)">🛠️ Installation & AMC Services</li>
             </ul>
         </aside>
 
         <div class="main-content">
             <div class="catalog-header">
                 <span>Official Catalog — Dynamic Technology Solutions</span>
-                <span>Sort by: <strong>Featured Products</strong></span>
+                <span>Sort by: <strong>Featured Solutions</strong></span>
             </div>
 
             <div class="product-grid" id="productGrid">
@@ -696,105 +584,79 @@
                     </script>
                 </div>
 
-                <!-- Product 2: Wi-Fi Camera -->
-                <div class="product-card" data-category="wifi-camera">
-                    <span class="badge badge-auth">AUTHORIZED WI-FI CAMERA</span>
+                <!-- Product 2: Fire Safety System -->
+                <div class="product-card" data-category="fire-alarm">
+                    <span class="badge badge-fire">FIRE SAFETY SYSTEM</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=500&auto=format&fit=crop&q=80" alt="Wi-Fi Camera">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=80" alt="Fire Alarm System">
                     </div>
-                    <h4 onclick="triggerModal(this)">3MP Smart Wireless Outdoor PTZ Camera</h4>
-                    <div class="specs">360° Motion Tracking, 2-Way Audio, Color Night Vision</div>
-                    <div class="rating">★★★★★ <span>4.8 (95)</span></div>
+                    <h4 onclick="triggerModal(this)">Addressable Fire Alarm Control Panel & Smoke Detectors</h4>
+                    <div class="specs">Automatic Smoke/Heat Detection, Hooter Alarm, Battery Backup</div>
+                    <div class="rating">★★★★★ <span>5.0 (48)</span></div>
                     <button class="btn-enquire" onclick="triggerModal(this)">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20WiFi%20Camera" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Fire%20Alarm%20System" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
-                        "title": "3MP Smart Wireless Outdoor PTZ Camera",
+                        "title": "Addressable Fire Alarm Control Panel & Smoke Detectors",
                         "brand": "Authorized Partner - DTS",
-                        "img": "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=500&auto=format&fit=crop&q=80",
+                        "img": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=80",
                         "bullets": [
-                            "360 Degree pan and tilt mobile rotation control.",
-                            "Built-in mic and speaker for 2-way talk.",
-                            "Full color night vision with LED spotlights.",
-                            "Supports SD card up to 256GB."
+                            "Instant fire, smoke, and heat detection with location zone alert.",
+                            "Heavy-duty panel with built-in emergency sounder/hooter control.",
+                            "Compliant with safety standards for commercial & industrial use.",
+                            "Battery backup included for power outage protection."
                         ]
                     }
                     </script>
                 </div>
 
-                <!-- Product 3: NVR -->
-                <div class="product-card" data-category="nvr">
-                    <span class="badge badge-auth">AUTHORIZED NVR SYSTEM</span>
+                <!-- Product 3: Electrical Solutions -->
+                <div class="product-card" data-category="electrical">
+                    <span class="badge badge-elec">ELECTRICAL SOLUTIONS</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80" alt="NVR System">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80" alt="Electrical Panel">
                     </div>
-                    <h4 onclick="triggerModal(this)">16-Channel 4K Ultra HD Network Video Recorder</h4>
-                    <div class="specs">16-CH PoE Inputs, H.265+ Compression, HDMI Output</div>
-                    <div class="rating">★★★★★ <span>5.0 (64)</span></div>
+                    <h4 onclick="triggerModal(this)">Industrial Electrical Control Panels & Wiring Solutions</h4>
+                    <div class="specs">MCB/MCCB Protection, High Grade Copper Cables, Custom Design</div>
+                    <div class="rating">★★★★★ <span>4.9 (62)</span></div>
                     <button class="btn-enquire" onclick="triggerModal(this)">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20NVR%20System" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20Electrical%20Solutions" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
-                        "title": "16-Channel 4K Ultra HD Network Video Recorder",
+                        "title": "Industrial Electrical Control Panels & Wiring Solutions",
                         "brand": "Authorized Partner - DTS",
-                        "img": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=80",
+                        "img": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80",
                         "bullets": [
-                            "Supports 16 IP cameras up to 4K resolution.",
-                            "Smart H.265+ encoding saves hard drive space.",
-                            "Dual HDMI and VGA video outputs.",
-                            "Remote live view on Android & iOS mobile app."
+                            "Complete high-voltage and low-voltage electrical panel setup.",
+                            "Surge protection and short-circuit auto disconnection.",
+                            "Custom layout and wiring for homes, shops, and MIDC factories.",
+                            "Certified electrical safety components used."
                         ]
                     }
                     </script>
                 </div>
 
-                <!-- Product 4: DVR -->
-                <div class="product-card" data-category="dvr">
-                    <span class="badge badge-auth">AUTHORIZED DVR SYSTEM</span>
+                <!-- Product 4: Technical Services -->
+                <div class="product-card" data-category="services">
+                    <span class="badge badge-service">TECHNICAL SERVICE & AMC</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500&auto=format&fit=crop&q=80" alt="DVR System">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=80" alt="Installation & Maintenance">
                     </div>
-                    <h4 onclick="triggerModal(this)">8-Channel Hybrid HD Digital Video Recorder</h4>
-                    <div class="specs">8-CH Coaxial Input, Audio over Coax, Smart Search</div>
-                    <div class="rating">★★★★☆ <span>4.7 (82)</span></div>
+                    <h4 onclick="triggerModal(this)">CCTV, Fire & Electrical Installation and AMC Services</h4>
+                    <div class="specs">Site Audit, Professional Cable Laying, On-call Maintenance</div>
+                    <div class="rating">★★★★★ <span>5.0 (210)</span></div>
                     <button class="btn-enquire" onclick="triggerModal(this)">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20DVR%20System" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20to%20book%20Installation%20or%20AMC%20Service" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
-                        "title": "8-Channel Hybrid HD Digital Video Recorder",
-                        "brand": "Authorized Partner - DTS",
-                        "img": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500&auto=format&fit=crop&q=80",
+                        "title": "CCTV, Fire & Electrical Installation and AMC Services",
+                        "brand": "Dynamic Technology Solutions - Service Team",
+                        "img": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=80",
                         "bullets": [
-                            "Supports AHD, HD-TVI, CVI and Analog cameras.",
-                            "Audio over coax cable support.",
-                            "Smart motion detection with human search.",
-                            "Durable metal housing construction."
-                        ]
-                    }
-                    </script>
-                </div>
-
-                <!-- Product 5: Cables -->
-                <div class="product-card" data-category="cables">
-                    <span class="badge badge-auth">CABLES & ACCESSORIES</span>
-                    <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80" alt="CAT6 LAN Cable">
-                    </div>
-                    <h4 onclick="triggerModal(this)">CAT6 High-Speed Pure Copper LAN Cable Box</h4>
-                    <div class="specs">100% Copper, 305M Easy Pull Box, Gigabit Rated</div>
-                    <div class="rating">★★★★★ <span>4.9 (210)</span></div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">See Details & Specs</button>
-                    <a href="https://wa.me/918390909845?text=Hi,%20I%20want%20enquiry%20for%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
-                    <script type="application/json" class="product-data">
-                    {
-                        "title": "CAT6 High-Speed Pure Copper LAN Cable Box",
-                        "brand": "Authorized Partner - DTS",
-                        "img": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80",
-                        "bullets": [
-                            "100% Pure copper for lossless camera signals.",
-                            "305 Meter easy pull box packaging.",
-                            "PoE camera and Gigabit network optimized.",
-                            "High durability outer jacket protection."
+                            "End-to-end site survey and customized system design.",
+                            "Expert technicians for clean, concealed cabling & setup.",
+                            "Annual Maintenance Contracts (AMC) with emergency support.",
+                            "Repairing, troubleshooting & upgrade for existing security systems."
                         ]
                     }
                     </script>
@@ -816,7 +678,7 @@
                     <h2 id="modalTitle"></h2>
                     <div class="modal-brand" id="modalBrand"></div>
                     <div class="about-item-section">
-                        <h4>About this item</h4>
+                        <h4>About this item / Service</h4>
                         <ul id="modalBullets"></ul>
                     </div>
                 </div>
@@ -824,7 +686,7 @@
         </div>
     </div>
 
-    <!-- Exact Amazon Style Multi-Column Footer -->
+    <!-- Cleaned Relevant Amazon Footer -->
     <footer>
         <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
             Back to top
@@ -835,84 +697,30 @@
                 <h3>Get to Know Us</h3>
                 <ul>
                     <li><a href="#">About DTS</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press Releases</a></li>
-                    <li><a href="#">Security Science</a></li>
+                    <li><a href="#">CCTV, Fire & Electrical Services</a></li>
+                    <li><a href="#">Authorized Partnerships</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Connect with Us</h3>
                 <ul>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="https://instagram.com/dts.techsolutions" target="_blank">Instagram</a></li>
+                    <li><a href="https://wa.me/918390909845" target="_blank">WhatsApp Direct</a></li>
+                    <li><a href="https://instagram.com/dts.techsolutions" target="_blank">Instagram (@dts.techsolutions)</a></li>
+                    <li><a href="mailto:dtsboisar@gmail.com">Email Us</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Make Money with Us</h3>
+                <h3>Customer Support</h3>
                 <ul>
-                    <li><a href="#">Sell on DTS Platform</a></li>
-                    <li><a href="#">Protect & Build Your Brand</a></li>
-                    <li><a href="#">Become an Affiliate</a></li>
-                    <li><a href="#">Fulfilment by DTS</a></li>
-                    <li><a href="#">Advertise Your Products</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>Let Us Help You</h3>
-                <ul>
-                    <li><a href="#">Your Account</a></li>
-                    <li><a href="#">Returns Centre</a></li>
-                    <li><a href="#">Recalls and Product Safety Alerts</a></li>
-                    <li><a href="#">100% Purchase Protection</a></li>
-                    <li><a href="#">DTS App Download</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="#">AMC & Maintenance Booking</a></li>
+                    <li><a href="#">Product Warranty Support</a></li>
+                    <li><a href="#">Contact Us</a></li>
                 </ul>
             </div>
         </div>
 
-        <div class="footer-brand-strip">
-            <div class="footer-logo">DTS</div>
-            <div class="footer-lang-btn">🌐 English</div>
-            <div class="footer-lang-btn">🇮🇳 India</div>
-        </div>
-
-        <div class="footer-bottom-links">
-            <div class="footer-services-grid">
-                <div class="service-item">
-                    <h5>AbeBooks</h5>
-                    <p>Books, art & collectibles</p>
-                </div>
-                <div class="service-item">
-                    <h5>DTS Web Services</h5>
-                    <p>Scalable Cloud Computing Services</p>
-                </div>
-                <div class="service-item">
-                    <h5>Audible</h5>
-                    <p>Download Audio Books</p>
-                </div>
-                <div class="service-item">
-                    <h5>IMDb</h5>
-                    <p>Movies, TV & Celebrities</p>
-                </div>
-                <div class="service-item">
-                    <h5>Shopbop</h5>
-                    <p>Designer Fashion Brands</p>
-                </div>
-                <div class="service-item">
-                    <h5>DTS Business</h5>
-                    <p>Everything For Your Business</p>
-                </div>
-            </div>
-
-            <div class="footer-copyright">
-                <p>
-                    <a href="#">Conditions of Use & Sale</a> 
-                    <a href="#">Privacy Notice</a> 
-                    <a href="#">Interest-Based Ads</a>
-                </p>
-                <p class="copy-text">&copy; 1996-2026, Dynamic Technology Solutions, Inc. or its affiliates</p>
-            </div>
+        <div class="footer-bottom">
+            <p>&copy; Dynamic Technology Solutions. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -954,7 +762,6 @@
             });
         }
 
-        /* --- Live Search Suggestion Logic --- */
         function handleSearchInput(value) {
             const query = value.toLowerCase().trim();
             const dropdown = document.getElementById('searchSuggestions');
@@ -973,10 +780,9 @@
                 const title = card.querySelector('h4').innerText;
                 const specs = card.querySelector('.specs').innerText;
                 const imgSrc = card.querySelector('img').src;
-                const category = card.dataset.category || 'Security Cameras';
 
                 if (title.toLowerCase().includes(query) || specs.toLowerCase().includes(query)) {
-                    matches.push({ title, category, imgSrc });
+                    matches.push({ title, imgSrc });
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -989,7 +795,7 @@
                         <img src="${item.imgSrc}" alt="${item.title}">
                         <div class="suggestion-text">
                             <span class="suggestion-title">${item.title}</span>
-                            <span class="suggestion-category">in Security Cameras</span>
+                            <span class="suggestion-category">in Dynamic Solutions</span>
                         </div>
                     </div>
                 `).join('');
