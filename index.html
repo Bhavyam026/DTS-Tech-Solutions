@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Technology Solutions - Authorized Partner</title>
+    <title>Dynamic Technology Solutions - Official Catalog</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #eaeded;
+            background-color: #f4f5f7;
             color: #111;
         }
 
@@ -113,22 +113,23 @@
             padding: 0 15px;
         }
 
+        /* Prizor Style Left Sidebar */
         aside {
-            width: 290px;
+            width: 260px;
             background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 20px 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             height: fit-content;
+            border-left: 4px solid #ff4500;
         }
 
-        .sidebar-brand-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 12px;
-            margin-bottom: 12px;
-            border-bottom: 2px solid #febd69;
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ff4500;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
         }
 
         aside ul {
@@ -136,19 +137,26 @@
         }
 
         aside ul li {
-            padding: 10px;
-            font-size: 13px;
+            padding: 12px 10px;
+            font-size: 14px;
             color: #333;
             cursor: pointer;
-            border-radius: 4px;
-            margin-bottom: 4px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             transition: 0.2s;
         }
 
+        aside ul li span.count-badge {
+            font-size: 12px;
+            color: #777;
+        }
+
         aside ul li:hover, aside ul li.active {
-            background-color: #f0f2f2;
-            color: #007185;
+            color: #ff4500;
             font-weight: bold;
+            background-color: #fff5f2;
         }
 
         .main-content {
@@ -158,124 +166,149 @@
         .catalog-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
             color: #555;
             background: #fff;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border-top: 3px solid #ff4500;
         }
 
+        /* Product Grid Style like Prizor Reference */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
         .product-card {
             background: #fff;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            border: 1px solid #e5e5e5;
         }
 
         .product-card:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
         }
 
-        /* Amazon Style Image Gallery Styles */
+        .units-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            background: #f1f1f1;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
         .product-img-container {
             width: 100%;
-            height: 170px;
-            background: #ffffff;
-            border-radius: 6px;
+            height: 160px;
+            background: #fafafa;
+            border-radius: 50%;
+            width: 160px;
+            margin: 10px auto;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 8px;
-            border: 1px solid #e2e8f0;
-            padding: 5px;
+            border: 1px solid #eee;
+            padding: 10px;
         }
 
         .product-img-container img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            display: block;
         }
 
+        /* Thumbnail Switcher */
         .thumbnail-gallery {
             display: flex;
             gap: 6px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             justify-content: center;
         }
 
         .thumbnail-gallery img {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 4px;
             cursor: pointer;
             padding: 2px;
             background: #fff;
-            transition: 0.2s;
         }
 
         .thumbnail-gallery img:hover, .thumbnail-gallery img.active-thumb {
-            border-color: #e77600;
-            box-shadow: 0 0 3px rgba(228, 118, 0, 0.5);
+            border-color: #ff4500;
         }
-
-        .badge {
-            font-size: 10px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            align-self: flex-start;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .badge-prizor { background: #e3f2fd; color: #0d47a1; }
-        .badge-hoc { background: #e8f5e9; color: #1b5e20; }
-        .badge-dts { background: #fff3e0; color: #e65100; }
 
         .product-card h4 {
-            font-size: 14px;
-            color: #007185;
+            font-size: 15px;
+            color: #111;
             margin-bottom: 6px;
-            height: 40px;
-            overflow: hidden;
-            font-weight: 600;
-            line-height: 1.3;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .specs {
             font-size: 12px;
-            color: #565959;
-            margin-bottom: 8px;
+            color: #666;
+            margin-bottom: 12px;
             height: 35px;
             overflow: hidden;
+            line-height: 1.4;
         }
 
-        .price-contact {
-            font-size: 13px;
+        /* Prizor Bottom Meta Details (Models & Status) */
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .card-meta .status-active {
+            color: #2e7d32;
             font-weight: bold;
-            color: #b12704;
-            margin-bottom: 10px;
+        }
+
+        .tags-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 10px;
+            background: #f4f5f7;
+            color: #444;
+            padding: 3px 8px;
+            border-radius: 3px;
+            border: 1px solid #e0e0e0;
         }
 
         .btn-whatsapp {
             background-color: #25d366;
             color: #fff;
             border: none;
-            padding: 8px;
-            border-radius: 20px;
+            padding: 9px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: 600;
             font-size: 13px;
@@ -284,7 +317,11 @@
             text-align: center;
         }
 
-        /* Footer Extended Styles */
+        .btn-whatsapp:hover {
+            background-color: #1ebe5d;
+        }
+
+        /* Footer */
         footer {
             margin-top: 50px;
             background-color: #232f3e;
@@ -296,7 +333,6 @@
             background-color: #37475a;
             padding: 15px;
             text-align: center;
-            font-size: 13px;
         }
 
         .footer-top a {
@@ -334,10 +370,6 @@
             text-decoration: none;
         }
 
-        .footer-column ul li a:hover {
-            text-decoration: underline;
-        }
-
         .footer-bottom {
             background-color: #131921;
             padding: 20px;
@@ -359,7 +391,7 @@
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search Products & Services..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search categories, models..." autocomplete="off">
             </div>
         </div>
 
@@ -370,207 +402,163 @@
     </header>
 
     <div class="container">
-        <!-- Sidebar -->
+        <!-- Prizor Style Categories Sidebar -->
         <aside>
-            <div class="sidebar-brand-box">
-                <div class="brand-logo-img" style="width:35px; height:35px; font-size:13px;">DTS</div>
-                <h3>Products & Services</h3>
-            </div>
+            <div class="sidebar-title">CATEGORIES</div>
             <ul>
-                <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
-                <li onclick="filterCategory('bullet', this)">🌐 Bullet Cameras (Prizor)</li>
-                <li onclick="filterCategory('dome', this)">📹 Dome Cameras (Prizor)</li>
-                <li onclick="filterCategory('dvr', this)">🖥️ DVR / NVR Systems (Prizor)</li>
-                <li onclick="filterCategory('cable', this)">🔌 Cables & Network (HOC)</li>
-                <li onclick="filterCategory('fire', this)">🚨 Fire Safety Systems (DTS)</li>
-                <li onclick="filterCategory('cctv-service', this)">🛠️ CCTV Installation & Setup</li>
-                <li onclick="filterCategory('amc-service', this)">🔧 Annual Maintenance (AMC)</li>
-                <li onclick="filterCategory('fire-service', this)">🛡️ Fire Safety Maintenance</li>
+                <li class="active" onclick="filterCategory('all', this)"><span>ALL PRODUCTS</span> <span class="count-badge">11</span></li>
+                <li onclick="filterCategory('cameras', this)"><span>CAMERAS (CCTV)</span> <span class="count-badge">2</span></li>
+                <li onclick="filterCategory('recording', this)"><span>RECORDING (DVR/NVR)</span> <span class="count-badge">1</span></li>
+                <li onclick="filterCategory('cables', this)"><span>CABLES & NETWORK</span> <span class="count-badge">3</span></li>
+                <li onclick="filterCategory('firesafety', this)"><span>FIRE SAFETY</span> <span class="count-badge">2</span></li>
+                <li onclick="filterCategory('services', this)"><span>SERVICES & AMC</span> <span class="count-badge">3</span></li>
             </ul>
         </aside>
 
         <div class="main-content">
             <div class="catalog-header">
-                <span>Official Catalog — Dynamic Technology Solutions</span>
-                <span>Pricing: <strong>Contact Directly for Best Offer</strong></span>
+                <span>INDIA'S TRUSTED SURVEILLANCE & SECURITY SOLUTIONS — DTS</span>
+                <span>Total Models: <strong>11 Active Units</strong></span>
             </div>
 
             <div class="product-grid" id="productGrid">
                 
-                <!-- 1. Prizor Bullet Camera (Multi-Image / Amazon Style) -->
-                <div class="product-card" data-category="bullet">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                <!-- 1. Bullet Camera -->
+                <div class="product-card" data-category="cameras">
+                    <div class="units-tag">14 UNITS</div>
                     <div class="product-img-container">
-                        <img id="main-img-1" src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" alt="Prizor Bullet Camera">
+                        <img id="img-1" src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" alt="Bullet Camera">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" class="active-thumb" onclick="changeImage('main-img-1', this)" alt="thumb">
-                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('main-img-1', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" class="active-thumb" onclick="changeImage('img-1', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" onclick="changeImage('img-1', this)" alt="thumb">
                     </div>
-                    <h4>Prizor 4MP Outdoor Bullet Security Camera</h4>
-                    <div class="specs">4MP HD Resolution, Long Range Night Vision, Weatherproof Housing</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Bullet%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <h4>OUTDOOR BULLET CAMERA</h4>
+                    <div class="specs">Enterprise-grade IP and Analog bullet cameras with high night vision.</div>
+                    <div class="tags-row">
+                        <span class="tag">IP Camera</span>
+                        <span class="tag">Prizor</span>
+                    </div>
+                    <div class="card-meta">
+                        <span>MODELS: <strong>14</strong></span>
+                        <span>STATUS: <strong class="status-active">ACTIVE</strong></span>
+                    </div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Bullet%20Cameras" target="_blank" class="btn-whatsapp">Enquire on WhatsApp</a>
                 </div>
 
-                <!-- 2. Prizor Dome Camera -->
-                <div class="product-card" data-category="dome">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                <!-- 2. Dome Camera -->
+                <div class="product-card" data-category="cameras">
+                    <div class="units-tag">10 UNITS</div>
                     <div class="product-img-container">
-                        <img id="main-img-2" src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="Prizor Dome Camera">
+                        <img id="img-2" src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="Dome Camera">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('main-img-2', this)" alt="thumb">
-                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" onclick="changeImage('main-img-2', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('img-2', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('img-2', this)" alt="thumb">
                     </div>
-                    <h4>Prizor Indoor Dome HD Security Camera</h4>
-                    <div class="specs">High Definition Resolution, IR Night Vision, Compact Indoor Design</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Dome%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <h4>INDOOR DOME CAMERA</h4>
+                    <div class="specs">High-definition indoor security dome cameras with wide angle lens.</div>
+                    <div class="tags-row">
+                        <span class="tag">Dome Series</span>
+                        <span class="tag">HD IR</span>
+                    </div>
+                    <div class="card-meta">
+                        <span>MODELS: <strong>10</strong></span>
+                        <span>STATUS: <strong class="status-active">ACTIVE</strong></span>
+                    </div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Dome%20Cameras" target="_blank" class="btn-whatsapp">Enquire on WhatsApp</a>
                 </div>
 
-                <!-- 3. Prizor DVR / NVR System -->
-                <div class="product-card" data-category="dvr">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                <!-- 3. DVR / NVR Recording -->
+                <div class="product-card" data-category="recording">
+                    <div class="units-tag">06 UNITS</div>
                     <div class="product-img-container">
-                        <img id="main-img-3" src="https://www.prizor.in/products/dvr.png" alt="Prizor DVR NVR">
+                        <img id="img-3" src="https://www.prizor.in/products/dvr.png" alt="DVR NVR">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://www.prizor.in/products/dvr.png" class="active-thumb" onclick="changeImage('main-img-3', this)" alt="thumb">
-                        <img src="https://www.prizor.in/products/dvr.png" onclick="changeImage('main-img-3', this)" alt="thumb">
+                        <img src="https://www.prizor.in/products/dvr.png" class="active-thumb" onclick="changeImage('img-3', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('img-3', this)" alt="thumb">
                     </div>
-                    <h4>Prizor Ultra HD DVR / NVR Recording System</h4>
-                    <div class="specs">Multi-Channel Support, H.265+ Compression, HDMI/VGA Output</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <h4>DIGITAL VIDEO RECORDER (DVR/NVR)</h4>
+                    <div class="specs">AI-powered recorders with H.265+ compression and multi-channel support.</div>
+                    <div class="tags-row">
+                        <span class="tag">Prime Series</span>
+                        <span class="tag">NVR</span>
+                    </div>
+                    <div class="card-meta">
+                        <span>MODELS: <strong>6</strong></span>
+                        <span>STATUS: <strong class="status-active">ACTIVE</strong></span>
+                    </div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20DVR%20Systems" target="_blank" class="btn-whatsapp">Enquire on WhatsApp</a>
                 </div>
 
-                <!-- 4. HOC Cable Item 1 -->
-                <div class="product-card" data-category="cable">
-                    <span class="badge badge-hoc">HOC AUTHORIZED</span>
+                <!-- 4. HOC Cables -->
+                <div class="product-card" data-category="cables">
+                    <div class="units-tag">08 UNITS</div>
                     <div class="product-img-container">
-                        <img id="main-img-4" src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" alt="HOC Network Cable">
+                        <img id="img-4" src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" alt="Cables">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" class="active-thumb" onclick="changeImage('main-img-4', this)" alt="thumb">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" onclick="changeImage('main-img-4', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" class="active-thumb" onclick="changeImage('img-4', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" onclick="changeImage('img-4', this)" alt="thumb">
                     </div>
-                    <h4>HOC High Speed CAT6 LAN Cable</h4>
-                    <div class="specs">100% Copper Conductor, Gigabit Ethernet Support, Durable Outer Layer</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <h4>HOC NETWORKING & LAN CABLES</h4>
+                    <div class="specs">High speed CAT6 copper cables and shielded surveillance wire rolls.</div>
+                    <div class="tags-row">
+                        <span class="tag">CAT6</span>
+                        <span class="tag">HOC Authorized</span>
+                    </div>
+                    <div class="card-meta">
+                        <span>MODELS: <strong>8</strong></span>
+                        <span>STATUS: <strong class="status-active">ACTIVE</strong></span>
+                    </div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20HOC%20Cables" target="_blank" class="btn-whatsapp">Enquire on WhatsApp</a>
                 </div>
 
-                <!-- 5. HOC Cable Item 2 -->
-                <div class="product-card" data-category="cable">
-                    <span class="badge badge-hoc">HOC AUTHORIZED</span>
+                <!-- 5. Fire Safety Systems -->
+                <div class="product-card" data-category="firesafety">
+                    <div class="units-tag">05 UNITS</div>
                     <div class="product-img-container">
-                        <img id="main-img-5" src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" alt="HOC Networking Product">
+                        <img id="img-5" src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" alt="Fire Safety">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" class="active-thumb" onclick="changeImage('main-img-5', this)" alt="thumb">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" onclick="changeImage('main-img-5', this)" alt="thumb">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" class="active-thumb" onclick="changeImage('img-5', this)" alt="thumb">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" onclick="changeImage('img-5', this)" alt="thumb">
                     </div>
-                    <h4>HOC Industrial Networking & Wiring Cable</h4>
-                    <div class="specs">High Performance Transmission, Interference Shielding, Weatherproof</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20Cable%20Product" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <h4>AUTOMATIC FIRE ALARM SYSTEMS</h4>
+                    <div class="specs">Advanced control panels, smoke detectors, and alert hooters.</div>
+                    <div class="tags-row">
+                        <span class="tag">Safety Panel</span>
+                        <span class="tag">Hooter</span>
+                    </div>
+                    <div class="card-meta">
+                        <span>MODELS: <strong>5</strong></span>
+                        <span>STATUS: <strong class="status-active">ACTIVE</strong></span>
+                    </div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Fire%20Safety" target="_blank" class="btn-whatsapp">Enquire on WhatsApp</a>
                 </div>
 
-                <!-- 6. HOC Cable Item 3 -->
-                <div class="product-card" data-category="cable">
-                    <span class="badge badge-hoc">HOC AUTHORIZED</span>
+                <!-- 6. Services & AMC -->
+                <div class="product-card" data-category="services">
+                    <div class="units-tag">03 UNITS</div>
                     <div class="product-img-container">
-                        <img id="main-img-6" src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" alt="HOC Wire Roll">
+                        <img id="img-6" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Services">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" class="active-thumb" onclick="changeImage('main-img-6', this)" alt="thumb">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" onclick="changeImage('main-img-6', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('img-6', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('img-6', this)" alt="thumb">
                     </div>
-                    <h4>HOC Premium Security & Surveillance Cable Roll</h4>
-                    <div class="specs">CCTV Coaxial / Network Wire, Pure Copper, Long Distance Signal Transmission</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20Wire%20Roll" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 7. Fire Safety Control Panel -->
-                <div class="product-card" data-category="fire">
-                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
-                    <div class="product-img-container">
-                        <img id="main-img-7" src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" alt="Fire Alarm Control Panel">
+                    <h4>INSTALLATION & AMC SERVICES</h4>
+                    <div class="specs">Professional CCTV setup, configuration, and annual maintenance contracts.</div>
+                    <div class="tags-row">
+                        <span class="tag">Installation</span>
+                        <span class="tag">AMC Support</span>
                     </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" class="active-thumb" onclick="changeImage('main-img-7', this)" alt="thumb">
-                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" onclick="changeImage('main-img-7', this)" alt="thumb">
+                    <div class="card-meta">
+                        <span>MODELS: <strong>3</strong></span>
+                        <span>STATUS: <strong class="status-active">ACTIVE</strong></span>
                     </div>
-                    <h4>DTS Automatic Fire Alarm Control Panel</h4>
-                    <div class="specs">Multi-Zone Alert System, Battery Backup Support, Real-time Alarm Trigger</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Alarm%20Panel" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 8. Fire Safety Notification System -->
-                <div class="product-card" data-category="fire">
-                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
-                    <div class="product-img-container">
-                        <img id="main-img-8" src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" alt="Fire Notification & Strobe Light">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" class="active-thumb" onclick="changeImage('main-img-8', this)" alt="thumb">
-                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" onclick="changeImage('main-img-8', this)" alt="thumb">
-                    </div>
-                    <h4>DTS Fire Alarm Hooter & Strobe Light System</h4>
-                    <div class="specs">High Decibel Alarm Sound, Visual Strobe Light Warning, Industrial Grade</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Alarm%20Hooter" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 9. CCTV Installation Service -->
-                <div class="product-card" data-category="cctv-service">
-                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
-                    <div class="product-img-container">
-                        <img id="main-img-9" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Installation">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-9', this)" alt="thumb">
-                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-9', this)" alt="thumb">
-                    </div>
-                    <h4>Professional CCTV Camera Installation & Setup</h4>
-                    <div class="specs">Expert wiring, camera alignment, DVR configuration & mobile app setup.</div>
-                    <div class="price-contact">Contact for Service Quote</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20book%20CCTV%20Installation%20Service" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
-                </div>
-
-                <!-- 10. AMC Service -->
-                <div class="product-card" data-category="amc-service">
-                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
-                    <div class="product-img-container">
-                        <img id="main-img-10" src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="AMC Service">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-10', this)" alt="thumb">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-10', this)" alt="thumb">
-                    </div>
-                    <h4>Annual Maintenance Contract (AMC) for Security</h4>
-                    <div class="specs">Regular checkups, camera cleaning, system troubleshooting & priority support.</div>
-                    <div class="price-contact">Contact for AMC Quote</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20know%20about%20AMC%20plans" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
-                </div>
-
-                <!-- 11. Fire Safety Maintenance Service -->
-                <div class="product-card" data-category="fire-service">
-                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
-                    <div class="product-img-container">
-                        <img id="main-img-11" src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" alt="Fire Safety Maintenance">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-11', this)" alt="thumb">
-                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-11', this)" alt="thumb">
-                    </div>
-                    <h4>Fire Alarm & Safety Systems Maintenance</h4>
-                    <div class="specs">Routine testing of smoke detectors, control panels, sensors and hooters.</div>
-                    <div class="price-contact">Contact for Service Quote</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20Fire%20Safety%20Maintenance%20Service" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20book%20Services" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
                 </div>
 
             </div>
@@ -583,23 +571,21 @@
         </div>
         <div class="footer-content">
             <div class="footer-column">
-                <h3>About Dynamic Technology Solutions</h3>
-                <p>Authorized Partner for Prizor Surveillance Systems and HOC Networking & Cables. Providing best-in-class security products and professional installation services.</p>
+                <h3>Dynamic Technology Solutions</h3>
+                <p>Authorized Partner for Prizor Surveillance Systems & HOC Networking Cables. Complete safety & security solutions in Boisar.</p>
             </div>
             <div class="footer-column">
-                <h3>Products & Services</h3>
+                <h3>Categories</h3>
                 <ul>
-                    <li><a href="#" onclick="filterCategory('bullet', document.querySelectorAll('aside ul li')[1])">Bullet Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('dome', document.querySelectorAll('aside ul li')[2])">Dome Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[3])">DVR & NVR Systems</a></li>
-                    <li><a href="#" onclick="filterCategory('cable', document.querySelectorAll('aside ul li')[4])">Cables & Network</a></li>
-                    <li><a href="#" onclick="filterCategory('fire', document.querySelectorAll('aside ul li')[5])">Fire Safety Systems</a></li>
-                    <li><a href="#" onclick="filterCategory('cctv-service', document.querySelectorAll('aside ul li')[6])">CCTV Installation</a></li>
-                    <li><a href="#" onclick="filterCategory('amc-service', document.querySelectorAll('aside ul li')[7])">Annual Maintenance (AMC)</a></li>
+                    <li><a href="#" onclick="filterCategory('cameras', document.querySelectorAll('aside ul li')[1])">Cameras</a></li>
+                    <li><a href="#" onclick="filterCategory('recording', document.querySelectorAll('aside ul li')[2])">Recording Systems</a></li>
+                    <li><a href="#" onclick="filterCategory('cables', document.querySelectorAll('aside ul li')[3])">Cables & Network</a></li>
+                    <li><a href="#" onclick="filterCategory('firesafety', document.querySelectorAll('aside ul li')[4])">Fire Safety</a></li>
+                    <li><a href="#" onclick="filterCategory('services', document.querySelectorAll('aside ul li')[5])">Services & AMC</a></li>
                 </ul>
             </div>
             <div class="footer-column">
-                <h3>Connect With Us</h3>
+                <h3>Contact</h3>
                 <p>Phone: +91 8390909845<br>Email: dtsboisar@gmail.com</p>
             </div>
         </div>
@@ -609,17 +595,15 @@
     </footer>
 
     <script>
-        // Amazon Style Image Switcher Function
+        // Image Switcher Function
         function changeImage(mainImgId, thumbElement) {
             let mainImage = document.getElementById(mainImgId);
             mainImage.src = thumbElement.src;
 
-            // Remove active class from sibling thumbnails
             let gallery = thumbElement.parentElement;
             let thumbs = gallery.querySelectorAll('img');
             thumbs.forEach(img => img.classList.remove('active-thumb'));
 
-            // Add active class to clicked thumbnail
             thumbElement.classList.add('active-thumb');
         }
 
