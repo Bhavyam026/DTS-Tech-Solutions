@@ -217,56 +217,6 @@
             flex: 1;
         }
 
-        /* CCTV Kit Guide Box */
-        .cctv-kit-box {
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-            border-left: 5px solid #febd69;
-        }
-
-        .cctv-kit-box h3 {
-            font-size: 16px;
-            color: #131921;
-            margin-bottom: 8px;
-        }
-
-        .cctv-kit-box p {
-            font-size: 13px;
-            color: #555;
-            margin-bottom: 15px;
-        }
-
-        .kit-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-        }
-
-        .kit-item {
-            background: #f8f9fa;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .kit-item img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            margin-bottom: 6px;
-        }
-
-        .kit-item span {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            color: #333;
-        }
-
         .catalog-header {
             display: flex;
             justify-content: space-between;
@@ -281,7 +231,7 @@
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
 
@@ -299,6 +249,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.12);
         }
 
+        /* Product Gallery Box */
         .product-img-container {
             width: 100%;
             height: 180px;
@@ -308,16 +259,39 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             cursor: pointer;
             border: 1px solid #f0f0f0;
-            padding: 10px;
+            padding: 5px;
         }
 
         .product-img-container img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+
+        .thumbnail-gallery img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 2px;
+            background: #fff;
+        }
+
+        .thumbnail-gallery img:hover, .thumbnail-gallery img.active-thumb {
+            border-color: #007185;
+            box-shadow: 0 0 3px rgba(0,113,133,0.5);
         }
 
         .badge {
@@ -387,6 +361,7 @@
             text-align: center;
         }
 
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -427,6 +402,13 @@
             flex-wrap: wrap;
         }
 
+        .modal-gallery-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
         .main-zoom-view {
             width: 280px;
             height: 280px;
@@ -442,6 +424,25 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+        }
+
+        .modal-thumbnails {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-thumbnails img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .modal-thumbnails img:hover {
+            border-color: #007185;
         }
 
         .modal-right {
@@ -537,12 +538,14 @@
             </div>
             <ul id="categoryList">
                 <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
-                <li onclick="filterCategory('cctv-kit', this)">🧩 Complete CCTV Checklist</li>
                 <li onclick="filterCategory('ip-camera', this)">🌐 IP Cameras (Prizor)</li>
                 <li onclick="filterCategory('wifi-camera', this)">📶 Wi-Fi Cameras (Prizor)</li>
                 <li onclick="filterCategory('nvr', this)">🖥️ NVR Systems (Prizor)</li>
                 <li onclick="filterCategory('dvr', this)">📼 DVR Systems (Prizor)</li>
+                <li onclick="filterCategory('hdd', this)">💾 Surveillance Hard Disk</li>
+                <li onclick="filterCategory('poe-switch', this)">🔌 PoE Switch & Power Box</li>
                 <li onclick="filterCategory('cables', this)">🔌 Cables & Wire (HOC)</li>
+                <li onclick="filterCategory('accessories', this)">🧩 Junction Box & Connectors</li>
                 <li onclick="filterCategory('fire-alarm', this)">🚨 Fire Safety (DTS)</li>
                 <li onclick="filterCategory('electrical', this)">⚡ Electricals (DTS)</li>
                 <li onclick="filterCategory('services', this)">🛠️ Installation & AMC (DTS)</li>
@@ -551,46 +554,6 @@
 
         <div class="main-content">
 
-            <!-- CCTV System Required Checklist Visual Box -->
-            <div class="cctv-kit-box" id="cctvChecklistBlock">
-                <h3>🔍 Complete CCTV System Setup Checklist (Complete Items Required)</h3>
-                <p>Ek poore CCTV setup ko install karne ke liye ye sabhi items Zaroori hoti hain:</p>
-                <div class="kit-grid">
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=200" alt="CCTV Camera">
-                        <span>1. CCTV Cameras (IP/HD)</span>
-                    </div>
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=200" alt="NVR DVR">
-                        <span>2. NVR / DVR Box</span>
-                    </div>
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=200" alt="Hard Disk">
-                        <span>3. Surveillance Hard Disk</span>
-                    </div>
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200" alt="HOC Cable">
-                        <span>4. HOC Network Cable</span>
-                    </div>
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=200" alt="PoE Switch">
-                        <span>5. PoE Switch / Power Supply</span>
-                    </div>
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200" alt="Junction Box">
-                        <span>6. Junction Box & Connectors</span>
-                    </div>
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=200" alt="Monitor">
-                        <span>7. LED Monitor Screen</span>
-                    </div>
-                    <div class="kit-item">
-                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=200" alt="DTS Service">
-                        <span>8. DTS Installation Service</span>
-                    </div>
-                </div>
-            </div>
-
             <div class="catalog-header">
                 <span>Official Catalog — Dynamic Technology Solutions</span>
                 <span>Pricing: <strong>Contact Directly for Best Offer</strong></span>
@@ -598,22 +561,31 @@
 
             <div class="product-grid" id="productGrid">
                 
-                <!-- IP Camera (PRIZOR AUTHORIZED) -->
+                <!-- 1. IP Camera (PRIZOR AUTHORIZED) -->
                 <div class="product-card" data-category="ip-camera">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500" alt="Prizor IP Camera">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500" alt="Prizor IP Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                        <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=200" onclick="switchCardImage(this)">
+                        <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=200" onclick="switchCardImage(this)">
                     </div>
                     <h4 onclick="triggerModal(this)">Prizor 4MP Outdoor PoE IP Security Camera</h4>
                     <div class="specs">4MP HD Resolution, Metal Housing, Night Vision, PoE</div>
                     <div class="price-contact">Contact for Price Offer</div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Details</button>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%204MP%20IP%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
                         "title": "Prizor 4MP Outdoor PoE IP Security Camera",
                         "brand": "Authorized Partner - Prizor",
-                        "img": "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500",
+                        "images": [
+                            "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500",
+                            "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=500",
+                            "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=500"
+                        ],
                         "bullets": [
                             "Official Prizor High Performance Optical Sensor.",
                             "PoE single cable data & power input.",
@@ -624,22 +596,29 @@
                     </script>
                 </div>
 
-                <!-- Wi-Fi Camera (PRIZOR AUTHORIZED) -->
+                <!-- 2. Wi-Fi Camera (PRIZOR AUTHORIZED) -->
                 <div class="product-card" data-category="wifi-camera">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=500" alt="Prizor Wi-Fi Camera">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=500" alt="Prizor Wi-Fi Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=200" onclick="switchCardImage(this)">
                     </div>
                     <h4 onclick="triggerModal(this)">Prizor 3MP Smart Wireless PTZ Outdoor Camera</h4>
                     <div class="specs">360° Rotation, Motion Tracking, 2-Way Talk, SD Slot</div>
                     <div class="price-contact">Contact for Price Offer</div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Details</button>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20WiFi%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
                         "title": "Prizor 3MP Smart Wireless PTZ Outdoor Camera",
                         "brand": "Authorized Partner - Prizor",
-                        "img": "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=500",
+                        "images": [
+                            "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=500",
+                            "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500"
+                        ],
                         "bullets": [
                             "Mobile app controlled 360 degree pan/tilt.",
                             "Built-in microphone for two-way speaking.",
@@ -650,22 +629,29 @@
                     </script>
                 </div>
 
-                <!-- NVR (PRIZOR AUTHORIZED) -->
+                <!-- 3. NVR (PRIZOR AUTHORIZED) -->
                 <div class="product-card" data-category="nvr">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="Prizor NVR">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500" alt="Prizor NVR">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                        <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=200" onclick="switchCardImage(this)">
                     </div>
                     <h4 onclick="triggerModal(this)">Prizor 16-Channel 4K Ultra HD NVR System</h4>
                     <div class="specs">16 Channel IP Support, H.265+, Dual HDMI/VGA</div>
                     <div class="price-contact">Contact for Price Offer</div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Details</button>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%2016CH%20NVR" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
                         "title": "Prizor 16-Channel 4K Ultra HD NVR System",
                         "brand": "Authorized Partner - Prizor",
-                        "img": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500",
+                        "images": [
+                            "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500",
+                            "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500"
+                        ],
                         "bullets": [
                             "Supports 16 Prizor IP Cameras simultaneously.",
                             "High efficiency H.265+ video compression.",
@@ -676,22 +662,91 @@
                     </script>
                 </div>
 
-                <!-- Cables (HOC AUTHORIZED) -->
+                <!-- 4. Surveillance Hard Disk -->
+                <div class="product-card" data-category="hdd">
+                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
+                    <div class="product-img-container" onclick="triggerModal(this)">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500" alt="Surveillance Hard Disk">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                    </div>
+                    <h4 onclick="triggerModal(this)">Surveillance Hard Disk (1TB / 2TB / 4TB / 8TB)</h4>
+                    <div class="specs">24/7 Continuous Recording, Optimized for NVR/DVR</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Surveillance%20Hard%20Disk" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <script type="application/json" class="product-data">
+                    {
+                        "title": "Surveillance Hard Disk (1TB / 2TB / 4TB / 8TB)",
+                        "brand": "Dynamic Technology Solutions (DTS)",
+                        "images": [
+                            "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500"
+                        ],
+                        "bullets": [
+                            "Specially built for 24/7 continuous CCTV video storage.",
+                            "High write speed prevents video frame dropouts.",
+                            "Available in 1TB, 2TB, 4TB, 6TB, and 8TB options.",
+                            "Official manufacturer warranty provided."
+                        ]
+                    }
+                    </script>
+                </div>
+
+                <!-- 5. PoE Switch -->
+                <div class="product-card" data-category="poe-switch">
+                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
+                    <div class="product-img-container" onclick="triggerModal(this)">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="PoE Switch">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                    </div>
+                    <h4 onclick="triggerModal(this)">4 Port / 8 Port / 16 Port PoE Network Switch</h4>
+                    <div class="specs">Power over Ethernet, Gigabit Transmission, Metal Body</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20PoE%20Switch" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <script type="application/json" class="product-data">
+                    {
+                        "title": "4 Port / 8 Port / 16 Port PoE Network Switch",
+                        "brand": "Dynamic Technology Solutions (DTS)",
+                        "images": [
+                            "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500"
+                        ],
+                        "bullets": [
+                            "Powers IP cameras directly through HOC LAN cables.",
+                            "Surge protection built into each port.",
+                            "Plug and play installation without complex setup.",
+                            "Ideal for Prizor IP camera setups."
+                        ]
+                    }
+                    </script>
+                </div>
+
+                <!-- 6. Cables (HOC AUTHORIZED) -->
                 <div class="product-card" data-category="cables">
                     <span class="badge badge-hoc">HOC AUTHORIZED</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500" alt="HOC Cable">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500" alt="HOC Cable">
                     </div>
-                    <h4 onclick="triggerModal(this)">HOC Pure Copper CAT6 High Speed LAN Cable Box (305M)</h4>
-                    <div class="specs">100% Pure Copper, Gigabit Speed, CCTV & Networking</div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=200" onclick="switchCardImage(this)">
+                    </div>
+                    <h4 onclick="triggerModal(this)">HOC Pure Copper CAT6 High Speed LAN Cable (305M)</h4>
+                    <div class="specs">100% Pure Copper, Gigabit Speed, Weatherproof Outer Layer</div>
                     <div class="price-contact">Contact for Price Offer</div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Details</button>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
                         "title": "HOC Pure Copper CAT6 High Speed LAN Cable Box (305M)",
                         "brand": "Authorized Person / Dealer - HOC",
-                        "img": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500",
+                        "images": [
+                            "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500",
+                            "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500"
+                        ],
                         "bullets": [
                             "Official HOC High-Grade 100% Copper Cable.",
                             "Zero loss data transmission over long distance.",
@@ -702,22 +757,58 @@
                     </script>
                 </div>
 
-                <!-- Fire Safety (DYNAMIC TECHNOLOGY SOLUTIONS) -->
+                <!-- 7. Junction Box & Connectors -->
+                <div class="product-card" data-category="accessories">
+                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
+                    <div class="product-img-container" onclick="triggerModal(this)">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500" alt="Junction Box">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                    </div>
+                    <h4 onclick="triggerModal(this)">CCTV Junction Box, BNC/DC/RJ45 Connectors & Rack</h4>
+                    <div class="specs">Waterproof Junction Box, High Grade Connectors, Wall Mounts</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20CCTV%20Accessories" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    <script type="application/json" class="product-data">
+                    {
+                        "title": "CCTV Junction Box, BNC/DC/RJ45 Connectors & Rack",
+                        "brand": "Dynamic Technology Solutions (DTS)",
+                        "images": [
+                            "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500"
+                        ],
+                        "bullets": [
+                            "Weatherproof PVC camera junction boxes.",
+                            "High grade RJ45, BNC, and DC power connectors.",
+                            "CCTV wall brackets and DVR/NVR metal racks.",
+                            "Essential for clean, protected cabling installations."
+                        ]
+                    }
+                    </script>
+                </div>
+
+                <!-- 8. Fire Safety (DYNAMIC TECHNOLOGY SOLUTIONS) -->
                 <div class="product-card" data-category="fire-alarm">
                     <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" alt="DTS Fire Alarm">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" alt="DTS Fire Alarm">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=200" onclick="switchCardImage(this)" class="active-thumb">
                     </div>
                     <h4 onclick="triggerModal(this)">DTS Fire Alarm Control Panel & Smoke Detector Kit</h4>
                     <div class="specs">Zone-wise Alerts, Loud Hooter, Battery Backup</div>
                     <div class="price-contact">Contact for Price Offer</div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Details</button>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Safety%20System" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
                         "title": "DTS Fire Alarm Control Panel & Smoke Detector Kit",
                         "brand": "Dynamic Technology Solutions (DTS)",
-                        "img": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500",
+                        "images": [
+                            "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500"
+                        ],
                         "bullets": [
                             "Complete Fire alarm panel designed by Dynamic Technology Solutions.",
                             "Automated smoke and heat detection response.",
@@ -728,48 +819,29 @@
                     </script>
                 </div>
 
-                <!-- Electrical (DYNAMIC TECHNOLOGY SOLUTIONS) -->
-                <div class="product-card" data-category="electrical">
-                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
-                    <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500" alt="DTS Electrical Panel">
-                    </div>
-                    <h4 onclick="triggerModal(this)">DTS Industrial Electrical Control Panel & Wiring</h4>
-                    <div class="specs">MCB/MCCB Protection, Shockproof Setup, Heavy Duty</div>
-                    <div class="price-contact">Contact for Price Offer</div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Details</button>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Electrical%20Panel%20Work" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                    <script type="application/json" class="product-data">
-                    {
-                        "title": "DTS Industrial Electrical Control Panel & Wiring",
-                        "brand": "Dynamic Technology Solutions (DTS)",
-                        "img": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500",
-                        "bullets": [
-                            "Custom electrical panel layout designed by DTS.",
-                            "Built-in short-circuit and surge protection.",
-                            "High grade copper cabling and certified breakers used.",
-                            "Suitable for factories, shops, and residential setups."
-                        ]
-                    }
-                    </script>
-                </div>
-
-                <!-- Service & AMC (DYNAMIC TECHNOLOGY SOLUTIONS) -->
+                <!-- 9. Service & AMC (DYNAMIC TECHNOLOGY SOLUTIONS) -->
                 <div class="product-card" data-category="services">
                     <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
                     <div class="product-img-container" onclick="triggerModal(this)">
-                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500" alt="DTS Technical Service">
+                        <img class="main-card-img" src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500" alt="DTS Technical Service">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=200" onclick="switchCardImage(this)" class="active-thumb">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200" onclick="switchCardImage(this)">
                     </div>
                     <h4 onclick="triggerModal(this)">DTS CCTV, Fire & Electrical Fitting & AMC Services</h4>
                     <div class="specs">Site Audit, Professional Wiring, Emergency Maintenance</div>
                     <div class="price-contact">Contact for Service Booking</div>
-                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Details</button>
+                    <button class="btn-enquire" onclick="triggerModal(this)">View Specs & Photos</button>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20book%20Installation%20or%20AMC%20Service" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     <script type="application/json" class="product-data">
                     {
                         "title": "DTS CCTV, Fire & Electrical Fitting & AMC Services",
                         "brand": "Dynamic Technology Solutions (DTS Team)",
-                        "img": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500",
+                        "images": [
+                            "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500",
+                            "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500"
+                        ],
                         "bullets": [
                             "Professional installation by experienced DTS technicians.",
                             "Annual Maintenance Contracts (AMC) with emergency callouts.",
@@ -784,13 +856,16 @@
         </div>
     </div>
 
-    <!-- Product Modal Overlay -->
+    <!-- Product Modal Overlay with Image Gallery -->
     <div id="productModal" class="modal">
         <div class="modal-container">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-top-section">
-                <div class="main-zoom-view">
-                    <img id="modalImg" src="" alt="Product Detail">
+                <div class="modal-gallery-side">
+                    <div class="main-zoom-view">
+                        <img id="modalImg" src="" alt="Product Detail">
+                    </div>
+                    <div class="modal-thumbnails" id="modalThumbnails"></div>
                 </div>
                 <div class="modal-right">
                     <h2 id="modalTitle"></h2>
@@ -834,14 +909,38 @@
     </footer>
 
     <script>
+        function switchCardImage(thumb) {
+            const card = thumb.closest('.product-card');
+            const mainImg = card.querySelector('.main-card-img');
+            mainImg.src = thumb.src.replace('w=200', 'w=500');
+            
+            card.querySelectorAll('.thumbnail-gallery img').forEach(img => img.classList.remove('active-thumb'));
+            thumb.classList.add('active-thumb');
+        }
+
         function triggerModal(element) {
             const card = element.closest('.product-card');
             const data = JSON.parse(card.querySelector('.product-data').textContent);
             
             document.getElementById('modalTitle').innerText = data.title;
             document.getElementById('modalBrand').innerText = data.brand;
-            document.getElementById('modalImg').src = data.img;
+            document.getElementById('modalImg').src = data.images[0];
             
+            const thumbContainer = document.getElementById('modalThumbnails');
+            thumbContainer.innerHTML = '';
+            
+            data.images.forEach((imgUrl, index) => {
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                if (index === 0) img.style.borderColor = '#007185';
+                img.onclick = function() {
+                    document.getElementById('modalImg').src = imgUrl;
+                    thumbContainer.querySelectorAll('img').forEach(i => i.style.borderColor = '#ccc');
+                    this.style.borderColor = '#007185';
+                };
+                thumbContainer.appendChild(img);
+            });
+
             const list = document.getElementById('modalBullets');
             list.innerHTML = '';
             data.bullets.forEach(bullet => {
@@ -861,17 +960,9 @@
             document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
             element.classList.add('active');
 
-            const checklistBlock = document.getElementById('cctvChecklistBlock');
-
-            if (category === 'cctv-kit' || category === 'all') {
-                checklistBlock.style.display = 'block';
-            } else {
-                checklistBlock.style.display = 'none';
-            }
-
             const cards = document.querySelectorAll('.product-card');
             cards.forEach(card => {
-                if (category === 'all' || category === 'cctv-kit' || card.getAttribute('data-category') === category) {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -895,7 +986,7 @@
             cards.forEach(card => {
                 const title = card.querySelector('h4').innerText;
                 const specs = card.querySelector('.specs').innerText;
-                const imgSrc = card.querySelector('img').src;
+                const imgSrc = card.querySelector('.main-card-img').src;
 
                 if (title.toLowerCase().includes(query) || specs.toLowerCase().includes(query)) {
                     matches.push({ title, imgSrc });
