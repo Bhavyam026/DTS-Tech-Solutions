@@ -3,389 +3,639 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Technology Solutions - Amazon Style Shopping</title>
+    <title>Dynamic Technology Solutions - Authorized Partner</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Amazon Ember", Arial, sans-serif; }
-        body { background-color: #eaeded; color: #0f1111; line-height: 1.4; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-        /* Amazon Dark Top Header */
-        .amz-header { background-color: #131921; color: white; display: flex; align-items: center; padding: 6px 15px; gap: 15px; position: sticky; top: 0; z-index: 1000; }
-        .amz-logo { display: flex; align-items: center; gap: 4px; border: 1px solid transparent; padding: 4px 8px; cursor: pointer; border-radius: 2px; }
-        .amz-logo:hover { border-color: white; }
-        .amz-logo-text { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
-        .amz-logo-sub { color: #febd69; font-size: 13px; font-weight: 700; margin-left: -2px; }
+        body {
+            background-color: #eaeded;
+            color: #111;
+        }
 
-        .amz-deliver { display: flex; align-items: center; font-size: 12px; color: #ccc; cursor: pointer; border: 1px solid transparent; padding: 5px 8px; border-radius: 2px; }
-        .amz-deliver:hover { border-color: white; }
-        .amz-deliver strong { color: white; display: block; font-size: 14px; }
+        header {
+            background-color: #131921;
+            color: #fff;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
 
-        /* Search Bar */
-        .amz-search-container { flex: 1; display: flex; height: 40px; border-radius: 4px; overflow: hidden; }
-        .amz-search-select { background-color: #f3f3f3; border: none; border-right: 1px solid #cdcdcd; padding: 0 10px; font-size: 12px; cursor: pointer; color: #555; outline: none; }
-        .amz-search-select:hover { background-color: #dadada; color: #000; }
-        .amz-search-input { width: 100%; border: none; padding: 0 12px; font-size: 15px; outline: none; }
-        .amz-search-btn { background-color: #febd69; border: none; width: 45px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 18px; transition: background 0.2s; }
-        .amz-search-btn:hover { background-color: #f3a847; }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-        .amz-nav-right { display: flex; gap: 15px; align-items: center; font-size: 12px; }
-        .amz-nav-item { border: 1px solid transparent; padding: 4px 8px; cursor: pointer; border-radius: 2px; }
-        .amz-nav-item:hover { border-color: white; }
-        .amz-nav-item strong { display: block; font-size: 14px; color: white; }
+        .brand-logo-img {
+            width: 45px;
+            height: 45px;
+            background: #febd69;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            color: #131921;
+            font-size: 18px;
+            border: 2px solid #fff;
+        }
 
-        /* Sub Header / Navigation Bar */
-        .amz-subnav { background-color: #232f3e; color: white; display: flex; align-items: center; padding: 0 15px; gap: 18px; font-size: 14px; height: 39px; overflow-x: auto; white-space: nowrap; }
-        .amz-subnav-link { color: white; text-decoration: none; border: 1px solid transparent; padding: 5px 8px; border-radius: 2px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: 500; }
-        .amz-subnav-link:hover, .amz-subnav-link.active { border-color: white; font-weight: 700; color: #febd69; }
+        header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
 
-        /* Container Layout */
-        .amz-main-container { display: flex; max-width: 1500px; margin: 15px auto; padding: 0 15px; gap: 20px; }
+        .partner-subtitle {
+            font-size: 12px;
+            color: #febd69;
+            font-weight: normal;
+        }
 
-        /* Left Filter Sidebar */
-        aside.amz-sidebar { width: 240px; flex-shrink: 0; background: white; padding: 15px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); height: fit-content; }
-        .amz-sidebar-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: #0f1111; text-transform: uppercase; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-        .amz-sidebar-ul { list-style: none; }
-        .amz-sidebar-li { font-size: 13px; color: #0f1111; padding: 6px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .amz-sidebar-li:hover, .amz-sidebar-li.active { color: #c45500; font-weight: 700; }
-        .amz-count { background: #f0f2f2; color: #565959; font-size: 11px; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
+        .search-bar {
+            display: flex;
+            flex: 1;
+            max-width: 550px;
+            min-width: 280px;
+            position: relative;
+        }
 
-        /* Product Grid */
-        .amz-content { flex: 1; min-width: 0; }
-        .amz-results-bar { background: white; padding: 10px 15px; border-radius: 4px; margin-bottom: 15px; font-size: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-        
-        .amz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
-        
-        /* Product Card */
-        .amz-card { background: white; border: 1px solid #e7e7e7; border-radius: 4px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: box-shadow 0.2s; }
-        .amz-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        
-        .amz-badge { position: absolute; top: 10px; left: 10px; background-color: #e67a00; color: white; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 2px 8px 8px 0; text-transform: uppercase; }
-        .amz-badge.choice { background-color: #232f3e; color: #f2a740; }
-        
-        .amz-img-wrapper { height: 180px; width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 15px; margin-bottom: 10px; padding: 10px; }
-        .amz-img-wrapper img { max-height: 100%; max-width: 100%; object-fit: contain; }
-        
-        .amz-title { font-size: 14px; font-weight: 500; color: #0f1111; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 6px; line-height: 1.3; }
-        .amz-title:hover { color: #c45500; cursor: pointer; text-decoration: underline; }
+        .search-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
 
-        .amz-stars { color: #ffa41c; font-size: 13px; display: flex; align-items: center; gap: 5px; margin-bottom: 6px; }
-        .amz-rating-count { color: #007185; font-size: 12px; }
+        .search-bar input {
+            width: 100%;
+            padding: 11px 40px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            background: #fff;
+        }
 
-        .amz-price-box { margin-bottom: 10px; }
-        .amz-deal-tag { background: #cc0c39; color: white; font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 2px; display: inline-block; margin-bottom: 4px; }
-        .amz-price { font-size: 22px; font-weight: 700; color: #0f1111; }
-        .amz-price sup { font-size: 12px; top: -0.5em; }
-        .amz-mrp { font-size: 12px; color: #565959; text-decoration: line-through; margin-left: 5px; }
+        .search-icon-inside {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #717478;
+        }
 
-        .amz-prime { color: #00a8e1; font-size: 12px; font-weight: 800; font-style: italic; margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
-        .amz-delivery-text { font-size: 12px; color: #565959; margin-bottom: 12px; }
-        .amz-delivery-text strong { color: #0f1111; }
+        .header-contact {
+            display: flex;
+            flex-direction: column;
+            font-size: 13px;
+            color: #ccc;
+            text-align: right;
+        }
 
-        /* Amazon Action Buttons */
-        .amz-btn-cart { background: #ffd814; border: 1px solid #fcd200; border-radius: 20px; padding: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; width: 100%; transition: background 0.2s; margin-bottom: 6px; text-decoration: none; color: #0f1111; display: block; }
-        .amz-btn-cart:hover { background: #f7ca00; }
-        
-        .amz-btn-buy { background: #ffa41c; border: 1px solid #ff8f00; border-radius: 20px; padding: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; width: 100%; text-decoration: none; color: #0f1111; display: block; }
-        .amz-btn-buy:hover { background: #fa8900; }
+        .header-contact a {
+            color: #febd69;
+            text-decoration: none;
+        }
 
-        /* Footer */
-        footer { margin-top: 40px; background-color: #232f3e; color: white; }
-        .back-to-top { background-color: #37475a; text-align: center; padding: 15px; font-size: 13px; cursor: pointer; font-weight: 600; }
-        .back-to-top:hover { background-color: #485769; }
-        .footer-cols { max-width: 1000px; margin: 0 auto; padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; font-size: 13px; }
-        .footer-cols h3 { font-size: 15px; margin-bottom: 10px; }
-        .footer-cols ul { list-style: none; }
-        .footer-cols li { margin-bottom: 6px; color: #ddd; cursor: pointer; }
-        .footer-cols li:hover { text-decoration: underline; }
-        .footer-bottom { background-color: #131921; text-align: center; padding: 20px; font-size: 12px; color: #ccc; border-top: 1px solid #3a4553; }
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 15px;
+        }
 
-        @media (max-width: 768px) {
-            .amz-main-container { flex-direction: column; }
-            aside.amz-sidebar { width: 100%; }
-            .amz-deliver, .amz-nav-right { display: none; }
+        aside {
+            width: 280px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .sidebar-brand-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #febd69;
+        }
+
+        aside ul {
+            list-style: none;
+        }
+
+        aside ul li {
+            padding: 10px;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            transition: 0.2s;
+        }
+
+        aside ul li:hover, aside ul li.active {
+            background-color: #f0f2f2;
+            color: #007185;
+            font-weight: bold;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+            background: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+
+        .product-img-container {
+            width: 100%;
+            height: 180px;
+            background: #ffffff;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            border: 1px solid #e2e8f0;
+            padding: 5px;
+        }
+
+        .product-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+
+        .thumbnail-gallery img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 2px;
+            background: #fff;
+            transition: 0.2s;
+        }
+
+        .thumbnail-gallery img:hover, .thumbnail-gallery img.active-thumb {
+            border-color: #e77600;
+            box-shadow: 0 0 3px rgba(228, 118, 0, 0.5);
+        }
+
+        .badge {
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            align-self: flex-start;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .badge-prizor { background: #e3f2fd; color: #0d47a1; }
+        .badge-hoc { background: #e8f5e9; color: #1b5e20; }
+        .badge-dts { background: #fff3e0; color: #e65100; }
+
+        .product-card h4 {
+            font-size: 14px;
+            color: #007185;
+            margin-bottom: 6px;
+            height: 40px;
+            overflow: hidden;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .specs {
+            font-size: 12px;
+            color: #565959;
+            margin-bottom: 8px;
+            height: 35px;
+            overflow: hidden;
+        }
+
+        .price-contact {
+            font-size: 13px;
+            font-weight: bold;
+            color: #b12704;
+            margin-bottom: 10px;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        footer {
+            margin-top: 50px;
+            background-color: #232f3e;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .footer-top {
+            background-color: #37475a;
+            padding: 15px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .footer-top a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: #febd69;
+        }
+
+        .footer-column p, .footer-column ul {
+            font-size: 13px;
+            color: #ddd;
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+        }
+
+        .footer-column ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            background-color: #131921;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #3a4553;
+            color: #999;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Amazon Top Header -->
-    <header class="amz-header">
-        <div class="amz-logo">
-            <span class="amz-logo-text">DTS</span>
-            <span class="amz-logo-sub">.in</span>
+    <header>
+        <div class="logo-area">
+            <div class="brand-logo-img">DTS</div>
+            <h1>Dynamic Technology Solutions <span class="partner-subtitle">(Prizor & HOC Authorized Partner)</span></h1>
+        </div>
+        
+        <div class="search-bar">
+            <div class="search-input-wrapper">
+                <span class="search-icon-inside">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search Products & Services..." autocomplete="off">
+            </div>
         </div>
 
-        <div class="amz-deliver">
-            📍 Delivering to Boisar 401501
-            <strong>Update Location</strong>
-        </div>
-
-        <!-- Central Search Bar -->
-        <div class="amz-search-container">
-            <select class="amz-search-select" id="searchCategory">
-                <option value="all">All Categories</option>
-                <option value="network-camera">IP Cameras</option>
-                <option value="hd-camera">HD Cameras</option>
-                <option value="nvr">NVR Recorders</option>
-                <option value="dvr">DVR Recorders</option>
-                <option value="poe-switch">PoE Switches</option>
-                <option value="television">Smart TVs</option>
-            </select>
-            <input type="text" class="amz-search-input" id="searchInput" placeholder="Search Dynamic Technology Solutions or Prizor models...">
-            <button class="amz-search-btn">🔍</button>
-        </div>
-
-        <div class="amz-nav-right">
-            <div class="amz-nav-item">
-                <span>Hello, Sign in</span>
-                <strong>Account & Lists</strong>
-            </div>
-            <div class="amz-nav-item">
-                <span>Returns</span>
-                <strong>& Orders</strong>
-            </div>
-            <div class="amz-nav-item" style="font-size: 20px; display: flex; align-items: center; gap: 4px;">
-                🛒 <strong>Cart</strong>
-            </div>
+        <div class="header-contact">
+            <span>📞 <a href="https://wa.me/918390909845" target="_blank">+91 8390909845</a></span>
+            <span>✉️ <a href="mailto:dtsboisar@gmail.com">dtsboisar@gmail.com</a></span>
         </div>
     </header>
 
-    <!-- Amazon Subnav -->
-    <nav class="amz-subnav">
-        <a class="amz-subnav-link active" onclick="filterCategory('all', this)">☰ All Products</a>
-        <a class="amz-subnav-link" onclick="filterCategory('network-camera', this)">IP Cameras</a>
-        <a class="amz-subnav-link" onclick="filterCategory('hd-camera', this)">HD Cameras</a>
-        <a class="amz-subnav-link" onclick="filterCategory('nvr', this)">NVR</a>
-        <a class="amz-subnav-link" onclick="filterCategory('dvr', this)">DVR</a>
-        <a class="amz-subnav-link" onclick="filterCategory('poe-switch', this)">PoE Switches</a>
-        <a class="amz-subnav-link" onclick="filterCategory('television', this)">Smart TVs</a>
-        <a class="amz-subnav-link" onclick="filterCategory('touch-panel', this)">Interactive Panels</a>
-    </nav>
-
-    <!-- Main Content Layout -->
-    <div class="amz-main-container">
-        <!-- Sidebar Filters -->
-        <aside class="amz-sidebar">
-            <div class="amz-sidebar-title">Category</div>
-            <ul class="amz-sidebar-ul" id="categoryList">
-                <li class="amz-sidebar-li active" onclick="filterCategory('all', this)"><span>All Products</span> <span class="amz-count" id="count-all">84</span></li>
-                <li class="amz-sidebar-li" onclick="filterCategory('network-camera', this)"><span>IP Network Cameras</span> <span class="amz-count">14</span></li>
-                <li class="amz-sidebar-li" onclick="filterCategory('hd-camera', this)"><span>HD Analog Cameras</span> <span class="amz-count">10</span></li>
-                <li class="amz-sidebar-li" onclick="filterCategory('nvr', this)"><span>NVR Recorders</span> <span class="amz-count">6</span></li>
-                <li class="amz-sidebar-li" onclick="filterCategory('dvr', this)"><span>DVR Recorders</span> <span class="amz-count">4</span></li>
-                <li class="amz-sidebar-li" onclick="filterCategory('poe-switch', this)"><span>PoE Switches</span> <span class="amz-count">8</span></li>
-                <li class="amz-sidebar-li" onclick="filterCategory('television', this)"><span>Smart TVs & Displays</span> <span class="amz-count">25</span></li>
-                <li class="amz-sidebar-li" onclick="filterCategory('touch-panel', this)"><span>Touch Panels</span> <span class="amz-count">8</span></li>
-            </ul>
-
-            <div class="amz-sidebar-title" style="margin-top: 20px;">Customer Reviews</div>
-            <div style="font-size: 13px; color: #ffa41c; cursor: pointer; margin-bottom: 5px;">⭐⭐⭐⭐☆ & Up</div>
-            <div style="font-size: 13px; color: #ffa41c; cursor: pointer; margin-bottom: 5px;">⭐⭐⭐☆☆ & Up</div>
-
-            <div class="amz-sidebar-title" style="margin-top: 20px;">Services Offered</div>
-            <div style="font-size: 12px; color: #565959; line-height: 1.6;">
-                ✔ Free Site Survey<br>
-                ✔ Professional Installation<br>
-                ✔ AMC & Maintenance<br>
-                ✔ Network Remote View
+    <div class="container">
+        <aside>
+            <div class="sidebar-brand-box">
+                <div class="brand-logo-img" style="width:35px; height:35px; font-size:13px;">DTS</div>
+                <h3>Products & Services</h3>
             </div>
+            <ul>
+                <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
+                <li onclick="filterCategory('bullet', this)">🌐 Bullet Cameras (Prizor)</li>
+                <li onclick="filterCategory('dome', this)">📹 Dome Cameras (Prizor)</li>
+                <li onclick="filterCategory('dvr', this)">🖥️ DVR / NVR Systems (Prizor)</li>
+                <li onclick="filterCategory('cable', this)">🔌 Cables & Network (HOC)</li>
+                <li onclick="filterCategory('fire', this)">🚨 Fire Safety Systems (DTS)</li>
+                <li onclick="filterCategory('cctv-service', this)">🛠️ CCTV Installation & Setup</li>
+                <li onclick="filterCategory('amc-service', this)">🔧 Annual Maintenance (AMC)</li>
+                <li onclick="filterCategory('fire-service', this)">🛡️ Fire Safety Maintenance</li>
+            </ul>
         </aside>
 
-        <!-- Right Product Grid Area -->
-        <div class="amz-content">
-            <div class="amz-results-bar">
-                <span id="resultsCountDisplay">1-84 of 84 results for <strong>"Prizor Security Products"</strong></span>
-                <div>
-                    Sort by: 
-                    <select style="padding: 4px; font-size: 12px; border-radius: 4px;">
-                        <option>Featured</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                        <option>Avg. Customer Review</option>
-                    </select>
-                </div>
+        <div class="main-content">
+            <div class="catalog-header">
+                <span>Official Catalog — Dynamic Technology Solutions</span>
+                <span>Pricing: <strong>Contact Directly for Best Offer</strong></span>
             </div>
 
-            <div class="amz-grid" id="productGrid"></div>
+            <div class="product-grid" id="productGrid">
+                
+                <div class="product-card" data-category="bullet">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-1" src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" alt="Prizor Bullet Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" class="active-thumb" onclick="changeImage('main-img-1', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" onclick="changeImage('main-img-1', this)" alt="thumb">
+                    </div>
+                    <h4>Prizor 4MP Outdoor Bullet Security Camera</h4>
+                    <div class="specs">4MP HD Resolution, Long Range Night Vision, Weatherproof Housing</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Bullet%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="dome">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-2" src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="Prizor Dome Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('main-img-2', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('main-img-2', this)" alt="thumb">
+                    </div>
+                    <h4>Prizor Indoor Dome HD Security Camera</h4>
+                    <div class="specs">High Definition Resolution, IR Night Vision, Compact Indoor Design</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Dome%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="dvr">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-3" src="https://www.prizor.in/products/dvr.png" alt="Prizor DVR NVR">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/products/dvr.png" class="active-thumb" onclick="changeImage('main-img-3', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('main-img-3', this)" alt="thumb">
+                    </div>
+                    <h4>Prizor Ultra HD DVR / NVR Recording System</h4>
+                    <div class="specs">Multi-Channel Support, H.265+ Compression, HDMI/VGA Output</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="cable">
+                    <span class="badge badge-hoc">HOC AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-4" src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" alt="HOC Network Cable">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" class="active-thumb" onclick="changeImage('main-img-4', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" onclick="changeImage('main-img-4', this)" alt="thumb">
+                    </div>
+                    <h4>HOC High Speed CAT6 LAN Cable</h4>
+                    <div class="specs">100% Copper Conductor, Gigabit Ethernet Support, Durable Outer Layer</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="cable">
+                    <span class="badge badge-hoc">HOC AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-5" src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" alt="HOC Networking Product">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" class="active-thumb" onclick="changeImage('main-img-5', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" onclick="changeImage('main-img-5', this)" alt="thumb">
+                    </div>
+                    <h4>HOC Industrial Networking & Wiring Cable</h4>
+                    <div class="specs">High Performance Transmission, Interference Shielding, Weatherproof</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20Cable%20Product" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="cable">
+                    <span class="badge badge-hoc">HOC AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-6" src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" alt="HOC Wire Roll">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" class="active-thumb" onclick="changeImage('main-img-6', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" onclick="changeImage('main-img-6', this)" alt="thumb">
+                    </div>
+                    <h4>HOC Premium Security & Surveillance Cable Roll</h4>
+                    <div class="specs">CCTV Coaxial / Network Wire, Pure Copper, Long Distance Signal Transmission</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20Wire%20Roll" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="fire">
+                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
+                    <div class="product-img-container">
+                        <img id="main-img-7" src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" alt="Fire Alarm Control Panel">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" class="active-thumb" onclick="changeImage('main-img-7', this)" alt="thumb">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" onclick="changeImage('main-img-7', this)" alt="thumb">
+                    </div>
+                    <h4>DTS Automatic Fire Alarm Control Panel</h4>
+                    <div class="specs">Multi-Zone Alert System, Battery Backup Support, Real-time Alarm Trigger</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Alarm%20Panel" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="fire">
+                    <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
+                    <div class="product-img-container">
+                        <img id="main-img-8" src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" alt="Fire Notification & Strobe Light">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" class="active-thumb" onclick="changeImage('main-img-8', this)" alt="thumb">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" onclick="changeImage('main-img-8', this)" alt="thumb">
+                    </div>
+                    <h4>DTS Fire Alarm Hooter & Strobe Light System</h4>
+                    <div class="specs">High Decibel Alarm Sound, Visual Strobe Light Warning, Industrial Grade</div>
+                    <div class="price-contact">Contact for Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Alarm%20Hooter" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="cctv-service">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img id="main-img-9" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Installation">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-9', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-9', this)" alt="thumb">
+                    </div>
+                    <h4>Professional CCTV Camera Installation & Setup</h4>
+                    <div class="specs">Expert wiring, camera alignment, DVR configuration & mobile app setup.</div>
+                    <div class="price-contact">Contact for Service Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20book%20CCTV%20Installation%20Service" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="amc-service">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img id="main-img-10" src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="AMC Service">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-10', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-10', this)" alt="thumb">
+                    </div>
+                    <h4>Annual Maintenance Contract (AMC) for Security</h4>
+                    <div class="specs">Regular checkups, camera cleaning, system troubleshooting & priority support.</div>
+                    <div class="price-contact">Contact for AMC Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20know%20about%20AMC%20plans" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
+                <div class="product-card" data-category="fire-service">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img id="main-img-11" src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" alt="Fire Safety Maintenance">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-11', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-11', this)" alt="thumb">
+                    </div>
+                    <h4>Fire Alarm & Safety Systems Maintenance</h4>
+                    <div class="specs">Routine testing of smoke detectors, control panels, sensors and hooters.</div>
+                    <div class="price-contact">Contact for Service Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20Fire%20Safety%20Maintenance%20Service" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <!-- Amazon Footer -->
     <footer>
-        <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-            Back to top
+        <div class="footer-top">
+            <a href="#">Back to top ↑</a>
         </div>
-        <div class="footer-cols">
-            <div>
-                <h3>Get to Know Us</h3>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Dynamic Technology Solutions</h3>
+                <p>Authorized Partner for Prizor Surveillance Systems and HOC Networking & Cables. Providing best-in-class security products and professional installation services.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Products & Services</h3>
                 <ul>
-                    <li>About Dynamic Tech</li>
-                    <li>Prizor Partnership</li>
-                    <li>Installation Services</li>
-                    <li>Client Reviews</li>
+                    <li><a href="#" onclick="filterCategory('bullet', document.querySelectorAll('aside ul li')[1])">Bullet Cameras</a></li>
+                    <li><a href="#" onclick="filterCategory('dome', document.querySelectorAll('aside ul li')[2])">Dome Cameras</a></li>
+                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[3])">DVR & NVR Systems</a></li>
+                    <li><a href="#" onclick="filterCategory('cable', document.querySelectorAll('aside ul li')[4])">Cables & Network</a></li>
+                    <li><a href="#" onclick="filterCategory('fire', document.querySelectorAll('aside ul li')[5])">Fire Safety Systems</a></li>
+                    <li><a href="#" onclick="filterCategory('cctv-service', document.querySelectorAll('aside ul li')[6])">CCTV Installation</a></li>
+                    <li><a href="#" onclick="filterCategory('amc-service', document.querySelectorAll('aside ul li')[7])">Annual Maintenance (AMC)</a></li>
                 </ul>
             </div>
-            <div>
-                <h3>Connect with Us</h3>
-                <ul>
-                    <li>WhatsApp Direct</li>
-                    <li>Email Support</li>
-                    <li>Boisar Office Location</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Let Us Help You</h3>
-                <ul>
-                    <li>Your Orders</li>
-                    <li>Returns & Replacement</li>
-                    <li>AMC Maintenance</li>
-                    <li>Help Center</li>
-                </ul>
+            <div class="footer-column">
+                <h3>Connect With Us</h3>
+                <p>Phone: +91 8390909845<br>Email: dtsboisar@gmail.com</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026, Dynamic Technology Solutions (DTS) or its affiliates. All rights reserved.</p>
+            <p>© 2026 Dynamic Technology Solutions. All Rights Reserved.</p>
         </div>
     </footer>
 
     <script>
-        // Full Product Database (84 Items)
-        const productData = [
-            // IP Cameras
-            { id: "nc-01", category: "network-camera", model: "PR-RT-MB24DCA-40", title: "Prizor 2MP IP Metal Bullet Security Camera (40m Night Vision, IP67 Weatherproof, PoE)", img: "https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png", price: "2,499", mrp: "4,500", badge: "Best Seller", rating: "4.5", reviews: "1,240", deal: "Limited time deal" },
-            { id: "nc-02", category: "network-camera", model: "PXT-50MIR30DA40", title: "Prizor 5MP AI IP Metal Dome Camera with Built-in Audio Mic & Human Motion Detection", img: "https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png", price: "3,890", mrp: "6,990", badge: "Amazon's Choice", rating: "4.7", reviews: "850", deal: "25% off" },
-            { id: "nc-03", category: "network-camera", model: "PR-IP-4MP-FULLCOLOR", title: "Prizor 4MP Full Color Night Vision IP Camera (24/7 Color Image, F1.0 Lens)", img: "https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png", price: "3,150", mrp: "5,800", badge: "", rating: "4.4", reviews: "420", deal: "Limited time deal" },
-            { id: "nc-04", category: "network-camera", model: "PXT-PTZ-2MP-25X", title: "Prizor 2MP 25X Optical Zoom Speed Dome PTZ IP Camera (150m Laser IR, Auto-tracking)", img: "https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png", price: "18,500", mrp: "28,000", badge: "", rating: "4.8", reviews: "190", deal: "Save ₹9,500" },
-            { id: "nc-05", category: "network-camera", model: "PR-IP-8MP-4K-BULLET", title: "Prizor 8MP 4K Ultra HD AI Bullet Outdoor Camera (Vehicle/Human AI Detection, True WDR)", img: "https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png", price: "5,999", mrp: "9,999", badge: "Top Rated", rating: "4.6", reviews: "310", deal: "40% off" },
-            { id: "nc-06", category: "network-camera", model: "PR-IP-4G-SIM-CAM", title: "Prizor 4G SIM Card Outdoor Solar Compatible Bullet IP Camera with Two-Way Audio", img: "https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png", price: "4,490", mrp: "7,500", badge: "", rating: "4.3", reviews: "512", deal: "Deal of the Day" },
+        function changeImage(mainImgId, thumbElement) {
+            let mainImage = document.getElementById(mainImgId);
+            mainImage.src = thumbElement.src;
 
-            // HD Cameras
-            { id: "hdc-01", category: "hd-camera", model: "PR-HD-2MP-PLASTIC-DOME", title: "Prizor 2MP Indoor HD Plastic Dome CCTV Camera 1080P Quad Format", img: "https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png", price: "899", mrp: "1,800", badge: "Best Seller", rating: "4.3", reviews: "2,100", deal: "50% off" },
-            { id: "hdc-02", category: "hd-camera", model: "PR-HD-2MP-METAL-BULLET", title: "Prizor 2MP Outdoor Metal Bullet CCTV Camera IP66 Weatherproof 30m IR", img: "https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png", price: "1,250", mrp: "2,200", badge: "", rating: "4.4", reviews: "1,430", deal: "" },
-            { id: "hdc-03", category: "hd-camera", model: "PR-HD-5MP-COLORVIEW", title: "Prizor 5MP Full Color HD Analog CCTV Camera with Audio over Coax", img: "https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png", price: "1,890", mrp: "3,400", badge: "Amazon's Choice", rating: "4.6", reviews: "780", deal: "44% off" },
+            let gallery = thumbElement.parentElement;
+            let thumbs = gallery.querySelectorAll('img');
+            thumbs.forEach(img => img.classList.remove('active-thumb'));
 
-            // NVR & DVR
-            { id: "nvr-01", category: "nvr", model: "PR-NVR-04CH-4K", title: "Prizor 4-Channel 4K Ultra HD Network Video Recorder NVR (1 SATA 10TB Support)", img: "https://www.prizor.in/products/dvr.png", price: "3,800", mrp: "6,500", badge: "", rating: "4.5", reviews: "320", deal: "" },
-            { id: "nvr-02", category: "nvr", model: "PR-NVR-08CH-POE", title: "Prizor 8-Channel NVR with 8 Independent Plug & Play PoE Ports (AI Face Search)", img: "https://www.prizor.in/products/dvr.png", price: "7,990", mrp: "13,000", badge: "Top Rated", rating: "4.7", reviews: "210", deal: "Save ₹5,010" },
-            { id: "dvr-01", category: "dvr", model: "PR-DVR-04CH-5M-N", title: "Prizor 4-Channel 5M-N Smart XVR / DVR with Coaxial Audio Support", img: "https://www.prizor.in/products/dvr.png", price: "2,650", mrp: "4,200", badge: "", rating: "4.4", reviews: "640", deal: "37% off" },
-
-            // PoE Switches
-            { id: "poe-01", category: "poe-switch", model: "PR-POE-04-100M", title: "Prizor 4-Port Fast Ethernet PoE Switch + 2 Uplink Ports (65W, 250m Extend Mode)", img: "https://www.prizor.in/products/dvr.png", price: "1,450", mrp: "2,800", badge: "Best Seller", rating: "4.6", reviews: "1,120", deal: "48% off" },
-            { id: "poe-02", category: "poe-switch", model: "PR-POE-08-100M", title: "Prizor 8-Port PoE Switch + 2 Uplink Ports 120W Steel Case with Isolation VLAN", img: "https://www.prizor.in/products/dvr.png", price: "2,690", mrp: "4,500", badge: "", rating: "4.5", reviews: "590", deal: "" },
-
-            // Smart TVs
-            { id: "tv-01", category: "television", model: "PR-TV-32-SMART", title: "Prizor 32\" HD Ready Smart Android LED TV (Built-in WiFi, Dolby Audio, Screen Mirroring)", img: "https://www.prizor.in/products/dvr.png", price: "8,990", mrp: "15,990", badge: "Best Seller", rating: "4.3", reviews: "3,450", deal: "43% off" },
-            { id: "tv-02", category: "television", model: "PR-TV-43-4K-GOOGLE", title: "Prizor 43\" 4K Ultra HD Smart Google TV with Voice Remote & HDR10 Support", img: "https://www.prizor.in/products/dvr.png", price: "18,490", mrp: "32,000", badge: "Amazon's Choice", rating: "4.6", reviews: "1,890", deal: "Save ₹13,510" },
-            { id: "tv-03", category: "television", model: "PR-TV-55-4K-WEBOS", title: "Prizor 55\" 4K Ultra HD WebOS Smart LED TV with Magic Remote Pointer", img: "https://www.prizor.in/products/dvr.png", price: "28,990", mrp: "48,000", badge: "Top Choice", rating: "4.7", reviews: "940", deal: "39% off" },
-
-            // Touch Panels
-            { id: "tp-01", category: "touch-panel", model: "PR-TP-65-ANDROID11", title: "Prizor 65\" 4K Interactive Smart Touch Panel Boardroom & Classroom Whiteboard", img: "https://www.prizor.in/products/dvr.png", price: "85,000", mrp: "1,35,000", badge: "Enterprise Choice", rating: "4.9", reviews: "85", deal: "Save ₹50,000" }
-        ];
-
-        // Fill up to 84 products dynamically for a full catalogue
-        for(let i=productData.length; i<84; i++) {
-            const types = ["network-camera", "hd-camera", "television", "poe-switch", "nvr"];
-            const selectedType = types[i % types.length];
-            productData.push({
-                id: `dynamic-${i}`,
-                category: selectedType,
-                model: `PR-GEN2-${100 + i}`,
-                title: `Prizor Commercial Enterprise Product Series ${i + 1} (${selectedType.toUpperCase()})`,
-                img: selectedType.includes("camera") ? "https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" : "https://www.prizor.in/products/dvr.png",
-                price: (1200 + i * 150).toLocaleString(),
-                mrp: (2500 + i * 250).toLocaleString(),
-                badge: i % 3 === 0 ? "Best Seller" : (i % 5 === 0 ? "Amazon's Choice" : ""),
-                rating: (4 + (i % 10) / 10).toFixed(1),
-                reviews: (100 + i * 12).toString(),
-                deal: i % 2 === 0 ? "Limited time deal" : ""
-            });
-        }
-
-        function renderProducts(items) {
-            const container = document.getElementById('productGrid');
-            const countDisplay = document.getElementById('resultsCountDisplay');
-            container.innerHTML = '';
-            
-            countDisplay.innerHTML = `Showing 1-${items.length} of ${items.length} results`;
-
-            if (items.length === 0) {
-                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 60px; background: white; border-radius: 4px;">
-                    <h2>No results found</h2>
-                    <p style="color: #565959; margin-top: 8px;">Try checking your spelling or use more general terms</p>
-                </div>`;
-                return;
-            }
-
-            items.forEach((item) => {
-                const card = document.createElement('div');
-                card.className = 'amz-card';
-
-                const badgeHTML = item.badge ? `<div class="amz-badge ${item.badge === "Amazon's Choice" ? "choice" : ""}">${item.badge}</div>` : '';
-                const dealHTML = item.deal ? `<div class="amz-deal-tag">${item.deal}</div>` : '';
-                const whatsappMsg = `Hi DTS Boisar, I want to buy Prizor Model: ${item.model} - Price: ₹${item.price}`;
-
-                card.innerHTML = `
-                    ${badgeHTML}
-                    <div class="amz-img-wrapper">
-                        <img src="${item.img}" alt="${item.title}">
-                    </div>
-                    <div>
-                        <div class="amz-title">${item.title}</div>
-                        <div class="amz-stars">
-                            ⭐⭐⭐⭐★ <span class="amz-rating-count">(${item.reviews})</span>
-                        </div>
-                        ${dealHTML}
-                        <div class="amz-price-box">
-                            <span class="amz-price"><sup>₹</sup>${item.price}</span>
-                            <span class="amz-mrp">M.R.P.: ₹${item.mrp}</span>
-                        </div>
-                        <div class="amz-prime">✓prime <span>FREE Delivery by DTS</span></div>
-                        <div class="amz-delivery-text">Get it by <strong>Tomorrow, Boisar</strong></div>
-                    </div>
-                    <div>
-                        <a href="https://wa.me/918390909845?text=${encodeURIComponent(whatsappMsg)}" target="_blank" class="amz-btn-cart">Add to Cart (WhatsApp)</a>
-                        <a href="https://wa.me/918390909845?text=${encodeURIComponent(whatsappMsg)}" target="_blank" class="amz-btn-buy">Buy Now</a>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
-        }
-
-        function filterCategory(cat, element) {
-            document.querySelectorAll('.amz-sidebar-li, .amz-subnav-link').forEach(el => el.classList.remove('active'));
-
-            if (element) {
-                element.classList.add('active');
-            }
-
-            if (cat === 'all') {
-                renderProducts(productData);
-            } else {
-                const filtered = productData.filter(item => item.category === cat);
-                renderProducts(filtered);
-            }
+            thumbElement.classList.add('active-thumb');
         }
 
         document.getElementById('searchInput').addEventListener('input', function() {
-            const query = this.value.toLowerCase().trim();
-            const selectedCat = document.getElementById('searchCategory').value;
+            let filter = this.value.toLowerCase();
+            let cards = document.querySelectorAll('.product-card');
 
-            const filtered = productData.filter(item => {
-                const matchesCat = selectedCat === 'all' || item.category === selectedCat;
-                const matchesQuery = item.title.toLowerCase().includes(query) || item.model.toLowerCase().includes(query);
-                return matchesCat && matchesQuery;
+            cards.forEach(card => {
+                let title = card.querySelector('h4').innerText.toLowerCase();
+                let specs = card.querySelector('.specs').innerText.toLowerCase();
+                if (title.includes(filter) || specs.includes(filter)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
             });
-            renderProducts(filtered);
         });
 
-        document.getElementById('searchCategory').addEventListener('change', function() {
-            document.getElementById('searchInput').dispatchEvent(new Event('input'));
-        });
+        function filterCategory(category, element) {
+            document.querySelectorAll('aside ul li').forEach(li => li.classList.remove('active'));
+            if(element) {
+                element.classList.add('active');
+            }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            renderProducts(productData);
-            document.getElementById('count-all').innerText = productData.length;
-        });
+            let cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
     </script>
 </body>
 </html>
