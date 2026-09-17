@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Technology Solutions - Authorized Partner & Services</title>
+    <title>Dynamic Technology Solutions - Authorized Partner</title>
     <style>
         * {
             margin: 0;
@@ -186,9 +186,10 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.12);
         }
 
+        /* Amazon Style Image Gallery Styles */
         .product-img-container {
             width: 100%;
-            height: 180px;
+            height: 170px;
             background: #ffffff;
             border-radius: 6px;
             overflow: hidden;
@@ -205,6 +206,30 @@
             max-height: 100%;
             object-fit: contain;
             display: block;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+
+        .thumbnail-gallery img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 2px;
+            background: #fff;
+            transition: 0.2s;
+        }
+
+        .thumbnail-gallery img:hover, .thumbnail-gallery img.active-thumb {
+            border-color: #e77600;
+            box-shadow: 0 0 3px rgba(228, 118, 0, 0.5);
         }
 
         .badge {
@@ -345,7 +370,7 @@
     </header>
 
     <div class="container">
-        <!-- Sidebar with Products & Services -->
+        <!-- Sidebar -->
         <aside>
             <div class="sidebar-brand-box">
                 <div class="brand-logo-img" style="width:35px; height:35px; font-size:13px;">DTS</div>
@@ -372,11 +397,15 @@
 
             <div class="product-grid" id="productGrid">
                 
-                <!-- 1. Prizor Bullet Camera -->
+                <!-- 1. Prizor Bullet Camera (Multi-Image / Amazon Style) -->
                 <div class="product-card" data-category="bullet">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container">
-                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" alt="Prizor Bullet Camera">
+                        <img id="main-img-1" src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" alt="Prizor Bullet Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" class="active-thumb" onclick="changeImage('main-img-1', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('main-img-1', this)" alt="thumb">
                     </div>
                     <h4>Prizor 4MP Outdoor Bullet Security Camera</h4>
                     <div class="specs">4MP HD Resolution, Long Range Night Vision, Weatherproof Housing</div>
@@ -388,7 +417,11 @@
                 <div class="product-card" data-category="dome">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container">
-                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="Prizor Dome Camera">
+                        <img id="main-img-2" src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="Prizor Dome Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('main-img-2', this)" alt="thumb">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" onclick="changeImage('main-img-2', this)" alt="thumb">
                     </div>
                     <h4>Prizor Indoor Dome HD Security Camera</h4>
                     <div class="specs">High Definition Resolution, IR Night Vision, Compact Indoor Design</div>
@@ -400,7 +433,11 @@
                 <div class="product-card" data-category="dvr">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container">
-                        <img src="https://www.prizor.in/products/dvr.png" alt="Prizor DVR NVR">
+                        <img id="main-img-3" src="https://www.prizor.in/products/dvr.png" alt="Prizor DVR NVR">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/products/dvr.png" class="active-thumb" onclick="changeImage('main-img-3', this)" alt="thumb">
+                        <img src="https://www.prizor.in/products/dvr.png" onclick="changeImage('main-img-3', this)" alt="thumb">
                     </div>
                     <h4>Prizor Ultra HD DVR / NVR Recording System</h4>
                     <div class="specs">Multi-Channel Support, H.265+ Compression, HDMI/VGA Output</div>
@@ -412,7 +449,11 @@
                 <div class="product-card" data-category="cable">
                     <span class="badge badge-hoc">HOC AUTHORIZED</span>
                     <div class="product-img-container">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" alt="HOC Network Cable">
+                        <img id="main-img-4" src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" alt="HOC Network Cable">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" class="active-thumb" onclick="changeImage('main-img-4', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" onclick="changeImage('main-img-4', this)" alt="thumb">
                     </div>
                     <h4>HOC High Speed CAT6 LAN Cable</h4>
                     <div class="specs">100% Copper Conductor, Gigabit Ethernet Support, Durable Outer Layer</div>
@@ -424,7 +465,11 @@
                 <div class="product-card" data-category="cable">
                     <span class="badge badge-hoc">HOC AUTHORIZED</span>
                     <div class="product-img-container">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" alt="HOC Networking Product">
+                        <img id="main-img-5" src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" alt="HOC Networking Product">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" class="active-thumb" onclick="changeImage('main-img-5', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" onclick="changeImage('main-img-5', this)" alt="thumb">
                     </div>
                     <h4>HOC Industrial Networking & Wiring Cable</h4>
                     <div class="specs">High Performance Transmission, Interference Shielding, Weatherproof</div>
@@ -436,7 +481,11 @@
                 <div class="product-card" data-category="cable">
                     <span class="badge badge-hoc">HOC AUTHORIZED</span>
                     <div class="product-img-container">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" alt="HOC Wire Roll">
+                        <img id="main-img-6" src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" alt="HOC Wire Roll">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/09_result.webp" class="active-thumb" onclick="changeImage('main-img-6', this)" alt="thumb">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" onclick="changeImage('main-img-6', this)" alt="thumb">
                     </div>
                     <h4>HOC Premium Security & Surveillance Cable Roll</h4>
                     <div class="specs">CCTV Coaxial / Network Wire, Pure Copper, Long Distance Signal Transmission</div>
@@ -448,7 +497,11 @@
                 <div class="product-card" data-category="fire">
                     <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
                     <div class="product-img-container">
-                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" alt="Fire Alarm Control Panel">
+                        <img id="main-img-7" src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" alt="Fire Alarm Control Panel">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" class="active-thumb" onclick="changeImage('main-img-7', this)" alt="thumb">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" onclick="changeImage('main-img-7', this)" alt="thumb">
                     </div>
                     <h4>DTS Automatic Fire Alarm Control Panel</h4>
                     <div class="specs">Multi-Zone Alert System, Battery Backup Support, Real-time Alarm Trigger</div>
@@ -460,7 +513,11 @@
                 <div class="product-card" data-category="fire">
                     <span class="badge badge-dts">DYNAMIC TECHNOLOGY SOLUTIONS</span>
                     <div class="product-img-container">
-                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" alt="Fire Notification & Strobe Light">
+                        <img id="main-img-8" src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" alt="Fire Notification & Strobe Light">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-4_notificatn.png?la=en&h=675&w=1201&hash=3BEF606663096E1110E546590CE1A708" class="active-thumb" onclick="changeImage('main-img-8', this)" alt="thumb">
+                        <img src="https://firedetection.jci.com/-/media/project/jci-global/fire-detection/landing-pages/fd-landing-pages/simplex-evergreen/jc_fire-detct-general_lp-1_alarmcntrl.png?la=en&h=675&w=1201&hash=F39AE9E6D349C98177308F9A84993797" onclick="changeImage('main-img-8', this)" alt="thumb">
                     </div>
                     <h4>DTS Fire Alarm Hooter & Strobe Light System</h4>
                     <div class="specs">High Decibel Alarm Sound, Visual Strobe Light Warning, Industrial Grade</div>
@@ -472,7 +529,11 @@
                 <div class="product-card" data-category="cctv-service">
                     <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
                     <div class="product-img-container">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Installation">
+                        <img id="main-img-9" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Installation">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-9', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-9', this)" alt="thumb">
                     </div>
                     <h4>Professional CCTV Camera Installation & Setup</h4>
                     <div class="specs">Expert wiring, camera alignment, DVR configuration & mobile app setup.</div>
@@ -484,7 +545,11 @@
                 <div class="product-card" data-category="amc-service">
                     <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
                     <div class="product-img-container">
-                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="AMC Service">
+                        <img id="main-img-10" src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="AMC Service">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-10', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-10', this)" alt="thumb">
                     </div>
                     <h4>Annual Maintenance Contract (AMC) for Security</h4>
                     <div class="specs">Regular checkups, camera cleaning, system troubleshooting & priority support.</div>
@@ -496,7 +561,11 @@
                 <div class="product-card" data-category="fire-service">
                     <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
                     <div class="product-img-container">
-                        <img src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" alt="Fire Safety Maintenance">
+                        <img id="main-img-11" src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" alt="Fire Safety Maintenance">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-11', this)" alt="thumb">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-11', this)" alt="thumb">
                     </div>
                     <h4>Fire Alarm & Safety Systems Maintenance</h4>
                     <div class="specs">Routine testing of smoke detectors, control panels, sensors and hooters.</div>
@@ -540,6 +609,20 @@
     </footer>
 
     <script>
+        // Amazon Style Image Switcher Function
+        function changeImage(mainImgId, thumbElement) {
+            let mainImage = document.getElementById(mainImgId);
+            mainImage.src = thumbElement.src;
+
+            // Remove active class from sibling thumbnails
+            let gallery = thumbElement.parentElement;
+            let thumbs = gallery.querySelectorAll('img');
+            thumbs.forEach(img => img.classList.remove('active-thumb'));
+
+            // Add active class to clicked thumbnail
+            thumbElement.classList.add('active-thumb');
+        }
+
         // Live Search Filter
         document.getElementById('searchInput').addEventListener('input', function() {
             let filter = this.value.toLowerCase();
