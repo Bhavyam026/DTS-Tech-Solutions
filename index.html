@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Technology Solutions - Authorized Partner</title>
+    <title>Dynamic Technology Solutions - Authorized Partner & Services</title>
     <style>
         * {
             margin: 0;
@@ -114,7 +114,7 @@
         }
 
         aside {
-            width: 280px;
+            width: 290px;
             background: #fff;
             padding: 15px;
             border-radius: 8px;
@@ -142,6 +142,7 @@
             cursor: pointer;
             border-radius: 4px;
             margin-bottom: 4px;
+            transition: 0.2s;
         }
 
         aside ul li:hover, aside ul li.active {
@@ -333,7 +334,7 @@
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search CCTV, Cable, Fire Alarm, Electrical..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search Products & Services..." autocomplete="off">
             </div>
         </div>
 
@@ -344,18 +345,22 @@
     </header>
 
     <div class="container">
+        <!-- Sidebar with Products & Services -->
         <aside>
             <div class="sidebar-brand-box">
                 <div class="brand-logo-img" style="width:35px; height:35px; font-size:13px;">DTS</div>
                 <h3>Products & Services</h3>
             </div>
             <ul>
-                <li class="active" onclick="filterCategory('all', this)">📦 All Products</li>
+                <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
                 <li onclick="filterCategory('bullet', this)">🌐 Bullet Cameras (Prizor)</li>
                 <li onclick="filterCategory('dome', this)">📹 Dome Cameras (Prizor)</li>
                 <li onclick="filterCategory('dvr', this)">🖥️ DVR / NVR Systems (Prizor)</li>
                 <li onclick="filterCategory('cable', this)">🔌 Cables & Network (HOC)</li>
-                <li onclick="filterCategory('fire', this)">🚨 Fire Safety (DTS)</li>
+                <li onclick="filterCategory('fire', this)">🚨 Fire Safety Systems (DTS)</li>
+                <li onclick="filterCategory('cctv-service', this)">🛠️ CCTV Installation & Setup</li>
+                <li onclick="filterCategory('amc-service', this)">🔧 Annual Maintenance (AMC)</li>
+                <li onclick="filterCategory('fire-service', this)">🛡️ Fire Safety Maintenance</li>
             </ul>
         </aside>
 
@@ -463,6 +468,42 @@
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Alarm%20Hooter" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                 </div>
 
+                <!-- 9. CCTV Installation Service -->
+                <div class="product-card" data-category="cctv-service">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Installation">
+                    </div>
+                    <h4>Professional CCTV Camera Installation & Setup</h4>
+                    <div class="specs">Expert wiring, camera alignment, DVR configuration & mobile app setup.</div>
+                    <div class="price-contact">Contact for Service Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20book%20CCTV%20Installation%20Service" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
+                <!-- 10. AMC Service -->
+                <div class="product-card" data-category="amc-service">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="AMC Service">
+                    </div>
+                    <h4>Annual Maintenance Contract (AMC) for Security</h4>
+                    <div class="specs">Regular checkups, camera cleaning, system troubleshooting & priority support.</div>
+                    <div class="price-contact">Contact for AMC Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20know%20about%20AMC%20plans" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
+                <!-- 11. Fire Safety Maintenance Service -->
+                <div class="product-card" data-category="fire-service">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1542013936693-84d766cfde94?w=500&auto=format&fit=crop&q=60" alt="Fire Safety Maintenance">
+                    </div>
+                    <h4>Fire Alarm & Safety Systems Maintenance</h4>
+                    <div class="specs">Routine testing of smoke detectors, control panels, sensors and hooters.</div>
+                    <div class="price-contact">Contact for Service Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20Fire%20Safety%20Maintenance%20Service" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -474,16 +515,18 @@
         <div class="footer-content">
             <div class="footer-column">
                 <h3>About Dynamic Technology Solutions</h3>
-                <p>Authorized Partner for Prizor Surveillance Systems and HOC Networking & Cables. Providing best-in-class security and safety solutions.</p>
+                <p>Authorized Partner for Prizor Surveillance Systems and HOC Networking & Cables. Providing best-in-class security products and professional installation services.</p>
             </div>
             <div class="footer-column">
-                <h3>Quick Categories</h3>
+                <h3>Products & Services</h3>
                 <ul>
                     <li><a href="#" onclick="filterCategory('bullet', document.querySelectorAll('aside ul li')[1])">Bullet Cameras</a></li>
                     <li><a href="#" onclick="filterCategory('dome', document.querySelectorAll('aside ul li')[2])">Dome Cameras</a></li>
                     <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[3])">DVR & NVR Systems</a></li>
                     <li><a href="#" onclick="filterCategory('cable', document.querySelectorAll('aside ul li')[4])">Cables & Network</a></li>
                     <li><a href="#" onclick="filterCategory('fire', document.querySelectorAll('aside ul li')[5])">Fire Safety Systems</a></li>
+                    <li><a href="#" onclick="filterCategory('cctv-service', document.querySelectorAll('aside ul li')[6])">CCTV Installation</a></li>
+                    <li><a href="#" onclick="filterCategory('amc-service', document.querySelectorAll('aside ul li')[7])">Annual Maintenance (AMC)</a></li>
                 </ul>
             </div>
             <div class="footer-column">
