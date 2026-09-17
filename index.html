@@ -61,7 +61,6 @@
             font-weight: normal;
         }
 
-        /* Search Bar & Live Dropdown Style */
         .search-bar {
             display: flex;
             flex: 1;
@@ -93,7 +92,7 @@
             color: #717478;
         }
 
-        /* Live Dropdown Suggestions Box (Prizor Style) */
+        /* Prizor Style Live Dropdown Suggestions */
         .search-dropdown {
             position: absolute;
             top: 100%;
@@ -202,7 +201,7 @@
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
@@ -214,24 +213,27 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            border: 1px solid #d5d9d9;
+            transition: 0.3s;
         }
 
         .product-card:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border-color: #a2a6a6;
         }
 
+        /* Amazon Style Perfect Image Container Box */
         .product-img-container {
             width: 100%;
-            height: 190px;
+            height: 160px;
             background: #ffffff;
-            border-radius: 6px;
+            border-radius: 4px;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 8px;
-            border: 1px solid #e2e8f0;
-            padding: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
         }
 
         .product-img-container img {
@@ -241,7 +243,6 @@
             display: block;
         }
 
-        /* Amazon Style Thumbnails */
         .thumbnail-gallery {
             display: flex;
             gap: 6px;
@@ -250,10 +251,10 @@
         }
 
         .thumbnail-gallery img {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             object-fit: contain;
-            border: 1px solid #ccc;
+            border: 1px solid #a2a6a6;
             border-radius: 4px;
             cursor: pointer;
             padding: 2px;
@@ -263,7 +264,7 @@
 
         .thumbnail-gallery img:hover, .thumbnail-gallery img.active-thumb {
             border-color: #e77600;
-            box-shadow: 0 0 4px rgba(231, 118, 0, 0.5);
+            box-shadow: 0 0 3px rgba(228, 118, 0, 0.6);
         }
 
         .badge {
@@ -280,10 +281,10 @@
         .badge-dts { background: #fff3e0; color: #e65100; }
 
         .product-card h4 {
-            font-size: 14px;
+            font-size: 13px;
             color: #007185;
             margin-bottom: 6px;
-            height: 40px;
+            height: 38px;
             overflow: hidden;
             font-weight: 600;
             line-height: 1.3;
@@ -305,17 +306,22 @@
         }
 
         .btn-whatsapp {
-            background-color: #25d366;
-            color: #fff;
-            border: none;
+            background-color: #ffd814;
+            color: #0f1111;
+            border: 1px solid #fcd200;
             padding: 8px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             text-decoration: none;
             display: inline-block;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(213,217,217,.5);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #f7ca00;
         }
 
         footer {
@@ -385,11 +391,11 @@
             <h1>Dynamic Technology Solutions <span class="partner-subtitle">(Prizor & HOC Authorized Partner)</span></h1>
         </div>
         
-        <!-- Search Bar with Prizor Live Dropdown Suggestions -->
+        <!-- Search Bar with Live Dropdown -->
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search CCTV, Bullet, 85 inch TV, 55 inch TV, Cable..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search CCTV, Bullet, Dome, TV, DVR, NVR, Hard Disk, PoE Switch, Cable..." autocomplete="off">
                 <div id="searchDropdown" class="search-dropdown"></div>
             </div>
         </div>
@@ -411,7 +417,10 @@
                 <li onclick="filterCategory('bullet', this)">🌐 Bullet Cameras (Prizor CCTV)</li>
                 <li onclick="filterCategory('dome', this)">📹 Dome Cameras (Prizor CCTV)</li>
                 <li onclick="filterCategory('ptz', this)">🔍 PTZ Speed Dome (Prizor CCTV)</li>
-                <li onclick="filterCategory('dvr', this)">🖥️ DVR & NVR Recorders (Prizor)</li>
+                <li onclick="filterCategory('dvr', this)">🖥️ DVR Recorders (Prizor)</li>
+                <li onclick="filterCategory('nvr', this)">🖧 NVR Recorders (Prizor)</li>
+                <li onclick="filterCategory('hdd', this)">💾 Surveillance Hard Disk (HDD)</li>
+                <li onclick="filterCategory('poe', this)">⚡ PoE Switches & Networking</li>
                 <li onclick="filterCategory('tv', this)">📺 Smart TVs & Displays (Prizor)</li>
                 <li onclick="filterCategory('cable', this)">🔌 Cables & Network (HOC)</li>
                 <li onclick="filterCategory('cctv-service', this)">🛠️ CCTV Installation & Setup</li>
@@ -427,142 +436,141 @@
 
             <div class="product-grid" id="productGrid">
                 
-                <!-- 1. 85" Smart TV Model -->
+                <!-- 1. Prizor 5MP Bullet Camera -->
+                <div class="product-card" data-category="bullet" data-keywords="cctv camera bullet 5mp ip network prizor outdoor security night vision">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-bullet5" src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" alt="5MP Bullet Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" class="active-thumb" onclick="changeImage('main-img-bullet5', this)" alt="Thumb 1">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" onclick="changeImage('main-img-bullet5', this)" alt="Thumb 2">
+                    </div>
+                    <h4>Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)</h4>
+                    <div class="specs">5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing</div>
+                    <div class="price-contact">Contact for Best Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%205MP%20Bullet%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <!-- 2. Prizor 5MP Dome Camera -->
+                <div class="product-card" data-category="dome" data-keywords="cctv camera dome 5mp ip network prizor indoor security audio">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-dome5" src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="5MP Dome Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('main-img-dome5', this)" alt="Thumb 1">
+                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('main-img-dome5', this)" alt="Thumb 2">
+                    </div>
+                    <h4>Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)</h4>
+                    <div class="specs">5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design</div>
+                    <div class="price-contact">Contact for Best Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%205MP%20Dome%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <!-- 3. Prizor PTZ Speed Dome Camera -->
+                <div class="product-card" data-category="ptz" data-keywords="cctv camera ptz speed dome zoom prizor security 360 25x">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-ptz" src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="PTZ Camera">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('main-img-ptz', this)" alt="Thumb 1">
+                    </div>
+                    <h4>Prizor 360° Speed Dome PTZ CCTV Camera (25X Zoom)</h4>
+                    <div class="specs">360° Pan-Tilt-Zoom, 25X Optical Zoom, AI Motion Auto Tracking, Laser IR Vision</div>
+                    <div class="price-contact">Contact for Best Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20PTZ%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <!-- 4. Prizor DVR System -->
+                <div class="product-card" data-category="dvr" data-keywords="cctv dvr recorder digital video recorder system prizor 4ch 8ch 16ch">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-dvr" src="https://www.prizor.in/products/dvr.png" alt="DVR System">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/products/dvr.png" class="active-thumb" onclick="changeImage('main-img-dvr', this)" alt="Thumb 1">
+                    </div>
+                    <h4>Prizor 4/8/16 Channel Digital Video Recorder (DVR)</h4>
+                    <div class="specs">5-in-1 DVR Support, H.265+ Compression, HDMI/VGA 1080P Output, Mobile Remote Viewing</div>
+                    <div class="price-contact">Contact for Best Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20DVR" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <!-- 5. Prizor NVR System -->
+                <div class="product-card" data-category="nvr" data-keywords="cctv nvr network video recorder system prizor 4k poe">
+                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                    <div class="product-img-container">
+                        <img id="main-img-nvr" src="https://www.prizor.in/products/dvr.png" alt="NVR System">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://www.prizor.in/products/dvr.png" class="active-thumb" onclick="changeImage('main-img-nvr', this)" alt="Thumb 1">
+                    </div>
+                    <h4>Prizor 4K Ultra HD Network Video Recorder (NVR)</h4>
+                    <div class="specs">4K IP Camera Support, Built-in PoE Ports, AI Face Recognition Search, SATA HDD Support</div>
+                    <div class="price-contact">Contact for Best Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20NVR" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <!-- 6. Surveillance Hard Disk (HDD) -->
+                <div class="product-card" data-category="hdd" data-keywords="hard disk hdd surveillance storage 1tb 2tb 4tb 8tb cctv western digital seagate">
+                    <span class="badge badge-dts">CCTV STORAGE SPECIAL</span>
+                    <div class="product-img-container">
+                        <img id="main-img-hdd" src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60" alt="Surveillance Hard Disk">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-hdd', this)" alt="Thumb 1">
+                    </div>
+                    <h4>Surveillance Hard Disk (1TB / 2TB / 4TB / 8TB HDD)</h4>
+                    <div class="specs">Engineered for 24/7 CCTV Recording, High Reliability, Optimized for DVR & NVR Systems</div>
+                    <div class="price-contact">Contact for Best Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20CCTV%20Hard%20Disk" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <!-- 7. PoE Switch -->
+                <div class="product-card" data-category="poe" data-keywords="poe switch ethernet router network 4 port 8 port 16 port cctv">
+                    <span class="badge badge-dts">NETWORKING DEVICE</span>
+                    <div class="product-img-container">
+                        <img id="main-img-poe" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="PoE Switch">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-poe', this)" alt="Thumb 1">
+                    </div>
+                    <h4>Industrial PoE Switch (4-Port / 8-Port / 16-Port)</h4>
+                    <div class="specs">Fast Ethernet/Gigabit PoE+ Ports, 250m Long Distance Extension, Metal Casing</div>
+                    <div class="price-contact">Contact for Best Price Offer</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20PoE%20Switch" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                </div>
+
+                <!-- 8. 85" Smart TV -->
                 <div class="product-card" data-category="tv" data-keywords="85 inch 85" smart tv 4k qled google tv television display">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container">
                         <img id="main-img-tv85" src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="85 inch Smart TV">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv85', this)" alt="85 inch View 1">
-                        <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-tv85', this)" alt="85 inch View 2">
+                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv85', this)" alt="Thumb 1">
                     </div>
                     <h4>Prizor 85" 4K QLED Google TV (Smart TV & Display)</h4>
-                    <div class="specs">85 Inch Ultra HD, QLED Panel, Google TV OS, Dolby Vision & Atmos, Control Room Display</div>
+                    <div class="specs">85 Inch Ultra HD, QLED Panel, Google TV OS, Dolby Vision & Atmos, Surveillance Display</div>
                     <div class="price-contact">Contact for Best Price Offer</div>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%2085%20inch%20Smart%20TV" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                 </div>
 
-                <!-- 2. 75" Smart TV Model -->
-                <div class="product-card" data-category="tv" data-keywords="75 inch 75" smart tv 4k qled google tv television display">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
-                    <div class="product-img-container">
-                        <img id="main-img-tv75" src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" alt="75 inch Smart TV">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv75', this)" alt="75 inch View 1">
-                    </div>
-                    <h4>Prizor 75" 4K QLED Google TV (Smart TV & Display)</h4>
-                    <div class="specs">75 Inch Ultra HD, QLED Google TV, Hands-Free Voice Control, Bezel-Less Premium Design</div>
-                    <div class="price-contact">Contact for Best Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%2075%20inch%20Smart%20TV" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 3. 65" Smart TV Model -->
-                <div class="product-card" data-category="tv" data-keywords="65 inch 65" smart tv 4k qled google tv television display">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
-                    <div class="product-img-container">
-                        <img id="main-img-tv65" src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="65 inch Smart TV">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv65', this)" alt="65 inch View 1">
-                    </div>
-                    <h4>Prizor 65" 4K QLED Google TV (Smart TV & Display)</h4>
-                    <div class="specs">65 Inch 4K Resolution, Android & Google TV, HDR10+, Dual Band Wi-Fi Support</div>
-                    <div class="price-contact">Contact for Best Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%2065%20inch%20Smart%20TV" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 4. 55" Smart TV Model -->
+                <!-- 9. 55" Smart TV -->
                 <div class="product-card" data-category="tv" data-keywords="55 inch 55" smart tv 4k qled google tv television display">
                     <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                     <div class="product-img-container">
                         <img id="main-img-tv55" src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" alt="55 inch Smart TV">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv55', this)" alt="55 inch View 1">
+                        <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv55', this)" alt="Thumb 1">
                     </div>
                     <h4>Prizor 55" 4K QLED Google TV (Smart TV & Display)</h4>
                     <div class="specs">55 Inch 4K UHD, Quantum Dot Display, Built-in Chromecast, Smart Voice Assistant</div>
                     <div class="price-contact">Contact for Best Price Offer</div>
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%2055%20inch%20Smart%20TV" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 5. 50" Smart TV Model -->
-                <div class="product-card" data-category="tv" data-keywords="50 inch 50" smart tv 4k qled google tv television display">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
-                    <div class="product-img-container">
-                        <img id="main-img-tv50" src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="50 inch Smart TV">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv50', this)" alt="50 inch View 1">
-                    </div>
-                    <h4>Prizor 50" 4K QLED Google TV (Smart TV & Display)</h4>
-                    <div class="specs">50 Inch Ultra HD, Dolby Audio Speakers, Netflix & YouTube Pre-installed, Sleek Look</div>
-                    <div class="price-contact">Contact for Best Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%2050%20inch%20Smart%20TV" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 6. 43" Smart TV Model -->
-                <div class="product-card" data-category="tv" data-keywords="43 inch 43" smart tv 4k qled google tv television display">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
-                    <div class="product-img-container">
-                        <img id="main-img-tv43" src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" alt="43 inch Smart TV">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-tv43', this)" alt="43 inch View 1">
-                    </div>
-                    <h4>Prizor 43" 4K QLED Google TV (Smart TV & Display)</h4>
-                    <div class="specs">43 Inch 4K UHD, Google Assistant Remote, Multiple HDMI/USB Ports, Frameless Design</div>
-                    <div class="price-contact">Contact for Best Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%2043%20inch%20Smart%20TV" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 7. Prizor Bullet Camera -->
-                <div class="product-card" data-category="bullet" data-keywords="cctv camera bullet ip network prizor outdoor security 5mp">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
-                    <div class="product-img-container">
-                        <img id="main-img-bullet" src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" alt="Prizor 5MP Bullet Camera">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" class="active-thumb" onclick="changeImage('main-img-bullet', this)" alt="Bullet View 1">
-                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" onclick="changeImage('main-img-bullet', this)" alt="Dome View">
-                    </div>
-                    <h4>Prizor 5MP IP Metal Bullet CCTV Camera</h4>
-                    <div class="specs">5MP Ultra HD, Sony Starvis Sensor, 40m IR Night Vision, IP67 Weatherproof Metal Housing</div>
-                    <div class="price-contact">Contact for Best Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Bullet%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 8. Prizor Dome Camera -->
-                <div class="product-card" data-category="dome" data-keywords="cctv camera dome ip network prizor indoor security 5mp">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
-                    <div class="product-img-container">
-                        <img id="main-img-dome" src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" alt="Prizor 5MP Dome Camera">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('main-img-dome', this)" alt="Dome View 1">
-                        <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('main-img-dome', this)" alt="Bullet View">
-                    </div>
-                    <h4>Prizor 5MP IP Metal Dome CCTV Camera</h4>
-                    <div class="specs">5MP High Resolution, Built-in Audio Microphone, ColorView Night Vision, Vandal-Proof</div>
-                    <div class="price-contact">Contact for Best Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Dome%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
-                </div>
-
-                <!-- 9. Prizor DVR / NVR System -->
-                <div class="product-card" data-category="dvr" data-keywords="cctv dvr nvr recorder recording system prizor 4k">
-                    <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
-                    <div class="product-img-container">
-                        <img id="main-img-dvr" src="https://www.prizor.in/products/dvr.png" alt="Prizor DVR NVR System">
-                    </div>
-                    <div class="thumbnail-gallery">
-                        <img src="https://www.prizor.in/products/dvr.png" class="active-thumb" onclick="changeImage('main-img-dvr', this)" alt="DVR View">
-                    </div>
-                    <h4>Prizor 4K Ultra HD DVR & NVR Recording System</h4>
-                    <div class="specs">4/8/16/32 Channel Support, H.265+ Compression, HDMI/VGA Output, Mobile App View</div>
-                    <div class="price-contact">Contact for Best Price Offer</div>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20DVR%20System" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                 </div>
 
                 <!-- 10. HOC Cable -->
@@ -572,8 +580,8 @@
                         <img id="main-img-cable" src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" alt="HOC Network Cable">
                     </div>
                     <div class="thumbnail-gallery">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" class="active-thumb" onclick="changeImage('main-img-cable', this)" alt="HOC Roll">
-                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" onclick="changeImage('main-img-cable', this)" alt="HOC Wire">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" class="active-thumb" onclick="changeImage('main-img-cable', this)" alt="Thumb 1">
+                        <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp" onclick="changeImage('main-img-cable', this)" alt="Thumb 2">
                     </div>
                     <h4>HOC High Speed CAT6 LAN & CCTV Cable Roll</h4>
                     <div class="specs">100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Outer Insulation</div>
@@ -600,8 +608,11 @@
                     <li><a href="#" onclick="filterCategory('bullet', document.querySelectorAll('aside ul li')[1])">Bullet Cameras</a></li>
                     <li><a href="#" onclick="filterCategory('dome', document.querySelectorAll('aside ul li')[2])">Dome Cameras</a></li>
                     <li><a href="#" onclick="filterCategory('ptz', document.querySelectorAll('aside ul li')[3])">PTZ Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[4])">DVR & NVR Systems</a></li>
-                    <li><a href="#" onclick="filterCategory('tv', document.querySelectorAll('aside ul li')[5])">Smart TVs & Displays</a></li>
+                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[4])">DVR Recorders</a></li>
+                    <li><a href="#" onclick="filterCategory('nvr', document.querySelectorAll('aside ul li')[5])">NVR Recorders</a></li>
+                    <li><a href="#" onclick="filterCategory('hdd', document.querySelectorAll('aside ul li')[6])">Hard Disk (HDD)</a></li>
+                    <li><a href="#" onclick="filterCategory('poe', document.querySelectorAll('aside ul li')[7])">PoE Switches</a></li>
+                    <li><a href="#" onclick="filterCategory('tv', document.querySelectorAll('aside ul li')[8])">Smart TVs & Displays</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -630,7 +641,7 @@
         const searchInput = document.getElementById('searchInput');
         const searchDropdown = document.getElementById('searchDropdown');
 
-        // Live Search Input with Prizor-style Dropdown Suggestions
+        // Prizor Style Live Search Suggestions Dropdown
         searchInput.addEventListener('input', function() {
             let filter = this.value.toLowerCase().trim();
             let cards = document.querySelectorAll('.product-card');
@@ -657,15 +668,13 @@
                 }
             });
 
-            // Populate Prizor style dropdown suggestions
             if (matches.length > 0) {
                 searchDropdown.style.display = 'block';
-                // Show unique suggestions
                 let uniqueMatches = [...new Set(matches)].slice(0, 6);
                 uniqueMatches.forEach(matchText => {
                     let div = document.createElement('div');
                     div.className = 'search-dropdown-item';
-                    div.innerHTML = `<span>📺 ${matchText}</span>`;
+                    div.innerHTML = `<span>🔍 ${matchText}</span>`;
                     div.onclick = function() {
                         searchInput.value = matchText;
                         searchDropdown.style.display = 'none';
@@ -692,7 +701,6 @@
             });
         }
 
-        // Hide dropdown on clicking outside
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.search-bar')) {
                 searchDropdown.style.display = 'none';
