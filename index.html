@@ -92,7 +92,6 @@
             color: #717478;
         }
 
-        /* Amazon Style Live Dropdown Suggestions */
         .search-dropdown {
             position: absolute;
             top: 100%;
@@ -222,7 +221,6 @@
             border-color: #a2a6a6;
         }
 
-        /* Amazon Style Perfect Image Container Box */
         .product-img-container {
             width: 100%;
             height: 170px;
@@ -244,7 +242,6 @@
             display: block;
         }
 
-        /* Amazon Style Multi-Image Thumbnails Gallery */
         .thumbnail-gallery {
             display: flex;
             gap: 6px;
@@ -393,11 +390,10 @@
             <h1>Dynamic Technology Solutions <span class="partner-subtitle">(Prizor & HOC Authorized Partner)</span></h1>
         </div>
         
-        <!-- Search Bar with Live Dropdown -->
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search CCTV, Bullet, Dome, TV, DVR, NVR, Hard Disk, PoE Switch, Cable..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search CCTV, Bullet, Dome, TV, DVR, NVR, Hard Disk, PoE, AMC, Installation..." autocomplete="off">
                 <div id="searchDropdown" class="search-dropdown"></div>
             </div>
         </div>
@@ -447,7 +443,6 @@
                     <div class="thumbnail-gallery">
                         <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" class="active-thumb" onclick="changeImage('main-img-bullet', this)" alt="Angle 1">
                         <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" onclick="changeImage('main-img-bullet', this)" alt="Angle 2">
-                        <img src="https://www.prizor.in/products/dvr.png" onclick="changeImage('main-img-bullet', this)" alt="Angle 3">
                     </div>
                     <h4>Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)</h4>
                     <div class="specs">5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing</div>
@@ -464,7 +459,6 @@
                     <div class="thumbnail-gallery">
                         <img src="https://www.prizor.in/Dome-camera/PXT-50/PXT-50MIR30DA40.png" class="active-thumb" onclick="changeImage('main-img-dome', this)" alt="Angle 1">
                         <img src="https://www.prizor.in/Bullet-camera/PR-RT-MB24DCA-40.png" onclick="changeImage('main-img-dome', this)" alt="Angle 2">
-                        <img src="https://www.prizor.in/products/dvr.png" onclick="changeImage('main-img-dome', this)" alt="Angle 3">
                     </div>
                     <h4>Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)</h4>
                     <div class="specs">5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design</div>
@@ -584,6 +578,38 @@
                     <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                 </div>
 
+                <!-- 10. CCTV Installation Service -->
+                <div class="product-card" data-category="cctv-service" data-keywords="cctv service installation setup wiring camera fitting dts">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img id="main-img-install" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Installation">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-install', this)" alt="Wiring View">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-install', this)" alt="Setup View">
+                    </div>
+                    <h4>Professional CCTV Camera Installation & Setup</h4>
+                    <div class="specs">Expert wiring, camera positioning, DVR/NVR online configuration & mobile view setup.</div>
+                    <div class="price-contact">Contact for Service Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20book%20CCTV%20Installation%20Service" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
+                <!-- 11. Annual Maintenance (AMC) Service -->
+                <div class="product-card" data-category="amc-service" data-keywords="amc service maintenance repair camera cctv dts">
+                    <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
+                    <div class="product-img-container">
+                        <img id="main-img-amc" src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" alt="AMC Service">
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=500&auto=format&fit=crop&q=60" class="active-thumb" onclick="changeImage('main-img-amc', this)" alt="Maintenance View">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" onclick="changeImage('main-img-amc', this)" alt="Support View">
+                    </div>
+                    <h4>Annual Maintenance Contract (AMC) for Security</h4>
+                    <div class="specs">Regular checkups, camera cleaning, system troubleshooting & priority support.</div>
+                    <div class="price-contact">Contact for AMC Quote</div>
+                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20know%20about%20AMC%20plans" target="_blank" class="btn-whatsapp">Book on WhatsApp</a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -608,6 +634,8 @@
                     <li><a href="#" onclick="filterCategory('hdd', document.querySelectorAll('aside ul li')[6])">Hard Disk (HDD)</a></li>
                     <li><a href="#" onclick="filterCategory('poe', document.querySelectorAll('aside ul li')[7])">PoE Switches</a></li>
                     <li><a href="#" onclick="filterCategory('tv', document.querySelectorAll('aside ul li')[8])">Smart TVs & Displays</a></li>
+                    <li><a href="#" onclick="filterCategory('cctv-service', document.querySelectorAll('aside ul li')[10])">CCTV Installation</a></li>
+                    <li><a href="#" onclick="filterCategory('amc-service', document.querySelectorAll('aside ul li')[11])">AMC Service</a></li>
                 </ul>
             </div>
             <div class="footer-column">
