@@ -27,6 +27,9 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             flex-wrap: wrap;
             gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
         }
 
         .logo-area {
@@ -153,6 +156,8 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             height: fit-content;
+            position: sticky;
+            top: 80px;
         }
 
         .sidebar-brand-box {
@@ -186,6 +191,7 @@
 
         .main-content {
             flex: 1;
+            min-width: 0;
         }
 
         .catalog-header {
@@ -197,6 +203,7 @@
             background: #fff;
             padding: 12px 20px;
             border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .product-grid {
@@ -216,17 +223,18 @@
             justify-content: space-between;
             border: 1px solid #d5d9d9;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.25s ease;
         }
 
         .product-card:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            border-color: #a2a6a6;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            border-color: #007185;
+            transform: translateY(-2px);
         }
 
         .product-img-container {
             width: 100%;
-            height: 170px;
+            height: 180px;
             background: #ffffff;
             border-radius: 4px;
             overflow: hidden;
@@ -243,6 +251,11 @@
             max-height: 100%;
             object-fit: contain;
             display: block;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-img-container img {
+            transform: scale(1.05);
         }
 
         .badge {
@@ -252,6 +265,7 @@
             align-self: flex-start;
             margin-bottom: 8px;
             font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
         .badge-prizor { background: #e3f2fd; color: #0d47a1; }
@@ -266,6 +280,11 @@
             overflow: hidden;
             font-weight: 600;
             line-height: 1.3;
+        }
+
+        .product-card h4:hover {
+            color: #c45500;
+            text-decoration: underline;
         }
 
         .specs {
@@ -287,7 +306,7 @@
             background-color: #ffd814;
             color: #0f1111;
             border: 1px solid #fcd200;
-            padding: 8px;
+            padding: 9px 12px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
@@ -296,13 +315,14 @@
             display: block;
             text-align: center;
             box-shadow: 0 2px 5px rgba(213,217,217,.5);
+            transition: background-color 0.2s;
         }
 
         .btn-whatsapp:hover {
             background-color: #f7ca00;
         }
 
-        /* AMAZON STYLE PRODUCT DETAIL VIEW PAGE (Hidden by default) */
+        /* AMAZON STYLE PRODUCT DETAIL VIEW PAGE */
         #productDetailPage {
             display: none;
             background: #fff;
@@ -498,6 +518,12 @@
         .footer-column ul li a {
             color: #ddd;
             text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer-column ul li a:hover {
+            text-decoration: underline;
+            color: #febd69;
         }
 
         .footer-bottom {
@@ -521,7 +547,7 @@
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search CCTV, Bullet, Dome, TV, DVR, NVR, Hard Disk, PoE, AMC..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search CCTV Bullet, Dome, DVR, NVR, Hard Disk, PoE, AMC..." autocomplete="off">
                 <div id="searchDropdown" class="search-dropdown"></div>
             </div>
         </div>
@@ -662,10 +688,10 @@
                     </div>
 
                     <!-- 9. HOC Cable -->
-                    <div class="product-card" data-category="cable" data-keywords="hoc cable cat6 lan network wire coaxial cctv" onclick="openProductDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', '100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Outer Insulation, High Bandwidth Performance.', 'Contact for Best Price Offer', 'https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp', ['https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp', 'https://hoc-technologies.com/wp-content/uploads/2025/03/07_result.webp'])">
+                    <div class="product-card" data-category="cable" data-keywords="hoc cable cat6 lan network wire coaxial cctv" onclick="openProductDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', '100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Outer Insulation, High Bandwidth Performance.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'])">
                         <span class="badge badge-hoc">HOC AUTHORIZED</span>
                         <div class="product-img-container">
-                            <img src="https://hoc-technologies.com/wp-content/uploads/2025/03/01_result.webp" alt="HOC Network Cable">
+                            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=60" alt="HOC Network Cable">
                         </div>
                         <h4>HOC High Speed CAT6 LAN & CCTV Cable Roll</h4>
                         <div class="specs">100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Outer Insulation</div>
@@ -724,7 +750,7 @@
                     <!-- Right: Buy Box -->
                     <div class="detail-buy-box">
                         <div class="price-tag" id="buyBoxPrice">Contact for Best Price</div>
-                        <div class="stock-status">In Stock</div>
+                        <div class="stock-status">✔ In Stock (Authorized Partner)</div>
                         <a id="buyBoxWhatsApp" href="#" target="_blank" class="btn-whatsapp" style="margin-bottom: 10px;">Get Best Quote on WhatsApp</a>
                     </div>
                 </div>
@@ -735,7 +761,7 @@
 
     <footer>
         <div class="footer-top">
-            <a href="#">Back to top ↑</a>
+            <a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">Back to top ↑</a>
         </div>
         <div class="footer-content">
             <div class="footer-column">
@@ -745,16 +771,16 @@
             <div class="footer-column">
                 <h3>Products & Services</h3>
                 <ul>
-                    <li><a href="#" onclick="filterCategory('bullet', document.querySelectorAll('aside ul li')[1])">Bullet Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('dome', document.querySelectorAll('aside ul li')[2])">Dome Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('ptz', document.querySelectorAll('aside ul li')[3])">PTZ Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[4])">DVR Recorders</a></li>
-                    <li><a href="#" onclick="filterCategory('nvr', document.querySelectorAll('aside ul li')[5])">NVR Recorders</a></li>
-                    <li><a href="#" onclick="filterCategory('hdd', document.querySelectorAll('aside ul li')[6])">Hard Disk (HDD)</a></li>
-                    <li><a href="#" onclick="filterCategory('poe', document.querySelectorAll('aside ul li')[7])">PoE Switches</a></li>
-                    <li><a href="#" onclick="filterCategory('tv', document.querySelectorAll('aside ul li')[8])">Smart TVs & Displays</a></li>
-                    <li><a href="#" onclick="filterCategory('cctv-service', document.querySelectorAll('aside ul li')[10])">CCTV Installation</a></li>
-                    <li><a href="#" onclick="filterCategory('amc-service', document.querySelectorAll('aside ul li')[11])">AMC Service</a></li>
+                    <li><a onclick="filterCategory('bullet', document.querySelectorAll('aside ul li')[1])">Bullet Cameras</a></li>
+                    <li><a onclick="filterCategory('dome', document.querySelectorAll('aside ul li')[2])">Dome Cameras</a></li>
+                    <li><a onclick="filterCategory('ptz', document.querySelectorAll('aside ul li')[3])">PTZ Cameras</a></li>
+                    <li><a onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[4])">DVR Recorders</a></li>
+                    <li><a onclick="filterCategory('nvr', document.querySelectorAll('aside ul li')[5])">NVR Recorders</a></li>
+                    <li><a onclick="filterCategory('hdd', document.querySelectorAll('aside ul li')[6])">Hard Disk (HDD)</a></li>
+                    <li><a onclick="filterCategory('poe', document.querySelectorAll('aside ul li')[7])">PoE Switches</a></li>
+                    <li><a onclick="filterCategory('tv', document.querySelectorAll('aside ul li')[8])">Smart TVs & Displays</a></li>
+                    <li><a onclick="filterCategory('cctv-service', document.querySelectorAll('aside ul li')[10])">CCTV Installation</a></li>
+                    <li><a onclick="filterCategory('amc-service', document.querySelectorAll('aside ul li')[11])">AMC Service</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -794,7 +820,7 @@
             let thumbsHtml = '';
             imagesArray.forEach((imgSrc, index) => {
                 let activeClass = (index === 0) ? 'active-detail-thumb' : '';
-                thumbsHtml += `<img src="${imgSrc}" class="${activeClass}" onclick="changeDetailImage('${imgSrc}', this)" alt="Thumb">`;
+                thumbsHtml += `<img src="${imgSrc}" class="${activeClass}" onclick="changeDetailImage('${imgSrc}', this)" alt="Thumb" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60'">`;
             });
             document.getElementById('detailThumbnailsContainer').innerHTML = thumbsHtml;
 
