@@ -225,7 +225,7 @@
 
         .product-img-container {
             width: 100%;
-            height: 170px;
+            height: 180px;
             background: #ffffff;
             border-radius: 4px;
             overflow: hidden;
@@ -234,7 +234,6 @@
             align-items: center;
             margin-bottom: 10px;
             padding: 10px;
-            border: 1px solid #f0f0f0;
         }
 
         .product-img-container img {
@@ -302,6 +301,45 @@
             background-color: #f7ca00;
         }
 
+        /* No Results Custom Box */
+        .no-results-box {
+            display: none;
+            background: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #d5d9d9;
+            margin-top: 20px;
+        }
+
+        .no-results-box h3 {
+            font-size: 18px;
+            color: #0f1111;
+            margin-bottom: 10px;
+        }
+
+        .no-results-box p {
+            font-size: 14px;
+            color: #565959;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom-chat {
+            display: inline-block;
+            background-color: #25d366;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-custom-chat:hover {
+            background-color: #1ebe5d;
+        }
+
         #productDetailPage {
             display: none;
             background: #fff;
@@ -355,7 +393,7 @@
             margin-bottom: 15px;
         }
 
-        .detail-main-img-box img, .detail-main-img-box video {
+        .detail-main-img-box img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
@@ -368,7 +406,7 @@
             flex-wrap: wrap;
         }
 
-        .detail-thumbnails img, .detail-thumbnails video {
+        .detail-thumbnails img {
             width: 60px;
             height: 60px;
             object-fit: cover;
@@ -377,13 +415,6 @@
             cursor: pointer;
             padding: 2px;
             background: #fff;
-            transition: 0.2s;
-        }
-
-        .detail-thumbnails img:hover, .detail-thumbnails img.active-detail-thumb,
-        .detail-thumbnails video:hover, .detail-thumbnails video.active-detail-thumb {
-            border-color: #e77600;
-            box-shadow: 0 0 5px rgba(228, 118, 0, 0.6);
         }
 
         .detail-info-section h2 {
@@ -521,7 +552,7 @@
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search TV, Prizor Camera, CCTV Installation..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search TV, Prizor Camera, Fire Safety, CCTV..." autocomplete="off">
                 <div id="searchDropdown" class="search-dropdown"></div>
             </div>
         </div>
@@ -699,10 +730,10 @@
                     </div>
 
                     <!-- 12. Fire Alarm System -->
-                    <div class="product-card" data-category="fire-alarm" data-keywords="fire alarm system control panel smoke detector sensor safety" onclick="openProductDetail('Advanced Addressable Fire Alarm Control Panel & Sensors', 'Microprocessor-based multi-loop fire alarm system, smoke detectors, heat sensors, manual call points, and hooter integration.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80&w=600', ['https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80&w=600'])">
+                    <div class="product-card" data-category="fire-alarm" data-keywords="fire alarm system control panel smoke detector sensor safety" onclick="openProductDetail('Advanced Addressable Fire Alarm Control Panel & Sensors', 'Microprocessor-based multi-loop fire alarm system, smoke detectors, heat sensors, manual call points, and hooter integration.', 'Contact for Best Price Offer', 'https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg', ['https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg'])">
                         <span class="badge badge-fire">FIRE SAFETY SYSTEM</span>
                         <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80&w=600" alt="Fire Alarm System">
+                            <img src="https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg" alt="Fire Alarm System">
                         </div>
                         <h4>Advanced Addressable Fire Alarm Control Panel & Sensors</h4>
                         <div class="specs">Microprocessor-based multi-loop system, smoke/heat detectors, manual call points & hooters.</div>
@@ -711,10 +742,10 @@
                     </div>
 
                     <!-- 13. Fire Extinguisher -->
-                    <div class="product-card" data-category="fire-ext" data-keywords="fire extinguisher safety equipment abc powder co2 water" onclick="openProductDetail('ABC Type & CO2 Fire Extinguisher (Safety Cylinder)', 'ISI marked high-pressure fire extinguishers for Class A, B, C and electrical fires. Easy operation with wall mounting bracket.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&q=80&w=600', ['https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&q=80&w=600'])">
+                    <div class="product-card" data-category="fire-ext" data-keywords="fire extinguisher safety equipment abc powder co2 water" onclick="openProductDetail('ABC Type & CO2 Fire Extinguisher (Safety Cylinder)', 'ISI marked high-pressure fire extinguishers for Class A, B, C and electrical fires. Easy operation with wall mounting bracket.', 'Contact for Best Price Offer', 'https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg', ['https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg'])">
                         <span class="badge badge-fire">FIRE SAFETY EQUIPMENT</span>
                         <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&q=80&w=600" alt="Fire Extinguisher">
+                            <img src="https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg" alt="Fire Extinguisher">
                         </div>
                         <h4>ABC Type & CO2 Fire Extinguisher (Safety Cylinder)</h4>
                         <div class="specs">ISI marked high-pressure extinguishers for Class A, B, C & electrical fires with wall bracket.</div>
@@ -723,10 +754,10 @@
                     </div>
 
                     <!-- 14. Surveillance Hard Disk -->
-                    <div class="product-card" data-category="hdd" data-keywords="hard disk hdd surveillance storage 1tb 2tb 4tb 8tb cctv western digital seagate" onclick="openProductDetail('Surveillance Hard Disk (1TB / 2TB / 4TB / 8TB HDD)', 'Engineered specifically for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR Surveillance Systems.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&q=80&w=600', ['https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&q=80&w=600'])">
+                    <div class="product-card" data-category="hdd" data-keywords="hard disk hdd surveillance storage 1tb 2tb 4tb 8tb cctv western digital seagate" onclick="openProductDetail('Surveillance Hard Disk (1TB / 2TB / 4TB / 8TB HDD)', 'Engineered specifically for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR Surveillance Systems.', 'Contact for Best Price Offer', 'https://www.prizor.in/wp-content/uploads/2023/05/dvr-nvr.jpg', ['https://www.prizor.in/wp-content/uploads/2023/05/dvr-nvr.jpg'])">
                         <span class="badge badge-dts">CCTV STORAGE SPECIAL</span>
                         <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&q=80&w=600" alt="Surveillance Hard Disk">
+                            <img src="https://www.prizor.in/wp-content/uploads/2023/05/dvr-nvr.jpg" alt="Surveillance Hard Disk">
                         </div>
                         <h4>Surveillance Hard Disk (1TB / 2TB / 4TB / 8TB HDD)</h4>
                         <div class="specs">Engineered for 24/7 CCTV Recording, High Reliability, Optimized for DVR & NVR Systems</div>
@@ -735,10 +766,10 @@
                     </div>
 
                     <!-- 15. PoE Switch -->
-                    <div class="product-card" data-category="poe" data-keywords="poe switch ethernet router network 4 port 8 port 16 port cctv" onclick="openProductDetail('Industrial PoE Switch (4-Port / 8-Port / 16-Port)', 'Fast Ethernet/Gigabit PoE+ Ports, 250m Long Distance Extension Mode, Sturdy Metal Casing, Plug and Play Operation.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=600', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=600'])">
+                    <div class="product-card" data-category="poe" data-keywords="poe switch ethernet router network 4 port 8 port 16 port cctv" onclick="openProductDetail('Industrial PoE Switch (4-Port / 8-Port / 16-Port)', 'Fast Ethernet/Gigabit PoE+ Ports, 250m Long Distance Extension Mode, Sturdy Metal Casing, Plug and Play Operation.', 'Contact for Best Price Offer', 'https://www.prizor.in/wp-content/uploads/2023/05/dvr-nvr.jpg', ['https://www.prizor.in/wp-content/uploads/2023/05/dvr-nvr.jpg'])">
                         <span class="badge badge-dts">NETWORKING DEVICE</span>
                         <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=600" alt="PoE Switch">
+                            <img src="https://www.prizor.in/wp-content/uploads/2023/05/dvr-nvr.jpg" alt="PoE Switch">
                         </div>
                         <h4>Industrial PoE Switch (4-Port / 8-Port / 16-Port)</h4>
                         <div class="specs">Fast Ethernet/Gigabit PoE+ Ports, 250m Long Distance Extension, Metal Casing</div>
@@ -759,10 +790,10 @@
                     </div>
 
                     <!-- 17. CCTV Installation -->
-                    <div class="product-card" data-category="cctv-service" data-keywords="cctv service installation setup wiring camera fitting dts" onclick="openProductDetail('Professional CCTV Camera Installation & Setup', 'Expert concealed wiring, camera precise positioning, DVR/NVR online configuration & mobile view setup by certified technicians.', 'Contact for Service Quote', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsvpcH8o1Dd1RPYF3J58qhXetDGR_L9O243VVMxnwAjQ&s=10', ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsvpcH8o1Dd1RPYF3J58qhXetDGR_L9O243VVMxnwAjQ&s=10', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6tQG2PHVxkuWyn4Idq1IoSLwfIhSqLWp3kYrFe_Mo1A&s=10', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBzKq4biIMFeOeLFcaPorRvcXThDr_OgG3QLyvo2koBQ&s=10'])">
+                    <div class="product-card" data-category="cctv-service" data-keywords="cctv service installation setup wiring camera fitting dts" onclick="openProductDetail('Professional CCTV Camera Installation & Setup', 'Expert concealed wiring, camera precise positioning, DVR/NVR online configuration & mobile view setup by certified technicians.', 'Contact for Service Quote', 'https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg', ['https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg'])">
                         <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
                         <div class="product-img-container">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsvpcH8o1Dd1RPYF3J58qhXetDGR_L9O243VVMxnwAjQ&s=10" alt="CCTV Installation">
+                            <img src="https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg" alt="CCTV Installation">
                         </div>
                         <h4>Professional CCTV Camera Installation & Setup</h4>
                         <div class="specs">Concealed wiring, camera positioning, DVR/NVR online configuration & mobile view setup.</div>
@@ -771,18 +802,26 @@
                     </div>
 
                     <!-- 18. AMC Service -->
-                    <div class="product-card" data-category="amc-service" data-keywords="amc service maintenance repair camera cctv dts" onclick="openProductDetail('Annual Maintenance Contract (AMC) for Security', 'Regular routine checkups, camera cleaning, system troubleshooting, firmware updates & priority emergency support.', 'Contact for AMC Quote', 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600', ['https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600'])">
+                    <div class="product-card" data-category="amc-service" data-keywords="amc service maintenance repair camera cctv dts" onclick="openProductDetail('Annual Maintenance Contract (AMC) for Security', 'Regular routine checkups, camera cleaning, system troubleshooting, firmware updates & priority emergency support.', 'Contact for AMC Quote', 'https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg', ['https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg'])">
                         <span class="badge badge-dts">DTS PROFESSIONAL SERVICE</span>
                         <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600" alt="AMC Service">
+                            <img src="https://www.prizor.in/wp-content/uploads/2023/05/bullet-camera.jpg" alt="AMC Service">
                         </div>
-                        <h4>Annual Maintenance Contract (AMC) for Security</h4>
+                        <h4>Annual MaintenanceContract (AMC) for Security</h4>
                         <div class="specs">Regular checkups, camera cleaning, system troubleshooting & priority support.</div>
                         <div class="price-contact">Contact for AMC Quote</div>
                         <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20to%20know%20about%20AMC%20plans" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
                     </div>
 
                 </div>
+
+                <!-- No Results & Custom Chat Box -->
+                <div id="noResultsBox" class="no-results-box">
+                    <h3>Apni zaroorat ka product nahi mila?</h3>
+                    <p>Aap humari di gayi categories (CCTV, Fire Safety, Smart TV, Cables, AMC) ke mutabiq direkt humse baat karke apna product order ya arrange karwa sakte hain.</p>
+                    <a id="whatsappCustomBtn" href="https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20apni%20requirement%20ke%20mutabiq%20product%20chahiye." target="_blank" class="btn-custom-chat">💬 Chat on WhatsApp & Buy</a>
+                </div>
+
             </div>
 
             <!-- DETAIL PAGE -->
@@ -854,7 +893,7 @@
             document.getElementById('detailPrice').innerText = price;
             document.getElementById('buyBoxPrice').innerText = price;
             
-            updateMainDisplay(mainImg);
+            document.getElementById('detailMainContainer').innerHTML = `<img id="detailMainImg" src="${mainImg}" alt="Product Main Image">`;
 
             let specsListHtml = '';
             let specsArray = specs.split(', ');
@@ -867,43 +906,24 @@
             document.getElementById('buyBoxWhatsApp').href = waUrl;
 
             let thumbsHtml = '';
-            imagesArray.forEach((src, index) => {
-                let activeClass = (index === 0) ? 'active-detail-thumb' : '';
-                if(src.endsWith('.mp4') || src.includes('video')) {
-                    thumbsHtml += `<video src="${src}" class="${activeClass}" onclick="changeDetailMedia('${src}', this, 'video')"></video>`;
-                } else {
-                    thumbsHtml += `<img src="${src}" class="${activeClass}" onclick="changeDetailMedia('${src}', this, 'image')" alt="Thumb">`;
-                }
+            imagesArray.forEach((src) => {
+                thumbsHtml += `<img src="${src}" onclick="document.getElementById('detailMainImg').src='${src}'" alt="Thumb">`;
             });
             document.getElementById('detailThumbnailsContainer').innerHTML = thumbsHtml;
 
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        function updateMainDisplay(src, type='image') {
-            let container = document.getElementById('detailMainContainer');
-            if(type === 'video' || src.endsWith('.mp4')) {
-                container.innerHTML = `<video id="detailMainImg" src="${src}" controls autoplay style="max-width:100%; max-height:100%;"></video>`;
-            } else {
-                container.innerHTML = `<img id="detailMainImg" src="${src}" alt="Product Main Image">`;
-            }
-        }
-
         function showCatalogView() {
             document.getElementById('productDetailPage').style.display = 'none';
             document.getElementById('catalogView').style.display = 'block';
+            document.getElementById('noResultsBox').style.display = 'none';
             window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function changeDetailMedia(src, thumbEl, type) {
-            updateMainDisplay(src, type);
-            let thumbs = thumbEl.parentElement.querySelectorAll('img, video');
-            thumbs.forEach(el => el.classList.remove('active-detail-thumb'));
-            thumbEl.classList.add('active-detail-thumb');
         }
 
         const searchInput = document.getElementById('searchInput');
         const searchDropdown = document.getElementById('searchDropdown');
+        const noResultsBox = document.getElementById('noResultsBox');
 
         searchInput.addEventListener('input', function() {
             let filter = this.value.toLowerCase().trim();
@@ -912,24 +932,14 @@
 
             if (filter === '') {
                 searchDropdown.style.display = 'none';
+                noResultsBox.style.display = 'none';
                 cards.forEach(card => card.style.display = "flex");
                 return;
             }
 
-            // Amazon-style Category suggestion if user searches "tv" or "prizor tv"
-            if (filter.includes('tv') || filter.includes('prizor tv')) {
-                let catDiv = document.createElement('div');
-                catDiv.className = 'search-dropdown-item';
-                catDiv.innerHTML = `📺 <strong>View All Smart TVs & Displays (Prizor Category)</strong>`;
-                catDiv.onclick = function() {
-                    searchInput.value = "Smart TV";
-                    searchDropdown.style.display = 'none';
-                    filterCategory('tv', null);
-                };
-                searchDropdown.appendChild(catDiv);
-            }
-
             let matches = [];
+            let visibleCount = 0;
+
             cards.forEach(card => {
                 let title = card.querySelector('h4').innerText;
                 let titleLower = title.toLowerCase();
@@ -939,12 +949,21 @@
                 if (titleLower.includes(filter) || specs.includes(filter) || keywords.includes(filter)) {
                     card.style.display = "flex";
                     matches.push(title);
+                    visibleCount++;
                 } else {
                     card.style.display = "none";
                 }
             });
 
-            if (matches.length > 0 || filter.includes('tv')) {
+            // Handle No Results and Custom WhatsApp Option
+            if (visibleCount === 0) {
+                noResultsBox.style.display = 'block';
+                document.getElementById('whatsappCustomBtn').href = `https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20search%20mein%20'${encodeURIComponent(filter)}'%20wala%20product%20nahi%20mila,%20kya%20aap%20ise%20arrange%20kar%20sakte%20hain?`;
+            } else {
+                noResultsBox.style.display = 'none';
+            }
+
+            if (matches.length > 0) {
                 searchDropdown.style.display = 'block';
                 let uniqueMatches = [...new Set(matches)].slice(0, 6);
                 uniqueMatches.forEach(matchText => {
@@ -965,16 +984,23 @@
 
         function filterCards(query) {
             let cards = document.querySelectorAll('.product-card');
+            let visibleCount = 0;
             cards.forEach(card => {
                 let title = card.querySelector('h4').innerText.toLowerCase();
-                let specs = card.querySelector('.specs').innerText.toLowerCase();
+                let specs = card.querySelector('.specs'].innerText.toLowerCase();
                 let keywords = card.getAttribute('data-keywords') ? card.getAttribute('data-keywords').toLowerCase() : '';
                 if (title.includes(query) || specs.includes(query) || keywords.includes(query)) {
                     card.style.display = "flex";
+                    visibleCount++;
                 } else {
                     card.style.display = "none";
                 }
             });
+            if (visibleCount === 0) {
+                noResultsBox.style.display = 'block';
+            } else {
+                noResultsBox.style.display = 'none';
+            }
         }
 
         document.addEventListener('click', function(e) {
@@ -989,7 +1015,6 @@
             if(element) {
                 element.classList.add('active');
             } else if(category === 'tv') {
-                // Highlight Smart TV in sidebar if triggered via search dropdown
                 let sidebarItems = document.querySelectorAll('aside ul li');
                 if(sidebarItems[10]) sidebarItems[10].classList.add('active');
             }
