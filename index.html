@@ -93,38 +93,6 @@
             color: #717478;
         }
 
-        .search-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            color: #333;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            display: none;
-            max-height: 320px;
-            overflow-y: auto;
-            margin-top: 4px;
-        }
-
-        .search-dropdown-item {
-            padding: 10px 15px;
-            font-size: 13px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .search-dropdown-item:hover {
-            background-color: #f5f5f5;
-            color: #007185;
-            font-weight: 600;
-        }
-
         .header-contact {
             display: flex;
             flex-direction: column;
@@ -302,7 +270,6 @@
             background-color: #f7ca00;
         }
 
-        /* No Results Custom Box */
         .no-results-box {
             display: none;
             background: #fff;
@@ -337,10 +304,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .btn-custom-chat:hover {
-            background-color: #1ebe5d;
-        }
-
         #productDetailPage {
             display: none;
             background: #fff;
@@ -358,11 +321,6 @@
             font-weight: 600;
         }
 
-        .back-to-catalog:hover {
-            text-decoration: underline;
-            color: #c45500;
-        }
-
         .detail-wrapper {
             display: grid;
             grid-template-columns: 420px 1fr 300px;
@@ -373,12 +331,6 @@
             .detail-wrapper {
                 grid-template-columns: 1fr;
             }
-        }
-
-        .detail-image-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .detail-main-img-box {
@@ -400,89 +352,6 @@
             object-fit: contain;
         }
 
-        .detail-thumbnails {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .detail-thumbnails img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border: 1px solid #a2a6a6;
-            border-radius: 4px;
-            cursor: pointer;
-            padding: 2px;
-            background: #fff;
-        }
-
-        .detail-info-section h2 {
-            font-size: 20px;
-            color: #0f1111;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .detail-store {
-            font-size: 13px;
-            color: #007185;
-            margin-bottom: 15px;
-        }
-
-        .detail-price {
-            font-size: 18px;
-            font-weight: bold;
-            color: #b12704;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e7e7e7;
-        }
-
-        .detail-specs-list {
-            margin-top: 15px;
-            font-size: 13px;
-            color: #333;
-        }
-
-        .detail-specs-list h4 {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #0f1111;
-        }
-
-        .detail-specs-list ul {
-            padding-left: 20px;
-        }
-
-        .detail-specs-list ul li {
-            margin-bottom: 6px;
-            line-height: 1.4;
-        }
-
-        .detail-buy-box {
-            border: 1px solid #d5d9d9;
-            border-radius: 8px;
-            padding: 20px;
-            background: #f8f9fa;
-            height: fit-content;
-        }
-
-        .detail-buy-box .price-tag {
-            font-size: 18px;
-            font-weight: bold;
-            color: #b12704;
-            margin-bottom: 15px;
-        }
-
-        .detail-buy-box .stock-status {
-            font-size: 14px;
-            color: #007600;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
         footer {
             margin-top: 50px;
             background-color: #232f3e;
@@ -494,7 +363,6 @@
             background-color: #37475a;
             padding: 15px;
             text-align: center;
-            font-size: 13px;
         }
 
         .footer-top a {
@@ -517,9 +385,7 @@
             color: #febd69;
         }
 
-        .footer-column p, .footer-column ul {
-            font-size: 13px;
-            color: #ddd;
+        .footer-column ul {
             list-style: none;
         }
 
@@ -538,7 +404,6 @@
             text-align: center;
             border-top: 1px solid #3a4553;
             color: #999;
-            font-size: 12px;
         }
     </style>
 </head>
@@ -553,8 +418,7 @@
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search CCTV, TV, NVR, DVR, PoE Switch, HDD..." autocomplete="off">
-                <div id="searchDropdown" class="search-dropdown"></div>
+                <input type="text" id="searchInput" placeholder="Search CCTV, TV, NVR, DVR, PoE Switch..." autocomplete="off">
             </div>
         </div>
 
@@ -571,16 +435,18 @@
                 <h3>Products & Categories</h3>
             </div>
             <ul>
-                <li class="active" onclick="filterCategory('all', this)">📦 All Products & Systems</li>
-                <li onclick="filterCategory('cctv', this)">📹 CCTV Cameras (Bullet/Dome/PTZ)</li>
-                <li onclick="filterCategory('tv', this)">📺 Smart TV & QLED Display</li>
-                <li onclick="filterCategory('nvr', this)">🖧 NVR Recorders</li>
-                <li onclick="filterCategory('dvr', this)">🖥️ DVR Recorders</li>
-                <li onclick="filterCategory('poe', this)">⚡ PoE Switches & Networking</li>
+                <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
+                <li onclick="filterCategory('bullet', this)">📷 Bullet Cameras (Prizor)</li>
+                <li onclick="filterCategory('dome', this)">📹 Dome Cameras (Prizor)</li>
+                <li onclick="filterCategory('ptz', this)">🌐 PTZ Speed Dome (Prizor)</li>
+                <li onclick="filterCategory('dvr', this)">🖥️ DVR Recorders (Prizor)</li>
+                <li onclick="filterCategory('nvr', this)">🖧 NVR Recorders (Prizor)</li>
+                <li onclick="filterCategory('fire-alarm', this)">🚨 Fire Alarm & Control Panel</li>
+                <li onclick="filterCategory('fire-ext', this)">🧯 Fire Extinguishers & Safety</li>
                 <li onclick="filterCategory('hdd', this)">💾 Surveillance Hard Disk (HDD)</li>
-                <li onclick="filterCategory('fire', this)">🚨 Fire Safety & Alarms</li>
-                <li onclick="filterCategory('cable', this)">🔌 Cables & Wires (HOC)</li>
-                <li onclick="filterCategory('service', this)">🛠️ Installation & AMC Services</li>
+                <li onclick="filterCategory('poe', this)">⚡ PoE Switches & Networking</li>
+                <li onclick="filterCategory('tv', this)">📺 Smart TV & QLED Display</li>
+                <li onclick="filterCategory('cable', this)">🔌 Cables & Network (HOC)</li>
             </ul>
         </aside>
 
@@ -594,109 +460,108 @@
 
                 <div class="product-grid" id="productGrid">
                     
-                    <!-- 1. CCTV Bullet Camera -->
-                    <div class="product-card" data-category="cctv" data-keywords="cctv camera bullet 5mp ip network prizor outdoor security" onclick="openProductDetail('Prizor 5MP Metal Bullet CCTV Camera', '5MP Ultra HD Resolution, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing, True WDR Support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-prizor">PRIZOR CCTV</span>
-                        <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Camera">
+                    <!-- 1. Bullet Camera -->
+                    <div class="product-card" data-category="bullet" data-keywords="bullet camera cctv 5mp ip prizor outdoor security">
+                        <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                        <div class="product-img-container" onclick="openProductDetail('Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)', '5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Bullet Camera">
                         </div>
-                        <h4>Prizor 5MP Metal Bullet CCTV Camera</h4>
-                        <div class="specs">5MP Ultra HD, Sony Starvis Sensor, 40m IR Night Vision, IP67 Weatherproof</div>
+                        <h4 onclick="openProductDetail('Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)', '5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)</h4>
+                        <div class="specs">5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing</div>
                         <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20CCTV%20Bullet%20Camera" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Bullet%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     </div>
 
-                    <!-- 2. Smart TV -->
-                    <div class="product-card" data-category="tv" data-keywords="tv television smart tv 4k qled google tv prizor display 55 inch 65 inch" onclick="openProductDetail('Prizor 55" 4K QLED Google TV & Surveillance Display', '55 Inch Ultra HD Resolution, Quantum Dot Color, Google TV OS, Dolby Vision & Atmos, Control Room Surveillance Display Ready.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-prizor">SMART TV & DISPLAY</span>
-                        <div class="product-img-container">
+                    <!-- 2. Dome Camera -->
+                    <div class="product-card" data-category="dome" data-keywords="dome camera cctv 5mp indoor prizor security">
+                        <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                        <div class="product-img-container" onclick="openProductDetail('Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)', '5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Dome Camera">
+                        </div>
+                        <h4 onclick="openProductDetail('Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)', '5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)</h4>
+                        <div class="specs">5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design</div>
+                        <div class="price-contact">Contact for Best Price Offer</div>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Dome%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    </div>
+
+                    <!-- 3. PTZ Camera -->
+                    <div class="product-card" data-category="ptz" data-keywords="ptz speed dome camera 360 degree prizor security">
+                        <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                        <div class="product-img-container" onclick="openProductDetail('Prizor 360° Speed Dome PTZ CCTV Camera (25X Zoom)', '360° Pan-Tilt-Zoom, 25X Optical Zoom, AI Motion Auto Tracking, Laser IR Vision.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="PTZ Camera">
+                        </div>
+                        <h4 onclick="openProductDetail('Prizor 360° Speed Dome PTZ CCTV Camera (25X Zoom)', '360° Pan-Tilt-Zoom, 25X Optical Zoom, AI Motion Auto Tracking, Laser IR Vision.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">Prizor 360° Speed Dome PTZ CCTV Camera (25X Zoom)</h4>
+                        <div class="specs">360° Pan-Tilt-Zoom, 25X Optical Zoom, AI Motion Auto Tracking, Laser IR Vision</div>
+                        <div class="price-contact">Contact for Best Price Offer</div>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20PTZ%20Camera" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    </div>
+
+                    <!-- 4. Smart TV -->
+                    <div class="product-card" data-category="tv" data-keywords="tv television smart tv 4k qled google tv prizor display 85 inch">
+                        <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                        <div class="product-img-container" onclick="openProductDetail('Prizor 85 inch Smart TV & Surveillance Display', '85 Inch 4K Ultra HD Display, Google TV, QLED Panel, Built-in Surveillance Monitor Support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Smart TV">
                         </div>
-                        <h4>Prizor 55" 4K QLED Google TV & Surveillance Display</h4>
-                        <div class="specs">55 Inch 4K Ultra HD, QLED Panel, Google TV OS, Surveillance Ready Display</div>
+                        <h4 onclick="openProductDetail('Prizor 85 inch Smart TV & Surveillance Display', '85 Inch 4K Ultra HD Display, Google TV, QLED Panel, Built-in Surveillance Monitor Support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">Prizor 85 inch Smart TV & Surveillance Display</h4>
+                        <div class="specs">85 Inch 4K Ultra HD Display, Google TV, QLED Panel, Surveillance Monitor Support</div>
                         <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20Smart%20TV" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Smart%20TV" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     </div>
 
-                    <!-- 3. NVR Recorder -->
-                    <div class="product-card" data-category="nvr" data-keywords="nvr network video recorder 4k prizor system cctv" onclick="openProductDetail('Prizor 4K Ultra HD Network Video Recorder (NVR)', '4K IP Camera Support, Built-in PoE Ports for direct camera connection, AI Face Recognition Search, SATA HDD Support up to 10TB.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-prizor">NVR RECORDER</span>
-                        <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="NVR System">
+                    <!-- 5. NVR -->
+                    <div class="product-card" data-category="nvr" data-keywords="nvr network video recorder 4k prizor system cctv">
+                        <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                        <div class="product-img-container" onclick="openProductDetail('Prizor 4K Network Video Recorder (NVR)', '4K IP Camera Support, PoE Ports, AI Face Recognition Search, SATA HDD Support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="NVR">
                         </div>
-                        <h4>Prizor 4K Ultra HD Network Video Recorder (NVR)</h4>
-                        <div class="specs">4K IP Support, Built-in PoE Ports, AI Face Recognition Search, SATA HDD Support</div>
+                        <h4 onclick="openProductDetail('Prizor 4K Network Video Recorder (NVR)', '4K IP Camera Support, PoE Ports, AI Face Recognition Search, SATA HDD Support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">Prizor 4K Network Video Recorder (NVR)</h4>
+                        <div class="specs">4K IP Camera Support, PoE Ports, AI Face Recognition Search, SATA HDD Support</div>
                         <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20NVR" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20NVR" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     </div>
 
-                    <!-- 4. DVR Recorder -->
-                    <div class="product-card" data-category="dvr" data-keywords="dvr digital video recorder system prizor 4ch 8ch 16ch cctv" onclick="openProductDetail('Prizor 8-Channel Digital Video Recorder (DVR)', '5-in-1 DVR Support (AHD, TVI, CVI, CVBS, IP), H.265+ Video Compression, HDMI/VGA 1080P Output, Mobile App Remote Viewing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-prizor">DVR RECORDER</span>
-                        <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="DVR System">
+                    <!-- 6. DVR -->
+                    <div class="product-card" data-category="dvr" data-keywords="dvr digital video recorder system prizor 8ch cctv">
+                        <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
+                        <div class="product-img-container" onclick="openProductDetail('Prizor 8-Channel Digital Video Recorder (DVR)', '5-in-1 DVR Support, H.265+ Video Compression, HDMI/VGA Output, Mobile App Remote Viewing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="DVR">
                         </div>
-                        <h4>Prizor 8-Channel Digital Video Recorder (DVR)</h4>
-                        <div class="specs">5-in-1 DVR Support, H.265+ Compression, HDMI/VGA Output, Mobile Remote Viewing</div>
+                        <h4 onclick="openProductDetail('Prizor 8-Channel Digital Video Recorder (DVR)', '5-in-1 DVR Support, H.265+ Video Compression, HDMI/VGA Output, Mobile App Remote Viewing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">Prizor 8-Channel Digital Video Recorder (DVR)</h4>
+                        <div class="specs">5-in-1 DVR Support, H.265+ Video Compression, HDMI/VGA Output, Mobile Viewing</div>
                         <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Prizor%20DVR" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20DVR" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     </div>
 
-                    <!-- 5. PoE Switch -->
-                    <div class="product-card" data-category="poe" data-keywords="poe switch ethernet router network 8 port cctv" onclick="openProductDetail('Industrial 8-Port PoE Switch with Gigabit Uplink', 'Fast Ethernet PoE+ Ports, 250m Long Distance Extension Mode, Sturdy Metal Casing, Plug and Play Operation for CCTV.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-dts">POE SWITCH</span>
-                        <div class="product-img-container">
+                    <!-- 7. PoE Switch -->
+                    <div class="product-card" data-category="poe" data-keywords="poe switch ethernet router network 8 port cctv">
+                        <span class="badge badge-dts">DTS NETWORKING</span>
+                        <div class="product-img-container" onclick="openProductDetail('Industrial 8-Port PoE Switch with Gigabit Uplink', 'Fast Ethernet PoE+ Ports, 250m Long Distance Extension Mode, Metal Casing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="PoE Switch">
                         </div>
-                        <h4>Industrial 8-Port PoE Switch with Gigabit Uplink</h4>
+                        <h4 onclick="openProductDetail('Industrial 8-Port PoE Switch with Gigabit Uplink', 'Fast Ethernet PoE+ Ports, 250m Long Distance Extension Mode, Metal Casing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">Industrial 8-Port PoE Switch with Gigabit Uplink</h4>
                         <div class="specs">Fast Ethernet PoE+ Ports, 250m Long Distance Extension, Metal Casing</div>
                         <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20PoE%20Switch" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20PoE%20Switch" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     </div>
 
-                    <!-- 6. Hard Disk (HDD) -->
-                    <div class="product-card" data-category="hdd" data-keywords="hard disk hdd surveillance storage 2tb cctv western digital seagate" onclick="openProductDetail('Surveillance Hard Disk (2TB / 4TB HDD)', 'Engineered specifically for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR Surveillance Systems.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-dts">SURVEILLANCE HDD</span>
-                        <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60" alt="Surveillance Hard Disk">
+                    <!-- 8. Hard Disk -->
+                    <div class="product-card" data-category="hdd" data-keywords="hard disk hdd surveillance storage 2tb cctv">
+                        <span class="badge badge-dts">SURVEILLANCE STORAGE</span>
+                        <div class="product-img-container" onclick="openProductDetail('Surveillance Hard Disk (2TB / 4TB HDD)', 'Engineered for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60" alt="HDD">
                         </div>
-                        <h4>Surveillance Hard Disk (2TB / 4TB HDD)</h4>
+                        <h4 onclick="openProductDetail('Surveillance Hard Disk (2TB / 4TB HDD)', 'Engineered for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60')">Surveillance Hard Disk (2TB / 4TB HDD)</h4>
                         <div class="specs">Engineered for 24/7 CCTV Recording, High Reliability, Optimized for DVR/NVR</div>
                         <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20CCTV%20Hard%20Disk" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
-                    </div>
-
-                    <!-- 7. Fire Safety -->
-                    <div class="product-card" data-category="fire" data-keywords="fire alarm system control panel smoke detector extinguisher safety" onclick="openProductDetail('Advanced Fire Alarm Control Panel & Extinguishers', 'Microprocessor-based multi-loop fire alarm system, smoke detectors, hooters, and ISI marked ABC type fire extinguishers.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-fire">FIRE SAFETY</span>
-                        <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Safety">
-                        </div>
-                        <h4>Advanced Fire Alarm Control Panel & Extinguishers</h4>
-                        <div class="specs">Multi-loop fire alarm system, smoke/heat detectors & ABC type extinguishers.</div>
-                        <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Safety%20System" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
-                    </div>
-
-                    <!-- 8. HOC Cable -->
-                    <div class="product-card" data-category="cable" data-keywords="hoc cable cat6 lan network wire coaxial cctv" onclick="openProductDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', '100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Outer Insulation, High Bandwidth Performance.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60', ['https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'])">
-                        <span class="badge badge-hoc">HOC CABLES</span>
-                        <div class="product-img-container">
-                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" alt="HOC Network Cable">
-                        </div>
-                        <h4>HOC High Speed CAT6 LAN & CCTV Cable Roll</h4>
-                        <div class="specs">100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Insulation</div>
-                        <div class="price-contact">Contact for Best Price Offer</div>
-                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20CAT6%20Cable" target="_blank" class="btn-whatsapp" onclick="event.stopPropagation();">Contact on WhatsApp</a>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Hard%20Disk" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     </div>
 
                 </div>
 
-                <!-- No Results & Custom Chat Box -->
                 <div id="noResultsBox" class="no-results-box">
                     <h3>Aapki zaroorat ka product nahi mila?</h3>
-                    <p>Aap humari di gayi categories (CCTV, Smart TV, NVR, DVR, PoE Switch, HDD, Fire Safety) ke mutabiq direkt humse WhatsApp par baat karke apna product order ya arrange karwa sakte hain.</p>
-                    <a id="whatsappCustomBtn" href="https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20apni%20requirement%20ke%20mutabiq%20product%20chahiye." target="_blank" class="btn-custom-chat">💬 Chat on WhatsApp & Buy</a>
+                    <p>Aap humse seedhe WhatsApp par baat karke apni requirement ke mutabiq product arrange karwa sakte hain.</p>
+                    <a id="whatsappCustomBtn" href="https://wa.me/918390909845" target="_blank" class="btn-custom-chat">💬 Chat on WhatsApp & Buy</a>
                 </div>
 
             </div>
@@ -709,7 +574,6 @@
                         <div class="detail-main-img-box" id="detailMainContainer">
                             <img id="detailMainImg" src="" alt="Product Main Image">
                         </div>
-                        <div class="detail-thumbnails" id="detailThumbnailsContainer"></div>
                     </div>
                     <div class="detail-info-section">
                         <h2 id="detailTitle">Product Title</h2>
@@ -720,10 +584,10 @@
                             <ul id="detailSpecsList"></ul>
                         </div>
                     </div>
-                    <div class="detail-buy-box">
-                        <div class="price-tag" id="buyBoxPrice">Contact for Best Price</div>
-                        <div class="stock-status">In Stock</div>
-                        <a id="buyBoxWhatsApp" href="#" target="_blank" class="btn-whatsapp" style="margin-bottom: 10px;">Get Best Quote on WhatsApp</a>
+                    <div class="detail-buy-box" style="border: 1px solid #d5d9d9; border-radius: 8px; padding: 20px; background: #f8f9fa;">
+                        <div class="price-tag" id="buyBoxPrice" style="font-size: 18px; font-weight: bold; color: #b12704; margin-bottom: 15px;">Contact for Best Price</div>
+                        <div class="stock-status" style="font-size: 14px; color: #007600; font-weight: 600; margin-bottom: 15px;">In Stock</div>
+                        <a id="buyBoxWhatsApp" href="#" target="_blank" class="btn-whatsapp">Get Best Quote on WhatsApp</a>
                     </div>
                 </div>
             </div>
@@ -738,17 +602,15 @@
         <div class="footer-content">
             <div class="footer-column">
                 <h3>About Dynamic Technology Solutions</h3>
-                <p>Authorized Partner for Prizor Surveillance Systems, HOC Networking & Cables, and Complete Fire Safety Solutions.</p>
+                <p>Authorized Partner for Prizor Surveillance Systems, HOC Networking & Cables, and Fire Safety Solutions.</p>
             </div>
             <div class="footer-column">
                 <h3>Categories</h3>
                 <ul>
-                    <li><a href="#" onclick="filterCategory('cctv', document.querySelectorAll('aside ul li')[1])">CCTV Cameras</a></li>
-                    <li><a href="#" onclick="filterCategory('tv', document.querySelectorAll('aside ul li')[2])">Smart TVs & Displays</a></li>
-                    <li><a href="#" onclick="filterCategory('nvr', document.querySelectorAll('aside ul li')[3])">NVR Recorders</a></li>
-                    <li><a href="#" onclick="filterCategory('dvr', document.querySelectorAll('aside ul li')[4])">DVR Recorders</a></li>
-                    <li><a href="#" onclick="filterCategory('poe', document.querySelectorAll('aside ul li')[5])">PoE Switches</a></li>
-                    <li><a href="#" onclick="filterCategory('hdd', document.querySelectorAll('aside ul li')[6])">Surveillance HDD</a></li>
+                    <li><a href="#" onclick="filterCategory('bullet', null)">Bullet Cameras</a></li>
+                    <li><a href="#" onclick="filterCategory('tv', null)">Smart TVs & Displays</a></li>
+                    <li><a href="#" onclick="filterCategory('nvr', null)">NVR Recorders</a></li>
+                    <li><a href="#" onclick="filterCategory('dvr', null)">DVR Recorders</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -762,7 +624,7 @@
     </footer>
 
     <script>
-        function openProductDetail(title, specs, price, mainImg, imagesArray) {
+        function openProductDetail(title, specs, price, mainImg) {
             document.getElementById('catalogView').style.display = 'none';
             document.getElementById('productDetailPage').style.display = 'block';
 
@@ -782,12 +644,6 @@
             let waUrl = `https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20${encodeURIComponent(title)}`;
             document.getElementById('buyBoxWhatsApp').href = waUrl;
 
-            let thumbsHtml = '';
-            imagesArray.forEach((src) => {
-                thumbsHtml += `<img src="${src}" onclick="document.getElementById('detailMainImg').src='${src}'" alt="Thumb">`;
-            });
-            document.getElementById('detailThumbnailsContainer').innerHTML = thumbsHtml;
-
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
@@ -799,90 +655,37 @@
         }
 
         const searchInput = document.getElementById('searchInput');
-        const searchDropdown = document.getElementById('searchDropdown');
         const noResultsBox = document.getElementById('noResultsBox');
 
         searchInput.addEventListener('input', function() {
             let filter = this.value.toLowerCase().trim();
             let cards = document.querySelectorAll('.product-card');
-            searchDropdown.innerHTML = '';
+            let visibleCount = 0;
 
             if (filter === '') {
-                searchDropdown.style.display = 'none';
                 noResultsBox.style.display = 'none';
                 cards.forEach(card => card.style.display = "flex");
                 return;
             }
 
-            let matches = [];
-            let visibleCount = 0;
-
-            cards.forEach(card => {
-                let title = card.querySelector('h4').innerText;
-                let titleLower = title.toLowerCase();
-                let specs = card.querySelector('.specs').innerText.toLowerCase();
-                let keywords = card.getAttribute('data-keywords') ? card.getAttribute('data-keywords').toLowerCase() : '';
-
-                if (titleLower.includes(filter) || specs.includes(filter) || keywords.includes(filter)) {
-                    card.style.display = "flex";
-                    matches.push(title);
-                    visibleCount++;
-                } else {
-                    card.style.display = "none";
-                }
-            });
-
-            // Handle No Results and Custom WhatsApp Option
-            if (visibleCount === 0) {
-                noResultsBox.style.display = 'block';
-                document.getElementById('whatsappCustomBtn').href = `https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20search%20mein%20'${encodeURIComponent(filter)}'%20wala%20product%20nahi%20mila,%20kya%20aap%20ise%20arrange%20kar%20sakte%20hain?`;
-            } else {
-                noResultsBox.style.display = 'none';
-            }
-
-            if (matches.length > 0) {
-                searchDropdown.style.display = 'block';
-                let uniqueMatches = [...new Set(matches)].slice(0, 6);
-                uniqueMatches.forEach(matchText => {
-                    let div = document.createElement('div');
-                    div.className = 'search-dropdown-item';
-                    div.innerHTML = `🔍 ${matchText}`;
-                    div.onclick = function() {
-                        searchInput.value = matchText;
-                        searchDropdown.style.display = 'none';
-                        filterCards(matchText.toLowerCase());
-                    };
-                    searchDropdown.appendChild(div);
-                });
-            } else {
-                searchDropdown.style.display = 'none';
-            }
-        });
-
-        function filterCards(query) {
-            let cards = document.querySelectorAll('.product-card');
-            let visibleCount = 0;
             cards.forEach(card => {
                 let title = card.querySelector('h4').innerText.toLowerCase();
                 let specs = card.querySelector('.specs').innerText.toLowerCase();
                 let keywords = card.getAttribute('data-keywords') ? card.getAttribute('data-keywords').toLowerCase() : '';
-                if (title.includes(query) || specs.includes(query) || keywords.includes(query)) {
+
+                if (title.includes(filter) || specs.includes(filter) || keywords.includes(filter)) {
                     card.style.display = "flex";
                     visibleCount++;
                 } else {
                     card.style.display = "none";
                 }
             });
+
             if (visibleCount === 0) {
                 noResultsBox.style.display = 'block';
+                document.getElementById('whatsappCustomBtn').href = `https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20search%20mein%20'${encodeURIComponent(filter)}'%20wala%20product%20nahi%20mila,%20kya%20aap%20arrange%20kar%20sakte%20hain?`;
             } else {
                 noResultsBox.style.display = 'none';
-            }
-        }
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-bar')) {
-                searchDropdown.style.display = 'none';
             }
         });
 
@@ -894,16 +697,24 @@
             }
 
             let cards = document.querySelectorAll('.product-card');
+            let visibleCount = 0;
             cards.forEach(card => {
                 let cardCategory = card.getAttribute('data-category');
                 let keywords = card.getAttribute('data-keywords') ? card.getAttribute('data-keywords').toLowerCase() : '';
 
                 if (category === 'all' || cardCategory === category || keywords.includes(category)) {
                     card.style.display = "flex";
+                    visibleCount++;
                 } else {
                     card.style.display = "none";
                 }
             });
+
+            if (visibleCount === 0) {
+                noResultsBox.style.display = 'block';
+            } else {
+                noResultsBox.style.display = 'none';
+            }
         }
     </script>
 </body>
