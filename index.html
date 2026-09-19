@@ -432,7 +432,7 @@
         <aside>
             <div class="sidebar-brand-box">
                 <div class="brand-logo-img" style="width:35px; height:35px; font-size:13px;">DTS</div>
-                <h3>Products & Categories</h3>
+                <h3>Products & Services</h3>
             </div>
             <ul>
                 <li class="active" onclick="filterCategory('all', this)">📦 All Products & Services</li>
@@ -445,8 +445,10 @@
                 <li onclick="filterCategory('fire-ext', this)">🧯 Fire Extinguishers & Safety</li>
                 <li onclick="filterCategory('hdd', this)">💾 Surveillance Hard Disk (HDD)</li>
                 <li onclick="filterCategory('poe', this)">⚡ PoE Switches & Networking</li>
-                <li onclick="filterCategory('tv', this)">📺 Smart TV & QLED Display</li>
+                <li onclick="filterCategory('tv', this)">📺 Smart TV & QLED Display (Prizor)</li>
                 <li onclick="filterCategory('cable', this)">🔌 Cables & Network (HOC)</li>
+                <li onclick="filterCategory('service-cctv', this)">🛠️ CCTV Installation & Setup</li>
+                <li onclick="filterCategory('service-amc', this)">⚙️ Annual Maintenance (AMC)</li>
             </ul>
         </aside>
 
@@ -554,6 +556,66 @@
                         <div class="specs">Engineered for 24/7 CCTV Recording, High Reliability, Optimized for DVR/NVR</div>
                         <div class="price-contact">Contact for Best Price Offer</div>
                         <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Hard%20Disk" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    </div>
+
+                    <!-- 9. Fire Alarm -->
+                    <div class="product-card" data-category="fire-alarm" data-keywords="fire alarm control panel smoke detector safety">
+                        <span class="badge badge-fire">FIRE SAFETY</span>
+                        <div class="product-img-container" onclick="openProductDetail('Fire Alarm Control Panel & Smoke Detectors', 'Microprocessor-based multi-loop fire alarm system, optical smoke detectors and hooters.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Alarm">
+                        </div>
+                        <h4 onclick="openProductDetail('Fire Alarm Control Panel & Smoke Detectors', 'Microprocessor-based multi-loop fire alarm system, optical smoke detectors and hooters.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60')">Fire Alarm Control Panel & Smoke Detectors</h4>
+                        <div class="specs">Multi-loop fire alarm system, optical smoke detectors & alarm hooters.</div>
+                        <div class="price-contact">Contact for Best Price Offer</div>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Alarm" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    </div>
+
+                    <!-- 10. Fire Extinguishers -->
+                    <div class="product-card" data-category="fire-ext" data-keywords="fire extinguishers safety abc type">
+                        <span class="badge badge-fire">FIRE SAFETY</span>
+                        <div class="product-img-container" onclick="openProductDetail('ISI Marked ABC Type Fire Extinguishers', 'Stored pressure type ABC fire extinguisher, suitable for Class A, B, C and electrical fires.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Extinguisher">
+                        </div>
+                        <h4 onclick="openProductDetail('ISI Marked ABC Type Fire Extinguishers', 'Stored pressure type ABC fire extinguisher, suitable for Class A, B, C and electrical fires.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60')">ISI Marked ABC Type Fire Extinguishers</h4>
+                        <div class="specs">ABC stored pressure fire extinguisher, safe for electrical & general fires.</div>
+                        <div class="price-contact">Contact for Best Price Offer</div>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20Fire%20Extinguishers" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    </div>
+
+                    <!-- 11. Cables -->
+                    <div class="product-card" data-category="cable" data-keywords="cables network hoc cat6 wire coaxial">
+                        <span class="badge badge-hoc">HOC CABLES</span>
+                        <div class="product-img-container" onclick="openProductDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', '100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Insulation.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" alt="Cables">
+                        </div>
+                        <h4 onclick="openProductDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', '100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Insulation.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60')">HOC High Speed CAT6 LAN & CCTV Cable Roll</h4>
+                        <div class="specs">100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Insulation</div>
+                        <div class="price-contact">Contact for Best Price Offer</div>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20price%20quote%20for%20HOC%20Cables" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    </div>
+
+                    <!-- 12. CCTV Installation Service -->
+                    <div class="product-card" data-category="service-cctv" data-keywords="cctv installation setup service">
+                        <span class="badge badge-dts">DTS SERVICES</span>
+                        <div class="product-img-container" onclick="openProductDetail('Professional CCTV Installation & Setup Service', 'Complete site survey, wiring, camera mounting, configuration, and mobile app training.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Setup">
+                        </div>
+                        <h4 onclick="openProductDetail('Professional CCTV Installation & Setup Service', 'Complete site survey, wiring, camera mounting, configuration, and mobile app training.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">Professional CCTV Installation & Setup Service</h4>
+                        <div class="specs">Complete site survey, professional wiring, camera mounting & phone setup.</div>
+                        <div class="price-contact">Contact for Best Price Offer</div>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20booking%20for%20CCTV%20Installation" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
+                    </div>
+
+                    <!-- 13. AMC Service -->
+                    <div class="product-card" data-category="service-amc" data-keywords="annual maintenance amc service cctv">
+                        <span class="badge badge-dts">DTS SERVICES</span>
+                        <div class="product-img-container" onclick="openProductDetail('Annual Maintenance Contract (AMC) for Security Systems', 'Regular periodic check-ups, cleaning, software updates, and priority breakdown support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
+                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="AMC">
+                        </div>
+                        <h4 onclick="openProductDetail('Annual Maintenance Contract (AMC) for Security Systems', 'Regular periodic check-ups, cleaning, software updates, and priority breakdown support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">Annual Maintenance Contract (AMC) for Security Systems</h4>
+                        <div class="specs">Periodic check-ups, lens cleaning, system updates & breakdown support.</div>
+                        <div class="price-contact">Contact for Best Price Offer</div>
+                        <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20AMC%20Service" target="_blank" class="btn-whatsapp">Contact on WhatsApp</a>
                     </div>
 
                 </div>
@@ -683,7 +745,7 @@
 
             if (visibleCount === 0) {
                 noResultsBox.style.display = 'block';
-                document.getElementById('whatsappCustomBtn').href = `https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20search%20mein%20'${encodeURIComponent(filter)}'%20wala%20product%20nahi%20mila,%20kya%20aap%20arrange%20kar%20sakte%20hain?`;
+                document.getElementById('whatsappCustomBtn').href = `https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20search%20mein%20'${encodeURIComponent(filter)}'%20wala%20product%20nahi%20mila,%20kya%20aap%20ise%20arrange%20kar%20sakte%20hain?`;
             } else {
                 noResultsBox.style.display = 'none';
             }
