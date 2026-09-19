@@ -9,707 +9,434 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         body {
-            background-color: #f4f6f9;
-            color: #333;
+            background-color: #0b0f19;
+            color: #c9d1d9;
         }
 
-        /* Top Brand & Header Bar */
-        header {
-            background: #ffffff;
-            border-bottom: 2px solid #e1e4e8;
-            padding: 15px 40px;
+        /* Top Cyber Status Bar */
+        .top-cyber-bar {
+            background: #04060b;
+            border-bottom: 1px solid #1f2937;
+            padding: 6px 20px;
+            font-size: 11px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            color: #ef4444;
+            letter-spacing: 1px;
         }
 
-        .brand-branding h1 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #111;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .top-cyber-bar span {
+            color: #9ca3af;
         }
 
-        .brand-branding p {
-            font-size: 11px;
-            color: #d32f2f;
-            font-weight: 700;
-            margin-top: 3px;
-            letter-spacing: 0.5px;
-        }
-
-        .header-actions {
+        /* Main Header */
+        header {
+            background: #0d1117;
+            border-bottom: 2px solid #ef4444;
+            padding: 15px 30px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 15px;
         }
 
-        .whatsapp-btn-top {
-            background-color: #25d366;
-            color: white;
-            padding: 8px 18px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 2px 5px rgba(37, 211, 102, 0.3);
-            transition: 0.2s;
-        }
-
-        .whatsapp-btn-top:hover {
-            background-color: #20ba5a;
-        }
-
-        /* Prizor Style Sub-Navbar */
-        .prizor-subnav {
-            background: #1e293b;
-            color: white;
-            padding: 12px 40px;
-            display: flex;
-            gap: 30px;
-            font-size: 12px;
-            font-weight: 700;
+        .brand-box h1 {
+            font-size: 18px;
+            color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
-        .prizor-subnav span {
-            cursor: pointer;
-            transition: color 0.2s;
+        .brand-box p {
+            font-size: 11px;
+            color: #ef4444;
+            margin-top: 3px;
         }
 
-        .prizor-subnav span:hover, .prizor-subnav span.active {
-            color: #f87171;
+        .whatsapp-btn {
+            background: #22c55e;
+            color: #000;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 2px;
+        }
+
+        .whatsapp-btn:hover {
+            background: #16a34a;
+            color: #fff;
         }
 
         /* Layout Container */
-        .main-catalog-container {
+        .catalog-layout {
             max-width: 1450px;
-            margin: 30px auto;
-            padding: 0 20px;
+            margin: 25px auto;
+            padding: 0 15px;
             display: flex;
-            gap: 30px;
+            gap: 25px;
         }
 
-        /* Left Categories Sidebar */
-        .sidebar-menu-box {
-            width: 290px;
-            background: #ffffff;
-            border: 1px solid #e1e4e8;
-            border-radius: 8px;
+        /* Left Advanced Filter Sidebar (Prizor Exact Style)[cite: 4, 5] */
+        .filter-sidebar {
+            width: 270px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 4px;
             height: fit-content;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            overflow: hidden;
+            padding: 20px;
         }
 
-        .sidebar-header-title {
-            background-color: #111;
-            color: white;
-            padding: 16px 20px;
-            font-size: 13px;
-            font-weight: 800;
+        .filter-group {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #1f2937;
+            padding-bottom: 15px;
+        }
+
+        .filter-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 11px;
+            color: #9ca3af;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
-        .sidebar-list {
-            list-style: none;
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
-        .sidebar-item {
-            padding: 13px 20px;
-            border-bottom: 1px solid #f0f2f5;
-            font-size: 13px;
-            font-weight: 600;
-            color: #333;
+        .filter-opt {
+            font-size: 12px;
+            color: #d1d5db;
             cursor: pointer;
+            padding: 4px 8px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s ease;
+            transition: 0.2s;
         }
 
-        .sidebar-item:hover {
-            background-color: #fff5f5;
-            color: #d32f2f;
-            padding-left: 24px;
-        }
-
-        .sidebar-item.active {
-            background-color: #ffe6e6;
-            color: #d32f2f;
-            border-left: 4px solid #d32f2f;
-            font-weight: 700;
-        }
-
-        .count-badge {
-            font-size: 11px;
-            background: #e1e4e8;
-            padding: 2px 7px;
-            border-radius: 10px;
-            color: #555;
-        }
-
-        .sidebar-item.active .count-badge {
-            background: #d32f2f;
-            color: white;
+        .filter-opt:hover, .filter-opt.active {
+            color: #ef4444;
+            background: #1a1012;
+            border-left: 2px solid #ef4444;
         }
 
         /* Right Content Area */
-        .content-display-area {
+        .content-showcase {
             flex: 1;
         }
 
-        .breadcrumb-path {
-            font-size: 11px;
-            color: #666;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .category-heading-card {
-            background: #ffffff;
-            padding: 24px;
-            border: 1px solid #e1e4e8;
-            border-radius: 8px;
+        /* Sub-Tags Bar like Prizor [ ALL LENSES ][cite: 4, 5] */
+        .sub-tags-header {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 12px 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            overflow-x: auto;
         }
 
-        .category-heading-card h2 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #111;
+        .tag-pill {
+            background: #090d16;
+            border: 1px solid #374151;
+            padding: 5px 12px;
+            font-size: 11px;
+            color: #9ca3af;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tag-pill:hover, .tag-pill.active {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: #1a1012;
+        }
+
+        /* Series Section Banner */
+        .series-section {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+
+        .series-title {
+            font-size: 15px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            border-left: 3px solid #ef4444;
+            padding-left: 10px;
+        }
+
+        .series-desc {
+            font-size: 11px;
+            color: #9ca3af;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        /* Products Grid */
+        .prizor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .prizor-product-card {
+            background: #0d1117;
+            border: 1px solid #1f2937;
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .prizor-product-card:hover {
+            border-color: #ef4444;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15);
+        }
+
+        .card-img-box {
+            height: 130px;
+            background: #05080f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 12px;
+            border: 1px solid #161b22;
+            padding: 10px;
+        }
+
+        .card-img-box img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .card-name {
+            font-size: 12px;
+            color: #fff;
+            font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 6px;
         }
 
-        .category-heading-card p {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* Sub Filters Bar */
-        .sub-filters-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: #fff;
-            padding: 12px 15px;
-            border: 1px solid #e1e4e8;
-            border-radius: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .filter-chip-btn {
-            font-size: 11px;
-            padding: 6px 14px;
-            border: 1px solid #d1d5db;
-            background: #f9fafb;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #374151;
-            transition: 0.2s;
-        }
-
-        .filter-chip-btn:hover, .filter-chip-btn.active {
-            background: #d32f2f;
-            color: #fff;
-            border-color: #d32f2f;
-        }
-
-        /* Products Grid Layout with Multi-Images */
-        .products-grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-            gap: 20px;
-        }
-
-        .prizor-card {
-            background: #ffffff;
-            border: 1px solid #e1e4e8;
-            border-radius: 8px;
-            padding: 18px;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: 0.3s;
-        }
-
-        .prizor-card:hover {
-            border-color: #d32f2f;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            transform: translateY(-3px);
-        }
-
-        .card-main-img-box {
-            width: 100%;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f8fafc;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #edf2f7;
-        }
-
-        .card-main-img-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        /* Multi-Image Thumbnails Selector */
-        .thumbnail-row {
-            display: flex;
-            gap: 6px;
+        .card-model-code {
+            font-size: 10px;
+            color: #ef4444;
             margin-bottom: 12px;
-            justify-content: center;
+            letter-spacing: 0.5px;
         }
 
-        .thumb-img {
-            width: 35px;
-            height: 35px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            cursor: pointer;
-            object-fit: contain;
-            background: #fff;
-            padding: 2px;
-            opacity: 0.6;
-            transition: 0.2s;
-        }
-
-        .thumb-img:hover, .thumb-img.active-thumb {
-            border-color: #d32f2f;
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .card-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: #111;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .card-subtitle {
-            font-size: 11px;
-            color: #d32f2f;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .card-footer-action {
+        .card-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #f0f2f5;
-            padding-top: 10px;
-            margin-top: auto;
+            border-top: 1px solid #1f2937;
+            padding-top: 8px;
+            font-size: 10px;
         }
 
-        .model-specs-link {
-            font-size: 11px;
-            color: #d32f2f;
-            font-weight: 800;
+        .specs-btn {
+            color: #38bdf8;
             text-decoration: none;
+            font-weight: bold;
         }
 
-        .model-specs-link:hover {
+        .specs-btn:hover {
             text-decoration: underline;
         }
 
         footer {
             text-align: center;
-            padding: 25px;
-            color: #666;
-            font-size: 12px;
-            background: #ffffff;
-            border-top: 1px solid #e1e4e8;
-            margin-top: 50px;
-            font-weight: 600;
-        }
-
-        @media (max-width: 900px) {
-            .main-catalog-container {
-                flex-direction: column;
-            }
-            .sidebar-menu-box {
-                width: 100%;
-            }
+            padding: 20px;
+            font-size: 11px;
+            color: #6b7280;
+            border-top: 1px solid #1f2937;
+            background: #04060b;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Brand & Header -->
+    <!-- Cyber Status Bar -->
+    <div class="top-cyber-bar">
+        <div>[SURVEILLANCE REDEFINED] // <span>SECURE CHANNEL v4.9</span></div>
+        <div>AUTHORIZED PARTNER: DYNAMIC TECHNOLOGY SOLUTIONS</div>
+    </div>
+
+    <!-- Main Header -->
     <header>
-        <div class="brand-branding">
+        <div class="brand-box">
             <h1>Dynamic Technology Solutions</h1>
-            <p>Authorized Distributor — Prizor Security & Surveillance Systems</p>
+            <p>Official Distributor — Prizor High-Performance Security Catalog</p>
         </div>
-        <div class="header-actions">
-            <a href="https://wa.me/918390909845" target="_blank" class="whatsapp-btn-top">💬 WhatsApp Support</a>
+        <div>
+            <a href="https://wa.me/918390909845" target="_blank" class="whatsapp-btn">💬 Inquire on WhatsApp</a>
         </div>
     </header>
 
-    <!-- Prizor Sub Navigation -->
-    <div class="prizor-subnav">
-        <span class="active">Overview</span>
-        <span>Products Catalog</span>
-        <span>Core Features</span>
-        <span>Deployment Solutions</span>
-        <span>Philosophy</span>
-    </div>
-
-    <!-- Main Container -->
-    <div class="main-catalog-container">
+    <!-- Layout Container -->
+    <div class="catalog-layout">
         
-        <!-- Left Sidebar Categories -->
-        <div class="sidebar-menu-box">
-            <div class="sidebar-header-title">Product Categories</div>
-            <ul class="sidebar-list" id="sidebarList">
-                <!-- Populated via JS -->
-            </ul>
+        <!-- Left Filter Sidebar (Prizor Style)[cite: 4, 5] -->
+        <div class="filter-sidebar">
+            <div class="filter-group">
+                <div class="filter-title">Network Camera</div>
+                <div style="font-size: 10px; color: #6b7280; margin-bottom: 8px;">14 MODELS</div>
+                <div class="filter-options">
+                    <div class="filter-opt active"><span>ALL</span> <span>14</span></div>
+                    <div class="filter-opt"><span>IP CAMERA</span> <span>11</span></div>
+                    <div class="filter-opt"><span>PTZ CAMERA</span> <span>3</span></div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Resolution</div>
+                <div class="filter-options">
+                    <div class="filter-opt"><span>2MP</span> <span>8</span></div>
+                    <div class="filter-opt"><span>5MP</span> <span>6</span></div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Focal Length</div>
+                <div class="filter-options">
+                    <div class="filter-opt"><span>2.8MM</span></div>
+                    <div class="filter-opt"><span>3.6MM</span></div>
+                    <div class="filter-opt"><span>6MM</span></div>
+                </div>
+            </div>
         </div>
 
-        <!-- Right Content Section -->
-        <div class="content-display-area">
+        <!-- Right Showcase Content -->
+        <div class="content-showcase">
             
-            <div class="breadcrumb-path" id="breadcrumbPath">Home / Products / Network Camera</div>
-            
-            <div class="category-heading-card">
-                <h2 id="catTitle">Network Camera Series</h2>
-                <p id="catDesc">Modular high-definition IP network cameras engineered with advanced Sony Starvis optical sensors, smart IR night vision, and H.265+ compression.</p>
+            <!-- Sub Tags Bar[cite: 4, 5] -->
+            <div class="sub-tags-header">
+                <span class="tag-pill active">[ ALL LENSES ]</span>
+                <span class="tag-pill">2.8MM (4)</span>
+                <span class="tag-pill">3.6MM (4)</span>
+                <span class="tag-pill">6MM (2)</span>
+                <span class="tag-pill">VARIFOCAL (4)</span>
             </div>
 
-            <!-- Sub Filters Bar -->
-            <div class="sub-filters-bar" id="subFiltersBar">
-                <span style="font-size: 11px; font-weight: 800; color: #555; text-transform: uppercase;">Filter:</span>
-                <button class="filter-chip-btn active">All Items</button>
-                <button class="filter-chip-btn">High Resolution</button>
-                <button class="filter-chip-btn">Metal Enclosure</button>
+            <!-- IP Camera Series Section[cite: 4, 5] -->
+            <div class="series-section">
+                <div class="series-title">IP Camera Series</div>
+                <div class="series-desc">Modular high-definition IP network cameras engineered with advanced Sony Starvis optical sensors, smart IR night vision, and H.265+ compression[cite: 4, 5].</div>
+                
+                <div class="prizor-grid">
+                    <div class="prizor-product-card">
+                        <div>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="5MP Dome">
+                            </div>
+                            <div class="card-name">5MP IP Metal Dome Camera</div>
+                            <div class="card-model-code">PRT - 5MPX2050D // 3 VARIANTS</div>
+                        </div>
+                        <div class="card-bottom">
+                            <span style="color: #9ca3af;">2MP / 5MP</span>
+                            <a href="https://wa.me/918390909845?text=Inquire%20about%20PRT-5MPX2050D" target="_blank" class="specs-btn">VIEW SPECS →</a>
+                        </div>
+                    </div>
+
+                    <div class="prizor-product-card">
+                        <div>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="5MP Bullet">
+                            </div>
+                            <div class="card-name">5MP IP Metal Bullet Camera</div>
+                            <div class="card-model-code">PRT - 5MPX3050B // 4 VARIANTS</div>
+                        </div>
+                        <div class="card-bottom">
+                            <span style="color: #9ca3af;">IP67 Weatherproof</span>
+                            <a href="https://wa.me/918390909845?text=Inquire%20about%20PRT-5MPX3050B" target="_blank" class="specs-btn">VIEW SPECS →</a>
+                        </div>
+                    </div>
+
+                    <div class="prizor-product-card">
+                        <div>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="2MP Dome">
+                            </div>
+                            <div class="card-name">2MP IP Metal Dome Camera</div>
+                            <div class="card-model-code">PRT - 2MPX2020D // 2 VARIANTS</div>
+                        </div>
+                        <div class="card-bottom">
+                            <span style="color: #9ca3af;">Sony Starvis</span>
+                            <a href="https://wa.me/918390909845?text=Inquire%20about%20PRT-2MPX2020D" target="_blank" class="specs-btn">VIEW SPECS →</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Products Grid with Multi-Images -->
-            <div class="products-grid-container" id="productsGrid"></div>
+            <!-- PTZ Camera Series Section[cite: 4, 5] -->
+            <div class="series-section">
+                <div class="series-title">PTZ Camera Series</div>
+                <div class="series-desc">PTZ optics systems featuring active tracking, powerful presets, and 360° panoramic coverage[cite: 4, 5].</div>
+                
+                <div class="prizor-grid">
+                    <div class="prizor-product-card">
+                        <div>
+                            <div class="card-img-box">
+                                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="PTZ Camera">
+                            </div>
+                            <div class="card-name">5MP 25X Zoom IP PTZ Camera</div>
+                            <div class="card-model-code">PRT - PTZ5025X-10 // 2.8MM</div>
+                        </div>
+                        <div class="card-bottom">
+                            <span style="color: #9ca3af;">25X Optical Zoom</span>
+                            <a href="https://wa.me/918390909845?text=Inquire%20about%20PTZ5025X" target="_blank" class="specs-btn">VIEW SPECS →</a>
+                        </div>
+                    </div>
+
+                    <div class="prizor-product-card">
+                        <div>
+                            <div class="card-img-box">
+                                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="PTZ Camera 2">
+                            </div>
+                            <div class="card-name">2MP 30X Zoom IP PTZ Camera</div>
+                            <div class="card-model-code">PRT - PTZ2030X-20 // 3.6MM</div>
+                        </div>
+                        <div class="card-bottom">
+                            <span style="color: #9ca3af;">Active Tracking</span>
+                            <a href="https://wa.me/918390909845?text=Inquire%20about%20PTZ2030X" target="_blank" class="specs-btn">VIEW SPECS →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
     </div>
 
     <footer>
-        <p>© 2026 Dynamic Technology Solutions. Official Authorized Partner of Prizor Viztech.</p>
+        <p>© 2026 Dynamic Technology Solutions. Official Authorized Partner of Prizor Viztech. All rights reserved.</p>
     </footer>
 
-    <script>
-        const catalogData = {
-            'network-camera': {
-                title: 'Network Camera Series',
-                desc: 'Modular high-definition IP network cameras engineered with advanced Sony Starvis optical sensors and smart IR night vision.',
-                path: 'Home / Products / Network Camera',
-                items: [
-                    {
-                        name: '5MP IP Metal Dome Camera',
-                        model: 'PRT - 5MPX2050D',
-                        variants: '3 Variants Available',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10',
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s',
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s'
-                        ]
-                    },
-                    {
-                        name: '5MP IP Metal Bullet Camera',
-                        model: 'PRT - 5MPX3050B',
-                        variants: '4 Variants Available',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10',
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s'
-                        ]
-                    },
-                    {
-                        name: '2MP IP Metal Dome Camera',
-                        model: 'PRT - 2MPX2020D',
-                        variants: '2 Variants Available',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10',
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s'
-                        ]
-                    }
-                ]
-            },
-            'nvr': {
-                title: 'Network Video Recorder (NVR)',
-                desc: 'High-performance NVR recording systems supporting 4K multi-channel live streaming and large HDD storage capacity.',
-                path: 'Home / Products / Network Video Recorder',
-                items: [
-                    {
-                        name: '8 Channel 4K PoE NVR',
-                        model: 'PRT - NVR08POE',
-                        variants: '1 HDD Slot',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s',
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s'
-                        ]
-                    },
-                    {
-                        name: '16 Channel Smart 4K NVR',
-                        model: 'PRT - NVR16PRO',
-                        variants: '2 HDD Slots',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s'
-                        ]
-                    }
-                ]
-            },
-            'tv': {
-                title: 'Television & Smart TV Series',
-                desc: 'Crystal-clear Ultra HD 4K professional display panels designed for 24/7 security monitoring control rooms and boardrooms.',
-                path: 'Home / Products / Television & Smart TV',
-                items: [
-                    {
-                        name: '32 Inch Smart HD TV',
-                        model: 'PRT - TV32HD',
-                        variants: 'Android 11 OS',
-                        images: [
-                            'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60',
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s'
-                        ]
-                    },
-                    {
-                        name: '43 Inch Frameless 4K Smart TV',
-                        model: 'PRT - TV43UHD',
-                        variants: 'Dolby Audio',
-                        images: [
-                            'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60'
-                        ]
-                    }
-                ]
-            },
-            'poe': {
-                title: 'Gigabit PoE Switches',
-                desc: 'Robust metal-cased high-speed PoE network switches providing stable power and data transmission over long distances.',
-                path: 'Home / Products / PoE Switches',
-                items: [
-                    {
-                        name: '4 Port PoE + 2 Uplink Switch',
-                        model: 'PRT - SW04POE',
-                        variants: '65W Budget',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s'
-                        ]
-                    }
-                ]
-            },
-            'hd-camera': {
-                title: 'HD Analog Camera Series',
-                desc: 'High-definition analog surveillance cameras offering crystal clear imaging and weather-proof metal enclosures.',
-                path: 'Home / Products / HD Camera',
-                items: [
-                    {
-                        name: '2MP HD Metal Dome Camera',
-                        model: 'PRT - HD2020D',
-                        variants: 'Multi-Format',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10'
-                        ]
-                    }
-                ]
-            },
-            'dvr': {
-                title: 'Digital Video Recorder (DVR)',
-                desc: '5-in-1 hybrid digital video recording units supporting HD cameras with advanced H.265 compression.',
-                path: 'Home / Products / Digital Video Recorder',
-                items: [
-                    {
-                        name: '4 Channel 5-in-1 DVR',
-                        model: 'PRT - DVR04HYB',
-                        variants: '1080P Lite',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s'
-                        ]
-                    }
-                ]
-            },
-            'touch': {
-                title: 'Interactive Touch Panel',
-                desc: 'Smart interactive flat touch displays engineered for collaborative corporate boardrooms and classrooms.',
-                path: 'Home / Products / Interactive Touch Panel',
-                items: [
-                    {
-                        name: '65 Inch Interactive Flat Panel',
-                        model: 'PRT - TP65PRO',
-                        variants: '4K Android 13',
-                        images: [
-                            'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60'
-                        ]
-                    }
-                ]
-            },
-            'vdp': {
-                title: 'Video Door Phone (VDP)',
-                desc: 'Secure residential intercom solutions allowing crisp visitor identification and remote door unlock.',
-                path: 'Home / Products / Video Door Phone',
-                items: [
-                    {
-                        name: '7 Inch Color LCD VDP Set',
-                        model: 'PRT - VDP07COL',
-                        variants: 'Night Vision Bell',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10'
-                        ]
-                    }
-                ]
-            },
-            'amc': {
-                title: 'Annual Maintenance Contract (AMC)',
-                desc: 'Comprehensive professional technical support and routine maintenance services.',
-                path: 'Home / Services / AMC',
-                items: [
-                    {
-                        name: 'CCTV Comprehensive AMC',
-                        model: 'PRT - SVC-AMC1',
-                        variants: 'Quarterly Checkup',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s'
-                        ]
-                    }
-                ]
-            },
-            'cable': {
-                title: 'HOC High Speed CAT6 LAN Cable',
-                desc: 'Heavy duty pure copper high-speed network and coaxial cables designed for zero-loss transmission.',
-                path: 'Home / Accessories / CAT6 Cable',
-                items: [
-                    {
-                        name: 'HOC Pure Copper CAT6 Box (305m)',
-                        model: 'PRT - CAT6-COPPER',
-                        variants: 'High Speed Roll',
-                        images: [
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s'
-                        ]
-                    }
-                ]
-            }
-        };
-
-        const categoryListMeta = [
-            { key: 'network-camera', name: 'Network Camera', count: '14' },
-            { key: 'nvr', name: 'Network Video Recorder (NVR)', count: '6' },
-            { key: 'tv', name: 'Television & Smart TV', count: '25' },
-            { key: 'poe', name: 'PoE Switches', count: '8' },
-            { key: 'hd-camera', name: 'HD Camera', count: '18' },
-            { key: 'dvr', name: 'Digital Video Recorder (DVR)', count: '4' },
-            { key: 'touch', name: 'Interactive Touch Panel', count: '8' },
-            { key: 'vdp', name: 'Video Door Phone', count: '2' },
-            { key: 'amc', name: 'Annual Maintenance Contract', count: 'SVC' },
-            { key: 'cable', name: 'CAT6 LAN & CCTV Cable', count: 'HOC' }
-        ];
-
-        function initSidebar() {
-            let listEl = document.getElementById('sidebarList');
-            listEl.innerHTML = '';
-
-            categoryListMeta.forEach((cat, index) => {
-                let li = document.createElement('li');
-                li.className = `sidebar-item ${index === 0 ? 'active' : ''}`;
-                li.innerHTML = `<span>${cat.name}</span> <span class="count-badge">${cat.count}</span>`;
-                li.onclick = () => selectCategory(cat.key, li);
-                listEl.appendChild(li);
-            });
-        }
-
-        function selectCategory(key, element) {
-            document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-            if(element) element.classList.add('active');
-
-            let data = catalogData[key];
-            if(!data) return;
-
-            document.getElementById('catTitle').innerText = data.title;
-            document.getElementById('catDesc').innerText = data.desc;
-            document.getElementById('breadcrumbPath').innerText = data.path;
-
-            renderProducts(data.items);
-        }
-
-        function renderProducts(items) {
-            let grid = document.getElementById('productsGrid');
-            grid.innerHTML = '';
-
-            items.forEach((item, idx) => {
-                let card = document.createElement('div');
-                card.className = 'prizor-card';
-                let waText = encodeURIComponent(`Hi Dynamic Technology Solutions, I want to inquire about ${item.name} (${item.model})`);
-
-                // Generate multi-image thumbnails HTML
-                let thumbsHtml = '';
-                let defaultImg = item.images[0];
-                
-                if(item.images.length > 1) {
-                    thumbsHtml = '<div class="thumbnail-row">';
-                    item.images.forEach((imgUrl, imgIdx) => {
-                        let activeClass = imgIdx === 0 ? 'active-thumb' : '';
-                        thumbsHtml += `<img src="${imgUrl}" class="thumb-img ${activeClass}" onclick="switchImage(this, '${imgUrl}')">`;
-                    });
-                    thumbsHtml += '</div>';
-                }
-
-                card.innerHTML = `
-                    <div>
-                        <div class="card-main-img-box">
-                            <img src="${defaultImg}" alt="${item.name}" class="main-display-img">
-                        </div>
-                        ${thumbsHtml}
-                        <div class="card-title">${item.name}</div>
-                        <div class="card-subtitle">${item.model}</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 11px; color: #555; margin-bottom: 12px;">${item.variants}</div>
-                        <div class="card-footer-action">
-                            <span style="font-size: 11px; color: #777; font-weight: bold;">Dynamic Tech</span>
-                            <a href="https://wa.me/918390909845?text=${waText}" target="_blank" class="model-specs-link">Inquire →</a>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function switchImage(thumbElement, newImgUrl) {
-            let cardBox = thumbElement.closest('.prizor-card');
-            let mainImg = cardBox.querySelector('.main-display-img');
-            mainImg.src = newImgUrl;
-
-            // Highlight active thumb
-            cardBox.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active-thumb'));
-            thumbElement.classList.add('active-thumb');
-        }
-
-        // Initialize App
-        initSidebar();
-        selectCategory('network-camera', document.querySelector('.sidebar-item'));
-    </script>
 </body>
 </html>
