@@ -83,6 +83,7 @@
             outline: none;
             font-size: 14px;
             background: #fff;
+            color: #000;
         }
 
         .search-icon-inside {
@@ -418,7 +419,7 @@
         <div class="search-bar">
             <div class="search-input-wrapper">
                 <span class="search-icon-inside">🔍</span>
-                <input type="text" id="searchInput" placeholder="Search CCTV, TV, NVR, DVR, PoE Switch..." autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Search CCTV, TV, NVR, DVR, PoE Switch..." autocomplete="off" onkeyup="filterProducts()">
             </div>
         </div>
 
@@ -463,7 +464,7 @@
                 <div class="product-grid" id="productGrid">
                     
                     <!-- 1. Bullet Camera -->
-                    <div class="product-card" data-category="bullet" data-keywords="bullet camera cctv 5mp ip prizor outdoor security">
+                    <div class="product-card" data-category="bullet" data-text="bullet camera cctv 5mp ip prizor outdoor security">
                         <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                         <div class="product-img-container" onclick="openProductDetail('Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)', '5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Bullet Camera">
@@ -475,7 +476,7 @@
                     </div>
 
                     <!-- 2. Dome Camera -->
-                    <div class="product-card" data-category="dome" data-keywords="dome camera cctv 5mp indoor prizor security">
+                    <div class="product-card" data-category="dome" data-text="dome camera cctv 5mp indoor prizor security">
                         <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                         <div class="product-img-container" onclick="openProductDetail('Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)', '5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="Dome Camera">
@@ -487,7 +488,7 @@
                     </div>
 
                     <!-- 3. PTZ Camera -->
-                    <div class="product-card" data-category="ptz" data-keywords="ptz speed dome camera 360 degree prizor security">
+                    <div class="product-card" data-category="ptz" data-text="ptz speed dome camera 360 degree prizor security">
                         <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                         <div class="product-img-container" onclick="openProductDetail('Prizor 360° Speed Dome PTZ CCTV Camera (25X Zoom)', '360° Pan-Tilt-Zoom, 25X Optical Zoom, AI Motion Auto Tracking, Laser IR Vision.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="PTZ Camera">
@@ -499,7 +500,7 @@
                     </div>
 
                     <!-- 4. Smart TV -->
-                    <div class="product-card" data-category="tv" data-keywords="tv television smart tv 4k qled google tv prizor display 85 inch">
+                    <div class="product-card" data-category="tv" data-text="tv television smart tv 4k qled google tv prizor display 85 inch">
                         <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                         <div class="product-img-container" onclick="openProductDetail('Prizor 85 inch Smart TV & Surveillance Display', '85 Inch 4K Ultra HD Display, Google TV, QLED Panel, Built-in Surveillance Monitor Support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Smart TV">
@@ -511,7 +512,7 @@
                     </div>
 
                     <!-- 5. NVR -->
-                    <div class="product-card" data-category="nvr" data-keywords="nvr network video recorder 4k prizor system cctv">
+                    <div class="product-card" data-category="nvr" data-text="nvr network video recorder 4k prizor system cctv">
                         <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                         <div class="product-img-container" onclick="openProductDetail('Prizor 4K Network Video Recorder (NVR)', '4K IP Camera Support, PoE Ports, AI Face Recognition Search, SATA HDD Support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="NVR">
@@ -523,7 +524,7 @@
                     </div>
 
                     <!-- 6. DVR -->
-                    <div class="product-card" data-category="dvr" data-keywords="dvr digital video recorder system prizor 8ch cctv">
+                    <div class="product-card" data-category="dvr" data-text="dvr digital video recorder system prizor 8ch cctv">
                         <span class="badge badge-prizor">PRIZOR AUTHORIZED</span>
                         <div class="product-img-container" onclick="openProductDetail('Prizor 8-Channel Digital Video Recorder (DVR)', '5-in-1 DVR Support, H.265+ Video Compression, HDMI/VGA Output, Mobile App Remote Viewing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="DVR">
@@ -535,7 +536,7 @@
                     </div>
 
                     <!-- 7. PoE Switch -->
-                    <div class="product-card" data-category="poe" data-keywords="poe switch ethernet router network 8 port cctv">
+                    <div class="product-card" data-category="poe" data-text="poe switch ethernet router network 8 port cctv">
                         <span class="badge badge-dts">DTS NETWORKING</span>
                         <div class="product-img-container" onclick="openProductDetail('Industrial 8-Port PoE Switch with Gigabit Uplink', 'Fast Ethernet PoE+ Ports, 250m Long Distance Extension Mode, Metal Casing.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="PoE Switch">
@@ -547,7 +548,7 @@
                     </div>
 
                     <!-- 8. Hard Disk -->
-                    <div class="product-card" data-category="hdd" data-keywords="hard disk hdd surveillance storage 2tb cctv">
+                    <div class="product-card" data-category="hdd" data-text="hard disk hdd surveillance storage 2tb cctv">
                         <span class="badge badge-dts">SURVEILLANCE STORAGE</span>
                         <div class="product-img-container" onclick="openProductDetail('Surveillance Hard Disk (2TB / 4TB HDD)', 'Engineered for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&auto=format&fit=crop&q=60" alt="HDD">
@@ -559,7 +560,7 @@
                     </div>
 
                     <!-- 9. Fire Alarm -->
-                    <div class="product-card" data-category="fire-alarm" data-keywords="fire alarm control panel smoke detector safety">
+                    <div class="product-card" data-category="fire-alarm" data-text="fire alarm control panel smoke detector safety">
                         <span class="badge badge-fire">FIRE SAFETY</span>
                         <div class="product-img-container" onclick="openProductDetail('Fire Alarm Control Panel & Smoke Detectors', 'Microprocessor-based multi-loop fire alarm system, optical smoke detectors and hooters.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Alarm">
@@ -571,7 +572,7 @@
                     </div>
 
                     <!-- 10. Fire Extinguishers -->
-                    <div class="product-card" data-category="fire-ext" data-keywords="fire extinguishers safety abc type">
+                    <div class="product-card" data-category="fire-ext" data-text="fire extinguishers safety abc type">
                         <span class="badge badge-fire">FIRE SAFETY</span>
                         <div class="product-img-container" onclick="openProductDetail('ISI Marked ABC Type Fire Extinguishers', 'Stored pressure type ABC fire extinguisher, suitable for Class A, B, C and electrical fires.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60" alt="Fire Extinguisher">
@@ -583,7 +584,7 @@
                     </div>
 
                     <!-- 11. Cables -->
-                    <div class="product-card" data-category="cable" data-keywords="cables network hoc cat6 wire coaxial">
+                    <div class="product-card" data-category="cable" data-text="cables network hoc cat6 wire coaxial">
                         <span class="badge badge-hoc">HOC CABLES</span>
                         <div class="product-img-container" onclick="openProductDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', '100% Pure Copper Conductor, Gigabit Ethernet Support, Weatherproof Insulation.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60" alt="Cables">
@@ -595,7 +596,7 @@
                     </div>
 
                     <!-- 12. CCTV Installation Service -->
-                    <div class="product-card" data-category="service-cctv" data-keywords="cctv installation setup service">
+                    <div class="product-card" data-category="service-cctv" data-text="cctv installation setup service">
                         <span class="badge badge-dts">DTS SERVICES</span>
                         <div class="product-img-container" onclick="openProductDetail('Professional CCTV Installation & Setup Service', 'Complete site survey, wiring, camera mounting, configuration, and mobile app training.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=500&auto=format&fit=crop&q=60" alt="CCTV Setup">
@@ -607,7 +608,7 @@
                     </div>
 
                     <!-- 13. AMC Service -->
-                    <div class="product-card" data-category="service-amc" data-keywords="annual maintenance amc service cctv">
+                    <div class="product-card" data-category="service-amc" data-text="annual maintenance amc service cctv">
                         <span class="badge badge-dts">DTS SERVICES</span>
                         <div class="product-img-container" onclick="openProductDetail('Annual Maintenance Contract (AMC) for Security Systems', 'Regular periodic check-ups, cleaning, software updates, and priority breakdown support.', 'Contact for Best Price Offer', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60')">
                             <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop&q=60" alt="AMC">
@@ -716,62 +717,58 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        const searchInput = document.getElementById('searchInput');
-        const noResultsBox = document.getElementById('noResultsBox');
-
-        searchInput.addEventListener('input', function() {
-            let filter = this.value.toLowerCase().trim();
-            let cards = document.querySelectorAll('.product-card');
+        function filterProducts() {
+            showCatalogView();
+            let input = document.getElementById('searchInput').value.toLowerCase().trim();
+            let cards = document.getElementsByClassName('product-card');
             let visibleCount = 0;
 
-            if (filter === '') {
-                noResultsBox.style.display = 'none';
-                cards.forEach(card => card.style.display = "flex");
-                return;
-            }
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].querySelector('h4').innerText.toLowerCase();
+                let specs = cards[i].querySelector('.specs').innerText.toLowerCase();
+                let text = cards[i].getAttribute('data-text').toLowerCase();
 
-            cards.forEach(card => {
-                let title = card.querySelector('h4').innerText.toLowerCase();
-                let specs = card.querySelector('.specs').innerText.toLowerCase();
-                let keywords = card.getAttribute('data-keywords') ? card.getAttribute('data-keywords').toLowerCase() : '';
-
-                if (title.includes(filter) || specs.includes(filter) || keywords.includes(filter)) {
-                    card.style.display = "flex";
+                if (title.includes(input) || specs.includes(input) || text.includes(input)) {
+                    cards[i].style.display = "flex";
                     visibleCount++;
                 } else {
-                    card.style.display = "none";
+                    cards[i].style.display = "none";
                 }
-            });
+            }
 
-            if (visibleCount === 0) {
+            let noResultsBox = document.getElementById('noResultsBox');
+            if (visibleCount === 0 && input !== "") {
                 noResultsBox.style.display = 'block';
-                document.getElementById('whatsappCustomBtn').href = `https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20search%20mein%20'${encodeURIComponent(filter)}'%20wala%20product%20nahi%20mila,%20kya%20aap%20ise%20arrange%20kar%20sakte%20hain?`;
+                document.getElementById('whatsappCustomBtn').href = `https://wa.me/918390909845?text=Hi%20DTS,%20mujhe%20search%20mein%20'${encodeURIComponent(input)}'%20wala%20product%20nahi%20mila,%20kya%20aap%20arrange%20kar%20sakte%20hain?`;
             } else {
                 noResultsBox.style.display = 'none';
             }
-        });
+        }
 
         function filterCategory(category, element) {
             showCatalogView();
-            document.querySelectorAll('aside ul li').forEach(li => li.classList.remove('active'));
+            document.getElementById('searchInput').value = "";
+            let listItems = document.querySelectorAll('aside ul li');
+            listItems.forEach(li => li.classList.remove('active'));
             if(element) {
                 element.classList.add('active');
             }
 
-            let cards = document.querySelectorAll('.product-card');
+            let cards = document.getElementsByClassName('product-card');
             let visibleCount = 0;
-            cards.forEach(card => {
-                let cardCategory = card.getAttribute('data-category');
-                let keywords = card.getAttribute('data-keywords') ? card.getAttribute('data-keywords').toLowerCase() : '';
 
-                if (category === 'all' || cardCategory === category || keywords.includes(category)) {
-                    card.style.display = "flex";
+            for (let i = 0; i < cards.length; i++) {
+                let cardCategory = cards[i].getAttribute('data-category');
+
+                if (category === 'all' || cardCategory === category) {
+                    cards[i].style.display = "flex";
                     visibleCount++;
                 } else {
-                    card.style.display = "none";
+                    cards[i].style.display = "none";
                 }
-            });
+            }
 
+            let noResultsBox = document.getElementById('noResultsBox');
             if (visibleCount === 0) {
                 noResultsBox.style.display = 'block';
             } else {
