@@ -102,26 +102,30 @@
             padding: 0 20px;
         }
 
+        /* Top Navigation Tabs matching Prizor style */
         .category-tabs {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 25px;
             border-bottom: 2px solid #e0e0e0;
             margin-bottom: 30px;
             flex-wrap: wrap;
+            background: #fff;
+            padding: 10px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .tab-btn {
             background: none;
             border: none;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
             color: #555;
-            padding: 12px 5px;
+            padding: 10px 15px;
             cursor: pointer;
             position: relative;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             transition: 0.3s;
         }
 
@@ -132,11 +136,91 @@
         .tab-btn.active::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: -12px;
             left: 0;
             width: 100%;
             height: 3px;
             background-color: #e63946;
+        }
+
+        /* Prizor Style Layout Grid */
+        .catalog-layout {
+            display: flex;
+            gap: 30px;
+        }
+
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .sidebar-list li {
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-list li:hover, .sidebar-list li.active {
+            background-color: #fff1f2;
+            color: #e63946;
+            font-weight: 600;
+        }
+
+        .sidebar-list li span {
+            font-size: 11px;
+            color: #777;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .model-count-tag {
+            font-size: 12px;
+            color: #e63946;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         .product-grid {
@@ -163,6 +247,18 @@
             transform: translateY(-3px);
         }
 
+        .model-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 11px;
+            color: #444;
+            font-weight: 700;
+            background: #f1f3f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
         .model-count {
             position: absolute;
             bottom: 15px;
@@ -174,11 +270,11 @@
 
         .card-img-box {
             width: 100%;
-            height: 180px;
+            height: 160px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
+            margin: 15px 0;
         }
 
         .card-img-box img {
@@ -188,11 +284,11 @@
         }
 
         .card-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: #111;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-align: left;
         }
 
@@ -248,6 +344,15 @@
             text-align: center;
             font-size: 13px;
         }
+
+        @media(max-width: 900px) {
+            .catalog-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -272,135 +377,168 @@
     <div class="container">
         
         <div id="homeView">
-            <!-- Navigation Tabs -->
+            <!-- Top Navigation Tabs (Prizor Style) -->
             <div class="category-tabs">
-                <button class="tab-btn active" onclick="filterTab('all', this)">ALL PRODUCTS</button>
-                <button class="tab-btn" onclick="filterTab('cctv', this)">CCTV</button>
-                <button class="tab-btn" onclick="filterTab('recording', this)">NETWORK VIDEO RECORDER</button>
-                <button class="tab-btn" onclick="filterTab('storage', this)">SURVEILLANCE HDD</button>
-                <button class="tab-btn" onclick="filterTab('network', this)">POE SWITCHES & NETWORKING</button>
-                <button class="tab-btn" onclick="filterTab('display', this)">SMART TVS & DISPLAYS</button>
+                <button class="tab-btn active" onclick="filterTab('all', this)">ALL</button>
+                <button class="tab-btn" onclick="filterTab('cctv', this)">CAMERAS</button>
+                <button class="tab-btn" onclick="filterTab('recording', this)">RECORDING</button>
+                <button class="tab-btn" onclick="filterTab('display', this)">DISPLAY</button>
+                <button class="tab-btn" onclick="filterTab('network', this)">NETWORK</button>
             </div>
 
-            <div class="product-grid" id="cardGrid">
-                
-                <!-- 1. CCTV - Bullet Camera -->
-                <div class="prizor-card" data-cat="cctv" data-name="bullet camera cctv 5mp ip prizor outdoor security" onclick="openDetail('Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)', '5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="Bullet Camera">
-                    </div>
-                    <div class="card-title">Bullet Cameras (Prizor)</div>
-                    <div class="card-desc">5MP Ultra HD outdoor security camera with metal waterproof housing.</div>
-                    <span class="model-count">PR-RT-MB</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Bullet%20Camera" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+            <div class="catalog-layout">
+                <!-- Sidebar Filter Menu -->
+                <div class="sidebar">
+                    <h3>Categories</h3>
+                    <ul class="sidebar-list">
+                        <li class="active" onclick="filterTab('all', null)">All Models <span>11</span></li>
+                        <li onclick="filterTab('cctv', null)">CCTV <span>3</span></li>
+                        <li onclick="filterTab('recording', null)">Network Video Recorder <span>2</span></li>
+                        <li onclick="filterTab('storage', null)">Surveillance Hard Disk (HDD) <span>1</span></li>
+                        <li onclick="filterTab('network', null)">PoE Switches & Networking <span>3</span></li>
+                        <li onclick="filterTab('display', null)">Smart TVs & Displays (Prizor) <span>3</span></li>
+                    </ul>
                 </div>
 
-                <!-- 2. CCTV - Dome Camera -->
-                <div class="prizor-card" data-cat="cctv" data-name="dome camera cctv 5mp indoor prizor security" onclick="openDetail('Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)', '5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="Dome Camera">
+                <!-- Main Products Area -->
+                <div class="main-content">
+                    <div class="section-header">
+                        <div class="section-title" id="sectionHeading">All Models</div>
+                        <div class="model-count-tag" id="modelCountTag">11 Models</div>
                     </div>
-                    <div class="card-title">Dome Cameras (Prizor)</div>
-                    <div class="card-desc">Indoor dome security camera featuring built-in audio mic and color vision.</div>
-                    <span class="model-count">PXT-50MIR</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Dome%20Camera" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
 
-                <!-- 3. CCTV - PTZ Speed Dome -->
-                <div class="prizor-card" data-cat="cctv" data-name="ptz speed dome camera 360 degree prizor security" onclick="openDetail('Prizor 360° Speed Dome PTZ CCTV Camera (25X Zoom)', '360° Pan-Tilt-Zoom, 25X Optical Zoom, AI Motion Auto Tracking, Laser IR Vision.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="PTZ Camera">
+                    <div class="product-grid" id="cardGrid">
+                        
+                        <!-- 1. CCTV - Bullet Camera -->
+                        <div class="prizor-card" data-cat="cctv" data-name="bullet camera cctv 5mp ip prizor outdoor security" onclick="openDetail('Prizor 5MP Metal Bullet CCTV Camera (PR-RT-MB)', '5MP Ultra HD, Sony Starvis Sensor, 40m Smart IR Night Vision, IP67 Weatherproof Metal Housing.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10')">
+                            <span class="model-badge">MDL::01</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="Bullet Camera">
+                            </div>
+                            <div class="card-title">Bullet Cameras (Prizor)</div>
+                            <div class="card-desc">5MP Ultra HD outdoor security camera with metal waterproof housing.</div>
+                            <span class="model-count">PR-RT-MB</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Bullet%20Camera" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <!-- 2. CCTV - Dome Camera -->
+                        <div class="prizor-card" data-cat="cctv" data-name="dome camera cctv 5mp indoor prizor security" onclick="openDetail('Prizor 5MP Metal Dome CCTV Camera (PXT-50MIR)', '5MP Resolution, Built-in Audio Mic, ColorView Night Vision, Vandal-Proof Design.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10')">
+                            <span class="model-badge">MDL::02</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="Dome Camera">
+                            </div>
+                            <div class="card-title">Dome Cameras (Prizor)</div>
+                            <div class="card-desc">Indoor dome security camera featuring built-in audio mic and color vision.</div>
+                            <span class="model-count">PXT-50MIR</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Dome%20Camera" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <!-- 3. CCTV - PTZ Speed Dome -->
+                        <div class="prizor-card" data-cat="cctv" data-name="ptz speed dome camera 360 degree prizor security" onclick="openDetail('Prizor 360° Speed Dome PTZ CCTV Camera (25X Zoom)', '360° Pan-Tilt-Zoom, 25X Optical Zoom, AI Motion Auto Tracking, Laser IR Vision.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10')">
+                            <span class="model-badge">MDL::03</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA4-5oW8t77mTx195VJEtZINUco2TiXJ_2du0pbJI4Q&s=10" alt="PTZ Camera">
+                            </div>
+                            <div class="card-title">PTZ Speed Dome (Prizor)</div>
+                            <div class="card-desc">360 degree pan-tilt-zoom camera with 25X optical zoom and tracking.</div>
+                            <span class="model-count">25X Zoom</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20PTZ%20Camera" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <!-- 4. Recording - NVR & DVR -->
+                        <div class="prizor-card" data-cat="recording" data-name="nvr network video recorder 4k prizor system cctv" onclick="openDetail('Prizor 4K Network Video Recorder (NVR)', '4K IP Camera Support, PoE Ports, AI Face Recognition Search, SATA HDD Support.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s')">
+                            <span class="model-badge">MDL::04</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s" alt="NVR">
+                            </div>
+                            <div class="card-title">Network Video Recorder (NVR)</div>
+                            <div class="card-desc">4K IP network video recorder with PoE ports and AI facial recognition.</div>
+                            <span class="model-count">NVR Series</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20NVR" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <div class="prizor-card" data-cat="recording" data-name="dvr digital video recorder system prizor 8ch cctv" onclick="openDetail('Prizor Digital Video Recorder (DVR)', '5-in-1 DVR Support, H.265+ Video Compression, HDMI/VGA Output, Mobile App Remote Viewing.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s')">
+                            <span class="model-badge">MDL::05</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s" alt="DVR">
+                            </div>
+                            <div class="card-title">Digital Video Recorder (DVR)</div>
+                            <div class="card-desc">Multi-channel digital video recorder with high compression and mobile access.</div>
+                            <span class="model-count">DVR Series</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20DVR" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <!-- 5. Surveillance Hard Disk (HDD) -->
+                        <div class="prizor-card" data-cat="storage" data-name="hard disk hdd surveillance storage 2tb cctv" onclick="openDetail('Surveillance Hard Disk (2TB / 4TB HDD)', 'Engineered for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s')">
+                            <span class="model-badge">MDL::06</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s" alt="HDD">
+                            </div>
+                            <div class="card-title">Surveillance Hard Disk (HDD)</div>
+                            <div class="card-desc">High reliability hard disk engineered specifically for 24/7 CCTV recording.</div>
+                            <span class="model-count">2TB / 4TB</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Hard%20Disk" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <!-- 6. PoE Switches & Networking - CAT6 & HOC Cables -->
+                        <div class="prizor-card" data-cat="network" data-name="poe switch ethernet router network 8 port cctv" onclick="openDetail('Industrial PoE Switch with Gigabit Uplink', 'Fast Ethernet PoE+ Ports, 250m Long Distance Extension Mode, Metal Casing.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s')">
+                            <span class="model-badge">MDL::07</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s" alt="PoE Switch">
+                            </div>
+                            <div class="card-title">PoE Switches</div>
+                            <div class="card-desc">Industrial grade PoE switch with long-range data and power extension.</div>
+                            <span class="model-count">PoE Series</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20PoE%20Switch" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <div class="prizor-card" data-cat="network" data-name="hoc high speed cat6 lan & cctv cable roll" onclick="openDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', 'Pure Copper Conductor, Gigabit Ethernet Support, Low Signal Loss, Heavy Duty Shielding.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s')">
+                            <span class="model-badge">MDL::08</span>
+                            <div class="card-img-box">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s" alt="HOC High Speed CAT6 LAN & CCTV Cable Roll">
+                            </div>
+                            <div class="card-title">HOC High Speed CAT6 LAN & CCTV Cable Roll</div>
+                            <div class="card-desc">High speed pure copper CAT6 LAN and CCTV cable roll for smooth network and camera data flow.</div>
+                            <span class="model-count">CAT6 Roll</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20HOC%20High%20Speed%20CAT6%20LAN%20%26%20CCTV%20Cable%20Roll" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <!-- 7. Smart TVs & Displays (Prizor) Models -->
+                        <div class="prizor-card" data-cat="display" data-name="prizor smart tv 32 inch 43 inch led display" onclick="openDetail('Prizor 32 & 43 inch Smart LED TV', 'HD Ready / Full HD Smart Android TV, Built-in Wi-Fi, Multiple HDMI & USB Ports.', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
+                            <span class="model-badge">MDL::09</span>
+                            <div class="card-img-box">
+                                <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Prizor TV 32 43">
+                            </div>
+                            <div class="card-title">Prizor 32" & 43" Smart LED TV</div>
+                            <div class="card-desc">Smart Android TV models with crystal clear resolution and app support.</div>
+                            <span class="model-count">32" / 43"</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Prizor%2032%2043%20TV" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <div class="prizor-card" data-cat="display" data-name="prizor smart tv 55 inch 65 inch 4k qled display" onclick="openDetail('Prizor 55 & 65 inch 4K QLED Smart TV', '4K Ultra HD, Google TV, Dolby Vision & Atmos, Bezelless Surveillance Monitor Design.', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
+                            <span class="model-badge">MDL::10</span>
+                            <div class="card-img-box">
+                                <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Prizor TV 55 65">
+                            </div>
+                            <div class="card-title">Prizor 55" & 65" 4K QLED TV</div>
+                            <div class="card-desc">4K Ultra HD Google TV and QLED display panels optimized for monitoring.</div>
+                            <span class="model-count">55" / 65"</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Prizor%2055%2065%20TV" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
+                        <div class="prizor-card" data-cat="display" data-name="prizor smart tv 75 inch 85 inch big display" onclick="openDetail('Prizor 75 & 85 inch Large Screen Smart TV', 'Ultra Large 4K Display, Advanced Picture Engine, Multiple Display Split Feature for CCTV.', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
+                            <span class="model-badge">MDL::11</span>
+                            <div class="card-img-box">
+                                <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Prizor TV 75 85">
+                            </div>
+                            <div class="card-title">Prizor 75" & 85" Large Screen TV</div>
+                            <div class="card-desc">Massive 4K display screens built for control rooms and large camera setups.</div>
+                            <span class="model-count">75" / 85"</span>
+                            <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Prizor%20Big%20TV" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
+                        </div>
+
                     </div>
-                    <div class="card-title">PTZ Speed Dome (Prizor)</div>
-                    <div class="card-desc">360 degree pan-tilt-zoom camera with 25X optical zoom and tracking.</div>
-                    <span class="model-count">25X Zoom</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20PTZ%20Camera" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
                 </div>
-
-                <!-- 4. Recording - NVR & DVR -->
-                <div class="prizor-card" data-cat="recording" data-name="nvr network video recorder 4k prizor system cctv" onclick="openDetail('Prizor 4K Network Video Recorder (NVR)', '4K IP Camera Support, PoE Ports, AI Face Recognition Search, SATA HDD Support.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s" alt="NVR">
-                    </div>
-                    <div class="card-title">Network Video Recorder (NVR)</div>
-                    <div class="card-desc">4K IP network video recorder with PoE ports and AI facial recognition.</div>
-                    <span class="model-count">NVR Series</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20NVR" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
-                <div class="prizor-card" data-cat="recording" data-name="dvr digital video recorder system prizor 8ch cctv" onclick="openDetail('Prizor Digital Video Recorder (DVR)', '5-in-1 DVR Support, H.265+ Video Compression, HDMI/VGA Output, Mobile App Remote Viewing.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s" alt="DVR">
-                    </div>
-                    <div class="card-title">Digital Video Recorder (DVR)</div>
-                    <div class="card-desc">Multi-channel digital video recorder with high compression and mobile access.</div>
-                    <span class="model-count">DVR Series</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20DVR" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
-                <!-- 5. Surveillance Hard Disk (HDD) -->
-                <div class="prizor-card" data-cat="storage" data-name="hard disk hdd surveillance storage 2tb cctv" onclick="openDetail('Surveillance Hard Disk (2TB / 4TB HDD)', 'Engineered for 24/7 CCTV Recording, High Reliability Workload Rating, Optimized for DVR & NVR.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s" alt="HDD">
-                    </div>
-                    <div class="card-title">Surveillance Hard Disk (HDD)</div>
-                    <div class="card-desc">High reliability hard disk engineered specifically for 24/7 CCTV recording.</div>
-                    <span class="model-count">2TB / 4TB</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Hard%20Disk" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
-                <!-- 6. PoE Switches & Networking - CAT6 & HOC Cables -->
-                <div class="prizor-card" data-cat="network" data-name="poe switch ethernet router network 8 port cctv" onclick="openDetail('Industrial PoE Switch with Gigabit Uplink', 'Fast Ethernet PoE+ Ports, 250m Long Distance Extension Mode, Metal Casing.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw5hbrKRUgMxdpoS8O-xe81_vTUi7ES1dA0NtkKHrrw&s" alt="PoE Switch">
-                    </div>
-                    <div class="card-title">PoE Switches</div>
-                    <div class="card-desc">Industrial grade PoE switch with long-range data and power extension.</div>
-                    <span class="model-count">PoE Series</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20PoE%20Switch" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
-                <div class="prizor-card" data-cat="network" data-name="hoc high speed cat6 lan & cctv cable roll" onclick="openDetail('HOC High Speed CAT6 LAN & CCTV Cable Roll', 'Pure Copper Conductor, Gigabit Ethernet Support, Low Signal Loss, Heavy Duty Shielding.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s')">
-                    <div class="card-img-box">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtgzhovk-dvF6JPYLKG7SxkB5WrZY9WL_Qz-a-o929A&s" alt="HOC High Speed CAT6 LAN & CCTV Cable Roll">
-                    </div>
-                    <div class="card-title">HOC High Speed CAT6 LAN & CCTV Cable Roll</div>
-                    <div class="card-desc">High speed pure copper CAT6 LAN and CCTV cable roll for smooth network and camera data flow.</div>
-                    <span class="model-count">CAT6 Roll</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20HOC%20High%20Speed%20CAT6%20LAN%20%26%20CCTV%20Cable%20Roll" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
-                <!-- 7. Smart TVs & Displays (Prizor) Models -->
-                <div class="prizor-card" data-cat="display" data-name="prizor smart tv 32 inch 43 inch led display" onclick="openDetail('Prizor 32 & 43 inch Smart LED TV', 'HD Ready / Full HD Smart Android TV, Built-in Wi-Fi, Multiple HDMI & USB Ports.', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Prizor TV 32 43">
-                    </div>
-                    <div class="card-title">Prizor 32" & 43" Smart LED TV</div>
-                    <div class="card-desc">Smart Android TV models with crystal clear resolution and app support.</div>
-                    <span class="model-count">32" / 43"</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Prizor%2032%2043%20TV" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
-                <div class="prizor-card" data-cat="display" data-name="prizor smart tv 55 inch 65 inch 4k qled display" onclick="openDetail('Prizor 55 & 65 inch 4K QLED Smart TV', '4K Ultra HD, Google TV, Dolby Vision & Atmos, Bezelless Surveillance Monitor Design.', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Prizor TV 55 65">
-                    </div>
-                    <div class="card-title">Prizor 55" & 65" 4K QLED TV</div>
-                    <div class="card-desc">4K Ultra HD Google TV and QLED display panels optimized for monitoring.</div>
-                    <span class="model-count">55" / 65"</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Prizor%2055%2065%20TV" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
-                <div class="prizor-card" data-cat="display" data-name="prizor smart tv 75 inch 85 inch big display" onclick="openDetail('Prizor 75 & 85 inch Large Screen Smart TV', 'Ultra Large 4K Display, Advanced Picture Engine, Multiple Display Split Feature for CCTV.', 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60" alt="Prizor TV 75 85">
-                    </div>
-                    <div class="card-title">Prizor 75" & 85" Large Screen TV</div>
-                    <div class="card-desc">Massive 4K display screens built for control rooms and large camera setups.</div>
-                    <span class="model-count">75" / 85"</span>
-                    <a href="https://wa.me/918390909845?text=Hi%20DTS,%20I%20want%20details%20for%20Prizor%20Big%20TV" target="_blank" class="btn-quote" onclick="event.stopPropagation()">Contact for Best Offer</a>
-                </div>
-
             </div>
         </div>
 
@@ -424,23 +562,56 @@
 
     <script>
         function filterTab(category, btnElement) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
+            // Update top bar buttons if clicked
+            if (btnElement) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            // Update sidebar items active state
+            let sidebarItems = document.querySelectorAll('.sidebar-list li');
+            sidebarItems.forEach(li => {
+                li.classList.remove('active');
+                if ((category === 'all' && li.innerText.includes('All Models')) ||
+                    (category === 'cctv' && li.innerText.includes('CCTV')) && !li.innerText.includes('Cable') && !li.innerText.includes('Network') ||
+                    (category === 'recording' && li.innerText.includes('Network Video Recorder')) ||
+                    (category === 'storage' && li.innerText.includes('Surveillance Hard Disk')) ||
+                    (category === 'network' && li.innerText.includes('PoE Switches')) ||
+                    (category === 'display' && li.innerText.includes('Smart TVs'))) {
+                    li.classList.add('active');
+                }
+            });
 
             let cards = document.querySelectorAll('.prizor-card');
+            let visibleCount = 0;
             cards.forEach(card => {
                 let cat = card.getAttribute('data-cat');
                 if (category === 'all' || cat === category) {
                     card.style.display = "block";
+                    visibleCount++;
                 } else {
                     card.style.display = "none";
                 }
             });
+
+            // Update Header Title and Counter based on Prizor view style
+            let headings = {
+                'all': 'All Models',
+                'cctv': 'CCTV Cameras',
+                'recording': 'Network Video Recorder',
+                'storage': 'Surveillance Hard Disk (HDD)',
+                'network': 'PoE Switches & Networking',
+                'display': 'Smart TVs & Displays'
+            };
+
+            document.getElementById('sectionHeading').innerText = headings[category] || 'Models';
+            document.getElementById('modelCountTag').innerText = visibleCount + ' Models';
         }
 
         function searchFilter() {
             let query = document.getElementById('searchInput').value.toLowerCase().trim();
             let cards = document.querySelectorAll('.prizor-card');
+            let visibleCount = 0;
             
             cards.forEach(card => {
                 let name = card.getAttribute('data-name');
@@ -449,10 +620,14 @@
 
                 if (name.includes(query) || title.includes(query) || desc.includes(query)) {
                     card.style.display = "block";
+                    visibleCount++;
                 } else {
                     card.style.display = "none";
                 }
             });
+
+            document.getElementById('sectionHeading').innerText = 'Search Results';
+            document.getElementById('modelCountTag').innerText = visibleCount + ' Models';
         }
 
         function openDetail(title, desc, imgUrl) {
