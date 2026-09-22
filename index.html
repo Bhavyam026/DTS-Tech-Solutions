@@ -129,7 +129,7 @@
                 </a>
                 
                 <button onclick="openAIBotModal()" class="md:hidden flex items-center gap-1.5 bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-brand-700 transition">
-                    <i class="fa-solid fa-robot text-sm"></i> AI Bot
+                    <i class="fa-solid fa-robot text-sm"></i> AI Assistant
                 </button>
             </div>
 
@@ -175,6 +175,7 @@
         </div>
     </header>
 
+    <!-- Hero Section featuring Cartoon Animation / Video element -->
     <section class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white overflow-hidden py-12 lg:py-16">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -187,12 +188,12 @@
                         Prizor Security Hardware & <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">HOC Cables</span>
                     </h2>
                     <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-                        Explore complete Prizor surveillance hardware (Dome, Bullet, PTZ Cameras, NVR, DVR, PoE Switches) along with genuine HOC cables and Fire Safety Services. Use our interactive AI Bot to find your exact requirement!
+                        Explore complete Prizor surveillance hardware (Dome, Bullet, PTZ Cameras, NVR, DVR, PoE Switches) along with genuine HOC cables and Fire Safety Services. Use our interactive AI Assistant to chat and build your requirement!
                     </p>
                     <div class="flex flex-wrap gap-4 pt-2">
                         <button onclick="openAIBotModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
                             <i class="fa-solid fa-robot text-sky-300"></i>
-                            <span>Start AI Requirement Bot</span>
+                            <span>Start Interactive AI Assistant</span>
                         </button>
                         <a href="#catalog" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-xl text-sm transition transform hover:-translate-y-0.5 flex items-center gap-2">
                             <span>Explore Full Catalog</span>
@@ -201,8 +202,9 @@
                     </div>
                 </div>
 
+                <!-- Animated Cartoon Video/Bot element -->
                 <div class="lg:col-span-5 flex flex-col items-center justify-center">
-                    <div class="relative w-64 h-64 sm:w-72 sm:h-72 bg-gradient-to-tr from-brand-600/20 to-sky-500/20 rounded-full border border-brand-500/30 flex items-center justify-center animate-glow">
+                    <div class="relative w-64 h-64 sm:w-72 sm:h-72 bg-gradient-to-tr from-brand-600/20 to-sky-500/25 rounded-full border border-brand-500/30 flex items-center justify-center animate-glow">
                         <div class="absolute inset-4 rounded-full border border-dashed border-sky-400/40 animate-[spin_20s_linear_infinite]"></div>
                         
                         <div class="relative z-10 text-center animate-cartoon-bounce cursor-pointer" onclick="openAIBotModal()">
@@ -218,7 +220,7 @@
                                 </div>
                             </div>
                             <div class="mt-4 bg-slate-900/90 backdrop-blur border border-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg flex items-center gap-2">
-                                <i class="fa-solid fa-robot text-sky-400"></i> Click me for Requirement Help! 🤖
+                                <i class="fa-solid fa-robot text-sky-400"></i> Click me to chat & talk! 🤖
                             </div>
                         </div>
                     </div>
@@ -291,7 +293,7 @@
         </div>
     </main>
 
-    <!-- AI Requirement & Consultation Bot Modal -->
+    <!-- Interactive Conversational AI Assistant Modal -->
     <div id="aiBotModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
         <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in flex flex-col">
             <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white">
@@ -300,8 +302,8 @@
                         <i class="fa-solid fa-robot text-base"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-sm sm:text-base">DTS Smart AI Security Advisor 🤖</h3>
-                        <p class="text-[10px] text-sky-300">Direct WhatsApp Requirement Form</p>
+                        <h3 class="font-bold text-sm sm:text-base">DTS Conversational AI Assistant 🤖</h3>
+                        <p class="text-[10px] text-sky-300">Step-by-step Requirement Builder & WhatsApp Summary</p>
                     </div>
                 </div>
                 <button onclick="closeAIBotModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
@@ -309,58 +311,18 @@
                 </button>
             </div>
 
-            <div class="p-6 space-y-5 bg-slate-50 max-h-[70vh] overflow-y-auto" id="botChatContainer">
-                <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-xs flex-shrink-0 font-bold">AI</div>
-                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-xs sm:text-sm text-slate-700 shadow-sm space-y-2">
-                        <p class="font-bold text-slate-900">Namaste! Main DTS AI Assistant hoon. 🛡️</p>
-                        <p>Aapki kya requirement hai? Kripya niche diye gaye form mein apna category, quantity aur details bhariye. Yeh form direct aapke WhatsApp se hamare paas bhej diya jayega!</p>
-                    </div>
-                </div>
+            <!-- Chat Container Box -->
+            <div class="p-6 space-y-4 bg-slate-50 h-[400px] overflow-y-auto" id="botChatMessages">
+                <!-- Dynamic messages will be appended here -->
+            </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
-                        <i class="fa-solid fa-list-check text-brand-600"></i> Customer Requirement Form
-                    </h4>
-
-                    <div class="space-y-3 text-xs">
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Customer Name & WhatsApp Number:</label>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                <input type="text" id="botCustomerName" placeholder="Aapka Naam" class="p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                                <input type="text" id="botCustomerPhone" placeholder="WhatsApp Number (e.g. 9822...)" class="p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Requirement / Service Type:</label>
-                            <select id="botCategoryType" class="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
-                                <option value="Dome Camera (Indoor CCTV)">Dome Camera (Indoor CCTV)</option>
-                                <option value="Bullet Camera (Outdoor CCTV)">Bullet Camera (Outdoor CCTV)</option>
-                                <option value="PTZ Camera (360° Rotating)">PTZ Camera (360° Rotating)</option>
-                                <option value="NVR / DVR Recording System">NVR / DVR Recording System</option>
-                                <option value="HOC CCTV & CAT6 Cables">HOC CCTV & CAT6 Cables</option>
-                                <option value="Fire Safety & Extinguisher Services">Fire Safety & Extinguisher Services</option>
-                                <option value="Annual Maintenance Contract (AMC)">Annual Maintenance Contract (AMC)</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Exact Requirement Description / Quantity:</label>
-                            <textarea id="botDescription" rows="2" placeholder="Jaise: 4 Dome camera, 1 NVR aur 1 roll HOC cable chahiye..." class="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
-                        </div>
-
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Location / Site Address:</label>
-                            <input type="text" id="botLocation" placeholder="Jaise: Boisar, Palghar, Tarapur..." class="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                        </div>
-                    </div>
-
-                    <button onclick="sendBotRequirementToWhatsApp()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                        <span>Send Requirement to WhatsApp 🚀</span>
-                    </button>
-                </div>
+            <!-- Chat Input Footer -->
+            <div class="p-4 bg-white border-t border-slate-200 flex items-center gap-2">
+                <input type="text" id="botUserInput" placeholder="Apna jawab yahan likhein..." class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
+                <button onclick="handleBotUserSubmit()" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow">
+                    <span>Bhejo</span>
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -449,6 +411,7 @@
         </div>
     </div>
 
+    <!-- Proper Professional Footer -->
     <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
@@ -651,6 +614,18 @@
         let searchQuery = '';
         let activeModalProduct = null;
 
+        // Conversational AI Bot State Machine Variables
+        let botStep = 0;
+        let customerData = {
+            name: '',
+            interest: '',
+            locationType: '',
+            cameraType: '',
+            recordingUnit: '',
+            fireOrService: '',
+            phone: ''
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
@@ -850,13 +825,11 @@
             filterCategory('all');
         }
 
+        // Conversational AI Assistant Bot Logic
         function openAIBotModal() {
             document.getElementById('aiBotModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-        }
-
-        function closeAIBotManager() {
-            closeAIBotModal();
+            resetBotChat();
         }
 
         function closeAIBotModal() {
@@ -864,15 +837,141 @@
             document.body.style.overflow = 'auto';
         }
 
-        function sendBotRequirementToWhatsApp() {
-            const name = document.getElementById('botCustomerName').value.trim() || "Customer";
-            const phone = document.getElementById('botCustomerPhone').value.trim() || "Not Provided";
-            const categoryType = document.getElementById('botCategoryType').value;
-            const description = document.getElementById('botDescription').value.trim() || "Standard Inquiry";
-            const location = document.getElementById('botLocation').value.trim() || "Boisar / Nearby";
+        function resetBotChat() {
+            botStep = 0;
+            customerData = { name: '', interest: '', locationType: '', cameraType: '', recordingUnit: '', fireOrService: '', phone: '' };
+            const container = document.getElementById('botChatMessages');
+            container.innerHTML = '';
+            appendBotMessage("Namaste! Main DTS AI Assistant hoon. 🛡️ Aapka shubh naam kya hai?");
+        }
 
+        function appendBotMessage(text) {
+            const container = document.getElementById('botChatMessages');
+            const div = document.createElement('div');
+            div.className = 'flex items-start gap-3 animate-fade-in';
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-xs flex-shrink-0 font-bold">AI</div>
+                <div class="bg-white p-3.5 rounded-2xl rounded-tl-none border border-slate-200 text-xs sm:text-sm text-slate-700 shadow-sm max-w-[85%]">
+                    ${text}
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function appendUserMessage(text) {
+            const container = document.getElementById('botChatMessages');
+            const div = document.createElement('div');
+            div.className = 'flex items-start justify-end gap-3 animate-fade-in';
+            div.innerHTML = `
+                <div class="bg-brand-600 text-white p-3.5 rounded-2xl rounded-tr-none text-xs sm:text-sm shadow-sm max-w-[85%]">
+                    ${text}
+                </div>
+                <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs flex-shrink-0 font-bold">Aap</div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function handleBotKey(e) {
+            if (e.key === 'Enter') {
+                handleBotUserSubmit();
+            }
+        }
+
+        function handleBotUserSubmit() {
+            const input = document.getElementById('botUserInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            appendUserMessage(val);
+            input.value = '';
+
+            setTimeout(() => {
+                processBotFlow(val);
+            }, 500);
+        }
+
+        function processBotFlow(ans) {
+            if (botStep === 0) {
+                customerData.name = ans;
+                botStep = 1;
+                appendBotMessage(`Hello ${customerData.name}! Aapko kis cheez ki requirement hai? Jaise: CCTV Cameras, HOC Cables, Fire Safety, ya Maintenance Services?`);
+            } else if (botStep === 1) {
+                customerData.interest = ans;
+                if (ans.toLowerCase().includes('cables') || ans.toLowerCase().includes('hoc')) {
+                    botStep = 4;
+                    appendBotMessage("Theek hai! Aapko kitne meters HOC cable (3+1 ya CAT6) chahiye?");
+                } else if (ans.toLowerCase().includes('fire') || ans.toLowerCase().includes('service') || ans.toLowerCase().includes('maintenance')) {
+                    botStep = 5;
+                    appendBotMessage("Aapko Fire Safety equipment ya Annual Maintenance (AMC) service kiske liye karni hai (Jaise Office, Factory, ya Home)?");
+                } else {
+                    botStep = 2;
+                    appendBotMessage("Acha! Yeh camera aapko kahan lagana hai? (Jaise: Home ke andar, Bahar courtyard mein, Office ya Factory mein?)");
+                }
+            } else if (botStep === 2) {
+                customerData.locationType = ans;
+                botStep = 3;
+                appendBotMessage("Aapko kis tarah ka camera chahiye? Jaise: **Dome** (indoor ceiling ke liye), **Bullet** (outdoor waterproof), **PTZ** (360-degree ghumne wala WiFi camera), ya **Analog**?");
+            } else if (botStep === 3) {
+                customerData.cameraType = ans;
+                botStep = 31;
+                appendBotMessage("Kya aapko recording ke liye **NVR** (IP cameras ke liye network recorder) ya **DVR** (Analog cameras ke liye) ke baare mein pata hai? Agar nahi pata toh bataiye, hum suggest kar denge. Aapko kitne cameras lagane hain?");
+            } else if (botStep === 31) {
+                customerData.recordingUnit = ans;
+                botStep = 6;
+                appendBotMessage("Bohot badhiya! Akhir mein apna WhatsApp Mobile Number dijiye taaki yeh poori summary direct hamare WhatsApp par bhej sakein.");
+            } else if (botStep === 4) {
+                customerData.cameraType = `HOC Cable: ${ans}`;
+                botStep = 6;
+                appendBotMessage("Theek hai! Apna WhatsApp Mobile Number dijiye taaki summary WhatsApp par bhej sakein.");
+            } else if (botStep === 5) {
+                customerData.fireOrService = ans;
+                botStep = 6;
+                appendBotMessage("Noted! Apna WhatsApp Mobile Number dijiye taaki request WhatsApp par bhej sakein.");
+            } else if (botStep === 6) {
+                customerData.phone = ans;
+                botStep = 7;
+                
+                // Generate Summary
+                let summaryHTML = `🎉 **Aapki Requirement ki Summary tayar hai!**<br><br>` +
+                    `👤 **Customer:** ${customerData.name}<br>` +
+                    `📱 **Phone:** ${customerData.phone}<br>` +
+                    `🛠️ **Interest:** ${customerData.interest}<br>` +
+                    `📍 **Location/Type:** ${customerData.locationType || 'N/A'}<br>` +
+                    `📷 **Camera/Item:** ${customerData.cameraType || customerData.fireOrService || 'N/A'}<br>` +
+                    `💾 **Recording/Details:** ${customerData.recordingUnit || 'N/A'}<br><br>` +
+                    `Ab aap niche button par click karke yeh summary direct WhatsApp par bhej sakte hain!`;
+                
+                appendBotMessage(summaryHTML);
+
+                // Add WhatsApp Send Button inside chat
+                const container = document.getElementById('botChatMessages');
+                const btnDiv = document.createElement('div');
+                btnDiv.className = 'flex justify-center mt-2';
+                btnDiv.innerHTML = `
+                    <button onclick="sendFinalWhatsAppSummary()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Send Summary to DTS WhatsApp 🚀</span>
+                    </button>
+                `;
+                container.appendChild(btnDiv);
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        function sendFinalWhatsAppSummary() {
             const whatsappPhone = "918390909845";
-            const msg = encodeURIComponent(`🤖 *New Customer Requirement* 🤖\n\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n🛠️ *Category:* ${categoryType}\n📝 *Details:* ${description}\n📍 *Location:* ${location}\n\nKripya is customer se sampark karein.`);
+            const msg = encodeURIComponent(
+                `🤖 *Customer Requirement Summary* 🤖\n\n` +
+                `👤 *Name:* ${customerData.name}\n` +
+                `📱 *Phone:* ${customerData.phone}\n` +
+                `🛠️ *Interest:* ${customerData.interest}\n` +
+                `📍 *Location:* ${customerData.locationType || 'N/A'}\n` +
+                `📷 *Camera/Item Type:* ${customerData.cameraType || customerData.fireOrService || 'N/A'}\n` +
+                `💾 *Recording Unit / Details:* ${customerData.recordingUnit || 'N/A'}\n\n` +
+                `Kripya is customer se sampark karein.`
+            );
 
             window.open(`https://wa.me/${whatsappPhone}?text=${msg}`, '_blank');
             closeAIBotModal();
