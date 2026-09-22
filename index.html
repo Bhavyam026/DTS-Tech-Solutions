@@ -138,7 +138,7 @@
 
             <div class="hidden md:flex items-center gap-3">
                 <button onclick="openAIBotModal()" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-700 hover:to-brand-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-brand-600/20 transition transform active:scale-95 animate-pulse">
-                    <i class="fa-solid fa-robot text-sm"></i> AI Requirement Bot 🤖[cite: 5]
+                    <i class="fa-solid fa-robot text-sm"></i> Smart AI Assistant 🤖[cite: 5]
                 </button>
                 <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20a%20custom%20quote%20for%20security%20hardware." target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-emerald-600/20 transition transform active:scale-95">
                     <i class="fa-brands fa-whatsapp text-base"></i> Quick Inquiry[cite: 5]
@@ -173,12 +173,12 @@
                         Prizor Security Hardware & <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">HOC Cables[cite: 5]</span>
                     </h2>
                     <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-                        Explore complete Prizor surveillance hardware (Dome, Bullet, PTZ Cameras, NVR, DVR, PoE Switches) along with genuine HOC cables and Fire Safety Services. Use our interactive AI Assistant to chat and build your requirement![cite: 5]
+                        Explore complete Prizor surveillance hardware (Dome, Bullet, PTZ Cameras, NVR, DVR, PoE Switches) along with genuine HOC cables and Fire Safety Services. Use our Smart AI Assistant to chat and get instant catalog details![cite: 5]
                     </p>
                     <div class="flex flex-wrap gap-4 pt-2">
                         <button onclick="openAIBotModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
                             <i class="fa-solid fa-robot text-sky-300"></i>
-                            <span>Start Interactive AI Assistant[cite: 5]</span>
+                            <span>Start Smart AI Assistant[cite: 5]</span>
                         </button>
                         <a href="#catalog" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-xl text-sm transition transform hover:-translate-y-0.5 flex items-center gap-2">
                             <span>Explore Full Catalog[cite: 5]</span>
@@ -274,7 +274,7 @@
         </div>
     </main>
 
-    <!-- Smart AI Assistant Modal with English/Hindi Option -->
+    <!-- Smart AI Catalog Assistant Modal -->
     <div id="aiBotModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
         <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in flex flex-col">
             <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white">
@@ -283,16 +283,11 @@
                         <i class="fa-solid fa-robot text-base"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-sm sm:text-base">DTS Smart AI Assistant 🤖[cite: 5]</h3>
-                        <p class="text-[10px] text-sky-300">ChatGPT-style Assistant with Language & Requirement Collection[cite: 5]</p>
+                        <h3 class="font-bold text-sm sm:text-base">DTS Smart AI Catalog Assistant 🤖</h3>
+                        <p class="text-[10px] text-sky-300">Ask anything about Prizor & HOC security products[cite: 5]</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <!-- Language Switcher Option: English / Hindi -->
-                    <select id="botLangSelect" onchange="changeBotLanguage()" class="bg-slate-800 text-slate-200 text-xs px-2.5 py-1.5 rounded-lg border border-slate-700 focus:outline-none cursor-pointer">
-                        <option value="english">English</option>
-                        <option value="hindi">Hindi</option>
-                    </select>
                     <button onclick="closeAIBotModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
                         <i class="fa-solid fa-xmark text-lg"></i>
                     </button>
@@ -302,7 +297,7 @@
             <div class="p-6 space-y-4 bg-slate-50 h-[400px] overflow-y-auto" id="botChatMessages"></div>
 
             <div class="p-4 bg-white border-t border-slate-200 flex items-center gap-2">
-                <input type="text" id="botUserInput" placeholder="Type your message here..." class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
+                <input type="text" id="botUserInput" placeholder="Ask about cameras, NVR, DVR, cables or fire safety..." class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
                 <button onclick="handleBotUserSubmit()" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow">
                     <span>Send[cite: 5]</span>
                     <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -663,19 +658,6 @@
         let searchQuery = '';
         let activeModalProduct = null;
 
-        let botStep = 0;
-        let customerData = {
-            name: '',
-            email: '',
-            phone: '',
-            interest: '',
-            locationType: '',
-            cameraType: '',
-            recordingUnit: '',
-            fireOrService: ''
-        };
-        let currentBotLang = 'english'; // Default English
-
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
@@ -886,41 +868,10 @@
             document.body.style.overflow = 'auto';
         }
 
-        function changeBotLanguage() {
-            currentBotLang = document.getElementById('botLangSelect').value;
-            resetBotChat();
-        }
-
-        // Get IST Greeting based on current IST time in English or Hindi
-        function getISTGreeting() {
-            const now = new Date();
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const istTime = new Date(utc + (3600000 * 5.5));
-            const hours = istTime.getHours();
-
-            let greetingEn = "Hello";
-            if (hours >= 0 && hours < 12) greetingEn = "Good Morning";
-            else if (hours >= 12 && hours < 17) greetingEn = "Good Afternoon";
-            else greetingEn = "Good Evening";
-
-            if (currentBotLang === 'english') {
-                return `${greetingEn}! Welcome to Dynamic Technology Solutions AI Assistant. 🛡️ What is your good name?[cite: 5]`;
-            } else {
-                let hindiGreeting = "Namaste";
-                if (hours >= 0 && hours < 12) hindiGreeting = "Shubh Prabhat";
-                else if (hours >= 12 && hours < 17) hindiGreeting = "Namaskar";
-                else hindiGreeting = "Shubh Sandhya";
-                
-                return `${hindiGreeting}! Dynamic Technology Solutions AI Assistant mein aapka swagat hai. 🛡️ Kripya apna shubh naam batayein?[cite: 5]`;
-            }
-        }
-
         function resetBotChat() {
-            botStep = 0;
-            customerData = { name: '', email: '', phone: '', interest: '', locationType: '', cameraType: '', recordingUnit: '', fireOrService: '' };
             const container = document.getElementById('botChatMessages');
             container.innerHTML = '';
-            appendBotMessage(getISTGreeting());
+            appendBotMessage("Namaste! Main DTS Smart AI Catalog Assistant hoon. 🛡️ Main sirf Prizor aur HOC security products, cameras, NVR, DVR, aur cables ke bare mein jankari de sakta hoon. Aapko kya chahiye?");
         }
 
         function appendBotMessage(text) {
@@ -970,122 +921,48 @@
             }, 500);
         }
 
+        // Smart AI Catalog Assistant logic without rigid step-by-step
         function processBotFlow(ans) {
             const lowerAns = ans.toLowerCase();
-
-            if (botStep === 0) {
-                customerData.name = ans;
-                botStep = 1;
-                const msg = currentBotLang === 'english' 
-                    ? `Thank you ${customerData.name}! Please provide your **Email Address** so we can send quotations.[cite: 5]`
-                    : `Shukriya ${customerData.name}! Ab kripya apna **Email Address** dijiye taaki hum quotation bhej sakein.[cite: 5]`;
-                appendBotMessage(msg);
-            } else if (botStep === 1) {
-                customerData.email = ans;
-                botStep = 2;
-                const msg = currentBotLang === 'english'
-                    ? `Great! Now please share your **WhatsApp Phone Number**.[cite: 5]`
-                    : `Bohot achha! Ab apna **WhatsApp Phone Number** dijiye.[cite: 5]`;
-                appendBotMessage(msg);
-            } else if (botStep === 2) {
-                customerData.phone = ans;
-                botStep = 3;
-                const msg = currentBotLang === 'english'
-                    ? `What product or service are you looking for? (e.g., CCTV Cameras, HOC Cables, Fire Safety, or Maintenance Services)[cite: 5]`
-                    : `Theek hai! Batayein ki aapko kis cheez ki requirement hai? (Jaise: CCTV Cameras, HOC Cables, Fire Safety, ya Maintenance Services)[cite: 5]`;
-                appendBotMessage(msg);
-            } else if (botStep === 3) {
-                customerData.interest = ans;
-                
-                if (lowerAns.includes('cable') || lowerAns.includes('hoc') || lowerAns.includes('wire')) {
-                    botStep = 4;
-                    appendBotMessage(currentBotLang === 'english' ? "How many meters of HOC cable (3+1 or CAT6) do you need?[cite: 5]" : "Theek hai! Aapko kitne meters HOC cable (3+1 ya CAT6) chahiye?[cite: 5]");
-                } else if (lowerAns.includes('fire') || lowerAns.includes('extinguisher')) {
-                    botStep = 5;
-                    appendBotMessage(currentBotLang === 'english' ? "Where do you need Fire Safety equipment? (e.g., Office, Factory, Home)[cite: 5]" : "Aapko Fire Safety equipment kiske liye chahiye (Jaise Office, Factory, ya Home)?[cite: 5]");
-                } else if (lowerAns.includes('mainten') || lowerAns.includes('service') || lowerAns.includes('repair')) {
-                    botStep = 51;
-                    appendBotMessage(currentBotLang === 'english' ? "What maintenance or service do you need and what is your location?[cite: 5]" : "Acha! Aapko kis cheez ki service karwani hai aur location kahan hai?[cite: 5]");
-                } else {
-                    botStep = 6;
-                    appendBotMessage(currentBotLang === 'english' ? "Where do you want to install cameras? (e.g., Indoor Home, Outdoor, Office, Factory)[cite: 5]" : "Acha! Yeh camera aapko kahan lagana hai? (Jaise: Home ke andar, Bahar, Office ya Factory mein?)[cite: 5]");
-                }
-            } else if (botStep === 6) {
-                customerData.locationType = ans;
-                botStep = 7;
-                appendBotMessage(currentBotLang === 'english' ? "What type of camera do you need? (e.g., Dome, Bullet, PTZ 360-degree rotating camera)[cite: 5]" : "Aapko kis tarah ka camera chahiye? Jaise: Dome, Bullet, ya PTZ 360-degree rotating camera?[cite: 5]");
-            } else if (botStep === 7) {
-                customerData.cameraType = ans;
-                botStep = 8;
-                appendBotMessage(currentBotLang === 'english' ? "Do you also need an NVR or DVR for recording? How many cameras?[cite: 5]" : "Kya aapko recording ke liye NVR ya DVR bhi chahiye? Aur kitne cameras lagane hain?[cite: 5]");
-            } else if (botStep === 8) {
-                customerData.recordingUnit = ans;
-                botStep = 9;
-                showFinalSummary();
-            } else if (botStep === 4) {
-                customerData.cameraType = `HOC Cable: ${ans}`;
-                botStep = 9;
-                showFinalSummary();
-            } else if (botStep === 5 || botStep === 51) {
-                customerData.fireOrService = ans;
-                botStep = 9;
-                showFinalSummary();
-            }
-        }
-
-        function showFinalSummary() {
-            botStep = 9;
-            let summaryHTML = currentBotLang === 'english' 
-                ? `🎉 **Your Complete Requirement Summary is ready!**<br><br>` +
-                  `👤 **Customer Name:** ${customerData.name}<br>` +
-                  `✉️ **Email:** ${customerData.email}<br>` +
-                  `📱 **Phone:** ${customerData.phone}<br>` +
-                  `🛠️ **Interest:** ${customerData.interest}<br>` +
-                  `📍 **Location/Details:** ${customerData.locationType || customerData.fireOrService || 'N/A'}<br>` +
-                  `📷 **Item/Camera Type:** ${customerData.cameraType || 'N/A'}<br>` +
-                  `💾 **Recording/Extra:** ${customerData.recordingUnit || 'N/A'}<br><br>` +
-                  `Click below to send this summary directly to our WhatsApp!`
-                : `🎉 **Aapki Complete Requirement Summary tayar hai!**<br><br>` +
-                  `👤 **Customer Name:** ${customerData.name}<br>` +
-                  `✉️ **Email:** ${customerData.email}<br>` +
-                  `📱 **Phone:** ${customerData.phone}<br>` +
-                  `🛠️ **Interest:** ${customerData.interest}<br>` +
-                  `📍 **Location/Details:** ${customerData.locationType || customerData.fireOrService || 'N/A'}<br>` +
-                  `📷 **Item/Camera Type:** ${customerData.cameraType || 'N/A'}<br>` +
-                  `💾 **Recording/Extra:** ${customerData.recordingUnit || 'N/A'}<br><br>` +
-                  `Niche diye gaye button par click karke yeh summary direct WhatsApp par bhej dein!`;
             
-            appendBotMessage(summaryHTML);
+            // Check if related to allowed products/catalog
+            const allowedKeywords = ['prizor', 'hoc', 'camera', 'nvr', 'dvr', 'cable', 'wire', 'switch', 'poe', 'fire', 'safety', 'price', 'rate', 'cost', 'buy', 'purchase', 'detail', 'hello', 'hi', 'help', 'service', 'maintenance', 'dome', 'bullet', 'ptz', 'cat6', 'rg6', '3+1', 'dts', 'catalog'];
+            const isAllowed = allowedKeywords.some(keyword => lowerAns.includes(keyword)) || lowerAns.length < 3;
 
-            const container = document.getElementById('botChatMessages');
-            const btnDiv = document.createElement('div');
-            btnDiv.className = 'flex justify-center mt-2';
-            btnDiv.innerHTML = `
-                <button onclick="sendFinalWhatsAppSummary()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition flex items-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-lg"></i>
-                    <span>Send Summary to DTS WhatsApp 🚀[cite: 5]</span>
-                </button>
-            `;
-            container.appendChild(btnDiv);
-            container.scrollTop = container.scrollHeight;
-        }
+            if (!isAllowed) {
+                appendBotMessage("Maaf kijiye, main sirf aapke security products, cameras, NVR, DVR, aur HOC cables ke bare mein jankari de sakta hoon. Kripya inhi se jude sawal puchein!");
+                return;
+            }
 
-        function sendFinalWhatsAppSummary() {
-            const whatsappPhone = "918390909845";
-            const msg = encodeURIComponent(
-                `🤖 *Customer Smart Requirement Summary* 🤖\n\n` +
-                `👤 *Name:* ${customerData.name}\n` +
-                `✉️ *Email:* ${customerData.email}\n` +
-                `📱 *Phone:* ${customerData.phone}\n` +
-                `🛠️ *Interest:* ${customerData.interest}\n` +
-                `📍 *Location:* ${customerData.locationType || 'N/A'}\n` +
-                `📷 *Camera/Item Type:* ${customerData.cameraType || customerData.fireOrService || 'N/A'}\n` +
-                `💾 *Recording Unit / Details:* ${customerData.recordingUnit || 'N/A'}\n\n` +
-                `Kripya is customer se sampark karein.`
+            if (lowerAns.includes('hello') || lowerAns.includes('hi') || lowerAns.includes('namaste')) {
+                appendBotMessage("Hello! Batayein, aapko Prizor ya HOC ke kis product ke bare mein jankari chahiye?");
+                return;
+            }
+
+            // Search matching products from catalog
+            const matches = products.filter(p => 
+                p.name.toLowerCase().includes(lowerAns) || 
+                p.category.toLowerCase().includes(lowerAns) || 
+                p.brand.toLowerCase().includes(lowerAns) ||
+                p.description.toLowerCase().includes(lowerAns)
             );
 
-            window.open(`https://wa.me/${whatsappPhone}?text=${msg}`, '_blank');
-            closeAIBotModal();
+            if (matches.length > 0) {
+                let responseText = "Maine aapke liye yeh matching products dhunde hain:<br><br>";
+                matches.slice(0, 3).forEach(p => {
+                    responseText += `🔹 <b>${p.name}</b><br>&nbsp;&nbsp;&nbsp;&nbsp;Category: ${p.category} | Price: <b>${p.price}</b><br>&nbsp;&nbsp;&nbsp;&nbsp;SKU: ${p.sku} - <a href="#" onclick="openProductModal(${p.id}); return false;" class="text-brand-600 underline font-semibold">View Details</a><br><br>`;
+                });
+                responseText += "Kya aap iske bare mein aur kuch jankari chahte hain?";
+                appendBotMessage(responseText);
+            } else if (lowerAns.includes('camera')) {
+                appendBotMessage("Hamare paas Prizor ke 4K Bullet, 2MP Dome, aur 4MP PTZ WiFi rotating cameras available hain. Aap kaun sa dekhna chahenge?");
+            } else if (lowerAns.includes('cable') || lowerAns.includes('wire')) {
+                appendBotMessage("HOC ke paas Heavy-Duty 3+1 CCTV Cable, CAT6 Pure Copper Networking Cable (305m), aur RG6 Coaxial Cable available hain.");
+            } else if (lowerAns.includes('nvr') || lowerAns.includes('dvr')) {
+                appendBotMessage("Prizor 16-Channel 4K NVR, 8-Channel 5-in-1 DVR aur 4-Channel Mini NVR stock mein available hain.");
+            } else {
+                appendBotMessage("Aap Prizor cameras, NVR, DVR, PoE switch ya HOC cables ke bare mein kuch bhi pooch sakte hain. Hum aapki kya sahayata karein?");
+            }
         }
 
         function openProductModal(id) {
