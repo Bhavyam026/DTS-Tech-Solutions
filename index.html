@@ -67,7 +67,6 @@
         .animate-fade-in {
             animation: fadeIn 0.4s ease-out forwards;
         }
-        /* Marquee Animation for Video-style banner */
         @keyframes marquee {
             0% { transform: translateX(0%); }
             100% { transform: translateX(-50%); }
@@ -79,21 +78,6 @@
         }
         .animate-marquee:hover {
             animation-play-state: paused;
-        }
-        /* Cartoon Animation Effects */
-        @keyframes bounceSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        .animate-cartoon-bounce {
-            animation: bounceSlow 2.5s ease-in-out infinite;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6)); }
-            50% { opacity: 0.7; filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.2)); }
-        }
-        .animate-glow {
-            animation: pulseGlow 2s infinite;
         }
     </style>
 </head>
@@ -203,38 +187,38 @@
                     </div>
                 </div>
 
-                <!-- Animated Cartoon Security Robot Character Banner Element -->
-                <div class="lg:col-span-5 flex flex-col items-center justify-center">
-                    <div class="relative w-64 h-64 sm:w-72 sm:h-72 bg-gradient-to-tr from-brand-600/20 to-sky-500/20 rounded-full border border-brand-500/30 flex items-center justify-center animate-glow">
-                        <div class="absolute inset-4 rounded-full border border-dashed border-sky-400/40 animate-[spin_20s_linear_infinite]"></div>
-                        
-                        <!-- Cartoon Robot Body -->
-                        <div class="relative z-10 text-center animate-cartoon-bounce">
-                            <div class="w-24 h-24 mx-auto bg-gradient-to-b from-sky-400 to-brand-600 rounded-2xl shadow-xl flex flex-col items-center justify-center relative border-2 border-white/30">
-                                <!-- Antenna -->
-                                <div class="absolute -top-4 w-2 h-4 bg-slate-300 rounded-full"></div>
-                                <div class="absolute -top-6 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
-                                <!-- Eyes -->
-                                <div class="flex gap-4 mb-2">
-                                    <div class="w-3 h-3 bg-amber-300 rounded-full animate-pulse"></div>
-                                    <div class="w-3 h-3 bg-amber-300 rounded-full animate-pulse"></div>
-                                </div>
-                                <!-- Mouth Screen -->
-                                <div class="w-10 h-2 bg-slate-900 rounded-full flex items-center justify-center overflow-hidden">
-                                    <div class="w-full h-0.5 bg-emerald-400 animate-pulse"></div>
-                                </div>
+                <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-brand-500/50 transition transform hover:-translate-y-1 duration-300 group">
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base">Prizor Systems</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">CCTV Cameras, NVR, DVR & PoE Switches.</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-emerald-500/50 transition transform hover:-translate-y-1 duration-300 group">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base">HOC Cables</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">3+1 CCTV Copper Cables & CAT6 Networking Cables.</p>
+                    </div>
+                    <div class="col-span-2 bg-gradient-to-r from-brand-900/40 to-indigo-900/40 border border-brand-500/20 rounded-2xl p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center text-sm font-bold">
+                                <i class="fa-solid fa-location-dot"></i>
                             </div>
-                            <div class="mt-4 bg-slate-900/90 backdrop-blur border border-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg flex items-center gap-2">
-                                <i class="fa-solid fa-robot text-sky-400"></i> Hi! Main hoon DTS Guard Bot 🤖
+                            <div>
+                                <h4 class="text-xs font-bold text-white uppercase tracking-wider">Boisar, Maharashtra</h4>
+                                <p class="text-[11px] text-slate-300">T2/115, near Anandi Gopal School, Cidco Colony.</p>
                             </div>
                         </div>
+                        <span class="text-xs bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 px-2.5 py-1 rounded-lg font-bold">Open Today</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Animated Video-Style Product Showcase Marquee Banner -->
     <div class="bg-indigo-900 py-3 overflow-hidden border-y border-indigo-800 shadow-inner">
         <div class="max-w-full overflow-hidden relative">
             <div class="animate-marquee flex gap-6 items-center whitespace-nowrap">
@@ -263,7 +247,6 @@
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-fire-extinguisher text-amber-400"></i> Professional Fire Safety Service
                 </div>
-                <!-- Duplicate for seamless looping -->
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-video text-sky-400"></i> Prizor 4K Starlight Bullet IP Camera
                 </div>
@@ -496,11 +479,10 @@
                 price: "₹8,499",
                 priceValue: 8499,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
+                image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGsDrqJwN2GXwbSMysunv5GHsUOfF3BPvAaH4-dvIJgA&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgjpzJsJthB1508afJYSS_JfVpYqQ0J2mhI9HFtMhHw&s=10"
+                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=60",
+                    "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "High-performance Prizor 8MP 4K Starlight IP Bullet Camera featuring advanced sensor technology, true WDR, IR range up to 50 meters, and IP67 weather-proof metal housing.",
                 specs: {
@@ -521,10 +503,9 @@
                 price: "₹2,499",
                 priceValue: 2499,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10",
+                image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqWwqBBV9iz7cf7ktm8scwoFwUyk0x4GZm1ZF90ba9QQ&s=10"
+                    "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "Crystal clear Prizor 1080p indoor dome security camera with built-in microphone for high-fidelity audio surveillance and infrared night vision.",
                 specs: {
@@ -544,9 +525,9 @@
                 price: "₹14,999",
                 priceValue: 14999,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10",
+                image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10"
+                    "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "Enterprise Prizor 16-Channel 4K NVR for IP cameras with H.265+ video compression, multi SATA HDD bays, and intelligent playback support.",
                 specs: {
@@ -566,11 +547,9 @@
                 price: "₹5,499",
                 priceValue: 5499,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwVqG9fZkgEXLEmK1rdodQ5xyC-N_EYDqk0B9j9QUJTw&s",
+                image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwVqG9fZkgEXLEmK1rdodQ5xyC-N_EYDqk0B9j9QUJTw&s",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTtFc1cUwT3xcpDyETY0Qq4287og9Y7X2EU-S5nI9FGd0Sq0hFrJ6QOA&s",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCOdcPFwqQ7Ys5Ql4iw9_DGyyZiXZOZqlngbO0iX5bA&s"
+                    "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "Versatile Prizor 8-Channel DVR supporting HD-TVI, AHD, CVI, CVBS, and IP cameras with remote mobile monitoring capabilities.",
                 specs: {
@@ -590,10 +569,9 @@
                 price: "₹4,299",
                 priceValue: 4299,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNqClibodklFn75F3Z5rkQBzxHIcoYDcwbAkbzGI67dQ&s",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNqClibodklFn75F3Z5rkQBzxHIcoYDcwbAkbzGI67dQ&s",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIOF61smTbbKyRku55onbLNQkcdpBg8zHV1tlqh_q9TQ&s=10"
+                    "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "High-speed Prizor 8-port Gigabit PoE+ switch with uplink ports, smart power allocation, and 250m long-distance transmission mode.",
                 specs: {
@@ -613,11 +591,9 @@
                 price: "₹2,199",
                 priceValue: 2199,
                 stock: "In Stock",
-                image: "https://m.media-amazon.com/images/I/61l+prukEiL._SX569_.jpg",
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://m.media-amazon.com/images/I/61l+prukEiL._SX569_.jpg",
-                    "https://m.media-amazon.com/images/I/516ha51rNwL._SY879_.jpg",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5nYZQwKL3dQF_8teGJ_ihsz5IsWgT2XZvIPB5Ro4DOA&s=10"
+                    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "Premium quality HOC 3+1 CCTV security camera cable bundle with pure copper conductors for uninterrupted power and video transmission.",
                 specs: {
@@ -636,10 +612,9 @@
                 price: "₹6,499",
                 priceValue: 6499,
                 stock: "In Stock",
-                image: "https://m.media-amazon.com/images/I/71Ej613VurL._SX522_.jpg",
+                image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://m.media-amazon.com/images/I/71Ej613VurL._SX522_.jpg",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPdrBtLVQuJDjr9kOFEEj3-zFD868uuY6Tv5JLBXAImQ&s=10"
+                    "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "Industrial-grade HOC CAT6 UTP networking cable engineered for Gigabit PoE IP camera deployments and stable networking setups.",
                 specs: {
@@ -658,10 +633,9 @@
                 price: "On Request",
                 priceValue: 0,
                 stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNqG4WI504mnAteed6BWlg4Pd6OjNClScXpzKtpyFl6w&s=10",
+                image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=600&auto=format&fit=crop&q=60",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNqG4WI504mnAteed6BWlg4Pd6OjNClScXpzKtpyFl6w&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpaO5vLGxATntn_pyd88gtoa9WMoxqjqrB4oiy-ptA_Q&s=10"
+                    "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=600&auto=format&fit=crop&q=60"
                 ],
                 description: "Complete fire safety system setup, extinguisher maintenance, smoke detectors, alarm systems, and expert security surveillance installation services in Boisar and surrounding regions.",
                 specs: {
