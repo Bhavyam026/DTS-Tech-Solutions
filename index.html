@@ -482,7 +482,7 @@
 
         function appendBotMessage(text) {
             const container = document.getElementById('botChatMessages');
-            container.innerHTML += `<div class="flex items-start gap-3"><div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">AI</div><div class="bg-white p-3.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 max-w-[85%]"">${text}</div></div>`;
+            container.innerHTML += `<div class="flex items-start gap-3"><div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">AI</div><div class="bg-white p-3.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 max-w-[85%]">${text}</div></div>`;
             container.scrollTop = container.scrollHeight;
         }
 
