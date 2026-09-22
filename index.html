@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Technology Solutions - Prizor, HOC & Fire Safety Catalog</title>
+    <title>Dynamic Technology Solutions - Prizor & HOC Catalog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -32,11 +32,6 @@
                             DEFAULT: '#059669',
                             dark: '#047857',
                             light: '#a7f3d0'
-                        },
-                        fire: {
-                            DEFAULT: '#dc2626',
-                            dark: '#b91c1c',
-                            light: '#fee2e2'
                         }
                     }
                 }
@@ -70,112 +65,184 @@
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
 
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <!-- Top Announcement Bar -->
         <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-slate-300 text-xs py-2 px-4">
             <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
                 <div class="flex items-center gap-2">
-                    <span class="bg-emerald-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded animate-pulse">AUTHORIZED PARTNER & SERVICES</span>
-                    <span>Distributor for <strong class="text-white">Prizor</strong> (Cameras & TVs), <strong class="text-white">HOC</strong> & <strong class="text-white">Fire Safety</strong></span>
+                    <span class="bg-emerald-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded animate-pulse">AUTHORIZED PARTNER</span>
+                    <span>Official Distributor for <strong class="text-white">Prizor</strong> & <strong class="text-white">HOC</strong> Systems</span>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="tel:+918390909845" class="hover:text-white transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-phone text-brand-400"></i> +91 83909 09845
+                    <a href="tel:+919876543210" class="hover:text-white transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-phone text-brand-400"></i> +91 98765 43210
                     </a>
                     <span class="text-slate-600">|</span>
-                    <a href="mailto:dtsboisar@gmail.com" class="hover:text-white transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-envelope text-brand-400"></i> dtsboisar@gmail.com
+                    <a href="mailto:sales@dynamictechsol.com" class="hover:text-white transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-envelope text-brand-400"></i> sales@dynamictechsol.com
                     </a>
                 </div>
             </div>
         </div>
 
+        <!-- Main Nav / Search bar -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Brand Logo -->
             <div class="flex items-center justify-between w-full md:w-auto">
                 <a href="#" onclick="resetCatalog()" class="flex items-center gap-3 group">
                     <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-black text-xl shadow-md shadow-brand-500/20 group-hover:scale-105 transition transform">
                         D
                     </div>
                     <div>
-                        <h1 class="font-extrabold text-slate-900 text-lg tracking-tight leading-none">Dynamic Technology</h1>
-                        <p class="text-xs font-semibold text-brand-600 tracking-wider mt-0.5">SOLUTIONS & SERVICES</p>
+                        <h1 class="font-extrabold text-slate-900 text-lg tracking-tight leading-none">Dynamic Tech</h1>
+                        <p class="text-xs font-semibold text-brand-600 tracking-wider mt-0.5">SOLUTIONS</p>
                     </div>
                 </a>
                 
-                <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20would%20like%20to%20inquire%20about%20your%20products%20and%20services." target="_blank" class="md:hidden flex items-center gap-1.5 bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-emerald-700 transition">
+                <!-- Mobile WhatsApp Quick CTA -->
+                <a href="https://wa.me/919876543210?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20would%20like%20to%20inquire%20about%20Prizor/HOC%20products." target="_blank" class="md:hidden flex items-center gap-1.5 bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-emerald-700 transition">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Chat
                 </a>
             </div>
 
+            <!-- Interactive Search Container with Dropdown -->
             <div class="relative w-full md:max-w-xl lg:max-w-2xl">
                 <div class="flex items-center bg-slate-100 hover:bg-slate-200/70 focus-within:bg-white focus-within:ring-2 focus-within:ring-brand-500/50 focus-within:border-brand-500 border border-slate-200 rounded-xl transition shadow-inner">
                     <div class="pl-4 text-slate-400">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
-                    <input type="text" id="searchInput" placeholder="Search Prizor TVs, security cameras, fire extinguishers, NVR, DVR..." 
+                    <input type="text" id="searchInput" placeholder="Search Prizor cameras, HOC NVRs, biometric systems, accessories..." 
                            class="w-full py-2.5 px-3 bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
                     <button id="clearSearchBtn" onclick="clearSearch()" class="pr-3 text-slate-400 hover:text-slate-600 hidden">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                     <div class="hidden sm:flex items-center border-l border-slate-300 px-3 py-1 text-xs text-slate-500 font-medium bg-slate-200/50 rounded-r-xl">
-                        <span>All Items</span>
+                        <span>All Brands</span>
                     </div>
                 </div>
 
-                <div id="searchDropdown" class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 max-h-96 overflow-y-auto z-50 hidden"></div>
+                <!-- Autocomplete Dropdown Box -->
+                <div id="searchDropdown" class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 max-h-96 overflow-y-auto z-50 hidden">
+                    <!-- Populated dynamically via JS -->
+                </div>
             </div>
 
+            <!-- Desktop Quick Actions -->
             <div class="hidden md:flex items-center gap-3">
                 <a href="#catalog" onclick="filterBrand('all')" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
                     All Products
                 </a>
-                <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20service%20inquiry." target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-emerald-600/20 transition transform active:scale-95">
+                <a href="https://wa.me/919876543210?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20a%20custom%20quote%20for%20security%20hardware." target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-emerald-600/20 transition transform active:scale-95">
                     <i class="fa-brands fa-whatsapp text-base"></i> Quick Inquiry
                 </a>
             </div>
         </div>
 
+        <!-- Secondary Brand Filter Bar -->
         <div class="bg-slate-50 border-t border-slate-200 px-4 py-2">
             <div class="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto hide-scrollbar gap-4 text-xs font-medium">
                 <div class="flex items-center gap-2 min-w-max">
-                    <span class="text-slate-500 font-semibold uppercase tracking-wider text-[11px]">Filter By Brand/Type:</span>
-                    <button onclick="filterBrand('all')" id="btn-brand-all" class="brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm">All Inventory</button>
-                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition">Prizor (Cameras & TVs)</button>
-                    <button onclick="filterBrand('HOC')" id="btn-brand-HOC" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-hoc hover:text-hoc transition">HOC Systems</button>
-                    <button onclick="filterBrand('Fire Safety')" id="btn-brand-Fire Safety" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-fire hover:text-fire transition">Fire Safety</button>
+                    <span class="text-slate-500 font-semibold uppercase tracking-wider text-[11px]">Quick Filters:</span>
+                    <button onclick="filterBrand('all')" id="btn-brand-all" class="brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm">All Catalogs</button>
+                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition">Prizor Systems</button>
+                    <button onclick="filterBrand('HOC')" id="btn-brand-HOC" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-hoc hover:text-hoc transition">HOC Technologies</button>
                 </div>
                 <div class="text-slate-500 text-[11px] min-w-max hidden lg:block">
-                    <i class="fa-solid fa-screwdriver-wrench text-brand-600 mr-1"></i> Installation & Maintenance Services Available
+                    <i class="fa-solid fa-shield-halved text-brand-600 mr-1"></i> 100% Genuine Authorized Warranty Guaranteed
                 </div>
             </div>
         </div>
     </header>
 
+    <section class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white overflow-hidden py-12 lg:py-16">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 border border-brand-500/30 text-brand-300 text-xs font-semibold">
+                        <i class="fa-solid fa-certificate"></i> Premium Security Hardware Catalog 2026
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+                        Next-Gen Surveillance & Security by <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Prizor & HOC</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+                        Dynamic Technology Solutions brings you advanced HD/IP Cameras, NVR/DVR setups, biometric access controls, and high-performance networking switches engineered for enterprise security and reliable commercial deployments.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#catalog" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition flex items-center gap-2">
+                            <span>Explore Full Catalog</span>
+                            <i class="fa-solid fa-arrow-down text-xs"></i>
+                        </a>
+                        <a href="https://wa.me/919876543210?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20bulk%20pricing%20catalogue." target="_blank" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-xl text-sm transition flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-400"></i> Request Wholesale Quote
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Feature Cards -->
+                <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-brand-500/50 transition group">
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base">Prizor Optics</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Ultra HD Starlight Cameras, PTZ domes & smart motion detection sensors.</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-emerald-500/50 transition group">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base">HOC Hardware</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">High-capacity NVRs, PoE switches, biometric terminals & server racks.</p>
+                    </div>
+                    <div class="col-span-2 bg-gradient-to-r from-brand-900/40 to-indigo-900/40 border border-brand-500/20 rounded-2xl p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center text-sm font-bold">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white uppercase tracking-wider">Pan-India Support & Supply</h4>
+                                <p class="text-[11px] text-slate-300">Direct technical assistance & same-day dispatch for partners.</p>
+                            </div>
+                        </div>
+                        <span class="text-xs bg-brand-500/20 border border-brand-500/40 text-brand-300 px-2.5 py-1 rounded-lg font-bold">Verified</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <main id="catalog" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <!-- Section Header & Category Pills -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
             <div>
-                <span class="text-brand-600 font-bold text-xs uppercase tracking-wider">Inventory & Offerings</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Products & Services Showcase</h2>
-                <p id="resultCount" class="text-xs sm:text-sm text-slate-500 mt-1">Showing all systems and professional services</p>
+                <span class="text-brand-600 font-bold text-xs uppercase tracking-wider">Product Inventory</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Authorized Catalog Showcase</h2>
+                <p id="resultCount" class="text-xs sm:text-sm text-slate-500 mt-1">Showing all available Prizor and HOC hardware systems</p>
             </div>
 
+            <!-- Category Filter Tabs -->
             <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1">
                 <span class="text-xs text-slate-500 font-semibold mr-1">Category:</span>
                 <button onclick="filterCategory('all')" id="cat-btn-all" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm">All</button>
                 <button onclick="filterCategory('Cameras')" id="cat-btn-Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Cameras</button>
-                <button onclick="filterCategory('Television')" id="cat-btn-Television" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Prizor TVs</button>
-                <button onclick="filterCategory('NVR & DVR')" id="cat-btn-NVR & DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">NVR & DVR</button>
-                <button onclick="filterCategory('Fire Safety')" id="cat-btn-Fire Safety" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Fire Safety</button>
-                <button onclick="filterCategory('Services')" id="cat-btn-Services" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Our Services</button>
+                <button onclick="filterCategory('NVR / DVR')" id="cat-btn-NVR / DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">NVR / DVR</button>
+                <button onclick="filterCategory('Networking')" id="cat-btn-Networking" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Networking</button>
+                <button onclick="filterCategory('Biometric & Access')" id="cat-btn-Biometric & Access" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Access Control</button>
             </div>
         </div>
 
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+        <!-- Product Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Populated dynamically via JS -->
+        </div>
 
+        <!-- Empty State (Hidden by default) -->
         <div id="emptyState" class="hidden text-center py-20 bg-white rounded-2xl border border-slate-200 p-8 my-8 shadow-sm">
             <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
                 <i class="fa-solid fa-box-open"></i>
             </div>
-            <h3 class="text-lg font-bold text-slate-800">No matching items found</h3>
-            <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">Try resetting filters or searching with different terms.</p>
+            <h3 class="text-lg font-bold text-slate-800">No matching hardware found</h3>
+            <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">We couldn't find any products matching your search or filter criteria. Try checking your spelling or resetting filters.</p>
             <button onclick="resetCatalog()" class="mt-5 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-semibold transition shadow">
                 Reset All Filters
             </button>
@@ -184,6 +251,8 @@
 
     <div id="productModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
         <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-in fade-in zoom-in-95 duration-200">
+            
+            <!-- Modal Header -->
             <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white">
                 <div class="flex items-center gap-2">
                     <span id="modalBrandBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider bg-brand-600 text-white">Brand</span>
@@ -193,32 +262,67 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
+
+            <!-- Modal Content Body -->
             <div class="p-6 sm:p-8 max-h-[80vh] overflow-y-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Left Column: Image Gallery Viewer -->
                     <div class="space-y-4">
                         <div class="aspect-video sm:aspect-square bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center relative group">
-                            <img id="modalMainImage" src="" alt="Item Image" class="w-full h-full object-cover transition duration-300 group-hover:scale-105" onerror="this.src='https://placehold.co/600x600/f1f5f9/475569?text=Dynamic+Technology'">
+                            <img id="modalMainImage" src="" alt="Product Image" class="w-full h-full object-cover transition duration-300 group-hover:scale-105" onerror="this.src='https://placehold.co/600x600/f1f5f9/475569?text=Security+Hardware'">
+                            <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur">
+                                <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Hover to Inspect
+                            </span>
                         </div>
-                        <div id="modalThumbnails" class="grid grid-cols-4 gap-3"></div>
+                        <!-- Thumbnail Row -->
+                        <div id="modalThumbnails" class="grid grid-cols-4 gap-3">
+                            <!-- Populated via JS -->
+                        </div>
                     </div>
+
+                    <!-- Right Column: Product Info & Specifications -->
                     <div class="space-y-6">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-2">
                                 <span id="modalSku" class="text-xs font-mono font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">SKU: DTS-000</span>
                                 <span id="modalStockStatus" class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md flex items-center gap-1">
-                                    <i class="fa-solid fa-circle text-[8px]"></i> Available / Ready
+                                    <i class="fa-solid fa-circle text-[8px]"></i> In Stock & Ready
                                 </span>
                             </div>
-                            <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Title</h2>
+                            <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Product Title</h2>
+                            <div class="flex items-center gap-2 mt-2">
+                                <div class="flex text-amber-400 text-xs">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="text-xs text-slate-500 font-medium">(Verified Commercial Grade)</span>
+                            </div>
                         </div>
+
+                        <!-- Price Tag -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-baseline justify-between">
+                            <div>
+                                <span class="text-xs text-slate-500 block">Authorized Distributor Price</span>
+                                <span id="modalPrice" class="text-2xl font-black text-brand-600">₹0.00</span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">*GST & Taxes Extra as applicable</span>
+                        </div>
+
+                        <!-- Description -->
                         <div class="space-y-2">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Overview</h4>
-                            <p id="modalDescription" class="text-sm text-slate-600 leading-relaxed"></p>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Product Overview</h4>
+                            <p id="modalDescription" class="text-sm text-slate-600 leading-relaxed">Detailed description goes here...</p>
                         </div>
+
+                        <!-- Technical Specifications List -->
                         <div class="space-y-3">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Specifications / Details</h4>
-                            <div id="modalSpecsList" class="bg-slate-50 rounded-xl border border-slate-200 divide-y divide-slate-200 text-xs"></div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Technical Specifications</h4>
+                            <div id="modalSpecsList" class="bg-slate-50 rounded-xl border border-slate-200 divide-y divide-slate-200 text-xs">
+                                <!-- Populated via JS -->
+                            </div>
                         </div>
+
+                        <!-- Action Buttons -->
                         <div class="pt-2 flex flex-col sm:flex-row gap-3">
                             <button id="modalWhatsAppBtn" onclick="inquireOnWhatsAppFromModal()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl text-sm shadow-lg shadow-emerald-600/20 transition flex items-center justify-center gap-2">
                                 <i class="fa-brands fa-whatsapp text-lg"></i>
@@ -237,6 +341,7 @@
     <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
+                <!-- Company Info -->
                 <div class="lg:col-span-2 space-y-4">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-black text-lg">
@@ -244,204 +349,553 @@
                         </div>
                         <div>
                             <h3 class="font-bold text-white text-base">Dynamic Technology Solutions</h3>
-                            <p class="text-xs text-brand-400 font-medium">Surveillance, Prizor TVs & Fire Safety Services</p>
+                            <p class="text-xs text-brand-400 font-medium">Authorized Partner: Prizor & HOC</p>
                         </div>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
-                        Providing high-end security infrastructure, Prizor LED TVs, fire protection systems, and professional technical execution in Boisar and surrounding regions.
+                        Leading distributor of enterprise-grade security, surveillance, and networking infrastructure. Providing genuine Prizor cameras and HOC hardware solutions across India.
                     </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="https://wa.me/919876543210" target="_blank" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="tel:+919876543210" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-brand-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+                            <i class="fa-solid fa-phone"></i>
+                        </a>
+                        <a href="mailto:sales@dynamictechsol.com" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-brand-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Catalog Brands</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" onclick="filterBrand('Prizor')" class="hover:text-white transition">Prizor HD Cameras</a></li>
+                        <li><a href="#" onclick="filterBrand('Prizor')" class="hover:text-white transition">Prizor PTZ & Bullet Series</a></li>
+                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC NVR & DVR Systems</a></li>
+                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC PoE Networking Switches</a></li>
+                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">Biometric & Access Terminals</a></li>
+                    </ul>
+                </div>
+
+                <!-- Product Categories -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Categories</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" onclick="filterCategory('Cameras')" class="hover:text-white transition">Surveillance Cameras</a></li>
+                        <li><a href="#" onclick="filterCategory('NVR / DVR')" class="hover:text-white transition">Recorders (NVR/DVR)</a></li>
+                        <li><a href="#" onclick="filterCategory('Networking')" class="hover:text-white transition">Networking & Switches</a></li>
+                        <li><a href="#" onclick="filterCategory('Biometric & Access')" class="hover:text-white transition">Access Control & Biometrics</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Location -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Headquarters</h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-500 mt-0.5"></i>
+                            <span>Dynamic Technology Solutions, Tech Tower, Main Boulevard, Industrial Area, India</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-brand-500"></i>
+                            <span>+91 98765 43210 / 022-23456789</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-brand-500"></i>
+                            <span>Mon - Sat: 9:30 AM - 7:00 PM</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="pt-8 border-t border-slate-800 text-xs text-slate-500 text-center">
-                <p>&copy; 2026 Dynamic Technology Solutions. All rights reserved.</p>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 Dynamic Technology Solutions. Authorized Partner for Prizor & HOC. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <span class="hover:text-slate-400 cursor-pointer">Authorized Partner Guarantee</span>
+                    <span class="hover:text-slate-400 cursor-pointer">Terms & Conditions</span>
+                    <span class="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
+                </div>
             </div>
         </div>
     </footer>
 
     <script>
+        // Product Catalog Database (Prizor & HOC)
         const products = [
             {
                 id: 1,
-                name: "Prizor 32 Inch HD Ready Smart LED TV",
-                brand: "Prizor",
-                category: "Television",
-                sku: "PRZ-TV-32HD",
-                stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfUpu7lb9TJ68OZEWl1I9rRuTaTdP9QxF9EIl7sfE9Kg&s",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfUpu7lb9TJ68OZEWl1I9rRuTaTdP9QxF9EIl7sfE9Kg&s"],
-                description: "Prizor 32-inch Smart LED TV featuring HD Ready display, crystal clear sound output, multiple HDMI/USB ports.",
-                specs: { "Display Size": "32 Inch HD Ready", "Connectivity": "HDMI, USB, Wi-Fi" }
-            },
-            {
-                id: 2,
-                name: "Prizor 43 Inch 4K UHD Smart LED TV",
-                brand: "Prizor",
-                category: "Television",
-                sku: "PRZ-TV-43UHD",
-                stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlHR3ToYJyRFBEGDTtZBeFXysgoDqsGFIJ0a1-5x5jmw&s=10",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlHR3ToYJyRFBEGDTtZBeFXysgoDqsGFIJ0a1-5x5jmw&s=10"],
-                description: "Prizor 43-inch 4K Ultra HD Smart TV with HDR 10 support and sleek bezels.",
-                specs: { "Display Size": "43 Inch 4K UHD", "Panel": "A+ Grade LED Panel" }
-            },
-            {
-                id: 3,
-                name: "Prizor 55 Inch Frameless 4K Smart TV",
-                brand: "Prizor",
-                category: "Television",
-                sku: "PRZ-TV-55FR",
-                stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4yruRj0gCp9rTNzt5w54iYnnsy7jgaI3b2Ca7hcS_XQ&s",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4yruRj0gCp9rTNzt5w54iYnnsy7jgaI3b2Ca7hcS_XQ&s"],
-                description: "Prizor 55-inch frameless big screen 4K Smart TV designed for grand living rooms and halls.",
-                specs: { "Display Size": "55 Inch Frameless 4K", "Audio": "24W Stereo" }
-            },
-            {
-                id: 4,
                 name: "Prizor 4K Starlight Bullet IP Camera",
                 brand: "Prizor",
                 category: "Cameras",
                 sku: "PRZ-4K-BL80",
-                stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
+                price: "₹8,499",
+                priceValue: 8499,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKOEijjOiqDLxlGEIwxQg0H9nEqcW5y8joy3AAuSIjWQ&s"
+                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80",
+                    "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80",
+                    "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&auto=format&fit=crop&q=80"
                 ],
-                description: "8MP 4K Starlight IP Bullet Camera with advanced Sony CMOS sensor and night vision.",
-                specs: { "Resolution": "8 Megapixel 4K", "Night Vision": "50 Meters IR" }
+                description: "High-performance 8MP 4K Starlight IP Bullet Camera featuring advanced Sony CMOS sensor, true WDR 120dB, IR range up to 50 meters, and IP67 weather-proof metal housing for extreme outdoor environments.",
+                specs: {
+                    "Resolution": "8 Megapixel (3840 × 2160)",
+                    "Lens": "3.6mm Fixed Focal Lens (Horizontal FoV 87°)",
+                    "Night Vision": "Smart IR up to 50 Meters with Starlight Low Light",
+                    "Compression": "H.265+ / H.265 / H.264+",
+                    "Protection": "IP67 Weatherproof, IK10 Vandal Resistant",
+                    "Power Supply": "12V DC & PoE (802.3af)"
+                }
+            },
+            {
+                id: 2,
+                name: "Prizor 2MP Full HD Indoor Dome Camera",
+                brand: "Prizor",
+                category: "Cameras",
+                sku: "PRZ-2MP-DM20",
+                price: "₹2,499",
+                priceValue: 2499,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80",
+                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Crystal clear 1080p indoor dome security camera with built-in microphone for high-fidelity audio surveillance, IR night vision, and easy ceiling or wall mounting for retail and office spaces.",
+                specs: {
+                    "Resolution": "2 Megapixel (1920 × 1080) Full HD",
+                    "Audio": "Built-in High Sensitivity Microphone",
+                    "Night Vision": "IR Distance up to 20m",
+                    "Rotation": "Manual 3-Axis Adjustment (Pan: 0°-355°)",
+                    "Housing": "Durable Polycarbonate White Casing"
+                }
+            },
+            {
+                id: 3,
+                name: "Prizor 5MP Motorized PTZ Speed Dome Camera",
+                brand: "Prizor",
+                category: "Cameras",
+                sku: "PRZ-5MP-PTZ90",
+                price: "₹22,999",
+                priceValue: 22999,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&auto=format&fit=crop&q=80",
+                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Professional grade 25X Optical Zoom PTZ camera with human/vehicle AI motion tracking, 100m IR night vision, and robust outdoor weatherproof construction for perimeter security.",
+                specs: {
+                    "Resolution": "5 Megapixel Ultra HD",
+                    "Optical Zoom": "25X Motorized Zoom, 16X Digital Zoom",
+                    "Pan & Tilt": "Pan: 360° endless, Tilt: -15° to 90°",
+                    "AI Intelligence": "Perimeter Protection, Face Capture, Motion 2.0",
+                    "Ingress Protection": "IP66 Weatherproof & Surge Protection"
+                }
+            },
+            {
+                id: 4,
+                name: "HOC 16-Channel 4K AI Network Video Recorder (NVR)",
+                brand: "HOC",
+                category: "NVR / DVR",
+                sku: "HOC-NVR-16CH4K",
+                price: "₹14,999",
+                priceValue: 14999,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80",
+                    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Enterprise 16-Channel 4K NVR with H.265+ video compression, 2 SATA HDD bays supporting up to 20TB storage, HDMI/VGA simultaneous 4K output, and smart AI facial recognition playback.",
+                specs: {
+                    "Channels": "16 Channel IP Camera Input",
+                    "Decoding": "Up to 2-Ch @ 4K or 8-Ch @ 1080P",
+                    "Storage": "2 SATA Interfaces, Up to 10TB capacity each",
+                    "Network Bandwidth": "160Mbps Incoming / 160Mbps Outgoing",
+                    "Ports": "1 RJ-45 10/100/1000 Mbps, 2 USB Ports, HDMI, VGA"
+                }
             },
             {
                 id: 5,
-                name: "HOC 16-Channel 4K AI NVR Recorder",
+                name: "HOC 8-Channel PoE NVR System",
                 brand: "HOC",
-                category: "NVR & DVR",
-                sku: "HOC-NVR-16CH4K",
-                stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwPnH1If3ot4HqZXXB9zDT1OECpwCFRo7nTA5xC8JGDw&s=10",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwPnH1If3ot4HqZXXB9zDT1OECpwCFRo7nTA5xC8JGDw&s=10"],
-                description: "Enterprise 16-Channel 4K NVR with H.265+ video compression and dual SATA HDD bays.",
-                specs: { "Device Type": "Network Video Recorder (NVR)", "Channels": "16 Channel IP Input" }
+                category: "NVR / DVR",
+                sku: "HOC-NVR-8CHPOE",
+                price: "₹9,999",
+                priceValue: 9999,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
+                    "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Plug-and-play 8-Channel NVR equipped with built-in PoE ports for instant camera connectivity without complex wiring. Supports remote mobile viewing via iOS and Android.",
+                specs: {
+                    "PoE Ports": "8 Independent 100Mbps PoE Interfaces",
+                    "Max Resolution": "Up to 8 Megapixel Recording per channel",
+                    "Compression": "H.265+ / H.265 / H.264",
+                    "Mobile App": "HOC View Pro (iOS / Android)"
+                }
             },
             {
                 id: 6,
-                name: "HOC 8-Channel High Definition DVR",
+                name: "HOC 8-Port Gigabit PoE+ Switch",
                 brand: "HOC",
-                category: "NVR & DVR",
-                sku: "HOC-DVR-8CH",
-                stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwPnH1If3ot4HqZXXB9zDT1OECpwCFRo7nTA5xC8JGDw&s=10",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwPnH1If3ot4HqZXXB9zDT1OECpwCFRo7nTA5xC8JGDw&s=10"],
-                description: "Standalone 8-Channel HD DVR supporting analog and digital hybrid camera inputs.",
-                specs: { "Device Type": "Digital Video Recorder (DVR)", "Channels": "8 Channel HD Input" }
+                category: "Networking",
+                sku: "HOC-SW-8GPOE",
+                price: "₹4,299",
+                priceValue: 4299,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "High-speed 8-port Gigabit PoE+ switch with 2 uplink ports, intelligent power management, 250m long-distance transmission mode, and robust lightning surge protection.",
+                specs: {
+                    "Ports": "8 × 10/100/1000Mbps PoE ports + 2 Gigabit Uplink",
+                    "PoE Budget": "Total 120W (Max 30W per single port)",
+                    "Transmission Mode": "Standard / Extend Mode up to 250m",
+                    "Lightning Protection": "6KV Surge Protection"
+                }
+            },
+            {
+                id: 7,
+                name: "HOC Biometric Fingerprint & RFID Access Control Terminal",
+                brand: "HOC",
+                category: "Biometric & Access",
+                sku: "HOC-BIO-T100",
+                price: "₹6,799",
+                priceValue: 6799,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Advanced biometric attendance and access control terminal with high-precision optical fingerprint sensor, RFID card reader, TCP/IP, and USB data export for office time management.",
+                specs: {
+                    "Capacity": "3,000 Fingerprints, 3,000 Cards, 100,000 Logs",
+                    "Verification Time": "Less than 0.5 seconds",
+                    "Communication": "TCP/IP, WiFi (Optional), USB Flash Drive",
+                    "Display": "2.8-inch TFT Color Screen",
+                    "Power": "5V DC 2A"
+                }
+            },
+            {
+                id: 8,
+                name: "Prizor 4MP Outdoor PT Dual-Light Wi-Fi Camera",
+                brand: "Prizor",
+                category: "Cameras",
+                sku: "PRZ-4MP-WIFI2",
+                price: "₹3,899",
+                priceValue: 3899,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80",
+                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Smart wireless outdoor PT camera with dual illumination (IR & Warm light), active defense siren with strobe light, two-way audio, and MicroSD card slot up to 256GB.",
+                specs: {
+                    "Resolution": "4 Megapixel QHD (2560 × 1440)",
+                    "Pan/Tilt": "Pan: 350°, Tilt: 90° Motorized",
+                    "Night Vision": "Smart Dual Light (IR up to 30m, Color Night Vision)",
+                    "Connectivity": "Wi-Fi 6 IEEE802.11b/g/n & RJ45 Ethernet Port",
+                    "Storage": "MicroSD Slot up to 256GB"
+                }
             }
         ];
 
+        // State variables
         let currentBrandFilter = 'all';
         let currentCategoryFilter = 'all';
         let searchQuery = '';
         let activeModalProduct = null;
 
+        // Initialize application on DOM content loaded
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
         });
 
+        // Render products into grid
         function renderProducts(items) {
             const grid = document.getElementById('productGrid');
             const emptyState = document.getElementById('emptyState');
             const resultCount = document.getElementById('resultCount');
+
             grid.innerHTML = '';
+
             if (items.length === 0) {
                 emptyState.classList.remove('hidden');
-                resultCount.textContent = 'Found 0 matching items';
+                resultCount.textContent = 'Found 0 matching products';
                 return;
             }
+
             emptyState.classList.add('hidden');
-            resultCount.textContent = `Showing ${items.length} item${items.length === 1 ? '' : 's'}`;
+            resultCount.textContent = `Showing ${items.length} professional hardware product${items.length === 1 ? '' : 's'}`;
 
             items.forEach(product => {
+                const brandColorClass = product.brand === 'Prizor' 
+                    ? 'bg-sky-50 text-sky-700 border-sky-200' 
+                    : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+
                 const card = document.createElement('div');
                 card.className = 'bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden';
                 card.innerHTML = `
                     <div>
                         <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/500x500/f1f5f9/475569?text=Security+Hardware'">
+                            <div class="absolute top-3 left-3 flex flex-col gap-1">
+                                <span class="text-[10px] font-bold px-2.5 py-1 rounded-md border shadow-sm ${brandColorClass}">
+                                    ${product.brand}
+                                </span>
+                            </div>
+                            <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-slate-700 text-[10px] font-semibold px-2 py-1 rounded-md shadow-sm">
+                                ${product.category}
+                            </span>
                         </div>
                         <div class="p-5 space-y-3">
                             <div class="flex items-center justify-between text-xs text-slate-500">
                                 <span class="font-mono bg-slate-100 px-2 py-0.5 rounded">${product.sku}</span>
-                                <span class="text-emerald-600 font-semibold">${product.stock}</span>
+                                <span class="text-emerald-600 font-semibold flex items-center gap-1">
+                                    <i class="fa-solid fa-circle text-[6px]"></i> ${product.stock}
+                                </span>
                             </div>
-                            <h3 onclick="openProductModal(${product.id})" class="font-bold text-slate-900 text-base hover:text-brand-600 cursor-pointer transition line-clamp-2">
+                            <h3 onclick="openProductModal(${product.id})" class="font-bold text-slate-900 text-base leading-snug hover:text-brand-600 cursor-pointer transition line-clamp-2">
                                 ${product.name}
                             </h3>
-                            <p class="text-xs text-slate-500 line-clamp-2">${product.description}</p>
+                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                                ${product.description}
+                            </p>
                         </div>
                     </div>
                     <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-100 mt-2">
-                        <span class="text-xs font-bold text-brand-600">Inquire Now</span>
-                        <button onclick="inquireWhatsApp('${product.name}', '${product.sku}')" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition text-xs font-semibold flex items-center gap-1.5 shadow-sm">
-                            <i class="fa-brands fa-whatsapp"></i> Inquire
-                        </button>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block">Authorized Price</span>
+                            <span class="text-lg font-black text-slate-900">${product.price}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="openProductModal(${product.id})" class="p-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl transition text-xs font-semibold flex items-center gap-1.5" title="View Specifications">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button onclick="inquireWhatsApp('${product.name}', '${product.sku}')" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20" title="Inquire on WhatsApp">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Inquire
+                            </button>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
+        // Filter by Brand
         function filterBrand(brand) {
             currentBrandFilter = brand;
+            
+            // Update active buttons styling
+            document.querySelectorAll('.brand-filter-btn').forEach(btn => {
+                btn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-slate-400 transition';
+            });
+            const activeBtn = document.getElementById(`btn-brand-${brand}`);
+            if (activeBtn) {
+                activeBtn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm';
+            }
+
             applyFilters();
         }
 
+        // Filter by Category
         function filterCategory(category) {
             currentCategoryFilter = category;
+
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition';
+            });
+            const activeBtn = document.getElementById(`cat-btn-${category}`);
+            if (activeBtn) {
+                activeBtn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm';
+            }
+
             applyFilters();
         }
 
+        // Apply all active filters and search
         function applyFilters() {
             let filtered = products;
-            if (currentBrandFilter !== 'all') filtered = filtered.filter(p => p.brand === currentBrandFilter);
-            if (currentCategoryFilter !== 'all') filtered = filtered.filter(p => p.category === currentCategoryFilter);
+
+            if (currentBrandFilter !== 'all') {
+                filtered = filtered.filter(p => p.brand === currentBrandFilter);
+            }
+
+            if (currentCategoryFilter !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategoryFilter);
+            }
+
+            if (searchQuery.trim() !== '') {
+                const query = searchQuery.toLowerCase();
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(query) || 
+                    p.sku.toLowerCase().includes(query) || 
+                    p.description.toLowerCase().includes(query) ||
+                    p.category.toLowerCase().includes(query)
+                );
+            }
+
             renderProducts(filtered);
         }
 
+        // Setup Search and Dropdown Auto-suggestions
         function setupSearchListeners() {
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                searchQuery = e.target.value.toLowerCase();
-                let filtered = products.filter(p => p.name.toLowerCase().includes(searchQuery) || p.sku.toLowerCase().includes(searchQuery));
-                renderProducts(filtered);
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearchBtn');
+            const searchDropdown = document.getElementById('searchDropdown');
+
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                if (searchQuery.trim().length > 0) {
+                    clearSearchBtn.classList.remove('hidden');
+                    showSearchDropdown(searchQuery);
+                } else {
+                    clearSearchBtn.classList.add('hidden');
+                    searchDropdown.classList.add('hidden');
+                }
+                applyFilters();
             });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                    searchDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function showSearchDropdown(query) {
+            const searchDropdown = document.getElementById('searchDropdown');
+            const matches = products.filter(p => 
+                p.name.toLowerCase().includes(query.toLowerCase()) || 
+                p.sku.toLowerCase().includes(query.toLowerCase()) ||
+                p.category.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 5);
+
+            if (matches.length === 0) {
+                searchDropdown.innerHTML = `<div class="p-4 text-xs text-slate-500 text-center">No products found for "${query}"</div>`;
+                searchDropdown.classList.remove('hidden');
+                return;
+            }
+
+            let html = '<div class="p-2 border-b border-slate-100 text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3">Matching Products</div>';
+            matches.forEach(item => {
+                html += `
+                    <div onclick="selectDropdownItem(${item.id})" class="flex items-center gap-3 p-3 hover:bg-slate-50 cursor-pointer transition border-b border-slate-100 last:border-none">
+                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/100x100'">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-xs font-bold text-slate-800 truncate">${item.name}</h4>
+                            <p class="text-[11px] text-slate-500">${item.brand} &bull; ${item.sku} &bull; <span class="text-brand-600 font-semibold">${item.price}</span></p>
+                        </div>
+                    </div>
+                `;
+            });
+            searchDropdown.innerHTML = html;
+            searchDropdown.classList.remove('hidden');
+        }
+
+        function selectDropdownItem(id) {
+            document.getElementById('searchDropdown').classList.add('hidden');
+            openProductModal(id);
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = '';
+            searchQuery = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            document.getElementById('searchDropdown').classList.add('hidden');
+            applyFilters();
         }
 
         function resetCatalog() {
             currentBrandFilter = 'all';
             currentCategoryFilter = 'all';
-            renderProducts(products);
+            searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            document.getElementById('searchDropdown').classList.add('hidden');
+
+            // Reset buttons
+            filterBrand('all');
+            filterCategory('all');
         }
 
+        // Open Amazon-Style Product Detail Modal
         function openProductModal(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
             activeModalProduct = product;
+
+            document.getElementById('modalBrandBadge').textContent = product.brand;
+            document.getElementById('modalCategoryBadge').textContent = product.category;
             document.getElementById('modalSku').textContent = `SKU: ${product.sku}`;
             document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalPrice').textContent = product.price;
             document.getElementById('modalDescription').textContent = product.description;
             document.getElementById('modalMainImage').src = product.image;
+
+            // Render thumbnails
+            const thumbContainer = document.getElementById('modalThumbnails');
+            thumbContainer.innerHTML = '';
+            product.thumbnails.forEach((thumb, idx) => {
+                const thumbEl = document.createElement('div');
+                thumbEl.className = `aspect-square bg-slate-100 rounded-xl border-2 overflow-hidden cursor-pointer transition ${idx === 0 ? 'border-brand-600 shadow' : 'border-slate-200 hover:border-slate-400'}`;
+                thumbEl.innerHTML = `<img src="${thumb}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100'">`;
+                thumbEl.onclick = () => {
+                    document.getElementById('modalMainImage').src = thumb;
+                    // Highlight active thumbnail
+                    Array.from(thumbContainer.children).forEach(el => el.className = 'aspect-square bg-slate-100 rounded-xl border-2 border-slate-200 overflow-hidden cursor-pointer hover:border-slate-400 transition');
+                    thumbEl.className = 'aspect-square bg-slate-100 rounded-xl border-2 border-brand-600 shadow overflow-hidden cursor-pointer transition';
+                };
+                thumbContainer.appendChild(thumbEl);
+            });
+
+            // Render specs
+            const specsList = document.getElementById('modalSpecsList');
+            specsList.innerHTML = '';
+            for (const [key, val] of Object.entries(product.specs)) {
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-3 p-3 gap-2';
+                row.innerHTML = `
+                    <span class="font-semibold text-slate-600">${key}</span>
+                    <span class="col-span-2 text-slate-800 font-medium">${val}</span>
+                `;
+                specsList.appendChild(row);
+            }
+
             document.getElementById('productModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            activeModalProduct = null;
         }
 
-        function inquireWhatsApp(name, sku) {
-            window.open(`https://wa.me/918390909845?text=Inquiry%20about%20*${name}*%20(SKU:%20${sku})`, '_blank');
+        // WhatsApp Inquiry integration
+        function inquireWhatsApp(productName, sku) {
+            const phone = "919876543210";
+            const message = encodeURIComponent(`Hello Dynamic Technology Solutions, I would like to inquire about product: *${productName}* (SKU: ${sku}). Please share availability, dealer pricing, and technical datasheets.`);
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
 
         function inquireOnWhatsAppFromModal() {
-            if (activeModalProduct) inquireWhatsApp(activeModalProduct.name, activeModalProduct.sku);
+            if (activeModalProduct) {
+                inquireWhatsApp(activeModalProduct.name, activeModalProduct.sku);
+            }
         }
     </script>
 </body>
