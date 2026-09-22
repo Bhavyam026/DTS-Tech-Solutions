@@ -86,15 +86,15 @@
 
         <!-- Main Nav / Search bar -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
-            <!-- Brand Logo -->
+            <!-- Brand Logo Styled to Dynamic Technology Solutions -->
             <div class="flex items-center justify-between w-full md:w-auto">
                 <a href="#" onclick="resetCatalog()" class="flex items-center gap-3 group">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-black text-xl shadow-md shadow-brand-500/20 group-hover:scale-105 transition transform">
-                        D
+                    <div class="px-3 py-2 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-extrabold text-sm tracking-wider shadow-md shadow-brand-500/20 group-hover:scale-105 transition transform">
+                        DTS
                     </div>
                     <div>
-                        <h1 class="font-extrabold text-slate-900 text-lg tracking-tight leading-none">Dynamic Tech</h1>
-                        <p class="text-xs font-semibold text-brand-600 tracking-wider mt-0.5">SOLUTIONS</p>
+                        <h1 class="font-extrabold text-slate-900 text-base sm:text-lg tracking-tight leading-none">Dynamic Technology Solutions</h1>
+                        <p class="text-[10px] font-semibold text-brand-600 tracking-widest mt-0.5 uppercase">Authorized Partner</p>
                     </div>
                 </a>
                 
@@ -225,7 +225,9 @@
                 <span class="text-xs text-slate-500 font-semibold mr-1">Category:</span>
                 <button onclick="filterCategory('all')" id="cat-btn-all" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm">All</button>
                 <button onclick="filterCategory('Cameras')" id="cat-btn-Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Cameras</button>
-                <button onclick="filterCategory('NVR / DVR')" id="cat-btn-NVR / DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">NVR / DVR</button>
+                <button onclick="filterCategory('NVR')" id="cat-btn-NVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">NVR</button>
+                <button onclick="filterCategory('DVR')" id="cat-btn-DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">DVR</button>
+                <button onclick="filterCategory('HOC Cables')" id="cat-btn-HOC Cables" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">HOC Cables</button>
                 <button onclick="filterCategory('Networking')" id="cat-btn-Networking" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Networking</button>
                 <button onclick="filterCategory('Biometric & Access')" id="cat-btn-Biometric & Access" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Access Control</button>
             </div>
@@ -344,8 +346,8 @@
                 <!-- Company Info -->
                 <div class="lg:col-span-2 space-y-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-black text-lg">
-                            D
+                        <div class="px-3 py-2 rounded-xl bg-brand-600 flex items-center justify-center text-white font-extrabold text-sm tracking-wider">
+                            DTS
                         </div>
                         <div>
                             <h3 class="font-bold text-white text-base">Dynamic Technology Solutions</h3>
@@ -373,10 +375,9 @@
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Catalog Brands</h4>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#" onclick="filterBrand('Prizor')" class="hover:text-white transition">Prizor HD Cameras</a></li>
-                        <li><a href="#" onclick="filterBrand('Prizor')" class="hover:text-white transition">Prizor PTZ & Bullet Series</a></li>
                         <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC NVR & DVR Systems</a></li>
-                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC PoE Networking Switches</a></li>
-                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">Biometric & Access Terminals</a></li>
+                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC Copper/PoE Cables</a></li>
+                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">Biometric Terminals</a></li>
                     </ul>
                 </div>
 
@@ -385,9 +386,10 @@
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Categories</h4>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#" onclick="filterCategory('Cameras')" class="hover:text-white transition">Surveillance Cameras</a></li>
-                        <li><a href="#" onclick="filterCategory('NVR / DVR')" class="hover:text-white transition">Recorders (NVR/DVR)</a></li>
+                        <li><a href="#" onclick="filterCategory('NVR')" class="hover:text-white transition">NVR Systems</a></li>
+                        <li><a href="#" onclick="filterCategory('DVR')" class="hover:text-white transition">DVR Systems</a></li>
+                        <li><a href="#" onclick="filterCategory('HOC Cables')" class="hover:text-white transition">HOC Cables</a></li>
                         <li><a href="#" onclick="filterCategory('Networking')" class="hover:text-white transition">Networking & Switches</a></li>
-                        <li><a href="#" onclick="filterCategory('Biometric & Access')" class="hover:text-white transition">Access Control & Biometrics</a></li>
                     </ul>
                 </div>
 
@@ -424,7 +426,7 @@
     </footer>
 
     <script>
-        // Product Catalog Database (Prizor & HOC)
+        // Product Catalog Database (Prizor & HOC with separate NVR, DVR, and HOC Cables categories)
         const products = [
             {
                 id: 1,
@@ -476,32 +478,9 @@
             },
             {
                 id: 3,
-                name: "Prizor 5MP Motorized PTZ Speed Dome Camera",
-                brand: "Prizor",
-                category: "Cameras",
-                sku: "PRZ-5MP-PTZ90",
-                price: "₹22,999",
-                priceValue: 22999,
-                stock: "In Stock",
-                image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&auto=format&fit=crop&q=80",
-                thumbnails: [
-                    "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&auto=format&fit=crop&q=80",
-                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80"
-                ],
-                description: "Professional grade 25X Optical Zoom PTZ camera with human/vehicle AI motion tracking, 100m IR night vision, and robust outdoor weatherproof construction for perimeter security.",
-                specs: {
-                    "Resolution": "5 Megapixel Ultra HD",
-                    "Optical Zoom": "25X Motorized Zoom, 16X Digital Zoom",
-                    "Pan & Tilt": "Pan: 360° endless, Tilt: -15° to 90°",
-                    "AI Intelligence": "Perimeter Protection, Face Capture, Motion 2.0",
-                    "Ingress Protection": "IP66 Weatherproof & Surge Protection"
-                }
-            },
-            {
-                id: 4,
                 name: "HOC 16-Channel 4K AI Network Video Recorder (NVR)",
                 brand: "HOC",
-                category: "NVR / DVR",
+                category: "NVR",
                 sku: "HOC-NVR-16CH4K",
                 price: "₹14,999",
                 priceValue: 14999,
@@ -511,7 +490,7 @@
                     "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80",
                     "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80"
                 ],
-                description: "Enterprise 16-Channel 4K NVR with H.265+ video compression, 2 SATA HDD bays supporting up to 20TB storage, HDMI/VGA simultaneous 4K output, and smart AI facial recognition playback.",
+                description: "Enterprise 16-Channel 4K NVR for IP cameras with H.265+ video compression, 2 SATA HDD bays supporting up to 20TB storage, and smart AI facial recognition playback.",
                 specs: {
                     "Channels": "16 Channel IP Camera Input",
                     "Decoding": "Up to 2-Ch @ 4K or 8-Ch @ 1080P",
@@ -521,29 +500,71 @@
                 }
             },
             {
-                id: 5,
-                name: "HOC 8-Channel PoE NVR System",
+                id: 4,
+                name: "HOC 8-Channel 5-in-1 Digital Video Recorder (DVR)",
                 brand: "HOC",
-                category: "NVR / DVR",
-                sku: "HOC-NVR-8CHPOE",
-                price: "₹9,999",
-                priceValue: 9999,
+                category: "DVR",
+                sku: "HOC-DVR-8CH5IN1",
+                price: "₹5,499",
+                priceValue: 5499,
                 stock: "In Stock",
                 image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
                 thumbnails: [
                     "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
                     "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80"
                 ],
-                description: "Plug-and-play 8-Channel NVR equipped with built-in PoE ports for instant camera connectivity without complex wiring. Supports remote mobile viewing via iOS and Android.",
+                description: "Versatile 8-Channel DVR supporting HD-TVI, AHD, CVI, CVBS, and IP analog cameras. Features advanced motion detection, mobile remote playback, and crisp display outputs.",
                 specs: {
-                    "PoE Ports": "8 Independent 100Mbps PoE Interfaces",
-                    "Max Resolution": "Up to 8 Megapixel Recording per channel",
-                    "Compression": "H.265+ / H.265 / H.264",
-                    "Mobile App": "HOC View Pro (iOS / Android)"
+                    "Compatibility": "Supports TVI/AHD/CVI/CVBS/IP cameras",
+                    "Compression": "H.265 Pro+ / H.265 Pro / H.265",
+                    "Storage": "1 SATA HDD up to 10TB capacity",
+                    "Video Output": "HDMI / VGA simultaneous output up to 1080p"
+                }
+            },
+            {
+                id: 5,
+                name: "HOC Heavy-Duty 3+1 CCTV Copper Cable (90 Meters)",
+                brand: "HOC",
+                category: "HOC Cables",
+                sku: "HOC-CBL-3P190",
+                price: "₹2,199",
+                priceValue: 2199,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Premium quality 3+1 CCTV security camera cable bundle with pure copper conductors for flawless power and video signal transmission over long indoor/outdoor distances.",
+                specs: {
+                    "Length": "90 Meters / Roll",
+                    "Type": "3+1 Coaxial Cable with Power Wire",
+                    "Conductor": "99.9% Pure Copper Grade",
+                    "Shielding": "High-density braided shielding to prevent interference"
                 }
             },
             {
                 id: 6,
+                name: "HOC CAT6 High-Speed Pure Copper Networking Cable (305m Box)",
+                brand: "HOC",
+                category: "HOC Cables",
+                sku: "HOC-CAT6-305M",
+                price: "₹6,499",
+                priceValue: 6499,
+                stock: "In Stock",
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80"
+                ],
+                description: "Industrial-grade CAT6 UTP networking cable engineered for Gigabit PoE IP camera installations and high-speed enterprise local area network data routing.",
+                specs: {
+                    "Length": "305 Meters Pull Box",
+                    "Standard": "CAT6 UTP 4-Pair Pure Copper",
+                    "Frequency": "Up to 250 MHz bandwidth performance",
+                    "Sheath": "UV Resistant PVC Jacket for durability"
+                }
+            },
+            {
+                id: 7,
                 name: "HOC 8-Port Gigabit PoE+ Switch",
                 brand: "HOC",
                 category: "Networking",
@@ -555,7 +576,7 @@
                 thumbnails: [
                     "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=600&auto=format&fit=crop&q=80"
                 ],
-                description: "High-speed 8-port Gigabit PoE+ switch with 2 uplink ports, intelligent power management, 250m long-distance transmission mode, and robust lightning surge protection.",
+                description: "High-speed 8-port Gigabit PoE+ switch with 2 uplink ports, intelligent power management, and 250m long-distance transmission mode.",
                 specs: {
                     "Ports": "8 × 10/100/1000Mbps PoE ports + 2 Gigabit Uplink",
                     "PoE Budget": "Total 120W (Max 30W per single port)",
@@ -564,7 +585,7 @@
                 }
             },
             {
-                id: 7,
+                id: 8,
                 name: "HOC Biometric Fingerprint & RFID Access Control Terminal",
                 brand: "HOC",
                 category: "Biometric & Access",
@@ -576,36 +597,12 @@
                 thumbnails: [
                     "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80"
                 ],
-                description: "Advanced biometric attendance and access control terminal with high-precision optical fingerprint sensor, RFID card reader, TCP/IP, and USB data export for office time management.",
+                description: "Advanced biometric attendance and access control terminal with high-precision optical fingerprint sensor, RFID card reader, and TCP/IP connectivity.",
                 specs: {
                     "Capacity": "3,000 Fingerprints, 3,000 Cards, 100,000 Logs",
                     "Verification Time": "Less than 0.5 seconds",
                     "Communication": "TCP/IP, WiFi (Optional), USB Flash Drive",
-                    "Display": "2.8-inch TFT Color Screen",
-                    "Power": "5V DC 2A"
-                }
-            },
-            {
-                id: 8,
-                name: "Prizor 4MP Outdoor PT Dual-Light Wi-Fi Camera",
-                brand: "Prizor",
-                category: "Cameras",
-                sku: "PRZ-4MP-WIFI2",
-                price: "₹3,899",
-                priceValue: 3899,
-                stock: "In Stock",
-                image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80",
-                thumbnails: [
-                    "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=80",
-                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&auto=format&fit=crop&q=80"
-                ],
-                description: "Smart wireless outdoor PT camera with dual illumination (IR & Warm light), active defense siren with strobe light, two-way audio, and MicroSD card slot up to 256GB.",
-                specs: {
-                    "Resolution": "4 Megapixel QHD (2560 × 1440)",
-                    "Pan/Tilt": "Pan: 350°, Tilt: 90° Motorized",
-                    "Night Vision": "Smart Dual Light (IR up to 30m, Color Night Vision)",
-                    "Connectivity": "Wi-Fi 6 IEEE802.11b/g/n & RJ45 Ethernet Port",
-                    "Storage": "MicroSD Slot up to 256GB"
+                    "Display": "2.8-inch TFT Color Screen"
                 }
             }
         ];
@@ -697,7 +694,6 @@
         function filterBrand(brand) {
             currentBrandFilter = brand;
             
-            // Update active buttons styling
             document.querySelectorAll('.brand-filter-btn').forEach(btn => {
                 btn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-slate-400 transition';
             });
@@ -767,7 +763,6 @@
                 applyFilters();
             });
 
-            // Close dropdown when clicking outside
             document.addEventListener('click', (e) => {
                 if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
                     searchDropdown.classList.add('hidden');
@@ -827,12 +822,11 @@
             document.getElementById('clearSearchBtn').classList.add('hidden');
             document.getElementById('searchDropdown').classList.add('hidden');
 
-            // Reset buttons
             filterBrand('all');
             filterCategory('all');
         }
 
-        // Open Amazon-Style Product Detail Modal
+        // Open Product Detail Modal
         function openProductModal(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
@@ -846,7 +840,6 @@
             document.getElementById('modalDescription').textContent = product.description;
             document.getElementById('modalMainImage').src = product.image;
 
-            // Render thumbnails
             const thumbContainer = document.getElementById('modalThumbnails');
             thumbContainer.innerHTML = '';
             product.thumbnails.forEach((thumb, idx) => {
@@ -855,14 +848,12 @@
                 thumbEl.innerHTML = `<img src="${thumb}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100'">`;
                 thumbEl.onclick = () => {
                     document.getElementById('modalMainImage').src = thumb;
-                    // Highlight active thumbnail
                     Array.from(thumbContainer.children).forEach(el => el.className = 'aspect-square bg-slate-100 rounded-xl border-2 border-slate-200 overflow-hidden cursor-pointer hover:border-slate-400 transition');
                     thumbEl.className = 'aspect-square bg-slate-100 rounded-xl border-2 border-brand-600 shadow overflow-hidden cursor-pointer transition';
                 };
                 thumbContainer.appendChild(thumbEl);
             });
 
-            // Render specs
             const specsList = document.getElementById('modalSpecsList');
             specsList.innerHTML = '';
             for (const [key, val] of Object.entries(product.specs)) {
@@ -885,7 +876,6 @@
             activeModalProduct = null;
         }
 
-        // WhatsApp Inquiry integration
         function inquireWhatsApp(productName, sku) {
             const phone = "919876543210";
             const message = encodeURIComponent(`Hello Dynamic Technology Solutions, I would like to inquire about product: *${productName}* (SKU: ${sku}). Please share availability, dealer pricing, and technical datasheets.`);
