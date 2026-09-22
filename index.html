@@ -202,24 +202,22 @@
                 </div>
 
                 <div class="lg:col-span-5 flex flex-col items-center justify-center">
-                    <div class="relative w-64 h-64 sm:w-72 sm:h-72 bg-gradient-to-tr from-brand-600/20 to-sky-500/25 rounded-full border border-brand-500/30 flex items-center justify-center animate-glow">
-                        <div class="absolute inset-4 rounded-full border border-dashed border-sky-400/40 animate-[spin_20s_linear_infinite]"></div>
-                        
-                        <div class="relative z-10 text-center animate-cartoon-bounce cursor-pointer" onclick="openAIBotModal()">
-                            <div class="w-24 h-24 mx-auto bg-gradient-to-b from-sky-400 to-brand-600 rounded-2xl shadow-xl flex flex-col items-center justify-center relative border-2 border-white/30">
-                                <div class="absolute -top-4 w-2 h-4 bg-slate-300 rounded-full"></div>
-                                <div class="absolute -top-6 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
-                                <div class="flex gap-4 mb-2">
-                                    <div class="w-3 h-3 bg-amber-300 rounded-full animate-pulse"></div>
-                                    <div class="w-3 h-3 bg-amber-300 rounded-full animate-pulse"></div>
-                                </div>
-                                <div class="w-10 h-2 bg-slate-900 rounded-full flex items-center justify-center overflow-hidden">
-                                    <div class="w-full h-0.5 bg-emerald-400 animate-pulse"></div>
-                                </div>
-                            </div>
-                            <div class="mt-4 bg-slate-900/90 backdrop-blur border border-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg flex items-center gap-2">
-                                <i class="fa-solid fa-robot text-sky-400"></i> Click me to chat & talk! 🤖
-                            </div>
+                    <!-- Replaced duplicate bot button with an attractive Security Expert Banner Card -->
+                    <div class="w-full max-w-sm bg-slate-800/80 backdrop-blur border border-slate-700/80 rounded-2xl p-6 text-center shadow-xl space-y-4">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-tr from-brand-600 to-indigo-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold text-base">Expert Installation & Support</h3>
+                            <p class="text-xs text-slate-400 mt-1">Certified engineers available in Boisar for site visits, CCTV setup & fire safety maintenance.</p>
+                        </div>
+                        <div class="pt-2 flex justify-center gap-3">
+                            <a href="tel:+918390909845" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5">
+                                <i class="fa-solid fa-phone"></i> Call Expert
+                            </a>
+                            <a href="https://instagram.com/dts.techsolutions" target="_blank" class="bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5">
+                                <i class="fa-brands fa-instagram"></i> Instagram
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -291,7 +289,7 @@
         </div>
     </main>
 
-    <!-- Smart AI Assistant Modal (Updated with Email, Phone & WhatsApp Summary) -->
+    <!-- Smart AI Assistant Modal with Language Support, IST IST-matched Greetings & ChatGPT-like Experience -->
     <div id="aiBotModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
         <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in flex flex-col">
             <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white">
@@ -301,20 +299,27 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-sm sm:text-base">DTS Smart AI Assistant 🤖</h3>
-                        <p class="text-[10px] text-sky-300">Collects Name, Email, Phone & Requirement -> Sends WhatsApp Summary</p>
+                        <p class="text-[10px] text-sky-300">ChatGPT-style Assistant with Language & Requirement Collection</p>
                     </div>
                 </div>
-                <button onclick="closeAIBotModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+                <div class="flex items-center gap-2">
+                    <!-- Language Switcher Option -->
+                    <select id="botLangSelect" onchange="changeBotLanguage()" class="bg-slate-800 text-slate-200 text-xs px-2.5 py-1.5 rounded-lg border border-slate-700 focus:outline-none cursor-pointer">
+                        <option value="hinglish">Hinglish / Hindi</option>
+                        <option value="english">English</option>
+                    </select>
+                    <button onclick="closeAIBotModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="p-6 space-y-4 bg-slate-50 h-[400px] overflow-y-auto" id="botChatMessages"></div>
 
             <div class="p-4 bg-white border-t border-slate-200 flex items-center gap-2">
-                <input type="text" id="botUserInput" placeholder="Apna jawab yahan likhein..." class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
+                <input type="text" id="botUserInput" placeholder="Type your message here..." class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
                 <button onclick="handleBotUserSubmit()" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow">
-                    <span>Bhejo</span>
+                    <span>Send</span>
                     <i class="fa-solid fa-paper-plane text-xs"></i>
                 </button>
             </div>
@@ -404,7 +409,7 @@
         </div>
     </div>
 
-    <!-- Footer Updated with Instagram ID -->
+    <!-- Footer Updated with Correct Instagram ID: dts.techsolutions -->
     <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
@@ -428,8 +433,8 @@
                         <a href="tel:+918390909845" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-brand-600 text-slate-300 hover:text-white flex items-center justify-center transition" title="Phone">
                             <i class="fa-solid fa-phone"></i>
                         </a>
-                        <!-- Added Instagram ID Link -->
-                        <a href="https://instagram.com/dynamic_technology_solutions" target="_blank" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition" title="Instagram ID">
+                        <!-- Corrected Instagram ID Link: dts.techsolutions -->
+                        <a href="https://instagram.com/dts.techsolutions" target="_blank" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition" title="Instagram ID">
                             <i class="fa-brands fa-instagram"></i>
                         </a>
                     </div>
@@ -466,10 +471,10 @@
                             <i class="fa-solid fa-phone text-brand-500"></i>
                             <span>+91 83909 09845</span>
                         </li>
-                        <!-- Instagram handle text added in footer details -->
+                        <!-- Corrected Instagram handle text -->
                         <li class="flex items-center gap-2">
                             <i class="fa-brands fa-instagram text-brand-500"></i>
-                            <span>@dynamic_technology_solutions</span>
+                            <span>@dts.techsolutions</span>
                         </li>
                     </ul>
                 </div>
@@ -677,14 +682,15 @@
         let botStep = 0;
         let customerData = {
             name: '',
-            email: '', // Added Email collection variable
-            phone: '', // Added Phone collection variable
+            email: '',
+            phone: '',
             interest: '',
             locationType: '',
             cameraType: '',
             recordingUnit: '',
             fireOrService: ''
         };
+        let currentBotLang = 'hinglish';
 
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
@@ -896,12 +902,46 @@
             document.body.style.overflow = 'auto';
         }
 
+        function changeBotLanguage() {
+            currentBotLang = document.getElementById('botLangSelect').value;
+            resetBotChat();
+        }
+
+        // Get IST Greeting based on current IST time
+        function getISTGreeting() {
+            const now = new Date();
+            // Convert to IST
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const istTime = new Date(utc + (3600000 * 5.5));
+            const hours = istTime.getHours();
+
+            let greetingEn = "Hello";
+            let greetingHi = "Namaste";
+
+            if (hours >= 0 && hours < 12) {
+                greetingEn = "Good Morning";
+                greetingHi = "Shubh Prabhat (Good Morning)";
+            } else if (hours >= 12 && hours < 17) {
+                greetingEn = "Good Afternoon";
+                greetingHi = "Good Afternoon";
+            } else {
+                greetingEn = "Good Evening";
+                greetingHi = "Shubh Sandhya (Good Evening)";
+            }
+
+            if (currentBotLang === 'english') {
+                return `${greetingEn}! Welcome to Dynamic Technology Solutions AI Assistant. 🛡️ What is your good name?`;
+            } else {
+                return `${greetingHi}! Dynamic Technology Solutions AI Assistant mein aapka swagat hai. 🛡️ Kripya apna shubh naam batayein?`;
+            }
+        }
+
         function resetBotChat() {
             botStep = 0;
             customerData = { name: '', email: '', phone: '', interest: '', locationType: '', cameraType: '', recordingUnit: '', fireOrService: '' };
             const container = document.getElementById('botChatMessages');
             container.innerHTML = '';
-            appendBotMessage("Namaste! Main DTS Smart AI Assistant hoon. 🛡️ Aapka shubh naam kya hai?");
+            appendBotMessage(getISTGreeting());
         }
 
         function appendBotMessage(text) {
@@ -951,46 +991,54 @@
             }, 500);
         }
 
-        // Updated Smart AI Assistant Step-by-Step Flow (Collecting Name, Email, Phone, and Requirements)
         function processBotFlow(ans) {
             const lowerAns = ans.toLowerCase();
 
             if (botStep === 0) {
                 customerData.name = ans;
                 botStep = 1;
-                appendBotMessage(`Shukriya ${customerData.name}! Ab kripya apna **Email Address** dijiye taaki hum aapko quotation bhej sakein.`);
+                const msg = currentBotLang === 'english' 
+                    ? `Thank you ${customerData.name}! Please provide your **Email Address** so we can send quotations.`
+                    : `Shukriya ${customerData.name}! Ab kripya apna **Email Address** dijiye taaki hum aapko quotation bhej sakein.`;
+                appendBotMessage(msg);
             } else if (botStep === 1) {
                 customerData.email = ans;
                 botStep = 2;
-                appendBotMessage(`Bohot achha! Ab apna **WhatsApp Phone Number** dijiye.`);
+                const msg = currentBotLang === 'english'
+                    ? `Great! Now please share your **WhatsApp Phone Number**.`
+                    : `Bohot achha! Ab apna **WhatsApp Phone Number** dijiye.`;
+                appendBotMessage(msg);
             } else if (botStep === 2) {
                 customerData.phone = ans;
                 botStep = 3;
-                appendBotMessage(`Theek hai! Ab batayein ki aapko kis cheez ki requirement hai? (Jaise: CCTV Cameras, HOC Cables, Fire Safety, ya Maintenance Services)`);
+                const msg = currentBotLang === 'english'
+                    ? `What product or service are you looking for? (e.g., CCTV Cameras, HOC Cables, Fire Safety, or Maintenance Services)`
+                    : `Theek hai! Ab batayein ki aapko kis cheez ki requirement hai? (Jaise: CCTV Cameras, HOC Cables, Fire Safety, ya Maintenance Services)`;
+                appendBotMessage(msg);
             } else if (botStep === 3) {
                 customerData.interest = ans;
                 
                 if (lowerAns.includes('cable') || lowerAns.includes('hoc') || lowerAns.includes('wire')) {
                     botStep = 4;
-                    appendBotMessage("Theek hai! Aapko kitne meters HOC cable (3+1 ya CAT6) chahiye?");
+                    appendBotMessage(currentBotLang === 'english' ? "How many meters of HOC cable (3+1 or CAT6) do you need?" : "Theek hai! Aapko kitne meters HOC cable (3+1 ya CAT6) chahiye?");
                 } else if (lowerAns.includes('fire') || lowerAns.includes('extinguisher')) {
                     botStep = 5;
-                    appendBotMessage("Aapko Fire Safety equipment kiske liye chahiye (Jaise Office, Factory, ya Home)?");
+                    appendBotMessage(currentBotLang === 'english' ? "Where do you need Fire Safety equipment? (e.g., Office, Factory, Home)" : "Aapko Fire Safety equipment kiske liye chahiye (Jaise Office, Factory, ya Home)?");
                 } else if (lowerAns.includes('mainten') || lowerAns.includes('service') || lowerAns.includes('repair')) {
                     botStep = 51;
-                    appendBotMessage("Acha! Aapko kis cheez ki maintenance ya service karwani hai aur location kahan hai?");
+                    appendBotMessage(currentBotLang === 'english' ? "What maintenance or service do you need and what is your location?" : "Acha! Aapko kis cheez ki maintenance ya service karwani hai aur location kahan hai?");
                 } else {
                     botStep = 6;
-                    appendBotMessage("Acha! Yeh camera aapko kahan lagana hai? (Jaise: Home ke andar, Bahar courtyard mein, Office ya Factory mein?)");
+                    appendBotMessage(currentBotLang === 'english' ? "Where do you want to install cameras? (e.g., Indoor Home, Outdoor, Office, Factory)" : "Acha! Yeh camera aapko kahan lagana hai? (Jaise: Home ke andar, Bahar courtyard mein, Office ya Factory mein?)");
                 }
             } else if (botStep === 6) {
                 customerData.locationType = ans;
                 botStep = 7;
-                appendBotMessage("Aapko kis tarah ka camera chahiye? Jaise: **Dome** (indoor ceiling ke liye), **Bullet** (outdoor waterproof), **PTZ** (360-degree ghumne wala WiFi camera), ya **Analog**?");
+                appendBotMessage(currentBotLang === 'english' ? "What type of camera do you need? (e.g., Dome, Bullet, PTZ 360-degree rotating camera, or Analog)" : "Aapko kis tarah ka camera chahiye? Jaise: **Dome** (indoor ceiling ke liye), **Bullet** (outdoor waterproof), **PTZ** (360-degree ghumne wala WiFi camera), ya **Analog**?");
             } else if (botStep === 7) {
                 customerData.cameraType = ans;
                 botStep = 8;
-                appendBotMessage("Kya aapko recording ke liye NVR ya DVR bhi chahiye? Aur kitne cameras lagane hain?");
+                appendBotMessage(currentBotLang === 'english' ? "Do you also need an NVR or DVR for recording? How many cameras?" : "Kya aapko recording ke liye NVR ya DVR bhi chahiye? Aur kitne cameras lagane hain?");
             } else if (botStep === 8) {
                 customerData.recordingUnit = ans;
                 botStep = 9;
