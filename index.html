@@ -175,7 +175,6 @@
         </div>
     </header>
 
-    <!-- Hero Section featuring Cartoon Animation / Video element -->
     <section class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white overflow-hidden py-12 lg:py-16">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -202,7 +201,6 @@
                     </div>
                 </div>
 
-                <!-- Animated Cartoon Video/Bot element -->
                 <div class="lg:col-span-5 flex flex-col items-center justify-center">
                     <div class="relative w-64 h-64 sm:w-72 sm:h-72 bg-gradient-to-tr from-brand-600/20 to-sky-500/25 rounded-full border border-brand-500/30 flex items-center justify-center animate-glow">
                         <div class="absolute inset-4 rounded-full border border-dashed border-sky-400/40 animate-[spin_20s_linear_infinite]"></div>
@@ -293,7 +291,6 @@
         </div>
     </main>
 
-    <!-- Interactive Conversational AI Assistant Modal -->
     <div id="aiBotModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
         <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in flex flex-col">
             <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white">
@@ -311,12 +308,8 @@
                 </button>
             </div>
 
-            <!-- Chat Container Box -->
-            <div class="p-6 space-y-4 bg-slate-50 h-[400px] overflow-y-auto" id="botChatMessages">
-                <!-- Dynamic messages will be appended here -->
-            </div>
+            <div class="p-6 space-y-4 bg-slate-50 h-[400px] overflow-y-auto" id="botChatMessages"></div>
 
-            <!-- Chat Input Footer -->
             <div class="p-4 bg-white border-t border-slate-200 flex items-center gap-2">
                 <input type="text" id="botUserInput" placeholder="Apna jawab yahan likhein..." class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
                 <button onclick="handleBotUserSubmit()" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow">
@@ -327,7 +320,6 @@
         </div>
     </div>
 
-    <!-- Product Details Modal -->
     <div id="productModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
         <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in">
             <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white">
@@ -411,7 +403,6 @@
         </div>
     </div>
 
-    <!-- Proper Professional Footer -->
     <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
@@ -891,18 +882,24 @@
         }
 
         function processBotFlow(ans) {
+            const lowerAns = ans.toLowerCase();
+
             if (botStep === 0) {
                 customerData.name = ans;
                 botStep = 1;
                 appendBotMessage(`Hello ${customerData.name}! Aapko kis cheez ki requirement hai? Jaise: CCTV Cameras, HOC Cables, Fire Safety, ya Maintenance Services?`);
             } else if (botStep === 1) {
                 customerData.interest = ans;
-                if (ans.toLowerCase().includes('cables') || ans.toLowerCase().includes('hoc')) {
+                
+                if (lowerAns.includes('cable') || lowerAns.includes('hoc') || lowerAns.includes('wire')) {
                     botStep = 4;
                     appendBotMessage("Theek hai! Aapko kitne meters HOC cable (3+1 ya CAT6) chahiye?");
-                } else if (ans.toLowerCase().includes('fire') || ans.toLowerCase().includes('service') || ans.toLowerCase().includes('maintenance')) {
+                } else if (lowerAns.includes('fire') || lowerAns.includes('extinguisher')) {
                     botStep = 5;
-                    appendBotMessage("Aapko Fire Safety equipment ya Annual Maintenance (AMC) service kiske liye karni hai (Jaise Office, Factory, ya Home)?");
+                    appendBotMessage("Aapko Fire Safety equipment kiske liye chahiye (Jaise Office, Factory, ya Home)?");
+                } else if (lowerAns.includes('mainten') || lowerAns.includes('service') || lowerAns.includes('repair')) {
+                    botStep = 51;
+                    appendBotMessage("Acha! Aapko kis cheez ki maintenance ya service karwani hai aur location kahan hai?");
                 } else {
                     botStep = 2;
                     appendBotMessage("Acha! Yeh camera aapko kahan lagana hai? (Jaise: Home ke andar, Bahar courtyard mein, Office ya Factory mein?)");
@@ -914,7 +911,7 @@
             } else if (botStep === 3) {
                 customerData.cameraType = ans;
                 botStep = 31;
-                appendBotMessage("Kya aapko recording ke liye **NVR** (IP cameras ke liye network recorder) ya **DVR** (Analog cameras ke liye) ke baare mein pata hai? Agar nahi pata toh bataiye, hum suggest kar denge. Aapko kitne cameras lagane hain?");
+                appendBotMessage("Kya aapko recording ke liye NVR ya DVR bhi chahiye? Aur kitne cameras lagane hain?");
             } else if (botStep === 31) {
                 customerData.recordingUnit = ans;
                 botStep = 6;
@@ -923,7 +920,7 @@
                 customerData.cameraType = `HOC Cable: ${ans}`;
                 botStep = 6;
                 appendBotMessage("Theek hai! Apna WhatsApp Mobile Number dijiye taaki summary WhatsApp par bhej sakein.");
-            } else if (botStep === 5) {
+            } else if (botStep === 5 || botStep === 51) {
                 customerData.fireOrService = ans;
                 botStep = 6;
                 appendBotMessage("Noted! Apna WhatsApp Mobile Number dijiye taaki request WhatsApp par bhej sakein.");
@@ -935,9 +932,9 @@
                     `👤 **Customer:** ${customerData.name}<br>` +
                     `📱 **Phone:** ${customerData.phone}<br>` +
                     `🛠️ **Interest:** ${customerData.interest}<br>` +
-                    `📍 **Location/Type:** ${customerData.locationType || 'N/A'}<br>` +
-                    `📷 **Camera/Item:** ${customerData.cameraType || customerData.fireOrService || 'N/A'}<br>` +
-                    `💾 **Recording/Details:** ${customerData.recordingUnit || 'N/A'}<br><br>` +
+                    `📍 **Location/Details:** ${customerData.locationType || customerData.fireOrService || 'N/A'}<br>` +
+                    `📷 **Item/Camera Type:** ${customerData.cameraType || 'N/A'}<br>` +
+                    `💾 **Recording/Extra:** ${customerData.recordingUnit || 'N/A'}<br><br>` +
                     `Ab aap niche button par click karke yeh summary direct WhatsApp par bhej sakte hain!`;
                 
                 appendBotMessage(summaryHTML);
