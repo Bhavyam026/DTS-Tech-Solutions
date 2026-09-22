@@ -60,6 +60,14 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Smooth Fade In Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
@@ -70,7 +78,7 @@
             <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
                 <div class="flex items-center gap-2">
                     <span class="bg-emerald-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded animate-pulse">AUTHORIZED PARTNER</span>
-                    <span>Official Distributor for <strong class="text-white">Prizor</strong> Systems & <strong class="text-white">HOC</strong> Cables | Fire Safety & Security Services</span>
+                    <span>Official Distributor for <strong class="text-white">Prizor</strong> Systems & <strong class="text-white">HOC</strong> Cables | Fire Safety Services</span>
                 </div>
                 <div class="flex items-center gap-4">
                     <a href="tel:+918390909845" class="hover:text-white transition flex items-center gap-1.5">
@@ -86,7 +94,6 @@
 
         <!-- Main Nav / Search bar -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
-            <!-- Brand Logo Styled to Dynamic Technology Solutions -->
             <div class="flex items-center justify-between w-full md:w-auto">
                 <a href="#" onclick="resetCatalog()" class="flex items-center gap-3 group">
                     <div class="px-3 py-2 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-extrabold text-sm tracking-wider shadow-md shadow-brand-500/20 group-hover:scale-105 transition transform">
@@ -98,13 +105,12 @@
                     </div>
                 </a>
                 
-                <!-- Mobile WhatsApp Quick CTA -->
                 <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20would%20like%20to%20inquire%20about%20Prizor%20and%20HOC%20products." target="_blank" class="md:hidden flex items-center gap-1.5 bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-emerald-700 transition">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Chat
                 </a>
             </div>
 
-            <!-- Interactive Search Container with Dropdown -->
+            <!-- Interactive Search Container -->
             <div class="relative w-full md:max-w-xl lg:max-w-2xl">
                 <div class="flex items-center bg-slate-100 hover:bg-slate-200/70 focus-within:bg-white focus-within:ring-2 focus-within:ring-brand-500/50 focus-within:border-brand-500 border border-slate-200 rounded-xl transition shadow-inner">
                     <div class="pl-4 text-slate-400">
@@ -120,13 +126,9 @@
                     </div>
                 </div>
 
-                <!-- Autocomplete Dropdown Box -->
-                <div id="searchDropdown" class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 max-h-96 overflow-y-auto z-50 hidden">
-                    <!-- Populated dynamically via JS -->
-                </div>
+                <div id="searchDropdown" class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 max-h-96 overflow-y-auto z-50 hidden animate-fade-in"></div>
             </div>
 
-            <!-- Desktop Quick Actions -->
             <div class="hidden md:flex items-center gap-3">
                 <a href="#catalog" onclick="filterBrand('all')" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
                     All Products
@@ -142,9 +144,9 @@
             <div class="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto hide-scrollbar gap-4 text-xs font-medium">
                 <div class="flex items-center gap-2 min-w-max">
                     <span class="text-slate-500 font-semibold uppercase tracking-wider text-[11px]">Quick Filters:</span>
-                    <button onclick="filterBrand('all')" id="btn-brand-all" class="brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm">All Catalogs</button>
-                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition">Prizor (Cameras, NVR, DVR, PoE)</button>
-                    <button onclick="filterBrand('HOC')" id="btn-brand-HOC" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-hoc hover:text-hoc transition">HOC (Cables)</button>
+                    <button onclick="filterBrand('all')" id="btn-brand-all" class="brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm hover:scale-105">All Catalogs</button>
+                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition hover:scale-105">Prizor (Cameras, NVR, DVR, PoE)</button>
+                    <button onclick="filterBrand('HOC')" id="btn-brand-HOC" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-hoc hover:text-hoc transition hover:scale-105">HOC (Cables)</button>
                 </div>
                 <div class="text-slate-500 text-[11px] min-w-max hidden lg:block">
                     <i class="fa-solid fa-shield-halved text-brand-600 mr-1"></i> Boisar, Maharashtra | Fire Safety & Security Services
@@ -157,7 +159,7 @@
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div class="lg:col-span-7 space-y-6">
+                <div class="lg:col-span-7 space-y-6 animate-fade-in">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 border border-brand-500/30 text-brand-300 text-xs font-semibold">
                         <i class="fa-solid fa-certificate"></i> Premium Security & Fire Safety Services
                     </div>
@@ -168,26 +170,25 @@
                         Dynamic Technology Solutions (Boisar) brings complete Prizor surveillance hardware (Cameras, NVR, DVR, PoE Switches) along with genuine HOC cables and expert fire safety services.
                     </p>
                     <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#catalog" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition flex items-center gap-2">
+                        <a href="#catalog" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
                             <span>Explore Full Catalog</span>
                             <i class="fa-solid fa-arrow-down text-xs"></i>
                         </a>
-                        <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20a%20quote%20for%20products." target="_blank" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-xl text-sm transition flex items-center gap-2">
+                        <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20a%20quote%20for%20products." target="_blank" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-xl text-sm transition transform hover:-translate-y-0.5 flex items-center gap-2">
                             <i class="fa-brands fa-whatsapp text-emerald-400"></i> Check Budget & Order
                         </a>
                     </div>
                 </div>
 
-                <!-- Hero Feature Cards -->
                 <div class="lg:col-span-5 grid grid-cols-2 gap-4">
-                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-brand-500/50 transition group">
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-brand-500/50 transition transform hover:-translate-y-1 duration-300 group">
                         <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition">
                             <i class="fa-solid fa-video"></i>
                         </div>
                         <h3 class="font-bold text-white text-base">Prizor Systems</h3>
                         <p class="text-xs text-slate-400 leading-relaxed">CCTV Cameras, NVR, DVR & PoE Switches.</p>
                     </div>
-                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-emerald-500/50 transition group">
+                    <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 space-y-3 hover:border-emerald-500/50 transition transform hover:-translate-y-1 duration-300 group">
                         <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:scale-110 transition">
                             <i class="fa-solid fa-network-wired"></i>
                         </div>
@@ -212,7 +213,6 @@
     </section>
 
     <main id="catalog" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        <!-- Section Header & Category Pills -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
             <div>
                 <span class="text-brand-600 font-bold text-xs uppercase tracking-wider">Product & Service Inventory</span>
@@ -220,27 +220,22 @@
                 <p id="resultCount" class="text-xs sm:text-sm text-slate-500 mt-1">Check estimated prices, specifications and order via WhatsApp</p>
             </div>
 
-            <!-- Category Filter Tabs -->
             <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1">
                 <span class="text-xs text-slate-500 font-semibold mr-1">Category:</span>
-                <button onclick="filterCategory('all')" id="cat-btn-all" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm">All</button>
-                <button onclick="filterCategory('Cameras')" id="cat-btn-Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Cameras</button>
-                <button onclick="filterCategory('NVR')" id="cat-btn-NVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">NVR</button>
-                <button onclick="filterCategory('DVR')" id="cat-btn-DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">DVR</button>
-                <button onclick="filterCategory('PoE Switch')" id="cat-btn-PoE Switch" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">PoE Switch</button>
-                <button onclick="filterCategory('HOC Cables')" id="cat-btn-HOC Cables" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">HOC Cables</button>
-                <button onclick="filterCategory('Fire Safety & Services')" id="cat-btn-Fire Safety & Services" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Fire Safety & Services</button>
+                <button onclick="filterCategory('all')" id="cat-btn-all" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm hover:scale-105">All</button>
+                <button onclick="filterCategory('Cameras')" id="cat-btn-Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Cameras</button>
+                <button onclick="filterCategory('NVR')" id="cat-btn-NVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">NVR</button>
+                <button onclick="filterCategory('DVR')" id="cat-btn-DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">DVR</button>
+                <button onclick="filterCategory('PoE Switch')" id="cat-btn-PoE Switch" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">PoE Switch</button>
+                <button onclick="filterCategory('HOC Cables')" id="cat-btn-HOC Cables" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">HOC Cables</button>
+                <button onclick="filterCategory('Fire Safety & Services')" id="cat-btn-Fire Safety & Services" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Fire Safety & Services</button>
             </div>
         </div>
 
-        <!-- Product Grid -->
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Populated dynamically via JS -->
-        </div>
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
 
-        <!-- Empty State (Hidden by default) -->
         <div id="emptyState" class="hidden text-center py-20 bg-white rounded-2xl border border-slate-200 p-8 my-8 shadow-sm">
-            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 animate-bounce">
                 <i class="fa-solid fa-box-open"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800">No matching item found</h3>
@@ -252,9 +247,7 @@
     </main>
 
     <div id="productModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
-        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-in fade-in zoom-in-95 duration-200">
-            
-            <!-- Modal Header -->
+        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in">
             <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white">
                 <div class="flex items-center gap-2">
                     <span id="modalBrandBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider bg-brand-600 text-white">Brand</span>
@@ -265,31 +258,24 @@
                 </button>
             </div>
 
-            <!-- Modal Content Body -->
             <div class="p-6 sm:p-8 max-h-[80vh] overflow-y-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    
-                    <!-- Left Column: Image Gallery Viewer -->
                     <div class="space-y-4">
                         <div class="aspect-video sm:aspect-square bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center relative group">
-                            <img id="modalMainImage" src="" alt="Product Image" class="w-full h-full object-cover transition duration-300 group-hover:scale-105" onerror="this.src='https://placehold.co/600x600/f1f5f9/475569?text=Security+Hardware'">
+                            <img id="modalMainImage" src="" alt="Product Image" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/600x600/f1f5f9/475569?text=Security+Hardware'">
                             <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur">
                                 <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Hover to Inspect
                             </span>
                         </div>
-                        <!-- Thumbnail Row -->
-                        <div id="modalThumbnails" class="grid grid-cols-4 gap-3">
-                            <!-- Populated via JS -->
-                        </div>
+                        <div id="modalThumbnails" class="grid grid-cols-4 gap-3"></div>
                     </div>
 
-                    <!-- Right Column: Product Info & Specifications -->
                     <div class="space-y-6">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-2">
                                 <span id="modalSku" class="text-xs font-mono font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">SKU: DTS-000</span>
                                 <span id="modalStockStatus" class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md flex items-center gap-1">
-                                    <i class="fa-solid fa-circle text-[8px]"></i> Available / In Stock
+                                    <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> Available / In Stock
                                 </span>
                             </div>
                             <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Product Title</h2>
@@ -301,7 +287,6 @@
                             </div>
                         </div>
 
-                        <!-- Price Tag -->
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-baseline justify-between">
                             <div>
                                 <span class="text-xs text-slate-500 block">Estimated Price / Budget Check</span>
@@ -310,23 +295,18 @@
                             <span class="text-xs text-slate-500 font-medium">*GST & Taxes Extra as applicable</span>
                         </div>
 
-                        <!-- Description -->
                         <div class="space-y-2">
                             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Overview / Details</h4>
                             <p id="modalDescription" class="text-sm text-slate-600 leading-relaxed">Detailed description goes here...</p>
                         </div>
 
-                        <!-- Technical Specifications List -->
                         <div class="space-y-3">
                             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Specifications / Scope of Work</h4>
-                            <div id="modalSpecsList" class="bg-slate-50 rounded-xl border border-slate-200 divide-y divide-slate-200 text-xs">
-                                <!-- Populated via JS -->
-                            </div>
+                            <div id="modalSpecsList" class="bg-slate-50 rounded-xl border border-slate-200 divide-y divide-slate-200 text-xs"></div>
                         </div>
 
-                        <!-- Action Buttons -->
                         <div class="pt-2 flex flex-col sm:flex-row gap-3">
-                            <button id="modalWhatsAppBtn" onclick="inquireOnWhatsAppFromModal()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl text-sm shadow-lg shadow-emerald-600/20 transition flex items-center justify-center gap-2">
+                            <button id="modalWhatsAppBtn" onclick="inquireOnWhatsAppFromModal()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl text-sm shadow-lg shadow-emerald-600/20 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                                 <i class="fa-brands fa-whatsapp text-lg"></i>
                                 <span>Check Budget & Order on WhatsApp</span>
                             </button>
@@ -343,7 +323,6 @@
     <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
-                <!-- Company Info -->
                 <div class="lg:col-span-2 space-y-4">
                     <div class="flex items-center gap-3">
                         <div class="px-3 py-2 rounded-xl bg-brand-600 flex items-center justify-center text-white font-extrabold text-sm tracking-wider">
@@ -373,7 +352,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
                 <div class="space-y-3">
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Catalog Brands</h4>
                     <ul class="space-y-2 text-xs">
@@ -383,7 +361,6 @@
                     </ul>
                 </div>
 
-                <!-- Product Categories -->
                 <div class="space-y-3">
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Categories</h4>
                     <ul class="space-y-2 text-xs">
@@ -395,7 +372,6 @@
                     </ul>
                 </div>
 
-                <!-- Contact & Location -->
                 <div class="space-y-3">
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Headquarters & Timing</h4>
                     <ul class="space-y-2.5 text-xs text-slate-400">
@@ -419,7 +395,6 @@
                 </div>
             </div>
 
-            <!-- Bottom Bar -->
             <div class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
                 <p>&copy; 2026 Dynamic Technology Solutions (IG: dts.techsolutions). All rights reserved.</p>
                 <div class="flex items-center gap-6">
@@ -431,7 +406,6 @@
     </footer>
 
     <script>
-        // Updated Product & Service Database with Prizor (Cameras, NVR, DVR, PoE) and HOC (Cables)
         const products = [
             {
                 id: 1,
@@ -618,19 +592,16 @@
             }
         ];
 
-        // State variables
         let currentBrandFilter = 'all';
         let currentCategoryFilter = 'all';
         let searchQuery = '';
         let activeModalProduct = null;
 
-        // Initialize application on DOM content loaded
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
         });
 
-        // Render products into grid
         function renderProducts(items) {
             const grid = document.getElementById('productGrid');
             const emptyState = document.getElementById('emptyState');
@@ -647,13 +618,16 @@
             emptyState.classList.add('hidden');
             resultCount.textContent = `Showing ${items.length} item${items.length === 1 ? '' : 's'}`;
 
-            items.forEach(product => {
+            items.forEach((product, index) => {
                 const brandColorClass = product.brand === 'Prizor' 
                     ? 'bg-sky-50 text-sky-700 border-sky-200' 
                     : (product.brand === 'HOC' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-indigo-50 text-indigo-700 border-indigo-200');
 
                 const card = document.createElement('div');
-                card.className = 'bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden';
+                // Added animate-fade-in with staggered delay for smooth loading animation
+                card.className = `bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden animate-fade-in transform hover:-translate-y-1`;
+                card.style.animationDelay = `${index * 0.05}s`;
+
                 card.innerHTML = `
                     <div>
                         <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
@@ -671,7 +645,7 @@
                             <div class="flex items-center justify-between text-xs text-slate-500">
                                 <span class="font-mono bg-slate-100 px-2 py-0.5 rounded">${product.sku}</span>
                                 <span class="text-emerald-600 font-semibold flex items-center gap-1">
-                                    <i class="fa-solid fa-circle text-[6px]"></i> ${product.stock}
+                                    <i class="fa-solid fa-circle text-[6px] animate-pulse"></i> ${product.stock}
                                 </span>
                             </div>
                             <h3 onclick="openProductModal(${product.id})" class="font-bold text-slate-900 text-base leading-snug hover:text-brand-600 cursor-pointer transition line-clamp-2">
@@ -688,10 +662,10 @@
                             <span class="text-lg font-black text-slate-900">${product.price}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="openProductModal(${product.id})" class="p-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl transition text-xs font-semibold flex items-center gap-1.5" title="View Details">
+                            <button onclick="openProductModal(${product.id})" class="p-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl transition text-xs font-semibold flex items-center gap-1.5 transform active:scale-95" title="View Details">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
-                            <button onclick="inquireWhatsApp('${product.name}', '${product.sku}')" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20" title="Check Budget & Order on WhatsApp">
+                            <button onclick="inquireWhatsApp('${product.name}', '${product.sku}')" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transform active:scale-95" title="Check Budget & Order on WhatsApp">
                                 <i class="fa-brands fa-whatsapp text-sm"></i> Order
                             </button>
                         </div>
@@ -701,48 +675,38 @@
             });
         }
 
-        // Filter by Brand
         function filterBrand(brand) {
             currentBrandFilter = brand;
-            
             document.querySelectorAll('.brand-filter-btn').forEach(btn => {
-                btn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-slate-400 transition';
+                btn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-slate-400 transition hover:scale-105';
             });
             const activeBtn = document.getElementById(`btn-brand-${brand}`);
             if (activeBtn) {
-                activeBtn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm';
+                activeBtn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm hover:scale-105';
             }
-
             applyFilters();
         }
 
-        // Filter by Category
         function filterCategory(category) {
             currentCategoryFilter = category;
-
             document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-                btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition';
+                btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105';
             });
             const activeBtn = document.getElementById(`cat-btn-${category}`);
             if (activeBtn) {
-                activeBtn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm';
+                activeBtn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm hover:scale-105';
             }
-
             applyFilters();
         }
 
-        // Apply all active filters and search
         function applyFilters() {
             let filtered = products;
-
             if (currentBrandFilter !== 'all') {
                 filtered = filtered.filter(p => p.brand === currentBrandFilter);
             }
-
             if (currentCategoryFilter !== 'all') {
                 filtered = filtered.filter(p => p.category === currentCategoryFilter);
             }
-
             if (searchQuery.trim() !== '') {
                 const query = searchQuery.toLowerCase();
                 filtered = filtered.filter(p => 
@@ -752,11 +716,9 @@
                     p.category.toLowerCase().includes(query)
                 );
             }
-
             renderProducts(filtered);
         }
 
-        // Setup Search and Dropdown Auto-suggestions
         function setupSearchListeners() {
             const searchInput = document.getElementById('searchInput');
             const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -832,12 +794,10 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('clearSearchBtn').classList.add('hidden');
             document.getElementById('searchDropdown').classList.add('hidden');
-
             filterBrand('all');
             filterCategory('all');
         }
 
-        // Open Product Detail Modal
         function openProductModal(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
