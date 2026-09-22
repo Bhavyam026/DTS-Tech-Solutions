@@ -67,7 +67,6 @@
         .animate-fade-in {
             animation: fadeIn 0.4s ease-out forwards;
         }
-        /* Marquee Animation for Video-style banner */
         @keyframes marquee {
             0% { transform: translateX(0%); }
             100% { transform: translateX(-50%); }
@@ -80,7 +79,6 @@
         .animate-marquee:hover {
             animation-play-state: paused;
         }
-        /* Cartoon Animation Effects */
         @keyframes bounceSlow {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
@@ -130,9 +128,9 @@
                     </div>
                 </a>
                 
-                <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20would%20like%20to%20inquire%20about%20Prizor%20and%20HOC%20products." target="_blank" class="md:hidden flex items-center gap-1.5 bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-emerald-700 transition">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> Chat
-                </a>
+                <button onclick="openAIBotModal()" class="md:hidden flex items-center gap-1.5 bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-brand-700 transition">
+                    <i class="fa-solid fa-robot text-sm"></i> AI Bot
+                </button>
             </div>
 
             <div class="relative w-full md:max-w-xl lg:max-w-2xl">
@@ -140,7 +138,7 @@
                     <div class="pl-4 text-slate-400">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
-                    <input type="text" id="searchInput" placeholder="Search Prizor cameras, NVR, DVR, PoE switches or HOC cables..." 
+                    <input type="text" id="searchInput" placeholder="Search Prizor PTZ, Dome, Bullet, NVR, DVR or HOC cables..." 
                            class="w-full py-2.5 px-3 bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
                     <button id="clearSearchBtn" onclick="clearSearch()" class="pr-3 text-slate-400 hover:text-slate-600 hidden">
                         <i class="fa-solid fa-xmark"></i>
@@ -149,14 +147,13 @@
                         <span>All Brands</span>
                     </div>
                 </div>
-
                 <div id="searchDropdown" class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-slate-200 max-h-96 overflow-y-auto z-50 hidden animate-fade-in"></div>
             </div>
 
             <div class="hidden md:flex items-center gap-3">
-                <a href="#catalog" onclick="filterBrand('all')" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
-                    All Products
-                </a>
+                <button onclick="openAIBotModal()" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-700 hover:to-brand-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-brand-600/20 transition transform active:scale-95 animate-pulse">
+                    <i class="fa-solid fa-robot text-sm"></i> AI Requirement Bot 🤖
+                </button>
                 <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20a%20custom%20quote%20for%20security%20hardware." target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-emerald-600/20 transition transform active:scale-95">
                     <i class="fa-brands fa-whatsapp text-base"></i> Quick Inquiry
                 </a>
@@ -168,7 +165,7 @@
                 <div class="flex items-center gap-2 min-w-max">
                     <span class="text-slate-500 font-semibold uppercase tracking-wider text-[11px]">Quick Filters:</span>
                     <button onclick="filterBrand('all')" id="btn-brand-all" class="brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm hover:scale-105">All Catalogs</button>
-                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition hover:scale-105">Prizor (Cameras, NVR, DVR, PoE)</button>
+                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition hover:scale-105">Prizor (Cameras, PTZ, NVR, DVR, PoE)</button>
                     <button onclick="filterBrand('HOC')" id="btn-brand-HOC" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-hoc hover:text-hoc transition hover:scale-105">HOC (Cables)</button>
                 </div>
                 <div class="text-slate-500 text-[11px] min-w-max hidden lg:block">
@@ -190,15 +187,16 @@
                         Prizor Security Hardware & <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">HOC Cables</span>
                     </h2>
                     <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-                        Dynamic Technology Solutions (Boisar) brings complete Prizor surveillance hardware (Cameras, NVR, DVR, PoE Switches) along with genuine HOC cables and expert fire safety services.
+                        Explore complete Prizor surveillance hardware (Dome, Bullet, PTZ Cameras, NVR, DVR, PoE Switches) along with genuine HOC cables. Use our interactive AI Bot to find your exact requirement!
                     </p>
                     <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#catalog" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                        <button onclick="openAIBotModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                            <i class="fa-solid fa-robot text-sky-300"></i>
+                            <span>Start AI Requirement Bot</span>
+                        </button>
+                        <a href="#catalog" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-xl text-sm transition transform hover:-translate-y-0.5 flex items-center gap-2">
                             <span>Explore Full Catalog</span>
                             <i class="fa-solid fa-arrow-down text-xs"></i>
-                        </a>
-                        <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20want%20a%20quote%20for%20products." target="_blank" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-xl text-sm transition transform hover:-translate-y-0.5 flex items-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-emerald-400"></i> Check Budget & Order
                         </a>
                     </div>
                 </div>
@@ -209,23 +207,20 @@
                         <div class="absolute inset-4 rounded-full border border-dashed border-sky-400/40 animate-[spin_20s_linear_infinite]"></div>
                         
                         <!-- Cartoon Robot Body -->
-                        <div class="relative z-10 text-center animate-cartoon-bounce">
+                        <div class="relative z-10 text-center animate-cartoon-bounce cursor-pointer" onclick="openAIBotModal()">
                             <div class="w-24 h-24 mx-auto bg-gradient-to-b from-sky-400 to-brand-600 rounded-2xl shadow-xl flex flex-col items-center justify-center relative border-2 border-white/30">
-                                <!-- Antenna -->
                                 <div class="absolute -top-4 w-2 h-4 bg-slate-300 rounded-full"></div>
                                 <div class="absolute -top-6 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
-                                <!-- Eyes -->
                                 <div class="flex gap-4 mb-2">
                                     <div class="w-3 h-3 bg-amber-300 rounded-full animate-pulse"></div>
                                     <div class="w-3 h-3 bg-amber-300 rounded-full animate-pulse"></div>
                                 </div>
-                                <!-- Mouth Screen -->
                                 <div class="w-10 h-2 bg-slate-900 rounded-full flex items-center justify-center overflow-hidden">
                                     <div class="w-full h-0.5 bg-emerald-400 animate-pulse"></div>
                                 </div>
                             </div>
                             <div class="mt-4 bg-slate-900/90 backdrop-blur border border-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg flex items-center gap-2">
-                                <i class="fa-solid fa-robot text-sky-400"></i> Hi! Main hoon DTS Guard Bot 🤖
+                                <i class="fa-solid fa-robot text-sky-400"></i> Click me for Requirement Help! 🤖
                             </div>
                         </div>
                     </div>
@@ -246,13 +241,10 @@
                     <i class="fa-solid fa-camera-retro text-sky-400"></i> Prizor 2MP Indoor Dome Camera
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
+                    <i class="fa-solid fa-video text-amber-400"></i> Prizor 4MP PTZ WiFi IP Camera
+                </div>
+                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-server text-sky-400"></i> Prizor 16-Channel 4K AI NVR
-                </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-hard-drive text-sky-400"></i> Prizor 8-Channel 5-in-1 DVR
-                </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-network-wired text-sky-400"></i> Prizor 8-Port Gigabit PoE+ Switch
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-bolt text-emerald-400"></i> HOC Heavy-Duty 3+1 CCTV Cable
@@ -260,33 +252,16 @@
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-ethernet text-emerald-400"></i> HOC CAT6 Pure Copper Cable (305m)
                 </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-fire-extinguisher text-amber-400"></i> Professional Fire Safety Service
-                </div>
                 <!-- Duplicate for seamless looping -->
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                     <i class="fa-solid fa-video text-sky-400"></i> Prizor 4K Starlight Bullet IP Camera
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-camera-retro text-sky-400"></i> Prizor 2MP Indoor Dome Camera
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-server text-sky-400"></i> Prizor 16-Channel 4K AI NVR
-                </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-hard-drive text-sky-400"></i> Prizor 8-Channel 5-in-1 DVR
-                </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-network-wired text-sky-400"></i> Prizor 8-Port Gigabit PoE+ Switch
-                </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-bolt text-emerald-400"></i> HOC Heavy-Duty 3+1 CCTV Cable
-                </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-ethernet text-emerald-400"></i> HOC CAT6 Pure Copper Cable (305m)
-                </div>
-                <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-fire-extinguisher text-amber-400"></i> Professional Fire Safety Service
+                    <i class="fa-solid fa-video text-amber-400"></i> Prizor 4MP PTZ WiFi IP Camera
                 </div>
             </div>
         </div>
@@ -304,6 +279,7 @@
                 <span class="text-xs text-slate-500 font-semibold mr-1">Category:</span>
                 <button onclick="filterCategory('all')" id="cat-btn-all" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm hover:scale-105">All</button>
                 <button onclick="filterCategory('Cameras')" id="cat-btn-Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Cameras</button>
+                <button onclick="filterCategory('PTZ Cameras')" id="cat-btn-PTZ Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">PTZ Cameras</button>
                 <button onclick="filterCategory('NVR')" id="cat-btn-NVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">NVR</button>
                 <button onclick="filterCategory('DVR')" id="cat-btn-DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">DVR</button>
                 <button onclick="filterCategory('PoE Switch')" id="cat-btn-PoE Switch" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">PoE Switch</button>
@@ -326,6 +302,81 @@
         </div>
     </main>
 
+    <!-- AI Requirement & Consultation Bot Modal -->
+    <div id="aiBotModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in flex flex-col">
+            <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-inner">
+                        <i class="fa-solid fa-robot text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base">DTS AI Security Advisor Bot 🤖</h3>
+                        <p class="text-[10px] text-sky-300">Direct WhatsApp Requirement Collector</p>
+                    </div>
+                </div>
+                <button onclick="closeAIBotModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-5 bg-slate-50 max-h-[70vh] overflow-y-auto" id="botChatContainer">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-xs flex-shrink-0 font-bold">AI</div>
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-xs sm:text-sm text-slate-700 shadow-sm space-y-2">
+                        <p class="font-bold text-slate-900">Namaste! Main hoon DTS AI Assistant. 🛡️</p>
+                        <p>Aapko kis tarah ki security ya CCTV requirement hai? Niche diye gaye options ya form se apni zaroorat batayein taaki main seedha aapka message aapke number ke sath DTS WhatsApp par bhej sakun!</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+                        <i class="fa-solid fa-list-check text-brand-600"></i> Step 1: Apni Requirement Chuniye
+                    </h4>
+
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Customer Name / Mobile Number:</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <input type="text" id="botCustomerName" placeholder="Aapka Naam" class="p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="text" id="botCustomerPhone" placeholder="WhatsApp Number" class="p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Camera / Equipment Type:</label>
+                            <select id="botCameraType" class="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+                                <option value="Dome Camera (Indoor/Ceiling)">Dome Camera (Indoor ke liye)</option>
+                                <option value="Bullet Camera (Outdoor/Weatherproof)">Bullet Camera (Outdoor ke liye)</option>
+                                <option value="PTZ Camera (Pan-Tilt-Zoom 360° Rotating)">PTZ Camera (360° Rotate hone wala camera)</option>
+                                <option value="NVR / DVR System">NVR / DVR Recording Machine</option>
+                                <option value="PoE Switch & HOC Cables">PoE Switch & HOC Cables</option>
+                                <option value="Fire Safety & Extinguisher Service">Fire Safety & Extinguisher Service</option>
+                                <option value="Complete Setup Package (Multiple Cameras)">Complete Setup Package (Multiple Cameras)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Kitne Cameras ya Kitna Material Chahiye?</label>
+                            <input type="text" id="botQuantity" placeholder="Jaise: 4 Dome + 2 Bullet + 1 NVR ya 1 Roll Cable" class="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Location / Site Address (Boisar / Palghar etc.):</label>
+                            <input type="text" id="botLocation" placeholder="Aapki site kahan par hai?" class="w-full p-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                    </div>
+
+                    <button onclick="sendBotRequirementToWhatsApp()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Send Requirement Directly to DTS WhatsApp 🚀</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
     <div id="productModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto hidden">
         <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative transform transition-all my-8 animate-fade-in">
             <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white">
@@ -348,6 +399,22 @@
                             </span>
                         </div>
                         <div id="modalThumbnails" class="grid grid-cols-4 gap-3"></div>
+
+                        <!-- Interactive Cartoon Animation / Video Guide Box -->
+                        <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-4 rounded-xl border border-indigo-700/50 shadow-md relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-4 opacity-10 text-6xl">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-brand-600/50 border border-brand-400/40 flex items-center justify-center text-sky-300 animate-bounce">
+                                    <i class="fa-solid fa-film text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-sky-300">Interactive Cartoon / Video Guide</h4>
+                                    <p class="text-[11px] text-slate-300 mt-0.5">Yeh product kaise kaam karta hai aur iska installation guide dekhne ke liye WhatsApp par judein!</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="space-y-6">
@@ -359,12 +426,6 @@
                                 </span>
                             </div>
                             <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Product Title</h2>
-                            <div class="flex items-center gap-2 mt-2">
-                                <div class="flex text-amber-400 text-xs">
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                </div>
-                                <span class="text-xs text-slate-500 font-medium">(Verified Commercial Grade)</span>
-                            </div>
                         </div>
 
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-baseline justify-between">
@@ -372,23 +433,23 @@
                                 <span class="text-xs text-slate-500 block">Estimated Price / Budget Check</span>
                                 <span id="modalPrice" class="text-2xl font-black text-brand-600">₹0.00</span>
                             </div>
-                            <span class="text-xs text-slate-500 font-medium">*GST & Taxes Extra as applicable</span>
+                            <span class="text-xs text-slate-500 font-medium">*GST & Taxes Extra</span>
                         </div>
 
                         <div class="space-y-2">
                             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Overview / Details</h4>
-                            <p id="modalDescription" class="text-sm text-slate-600 leading-relaxed">Detailed description goes here...</p>
+                            <p id="modalDescription" class="text-sm text-slate-600 leading-relaxed">Detailed description...</p>
                         </div>
 
                         <div class="space-y-3">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Specifications / Scope of Work</h4>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Specifications</h4>
                             <div id="modalSpecsList" class="bg-slate-50 rounded-xl border border-slate-200 divide-y divide-slate-200 text-xs"></div>
                         </div>
 
                         <div class="pt-2 flex flex-col sm:flex-row gap-3">
                             <button id="modalWhatsAppBtn" onclick="inquireOnWhatsAppFromModal()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl text-sm shadow-lg shadow-emerald-600/20 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                                 <i class="fa-brands fa-whatsapp text-lg"></i>
-                                <span>Check Budget & Order on WhatsApp</span>
+                                <span>Check Requirement & Order on WhatsApp</span>
                             </button>
                             <button onclick="closeProductModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-3 px-5 rounded-xl text-sm transition">
                                 Close
@@ -420,14 +481,8 @@
                         <a href="https://wa.me/918390909845" target="_blank" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition">
                             <i class="fa-brands fa-whatsapp"></i>
                         </a>
-                        <a href="https://instagram.com/dts.techsolutions" target="_blank" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition" title="Instagram: dts.techsolutions">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
                         <a href="tel:+918390909845" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-brand-600 text-slate-300 hover:text-white flex items-center justify-center transition">
                             <i class="fa-solid fa-phone"></i>
-                        </a>
-                        <a href="mailto:dtsboisar@gmail.com" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-brand-600 text-slate-300 hover:text-white flex items-center justify-center transition">
-                            <i class="fa-solid fa-envelope"></i>
                         </a>
                     </div>
                 </div>
@@ -435,7 +490,7 @@
                 <div class="space-y-3">
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Catalog Brands</h4>
                     <ul class="space-y-2 text-xs">
-                        <li><a href="#" onclick="filterBrand('Prizor')" class="hover:text-white transition">Prizor Cameras, NVR, DVR, PoE</a></li>
+                        <li><a href="#" onclick="filterBrand('Prizor')" class="hover:text-white transition">Prizor Cameras, PTZ, NVR, DVR</a></li>
                         <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC Cables (3+1 & CAT6)</a></li>
                         <li><a href="#" onclick="filterCategory('Fire Safety & Services')" class="hover:text-white transition">Fire Safety Services</a></li>
                     </ul>
@@ -445,9 +500,9 @@
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Categories</h4>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#" onclick="filterCategory('Cameras')" class="hover:text-white transition">Surveillance Cameras</a></li>
+                        <li><a href="#" onclick="filterCategory('PTZ Cameras')" class="hover:text-white transition">PTZ Cameras</a></li>
                         <li><a href="#" onclick="filterCategory('NVR')" class="hover:text-white transition">NVR Systems</a></li>
                         <li><a href="#" onclick="filterCategory('DVR')" class="hover:text-white transition">DVR Systems</a></li>
-                        <li><a href="#" onclick="filterCategory('PoE Switch')" class="hover:text-white transition">PoE Switches</a></li>
                         <li><a href="#" onclick="filterCategory('HOC Cables')" class="hover:text-white transition">HOC Cables</a></li>
                     </ul>
                 </div>
@@ -463,24 +518,12 @@
                             <i class="fa-solid fa-phone text-brand-500"></i>
                             <span>+91 83909 09845</span>
                         </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fa-solid fa-envelope text-brand-500"></i>
-                            <span>dtsboisar@gmail.com</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fa-solid fa-clock text-brand-500 mt-0.5"></i>
-                            <span>Mon - Sat: 9:30 AM – 6:30 PM (Sun: Closed)</span>
-                        </li>
                     </ul>
                 </div>
             </div>
 
             <div class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-                <p>&copy; 2026 Dynamic Technology Solutions (IG: dts.techsolutions). All rights reserved.</p>
-                <div class="flex items-center gap-6">
-                    <span class="hover:text-slate-400 cursor-pointer">Fire Safety & Security Services</span>
-                    <span class="hover:text-slate-400 cursor-pointer">Terms & Conditions</span>
-                </div>
+                <p>&copy; 2026 Dynamic Technology Solutions. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -499,18 +542,10 @@
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
                 thumbnails: [
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGsDrqJwN2GXwbSMysunv5GHsUOfF3BPvAaH4-dvIJgA&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgjpzJsJthB1508afJYSS_JfVpYqQ0J2mhI9HFtMhHw&s=10"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGsDrqJwN2GXwbSMysunv5GHsUOfF3BPvAaH4-dvIJgA&s=10"
                 ],
-                description: "High-performance Prizor 8MP 4K Starlight IP Bullet Camera featuring advanced sensor technology, true WDR, IR range up to 50 meters, and IP67 weather-proof metal housing.",
-                specs: {
-                    "Brand": "Prizor",
-                    "Resolution": "8 Megapixel (3840 × 2160)",
-                    "Lens": "3.6mm Fixed Focal Lens",
-                    "Night Vision": "Smart IR up to 50 Meters",
-                    "Protection": "IP67 Weatherproof",
-                    "Power Supply": "12V DC & PoE"
-                }
+                description: "High-performance Prizor 8MP 4K Starlight IP Bullet Camera with true WDR and IR range up to 50 meters.",
+                specs: { "Brand": "Prizor", "Resolution": "8 MP", "Lens": "3.6mm", "Protection": "IP67" }
             },
             {
                 id: 2,
@@ -523,20 +558,29 @@
                 stock: "In Stock",
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqWwqBBV9iz7cf7ktm8scwoFwUyk0x4GZm1ZF90ba9QQ&s=10"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10"
                 ],
-                description: "Crystal clear Prizor 1080p indoor dome security camera with built-in microphone for high-fidelity audio surveillance and infrared night vision.",
-                specs: {
-                    "Brand": "Prizor",
-                    "Resolution": "2 Megapixel Full HD",
-                    "Audio": "Built-in High Sensitivity Microphone",
-                    "Night Vision": "IR Distance up to 20m",
-                    "Housing": "Polycarbonate Casing"
-                }
+                description: "Crystal clear Prizor 1080p indoor dome security camera with built-in mic.",
+                specs: { "Brand": "Prizor", "Resolution": "2 MP Full HD", "Audio": "Built-in Mic" }
             },
             {
                 id: 3,
+                name: "Prizor 4MP PTZ WiFi Outdoor Rotating Camera",
+                brand: "Prizor",
+                category: "PTZ Cameras",
+                sku: "PRZ-4MP-PTZ01",
+                price: "₹4,999",
+                priceValue: 4999,
+                stock: "In Stock",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10",
+                thumbnails: [
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10"
+                ],
+                description: "Advanced Prizor 4MP Pan-Tilt-Zoom (PTZ) camera with 360-degree rotation, motion tracking, and color night vision.",
+                specs: { "Brand": "Prizor", "Resolution": "4 MP HD", "Rotation": "360° Pan / 90° Tilt", "Connectivity": "WiFi & LAN" }
+            },
+            {
+                id: 4,
                 name: "Prizor 16-Channel 4K AI Network Video Recorder (NVR)",
                 brand: "Prizor",
                 category: "NVR",
@@ -544,21 +588,15 @@
                 price: "₹14,999",
                 priceValue: 14999,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwVqG9fZkgEXLEmK1rdodQ5xyC-N_EYDqk0B9j9QUJTw&s",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwVqG9fZkgEXLEmK1rdodQ5xyC-N_EYDqk0B9j9QUJTw&s"
                 ],
-                description: "Enterprise Prizor 16-Channel 4K NVR for IP cameras with H.265+ video compression, multi SATA HDD bays, and intelligent playback support.",
-                specs: {
-                    "Brand": "Prizor",
-                    "Channels": "16 Channel IP Camera Input",
-                    "Decoding": "Up to 4K support",
-                    "Storage": "Dual SATA Interfaces up to 20TB",
-                    "Ports": "RJ-45, HDMI, VGA, USB"
-                }
+                description: "Enterprise Prizor 16-Channel 4K NVR with H.265+ video compression and AI playback support.",
+                specs: { "Brand": "Prizor", "Channels": "16 CH IP Input", "Decoding": "4K Support" }
             },
             {
-                id: 4,
+                id: 5,
                 name: "Prizor 8-Channel 5-in-1 Digital Video Recorder (DVR)",
                 brand: "Prizor",
                 category: "DVR",
@@ -566,23 +604,15 @@
                 price: "₹5,499",
                 priceValue: 5499,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwVqG9fZkgEXLEmK1rdodQ5xyC-N_EYDqk0B9j9QUJTw&s",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNqClibodklFn75F3Z5rkQBzxHIcoYDcwbAkbzGI67dQ&s",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwVqG9fZkgEXLEmK1rdodQ5xyC-N_EYDqk0B9j9QUJTw&s",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTtFc1cUwT3xcpDyETY0Qq4287og9Y7X2EU-S5nI9FGd0Sq0hFrJ6QOA&s",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCOdcPFwqQ7Ys5Ql4iw9_DGyyZiXZOZqlngbO0iX5bA&s"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNqClibodklFn75F3Z5rkQBzxHIcoYDcwbAkbzGI67dQ&s"
                 ],
-                description: "Versatile Prizor 8-Channel DVR supporting HD-TVI, AHD, CVI, CVBS, and IP cameras with remote mobile monitoring capabilities.",
-                specs: {
-                    "Brand": "Prizor",
-                    "Compatibility": "TVI/AHD/CVI/CVBS/IP cameras",
-                    "Compression": "H.265 Pro+",
-                    "Storage": "1 SATA HDD support",
-                    "Video Output": "HDMI / VGA simultaneous output"
-                }
+                description: "Versatile Prizor 8-Channel DVR supporting TVI, AHD, CVI, CVBS, and IP cameras.",
+                specs: { "Brand": "Prizor", "Compatibility": "5-in-1 hybrid cameras" }
             },
             {
-                id: 5,
+                id: 6,
                 name: "Prizor 8-Port Gigabit PoE+ Switch",
                 brand: "Prizor",
                 category: "PoE Switch",
@@ -590,22 +620,15 @@
                 price: "₹4,299",
                 priceValue: 4299,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNqClibodklFn75F3Z5rkQBzxHIcoYDcwbAkbzGI67dQ&s",
+                image: "https://m.media-amazon.com/images/I/61l+prukEiL._SX569_.jpg",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNqClibodklFn75F3Z5rkQBzxHIcoYDcwbAkbzGI67dQ&s",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIOF61smTbbKyRku55onbLNQkcdpBg8zHV1tlqh_q9TQ&s=10"
+                    "https://m.media-amazon.com/images/I/61l+prukEiL._SX569_.jpg"
                 ],
-                description: "High-speed Prizor 8-port Gigabit PoE+ switch with uplink ports, smart power allocation, and 250m long-distance transmission mode.",
-                specs: {
-                    "Brand": "Prizor",
-                    "Ports": "8 Gigabit PoE ports + 2 Uplink",
-                    "PoE Budget": "Total 120W",
-                    "Transmission Mode": "Extend mode up to 250m",
-                    "Protection": "Surge protection built-in"
-                }
+                description: "High-speed Prizor 8-port Gigabit PoE+ switch with 250m long-distance mode.",
+                specs: { "Brand": "Prizor", "Ports": "8 PoE + 2 Uplink", "Budget": "120W" }
             },
             {
-                id: 6,
+                id: 7,
                 name: "HOC Heavy-Duty 3+1 CCTV Copper Cable (90 Meters)",
                 brand: "HOC",
                 category: "HOC Cables",
@@ -613,22 +636,15 @@
                 price: "₹2,199",
                 priceValue: 2199,
                 stock: "In Stock",
-                image: "https://m.media-amazon.com/images/I/61l+prukEiL._SX569_.jpg",
+                image: "https://m.media-amazon.com/images/I/71Ej613VurL._SX522_.jpg",
                 thumbnails: [
-                    "https://m.media-amazon.com/images/I/61l+prukEiL._SX569_.jpg",
-                    "https://m.media-amazon.com/images/I/516ha51rNwL._SY879_.jpg",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5nYZQwKL3dQF_8teGJ_ihsz5IsWgT2XZvIPB5Ro4DOA&s=10"
+                    "https://m.media-amazon.com/images/I/71Ej613VurL._SX522_.jpg"
                 ],
-                description: "Premium quality HOC 3+1 CCTV security camera cable bundle with pure copper conductors for uninterrupted power and video transmission.",
-                specs: {
-                    "Brand": "HOC",
-                    "Length": "90 Meters / Roll",
-                    "Type": "3+1 Coaxial Cable with Power Wire",
-                    "Conductor": "Pure Copper Grade"
-                }
+                description: "Premium quality HOC 3+1 CCTV security camera cable bundle with pure copper conductors.",
+                specs: { "Brand": "HOC", "Length": "90 Meters", "Conductor": "Pure Copper" }
             },
             {
-                id: 7,
+                id: 8,
                 name: "HOC CAT6 High-Speed Pure Copper Networking Cable (305m)",
                 brand: "HOC",
                 category: "HOC Cables",
@@ -636,21 +652,15 @@
                 price: "₹6,499",
                 priceValue: 6499,
                 stock: "In Stock",
-                image: "https://m.media-amazon.com/images/I/71Ej613VurL._SX522_.jpg",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNqG4WI504mnAteed6BWlg4Pd6OjNClScXpzKtpyFl6w&s=10",
                 thumbnails: [
-                    "https://m.media-amazon.com/images/I/71Ej613VurL._SX522_.jpg",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPdrBtLVQuJDjr9kOFEEj3-zFD868uuY6Tv5JLBXAImQ&s=10"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNqG4WI504mnAteed6BWlg4Pd6OjNClScXpzKtpyFl6w&s=10"
                 ],
-                description: "Industrial-grade HOC CAT6 UTP networking cable engineered for Gigabit PoE IP camera deployments and stable networking setups.",
-                specs: {
-                    "Brand": "HOC",
-                    "Length": "305 Meters Box",
-                    "Standard": "CAT6 UTP 4-Pair",
-                    "Frequency": "Up to 250 MHz"
-                }
+                description: "Industrial-grade HOC CAT6 UTP networking cable engineered for Gigabit PoE setups.",
+                specs: { "Brand": "HOC", "Length": "305 Meters Box", "Standard": "CAT6 UTP" }
             },
             {
-                id: 8,
+                id: 9,
                 name: "Professional Fire Safety & Security Installation Service",
                 brand: "DTS",
                 category: "Fire Safety & Services",
@@ -658,19 +668,12 @@
                 price: "On Request",
                 priceValue: 0,
                 stock: "Available",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNqG4WI504mnAteed6BWlg4Pd6OjNClScXpzKtpyFl6w&s=10",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
                 thumbnails: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNqG4WI504mnAteed6BWlg4Pd6OjNClScXpzKtpyFl6w&s=10",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpaO5vLGxATntn_pyd88gtoa9WMoxqjqrB4oiy-ptA_Q&s=10"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10"
                 ],
-                description: "Complete fire safety system setup, extinguisher maintenance, smoke detectors, alarm systems, and expert security surveillance installation services in Boisar and surrounding regions.",
-                specs: {
-                    "Brand": "DTS Services",
-                    "Service Type": "Fire Safety & Security Consulting / Installation",
-                    "Coverage": "Industrial, Commercial & Residential",
-                    "Support": "Maintenance & Annual AMC available",
-                    "Location": "Boisar & Nearby Areas"
-                }
+                description: "Complete fire safety system setup, extinguisher maintenance, and surveillance installation in Boisar.",
+                specs: { "Brand": "DTS Services", "Location": "Boisar & Nearby" }
             }
         ];
 
@@ -743,10 +746,10 @@
                             <span class="text-lg font-black text-slate-900">${product.price}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="openProductModal(${product.id})" class="p-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl transition text-xs font-semibold flex items-center gap-1.5 transform active:scale-95" title="View Details">
+                            <button onclick="openProductModal(${product.id})" class="p-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl transition text-xs font-semibold flex items-center gap-1.5" title="View Details">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
-                            <button onclick="inquireWhatsApp('${product.name}', '${product.sku}')" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transform active:scale-95" title="Check Budget & Order on WhatsApp">
+                            <button onclick="inquireWhatsApp('${product.name}', '${product.sku}')" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20" title="Order on WhatsApp">
                                 <i class="fa-brands fa-whatsapp text-sm"></i> Order
                             </button>
                         </div>
@@ -860,8 +863,7 @@
         }
 
         function clearSearch() {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.value = '';
+            document.getElementById('searchInput').value = '';
             searchQuery = '';
             document.getElementById('clearSearchBtn').classList.add('hidden');
             document.getElementById('searchDropdown').classList.add('hidden');
@@ -877,6 +879,30 @@
             document.getElementById('searchDropdown').classList.add('hidden');
             filterBrand('all');
             filterCategory('all');
+        }
+
+        function openAIBotModal() {
+            document.getElementById('aiBotModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAIBotModal() {
+            document.getElementById('aiBotModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function sendBotRequirementToWhatsApp() {
+            const name = document.getElementById('botCustomerName').value.trim() || "Customer";
+            const phone = document.getElementById('botCustomerPhone5').value || document.getElementById('botCustomerPhone').value.trim() || "Not Provided";
+            const cameraType = document.getElementById('botCameraType').value;
+            const quantity = document.getElementById('botQuantity').value.trim() || "As per requirement";
+            const location = document.getElementById('botLocation').value.trim() || "Boisar / Nearby";
+
+            const whatsappPhone = "918390909845";
+            const msg = encodeURIComponent(`🤖 *AI Bot Security Requirement* 🤖\n\n👤 *Customer Name:* ${name}\n📱 *Phone Number:* ${phone}\n📷 *Camera/Product Requirement:* ${cameraType}\n📦 *Quantity:* ${quantity}\n📍 *Location:* ${location}\n\nKripya is customer se sampark karein.`);
+
+            window.open(`https://wa.me/${whatsappPhone}?text=${msg}`, '_blank');
+            closeAIBotModal();
         }
 
         function openProductModal(id) {
@@ -930,7 +956,7 @@
 
         function inquireWhatsApp(productName, sku) {
             const phone = "918390909845";
-            const message = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to check my budget and order: *${productName}* (SKU: ${sku}). Please confirm availability and final pricing.`);
+            const message = encodeURIComponent(`Hello Dynamic Technology Solutions, I want to check my requirement and order: *${productName}* (SKU: ${sku}). Please confirm details.`);
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
 
