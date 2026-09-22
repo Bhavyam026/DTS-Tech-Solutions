@@ -614,7 +614,6 @@
         let searchQuery = '';
         let activeModalProduct = null;
 
-        // Conversational AI Bot State Machine Variables
         let botStep = 0;
         let customerData = {
             name: '',
@@ -825,7 +824,6 @@
             filterCategory('all');
         }
 
-        // Conversational AI Assistant Bot Logic
         function openAIBotModal() {
             document.getElementById('aiBotModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -933,7 +931,6 @@
                 customerData.phone = ans;
                 botStep = 7;
                 
-                // Generate Summary
                 let summaryHTML = `🎉 **Aapki Requirement ki Summary tayar hai!**<br><br>` +
                     `👤 **Customer:** ${customerData.name}<br>` +
                     `📱 **Phone:** ${customerData.phone}<br>` +
@@ -945,7 +942,6 @@
                 
                 appendBotMessage(summaryHTML);
 
-                // Add WhatsApp Send Button inside chat
                 const container = document.getElementById('botChatMessages');
                 const btnDiv = document.createElement('div');
                 btnDiv.className = 'flex justify-center mt-2';
