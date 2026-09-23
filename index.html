@@ -138,7 +138,7 @@
 
             <div class="hidden md:flex items-center gap-3">
                 <button onclick="openAIBotModal()" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-700 hover:to-brand-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-brand-600/20 transition transform active:scale-95 animate-pulse">
-                    <i class="fa-solid fa-robot text-sm"></i> AI Assistant 🤖
+                    <i class="fa-solid fa-robot text-sm"></i> AI Assistant
                 </button>
                 <a href="https://wa.me/918390909845?text=Hello%20Dynamic%20Technology%20Solutions,%20I%20need%20a%20custom%20quote%20for%20security%20hardware." target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-emerald-600/20 transition transform active:scale-95">
                     <i class="fa-brands fa-whatsapp text-base"></i> Quick Inquiry
@@ -288,7 +288,7 @@
                         <i class="fa-solid fa-robot text-base"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-sm sm:text-base">DTS AI Assistant 🤖</h3>
+                        <h3 class="font-bold text-sm sm:text-base">DTS AI Assistant</h3>
                         <p class="text-[10px] text-sky-300">Smart Requirement Assistant</p>
                     </div>
                 </div>
@@ -596,8 +596,8 @@
                 price: "₹24,999",
                 priceValue: 24999,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10"],
+                image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80&w=600",
+                thumbnails: ["https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80&w=600"],
                 description: "Prizor 43-inch 4K Ultra HD Smart LED TV designed for commercial display and surveillance monitoring.",
                 specs: { "Brand": "Prizor", "Resolution": "4K UHD", "Display": "Smart LED" }
             },
@@ -610,8 +610,8 @@
                 price: "₹36,999",
                 priceValue: 36999,
                 stock: "In Stock",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10"],
+                image: "https://images.unsplash.com/photo-1601944177325-f8a4e3faed6e?auto=format&fit=crop&q=80&w=600",
+                thumbnails: ["https://images.unsplash.com/photo-1601944177325-f8a4e3faed6e?auto=format&fit=crop&q=80&w=600"],
                 description: "Prizor large-screen 55-inch frameless smart television with vivid color reproduction and built-in apps.",
                 specs: { "Brand": "Prizor", "Size": "55 Inch", "Design": "Frameless" }
             },
@@ -624,8 +624,8 @@
                 price: "₹89,999",
                 priceValue: 89999,
                 stock: "Available on Order",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10",
-                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Yy6QUd0d-TSJyTcOzcYrorfRMezVCjt4XduCZt5PHg&s=10"],
+                image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600",
+                thumbnails: ["https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600"],
                 description: "Advanced Prizor 75-inch Interactive Touch Flat Panel for smart classrooms, conference rooms, and corporate presentations.",
                 specs: { "Brand": "Prizor", "Display": "4K UHD Touch", "Touch Points": "20-Point Multi-Touch" }
             },
@@ -945,14 +945,14 @@
             else greetingEn = "Good Evening";
 
             if (currentBotLang === 'english') {
-                return `${greetingEn}! Welcome to Dynamic Technology Solutions AI Assistant. 🛡️ What is your good name?`;
+                return `${greetingEn}! Welcome to Dynamic Technology Solutions AI Assistant. What is your good name?`;
             } else {
                 let hindiGreeting = "Namaste";
                 if (hours >= 0 && hours < 12) hindiGreeting = "Shubh Prabhat";
                 else if (hours >= 12 && hours < 17) hindiGreeting = "Namaskar";
                 else hindiGreeting = "Shubh Sandhya";
                 
-                return `${hindiGreeting}! Dynamic Technology Solutions AI Assistant mein aapka swagat hai. 🛡️ Kripya apna shubh naam batayein?`;
+                return `${hindiGreeting}! Dynamic Technology Solutions AI Assistant mein aapka swagat hai. Kripya apna shubh naam batayein?`;
             }
         }
 
@@ -1114,7 +1114,7 @@
         function sendFinalWhatsAppSummary() {
             const whatsappPhone = "918390909845";
             const msg = encodeURIComponent(
-                `🤖 *Customer Smart Requirement Summary* 🤖\n\n` +
+                `*Customer Smart Requirement Summary*\n\n` +
                 `👤 *Name:* ${customerData.name}\n` +
                 `✉️ *Email:* ${customerData.email}\n` +
                 `📱 *Phone:* ${customerData.phone}\n` +
