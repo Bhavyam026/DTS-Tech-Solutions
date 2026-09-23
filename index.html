@@ -124,7 +124,7 @@
                     <div class="pl-4 text-slate-400">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
-                    <input type="text" id="searchInput" placeholder="Search Prizor PTZ, Dome, Bullet, NVR, DVR or HOC cables..."
+                    <input type="text" id="searchInput" placeholder="Search Prizor PTZ, Dome, Bullet, NVR, DVR, VDP or HOC cables..."
                            class="w-full py-2.5 px-3 bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
                     <button id="clearSearchBtn" onclick="clearSearch()" class="pr-3 text-slate-400 hover:text-slate-600 hidden">
                         <i class="fa-solid fa-xmark"></i>
@@ -151,8 +151,8 @@
                 <div class="flex items-center gap-2 min-w-max">
                     <span class="text-slate-500 font-semibold uppercase tracking-wider text-[11px]">Quick Filters:</span>
                     <button onclick="filterBrand('all')" id="btn-brand-all" class="brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm hover:scale-105">All Catalogs</button>
-                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition hover:scale-105">Prizor (Cameras, PTZ, NVR, DVR, PoE, TVs)</button>
-                    <button onclick="filterBrand('HOC')" id="btn-brand-HOC" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-hoc hover:text-hoc transition hover:scale-105">HOC (Cables)</button>
+                    <button onclick="filterBrand('Prizor')" id="btn-brand-Prizor" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-prizor hover:text-prizor transition hover:scale-105">Prizor (Cameras, PTZ, NVR, VDP, TVs)</button>
+                    <button onclick="filterBrand('HOC')" id="btn-brand-HOC" class="brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-hoc hover:text-hoc transition hover:scale-105">HOC (Cables & Accessories)</button>
                 </div>
                 <div class="text-slate-500 text-[11px] min-w-max hidden lg:block">
                     <i class="fa-solid fa-shield-halved text-brand-600 mr-1"></i> Boisar, Maharashtra | Fire Safety & Security Services
@@ -173,7 +173,7 @@
                         Prizor Security Hardware & <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">HOC Cables</span>
                     </h2>
                     <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-                        Explore complete Prizor surveillance hardware (Dome, Bullet, PTZ Cameras, NVR, DVR, PoE Switches, Smart TVs, Touch Panels) along with genuine HOC cables and Fire Safety Services. Use our interactive AI Assistant to chat and build your requirement!
+                        Explore complete Prizor surveillance hardware (Dome, Bullet, PTZ, Solar & Wireless Cameras, NVR, DVR, Video Door Phones, Smart TVs) along with genuine HOC cables and Fire Safety Services.
                     </p>
                     <div class="flex flex-wrap gap-4 pt-2">
                         <button onclick="openAIBotModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
@@ -218,10 +218,10 @@
                     <i class="fa-solid fa-video text-sky-400"></i> Prizor 4K Starlight Bullet IP Camera
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-camera-retro text-sky-400"></i> Prizor 2MP Indoor Dome Camera
+                    <i class="fa-solid fa-solar-panel text-amber-400"></i> Prizor 4G Solar Powered PTZ Camera
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-video text-amber-400"></i> Prizor 4MP PTZ WiFi IP Camera
+                    <i class="fa-solid id-card text-sky-400"></i> Prizor Video Door Phone (VDP)
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-server text-sky-400"></i> Prizor 16-Channel 4K AI NVR
@@ -233,7 +233,7 @@
                     <i class="fa-solid fa-bolt text-emerald-400"></i> HOC Heavy-Duty 3+1 CCTV Cable
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
-                    <i class="fa-solid fa-ethernet text-emerald-400"></i> HOC CAT6 Pure Copper Cable (305m)
+                    <i class="fa-solid fa-ethernet text-emerald-400"></i> HOC CAT6 Pure Copper Cable & Outdoor Gel Cable
                 </div>
                 <div class="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-700/50 text-white text-xs font-medium shadow">
                     <i class="fa-solid fa-fire-extinguisher text-red-400"></i> Fire Safety Services & Extinguishers
@@ -254,14 +254,15 @@
                 <span class="text-xs text-slate-500 font-semibold mr-1">Category:</span>
                 <button onclick="filterCategory('all')" id="cat-btn-all" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm hover:scale-105">All</button>
                 <button onclick="filterCategory('Cameras')" id="cat-btn-Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Cameras</button>
-                <button onclick="filterCategory('PTZ Cameras')" id="cat-btn-PTZ Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">PTZ Cameras</button>
+                <button onclick="filterCategory('PTZ Cameras')" id="cat-btn-PTZ Cameras" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">PTZ & Solar</button>
                 <button onclick="filterCategory('NVR')" id="cat-btn-NVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">NVR</button>
                 <button onclick="filterCategory('DVR')" id="cat-btn-DVR" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">DVR</button>
                 <button onclick="filterCategory('PoE Switch')" id="cat-btn-PoE Switch" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">PoE Switch</button>
+                <button onclick="filterCategory('Video Door Phone')" id="cat-btn-Video Door Phone" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">VDP</button>
                 <button onclick="filterCategory('Prizor TVs')" id="cat-btn-Prizor TVs" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Prizor TVs</button>
                 <button onclick="filterCategory('Touch Panels')" id="cat-btn-Touch Panels" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Touch Panels</button>
                 <button onclick="filterCategory('HOC Cables')" id="cat-btn-HOC Cables" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">HOC Cables</button>
-                <button onclick="filterCategory('Fire Safety & Services')" id="cat-btn-Fire Safety & Services" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Fire Safety & Services</button>
+                <button onclick="filterCategory('Fire Safety & Services')" id="cat-btn-Fire Safety & Services" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Fire Safety</button>
             </div>
         </div>
 
@@ -433,7 +434,7 @@
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Catalog Brands</h4>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#" onclick="filterBrand('Prizor')" class="hover:text-white transition">Prizor Cameras, PTZ, NVR, TVs</a></li>
-                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC Cables (3+1 & CAT6)</a></li>
+                        <li><a href="#" onclick="filterBrand('HOC')" class="hover:text-white transition">HOC Cables (3+1, CAT6, HDMI)</a></li>
                         <li><a href="#" onclick="filterCategory('Fire Safety & Services')" class="hover:text-white transition">Fire Safety & Maintenance</a></li>
                     </ul>
                 </div>
@@ -442,9 +443,9 @@
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider">Categories</h4>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#" onclick="filterCategory('Cameras')" class="hover:text-white transition">Surveillance Cameras</a></li>
-                        <li><a href="#" onclick="filterCategory('PTZ Cameras')" class="hover:text-white transition">PTZ Cameras</a></li>
+                        <li><a href="#" onclick="filterCategory('PTZ Cameras')" class="hover:text-white transition">PTZ & Solar Cameras</a></li>
                         <li><a href="#" onclick="filterCategory('NVR')" class="hover:text-white transition">NVR Systems</a></li>
-                        <li><a href="#" onclick="filterCategory('Prizor TVs')" class="hover:text-white transition">Prizor Smart TVs</a></li>
+                        <li><a href="#" onclick="filterCategory('Video Door Phone')" class="hover:text-white transition">Video Door Phones</a></li>
                         <li><a href="#" onclick="filterCategory('Touch Panels')" class="hover:text-white transition">Interactive Touch Panels</a></li>
                     </ul>
                 </div>
@@ -630,6 +631,34 @@
                 specs: { "Brand": "Prizor", "Display": "4K UHD Touch", "Touch Points": "20-Point Multi-Touch" }
             },
             {
+                id: 15,
+                name: "Prizor 4G Solar Powered PTZ Security Camera",
+                brand: "Prizor",
+                category: "PTZ Cameras",
+                sku: "PRZ-SOLAR-4GPTZ",
+                price: "₹11,999",
+                priceValue: 11999,
+                stock: "In Stock",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10",
+                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zq4mcYDqMk1U00C8BQfOlSVlJyxcBWRHC_1ZsDaSKA&s=10"],
+                description: "Completely wireless Prizor 4G Solar PTZ camera with built-in battery and solar panel for remote locations without electricity.",
+                specs: { "Brand": "Prizor", "Connectivity": "4G SIM Card", "Power": "Solar + Battery" }
+            },
+            {
+                id: 16,
+                name: "Prizor 7-Inch Color Video Door Phone (VDP)",
+                brand: "Prizor",
+                category: "Video Door Phone",
+                sku: "PRZ-VDP-7IN",
+                price: "₹6,499",
+                priceValue: 6499,
+                stock: "In Stock",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10",
+                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdmHlJO6XSotaOfg24O6QiDq3Tq-i80U_aicARuykLDw&s=10"],
+                description: "Secure your entrance with Prizor 7-inch indoor monitor and outdoor doorbell camera with night vision and intercom feature.",
+                specs: { "Brand": "Prizor", "Display": "7 Inch Color TFT", "Features": "Two-way intercom" }
+            },
+            {
                 id: 8,
                 name: "HOC Heavy-Duty 3+1 CCTV Copper Cable (90 Meters)",
                 brand: "HOC",
@@ -680,6 +709,34 @@
                 ],
                 description: "High shielding HOC RG6 coaxial cable designed for low-loss analog and HD camera signal transmissions.",
                 specs: { "Brand": "HOC", "Length": "90 Meters", "Shielding": "Dual Shield Braided" }
+            },
+            {
+                id: 17,
+                name: "HOC CAT6 Outdoor Shielded Gel-Filled Cable (305m)",
+                brand: "HOC",
+                category: "HOC Cables",
+                sku: "HOC-CAT6-OUT305",
+                price: "₹7,999",
+                priceValue: 7999,
+                stock: "In Stock",
+                image: "https://m.media-amazon.com/images/I/4141zs4EQnL._SS100_.jpg",
+                thumbnails: ["https://m.media-amazon.com/images/I/4141zs4EQnL._SS100_.jpg"],
+                description: "Weatherproof HOC outdoor CAT6 gel-filled shielded cable designed for underground or heavy outdoor laying.",
+                specs: { "Brand": "HOC", "Type": "Outdoor Shielded", "Length": "305m Box" }
+            },
+            {
+                id: 18,
+                name: "HOC High Speed HDMI 2.0 Cable (3 Meters)",
+                brand: "HOC",
+                category: "HOC Cables",
+                sku: "HOC-HDMI-3M",
+                price: "₹499",
+                priceValue: 499,
+                stock: "In Stock",
+                image: "https://m.media-amazon.com/images/I/61l+prukEiL._AC_UY218_.jpg",
+                thumbnails: ["https://m.media-amazon.com/images/I/61l+prukEiL._AC_UY218_.jpg"],
+                description: "Gold-plated HOC HDMI 2.0 cable supporting 4K @ 60Hz resolution for NVR/DVR to monitor connection.",
+                specs: { "Brand": "HOC", "Length": "3 Meters", "Support": "4K Ultra HD" }
             },
             {
                 id: 11,
