@@ -332,10 +332,10 @@
             <div class="p-6 sm:p-8 max-h-[80vh] overflow-y-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-4">
-                        <div class="aspect-video sm:aspect-square bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center relative group">
+                        <div class="aspect-video sm:aspect-square bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center relative group cursor-pointer" onclick="openLightbox(document.getElementById('modalMainImage').src)">
                             <img id="modalMainImage" src="" alt="Product Image" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600'">
                             <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur">
-                                <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Hover to Inspect
+                                <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Click to Zoom / Enlarge
                             </span>
                         </div>
                         <div id="modalThumbnails" class="grid grid-cols-4 gap-3"></div>
@@ -397,6 +397,16 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Image Zoom Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-55 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 hidden" style="z-index: 9999;">
+        <div class="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center">
+            <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white bg-slate-800/80 hover:bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center text-xl transition shadow-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="lightboxImage" src="" alt="Enlarged View" class="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl border border-slate-700 animate-fade-in">
         </div>
     </div>
 
@@ -853,7 +863,7 @@
 
                 card.innerHTML = `
                     <div>
-                        <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
+                        <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openLightbox('${product.image}')" title="Click to enlarge image">
                             <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600'">
                             <div class="absolute top-3 left-3 flex flex-col gap-1">
                                 <span class="text-[10px] font-bold px-2.5 py-1 rounded-md border shadow-sm ${brandColorClass}">
@@ -863,6 +873,9 @@
                             <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-slate-700 text-[10px] font-semibold px-2 py-1 rounded-md shadow-sm">
                                 ${product.category}
                             </span>
+                            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold gap-1">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Zoom
+                            </div>
                         </div>
                         <div class="p-5 space-y-3">
                             <div class="flex items-center justify-between text-xs text-slate-500">
@@ -1035,7 +1048,7 @@
 
             const thumbContainer = document.getElementById('modalThumbnails');
             thumbContainer.innerHTML = '';
-            product.thumbnails.forEach((thumb, idx) => {
+            product.thumbnails.forEach((thumb) => {
                 thumbContainer.innerHTML += `
                     <div onclick="document.getElementById('modalMainImage').src='${thumb}'" class="aspect-square bg-slate-100 rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-600 cursor-pointer transition">
                         <img src="${thumb}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=100'">
@@ -1051,6 +1064,16 @@
             document.getElementById('productModal').classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
             activeModalProduct = null;
+        }
+
+        // Lightbox Functions for Image Zoom
+        function openLightbox(imgSrc) {
+            document.getElementById('lightboxImage').src = imgSrc;
+            document.getElementById('lightboxModal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
         }
 
         function inquireWhatsApp(productName, sku) {
