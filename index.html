@@ -333,7 +333,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-4">
                         <div class="aspect-video sm:aspect-square bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center relative group">
-                            <img id="modalMainImage" src="" alt="Product Image" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=600'">
+                            <img id="modalMainImage" src="" alt="Product Image" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600'">
                             <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur">
                                 <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Hover to Inspect
                             </span>
@@ -486,10 +486,10 @@
                 price: "₹8,499",
                 priceValue: 8499,
                 stock: "In Stock",
-                image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=600",
+                image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600",
                 thumbnails: [
-                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=600",
                     "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600",
+                    "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=600",
                     "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&q=80&w=600"
                 ],
                 description: "High-performance Prizor 8MP 4K Starlight IP Bullet Camera with true WDR and IR range up to 50 meters.",
@@ -854,7 +854,7 @@
                 card.innerHTML = `
                     <div>
                         <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=600'">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600'">
                             <div class="absolute top-3 left-3 flex flex-col gap-1">
                                 <span class="text-[10px] font-bold px-2.5 py-1 rounded-md border shadow-sm ${brandColorClass}">
                                     ${product.brand}
@@ -984,7 +984,7 @@
             matches.forEach(item => {
                 html += `
                     <div onclick="selectDropdownItem(${item.id})" class="flex items-center gap-3 p-3 hover:bg-slate-50 cursor-pointer transition border-b border-slate-100 last:border-none">
-                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg border border-slate-200" onerror="this.src='https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=100'">
+                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg border border-slate-200" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=100'">
                         <div class="flex-1 min-w-0">
                             <h4 class="text-xs font-bold text-slate-800 truncate">${item.name}</h4>
                             <p class="text-[11px] text-slate-500">${item.brand} &bull; ${item.sku} &bull; <span class="text-brand-600 font-semibold">${item.price}</span></p>
@@ -1250,7 +1250,7 @@
             product.thumbnails.forEach((thumb, idx) => {
                 const thumbEl = document.createElement('div');
                 thumbEl.className = `aspect-square bg-slate-100 rounded-xl border-2 overflow-hidden cursor-pointer transition ${idx === 0 ? 'border-brand-600 shadow' : 'border-slate-200 hover:border-slate-400'}`;
-                thumbEl.innerHTML = `<img src="${thumb}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=100'">`;
+                thumbEl.innerHTML = `<img src="${thumb}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=100'">`;
                 thumbEl.onclick = () => {
                     document.getElementById('modalMainImage').src = thumb;
                     Array.from(thumbContainer.children).forEach(el => el.className = 'aspect-square bg-slate-100 rounded-xl border-2 border-slate-200 overflow-hidden cursor-pointer hover:border-slate-400 transition');
