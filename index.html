@@ -304,11 +304,11 @@
                 </div>
             </div>
 
-            <div class="p-6 space-y-4 bg-slate-50 h-[400px] overflow-y-auto" id="botChatMessages"></div>
+            <div class="p-6 space-y-4 bg-slate-50 h-[500px] sm:h-[520px] overflow-y-auto" id="botChatMessages"></div>
 
             <div class="p-4 bg-white border-t border-slate-200 flex items-center gap-2">
-                <input type="text" id="botUserInput" placeholder="Type your message here..." class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
-                <button onclick="handleBotUserSubmit()" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow">
+                <input type="text" id="botUserInput" placeholder="Tell me what you need..." autocomplete="off" class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" onkeypress="handleBotKey(event)">
+                <button id="botSendButton" onclick="handleBotUserSubmit()" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow">
                     <span>Send</span>
                     <i class="fa-solid fa-paper-plane text-xs"></i>
                 </button>
@@ -818,19 +818,6 @@
         let searchQuery = '';
         let activeModalProduct = null;
 
-        let botStep = 0;
-        let customerData = {
-            name: '',
-            email: '',
-            phone: '',
-            interest: '',
-            locationType: '',
-            cameraType: '',
-            recordingUnit: '',
-            fireOrService: ''
-        };
-        let currentBotLang = 'english';
-
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
@@ -1097,141 +1084,25 @@
             filterCategory('all');
         }
 
-        function openAIBotModal() {
-            document.getElementById('aiBotModal').classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-            if (botStep === 0) {
-                initBotConversation();
-            }
-        }
-
-        function closeAIBotModal() {
-            document.getElementById('aiBotModal').classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        function changeBotLanguage() {
-            const select = document.getElementById('botLangSelect');
-            currentBotLang = select.value;
-            botStep = 0;
-            customerData = { name: '', email: '', phone: '', interest: '', locationType: '', cameraType: '', recordingUnit: '', fireOrService: '' };
-            initBotConversation();
-        }
-
-        function initBotConversation() {
-            const chatContainer = document.getElementById('botChatMessages');
-            chatContainer.innerHTML = '';
-            botStep = 1;
-            
-            const welcomeMsg = currentBotLang === 'hindi' 
-                ? "Namaste! Main DTS AI Assistant hoon. Aapko Prizor CCTV cameras, HOC cables ya Fire Safety services me se kiski zaroorat hai? (Kripya apna naam bataiye)."
-                : "Hello! I am DTS AI Assistant. Welcome to Dynamic Technology Solutions in Boisar. Let's find the exact product or service you need! To start, what is your full name?";
-            
-            appendBotMessage(welcomeMsg);
-        }
-
-        function appendBotMessage(text) {
-            const chatContainer = document.getElementById('botChatMessages');
-            const bubble = document.createElement('div');
-            bubble.className = 'flex items-start gap-2.5 animate-fade-in max-w-[85%]';
-            bubble.innerHTML = `
-                <div class="w-7 h-7 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs shadow">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-800 shadow-sm leading-relaxed">
-                    ${text}
-                </div>
-            `;
-            chatContainer.appendChild(bubble);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        function appendUserMessage(text) {
-            const chatContainer = document.getElementById('botChatMessages');
-            const bubble = document.createElement('div');
-            bubble.className = 'flex items-start justify-end gap-2.5 animate-fade-in ml-auto max-w-[85%]';
-            bubble.innerHTML = `
-                <div class="bg-brand-600 text-white p-3.5 rounded-2xl text-xs sm:text-sm shadow-sm leading-relaxed">
-                    ${text}
-                </div>
-                <div class="w-7 h-7 rounded-lg bg-slate-700 flex-shrink-0 flex items-center justify-center text-white text-xs shadow">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-            `;
-            chatContainer.appendChild(bubble);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        function handleBotKey(e) {
-            if (e.key === 'Enter') {
-                handleBotUserSubmit();
-            }
-        }
-
-        function handleBotUserSubmit() {
-            const input = document.getElementById('botUserInput');
-            const val = input.value.trim();
-            if (!val) return;
-
-            appendUserMessage(val);
-            input.value = '';
-
-            setTimeout(() => {
-                processBotStep(val);
-            }, 500);
-        }
-
-        function processBotStep(inputVal) {
-            if (botStep === 1) {
-                customerData.name = inputVal;
-                botStep = 2;
-                const q2 = currentBotLang === 'hindi'
-                    ? `Shukriya ${customerData.name}! Aapka contact mobile number kya hai?`
-                    : `Thank you, ${customerData.name}! What is your contact mobile number (for quotation & delivery updates in Boisar)?`;
-                appendBotMessage(q2);
-            } else if (botStep === 2) {
-                customerData.phone = inputVal;
-                botStep = 3;
-                const q3 = currentBotLang === 'hindi'
-                    ? "Aapko kis category me interest hai? Type kijiye: 1. Prizor Cameras (Dome/Bullet/PTZ) 2. NVR/DVR Systems 3. HOC Cables 4. Fire Safety"
-                    : "What are you primarily looking for? Type: 1. Prizor Cameras (Dome/Bullet/PTZ) 2. NVR/DVR/PoE 3. HOC Cables 4. Fire Safety Services";
-                appendBotMessage(q3);
-            } else if (botStep === 3) {
-                customerData.interest = inputVal;
-                botStep = 4;
-                const q4 = currentBotLang === 'hindi'
-                    ? "Ye requirement kis type ki location ke liye hai? (Jaise: Factory, Warehouse, Office, ya Residential Home)"
-                    : "Is this installation for a Factory, Office, Warehouse, or Residential Home?";
-                appendBotMessage(q4);
-            } else if (botStep === 4) {
-                customerData.locationType = inputVal;
-                botStep = 5;
-                const summary = currentBotLang === 'hindi'
-                    ? `Bahut badhiya! Aapki details note kar li gayi hain:<br><b>Naam:</b> ${customerData.name}<br><b>Phone:</b> ${customerData.phone}<br><b>Requirement:</b> ${customerData.interest} (${customerData.locationType})<br><br>Ab aap direct WhatsApp par click karke hamari team se final quotation le sakte hain!`
-                    : `Great! Here is your requirement summary:<br><b>Name:</b> ${customerData.name}<br><b>Phone:</b> ${customerData.phone}<br><b>Interest:</b> ${customerData.interest} for ${customerData.locationType}<br><br>Click below to send this directly to our WhatsApp expert!`;
-                
-                appendBotMessage(summary);
-
-                const chatContainer = document.getElementById('botChatMessages');
-                const btnDiv = document.createElement('div');
-                btnDiv.className = 'flex justify-center pt-2 animate-fade-in';
-                const waText = encodeURIComponent(`Hello DTS Team, my name is ${customerData.name} (${customerData.phone}). I need quotation for: ${customerData.interest} for my ${customerData.locationType}.`);
-                btnDiv.innerHTML = `
-                    <a href="https://wa.me/918390909845?text=${waText}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/30 flex items-center gap-2 transition transform hover:scale-105">
-                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                        <span>Send Details to DTS WhatsApp</span>
-                    </a>
-                `;
-                chatContainer.appendChild(btnDiv);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-                botStep = 6;
-            } else {
-                const restartMsg = currentBotLang === 'hindi'
-                    ? "Aap upar diye gaye WhatsApp button par click kar sakte hain ya nayi query ke liye dobara chat open kar sakte hain."
-                    : "You can click the WhatsApp button above or reopen the assistant to start a new inquiry.";
-                appendBotMessage(restartMsg);
-            }
-        }
+        const DTS_AI_API = "https://dts-tech-solutions.onrender.com/api/chat";
+        let aiMessages = [];
+        let currentBotLang = 'english';
+        let aiBusy = false;
+        let lastEnquirySummary = '';
+        function openAIBotModal(){document.getElementById('aiBotModal').classList.remove('hidden');document.body.classList.add('overflow-hidden');if(aiMessages.length===0)initBotConversation();setTimeout(()=>document.getElementById('botUserInput')?.focus(),150);}
+        function closeAIBotModal(){document.getElementById('aiBotModal').classList.add('hidden');document.body.classList.remove('overflow-hidden');}
+        function changeBotLanguage(){const s=document.getElementById('botLangSelect');currentBotLang=s.value||'english';aiMessages=[];lastEnquirySummary='';initBotConversation();}
+        function initBotConversation(){const c=document.getElementById('botChatMessages');if(!c)return;c.innerHTML='';aiMessages=[];lastEnquirySummary='';const w=currentBotLang==='hindi'?"Namaste! 👋 Main DTS AI Assistant hoon. Aap apni requirement normal language mein bata sakte hain — CCTV, networking, IT infrastructure, electrical, fire safety, access control, cabling, AMC ya koi aur technical requirement. Main aapse sirf zaroori details poochunga.":"Hello! 👋 I’m the DTS AI Assistant. Tell me what you need in your own words — CCTV, networking, IT infrastructure, electrical, fire safety, access control, cabling, AMC, or any other technical requirement. I’ll ask only the details needed for your enquiry.";appendBotMessage(w);aiMessages.push({role:"assistant",content:w});}
+        function escapeHTML(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+        function formatAIText(t){let h=escapeHTML(t);return h.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>').replace(/ENQUIRY_SUMMARY/g,'<div class="mt-2 font-bold text-brand-600">Enquiry Summary</div>').replace(/END_SUMMARY/g,'');}
+        function appendBotMessage(t){const c=document.getElementById('botChatMessages');if(!c)return;const b=document.createElement('div');b.className='flex items-start gap-2.5 animate-fade-in max-w-[90%]';b.innerHTML=`<div class="w-7 h-7 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs shadow"><i class="fa-solid fa-robot"></i></div><div class="bg-white p-3.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-800 shadow-sm leading-relaxed break-words">${formatAIText(t)}</div>`;c.appendChild(b);c.scrollTop=c.scrollHeight;}
+        function appendUserMessage(t){const c=document.getElementById('botChatMessages');if(!c)return;const b=document.createElement('div');b.className='flex items-start justify-end gap-2.5 animate-fade-in ml-auto max-w-[90%]';b.innerHTML=`<div class="bg-brand-600 text-white p-3.5 rounded-2xl text-xs sm:text-sm shadow-sm leading-relaxed break-words">${escapeHTML(t)}</div><div class="w-7 h-7 rounded-lg bg-slate-700 flex-shrink-0 flex items-center justify-center text-white text-xs shadow"><i class="fa-solid fa-user"></i></div>`;c.appendChild(b);c.scrollTop=c.scrollHeight;}
+        function showAITyping(){const c=document.getElementById('botChatMessages');if(!c||document.getElementById('aiTypingIndicator'))return;const b=document.createElement('div');b.id='aiTypingIndicator';b.className='flex items-start gap-2.5 max-w-[85%] animate-fade-in';b.innerHTML='<div class="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white text-xs"><i class="fa-solid fa-robot"></i></div><div class="bg-white px-4 py-3 rounded-2xl border border-slate-200 shadow-sm"><span class="inline-flex gap-1"><span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span></span></div>';c.appendChild(b);c.scrollTop=c.scrollHeight;}
+        function hideAITyping(){document.getElementById('aiTypingIndicator')?.remove();}
+        function setAIInputState(d){const i=document.getElementById('botUserInput'),s=document.getElementById('botSendButton');if(i)i.disabled=d;if(s){s.disabled=d;s.classList.toggle('opacity-50',d);s.classList.toggle('cursor-not-allowed',d);}}
+        function handleBotKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();handleBotUserSubmit();}}
+        async function handleBotUserSubmit(){if(aiBusy)return;const i=document.getElementById('botUserInput'),v=i?.value.trim();if(!v)return;appendUserMessage(v);aiMessages.push({role:"user",content:v});i.value='';aiBusy=true;setAIInputState(true);showAITyping();try{const r=await fetch(DTS_AI_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:aiMessages.slice(-20),language:currentBotLang})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||('AI service returned '+r.status));const reply=String(d.reply||'').trim();if(!reply)throw new Error('Empty AI response');hideAITyping();appendBotMessage(reply);aiMessages.push({role:"assistant",content:reply});if(reply.includes('ENQUIRY_SUMMARY')&&reply.includes('END_SUMMARY')){lastEnquirySummary=reply.replace(/ENQUIRY_SUMMARY/g,'').replace(/END_SUMMARY/g,'').trim();showAIWhatsAppButton(lastEnquirySummary);}}catch(e){console.error('DTS AI error:',e);hideAITyping();appendBotMessage(currentBotLang==='hindi'?"Abhi AI service se connection nahi ho pa raha hai. Kripya thodi der baad try karein, ya direct WhatsApp par enquiry bhejein.":"I’m unable to connect to the AI service right now. Please try again shortly, or send your enquiry directly on WhatsApp.");}finally{aiBusy=false;setAIInputState(false);setTimeout(()=>document.getElementById('botUserInput')?.focus(),50);}}
+        function showAIWhatsAppButton(summary){const c=document.getElementById('botChatMessages');if(!c)return;document.getElementById('aiWhatsAppCTA')?.remove();const e=encodeURIComponent('Hello DTS Team,\n\nI received this enquiry through the DTS website AI Assistant:\n\n'+summary+'\n\nPlease contact me for quotation/site visit.');const d=document.createElement('div');d.id='aiWhatsAppCTA';d.className='flex justify-center pt-2 animate-fade-in';d.innerHTML='<a href="https://wa.me/918390909845?text='+e+'" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-5 rounded-xl text-xs sm:text-sm shadow-lg flex items-center gap-2 transition"><i class="fa-brands fa-whatsapp text-lg"></i><span>'+(currentBotLang==='hindi'?'WhatsApp par Enquiry Bhejein':'Send Enquiry to DTS WhatsApp')+'</span></a>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
     </script>
 </body>
 </html>
