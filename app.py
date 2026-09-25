@@ -151,6 +151,27 @@ def proxy_image():
     except Exception as e:
         return str(e), 500
 
+@app.route('/chat', methods=['POST'])
+def chat_compat():
+    data = request.get_json(silent=True) or {}
+    messages = data.get("messages")
+
+    if not isinstance(messages, list):
+        conversation = data.get("conversation", [])
+        current_message = data.get("message", "")
+        messages = conversation if isinstance(conversation, list) else []
+        if current_message and (not messages or messages[-1].get("content") != current_message):
+            messages = messages + [{"role": "user", "content": current_message}]
+
+    language = data.get("language", "english")
+
+    with app.test_request_context(
+        "/api/chat",
+        method="POST",
+        json={"messages": messages, "language": language}
+    ):
+        return chat()
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
     api_key = os.environ.get("OPENAI_API_KEY")
