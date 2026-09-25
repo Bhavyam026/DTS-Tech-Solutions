@@ -188,8 +188,10 @@ def chat():
         language_instruction = "Prefer clear, natural English unless the customer clearly uses Hindi/Hinglish."
 
     try:
+        model = os.environ.get("OPENAI_MODEL", "gpt-5.6-luna").strip() or "gpt-5.6-luna"
+
         payload = {
-            "model": os.environ.get("OPENAI_MODEL", "gpt-5.6-luna"),
+            "model": model,
             "instructions": SYSTEM_PROMPT + "\n" + language_instruction,
             "input": safe_messages,
             "max_output_tokens": 900
@@ -210,9 +212,25 @@ def chat():
                 error_data = response.json()
             except Exception:
                 error_data = {"error": response.text[:1000]}
+
+            api_error = error_data.get("error", {}) if isinstance(error_data, dict) else {}
+            error_code = api_error.get("code") if isinstance(api_error, dict) else None
+            error_message = api_error.get("message") if isinstance(api_error, dict) else None
+
+            if response.status_code == 401:
+                public_error = "OpenAI API key is invalid or expired. Update OPENAI_API_KEY in Render Environment Variables."
+            elif response.status_code == 404:
+                public_error = f"OpenAI model '{model}' was not found or is not available to this API key."
+            elif response.status_code == 429:
+                public_error = "OpenAI API rate limit or quota was reached. Please check the OpenAI project billing/limits."
+            else:
+                public_error = error_message or f"OpenAI API request failed with HTTP {response.status_code}."
+
             return jsonify({
-                "error": "OpenAI API request failed",
-                "details": error_data
+                "error": public_error,
+                "status_code": response.status_code,
+                "code": error_code,
+                "model": model
             }), 502
 
         result = response.json()
@@ -223,7 +241,7 @@ def chat():
 
         return jsonify({
             "reply": reply,
-            "model": payload["model"]
+            "model": model
         })
 
     except requests.Timeout:
