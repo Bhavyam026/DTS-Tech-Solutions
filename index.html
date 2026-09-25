@@ -3480,82 +3480,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
-        });
-
-        function renderProducts(items) {
-            const grid = document.getElementById('productGrid');
-            const emptyState = document.getElementById('emptyState');
-            const resultCount = document.getElementById('resultCount');
-
-            grid.innerHTML = '';
-
-            if (items.length === 0) {
-                emptyState.classList.remove('hidden');
-                resultCount.textContent = 'Found 0 matching items';
-                return;
-            }
-
-            emptyState.classList.add('hidden');
-            resultCount.textContent = `Showing ${items.length} item${items.length === 1 ? '' : 's'}`;
-
-            items.forEach((product, index) => {
-                const brandColorClass = product.brand === 'Prizor' 
-                    ? 'bg-sky-50 text-sky-700 border-sky-200' 
-                    : (product.brand === 'HOC' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-indigo-50 text-indigo-700 border-indigo-200');
-
-                const card = document.createElement('div');
-                card.className = `bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden animate-fade-in transform hover:-translate-y-1`;
-                card.style.animationDelay = `${index * 0.05}s`;
-
-                card.innerHTML = `
-                    <div>
-                        <div class="relative aspect-square bg-slate-100 overflow-hidden cursor-pointer" onclick="openLightbox('${product.image}')" title="Click to enlarge image">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600'">
-                            <div class="absolute top-3 left-3 flex flex-col gap-1">
-                                <span class="text-[10px] font-bold px-2.5 py-1 rounded-md border shadow-sm ${brandColorClass}">
-                                    ${product.brand}
-                                </span>
-                            </div>
-                            <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-slate-700 text-[10px] font-semibold px-2 py-1 rounded-md shadow-sm">
-                                ${product.category}
-                            </span>
-                            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold gap-1">
-                                <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Zoom
-                            </div>
-                        </div>
-                        <div class="p-5 space-y-3">
-                            <div class="flex items-center justify-between text-xs text-slate-500">
-                                <span class="font-mono bg-slate-100 px-2 py-0.5 rounded">${product.sku}</span>
-                                <span class="text-emerald-600 font-semibold flex items-center gap-1">
-                                    <i class="fa-solid fa-circle text-[6px] animate-pulse"></i> ${product.stock}
-                                </span>
-                            </div>
-                            <h3 onclick="openProductModal(${product.id})" class="font-bold text-slate-900 text-base leading-snug hover:text-brand-600 cursor-pointer transition line-clamp-2">
-                                ${product.name}
-                            </h3>
-                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                                ${product.description}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-100 mt-2">
-                        <div>
-                            <span class="text-[10px] text-slate-400 block">Estimated Price</span>
-                            <span class="text-lg font-black text-slate-900">${product.price}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="openProductModal(${product.id})" class="p-2.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 rounded-xl transition text-xs font-semibold flex items-center gap-1.5" title="View Details">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button onclick="inquireWhatsApp('${product.name}', '${product.sku}')" class="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-emerald-600/20" title="Order on WhatsApp">
-                                <i class="fa-brands fa-whatsapp text-sm"></i> Order
-                            </button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+        });
 
         function filterBrand(brand) {
             currentBrandFilter = brand;
@@ -3663,48 +3588,7 @@
             html += '</div>';
             searchDropdown.innerHTML = html;
             searchDropdown.classList.remove('hidden');
-        }
-
-        function openProductModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            activeModalProduct = product;
-
-            document.getElementById('modalBrandBadge').textContent = product.brand;
-            document.getElementById('modalCategoryBadge').textContent = product.category;
-            document.getElementById('modalSku').textContent = `SKU: ${product.sku}`;
-            document.getElementById('modalTitle').textContent = product.name;
-            document.getElementById('modalPrice').textContent = product.price;
-            document.getElementById('modalDescription').textContent = product.description;
-            document.getElementById('modalMainImage').src = product.image;
-
-            const stockEl = document.getElementById('modalStockStatus');
-            stockEl.innerHTML = `<i class="fa-solid fa-circle text-[8px] animate-pulse"></i> ${product.stock}`;
-
-            const specsList = document.getElementById('modalSpecsList');
-            specsList.innerHTML = '';
-            for (const [key, value] of Object.entries(product.specs)) {
-                specsList.innerHTML += `
-                    <div class="flex justify-between px-3 py-2">
-                        <span class="font-medium text-slate-500">${key}</span>
-                        <span class="font-bold text-slate-800">${value}</span>
-                    </div>
-                `;
-            }
-
-            const thumbContainer = document.getElementById('modalThumbnails');
-            thumbContainer.innerHTML = '';
-            product.thumbnails.forEach((thumb) => {
-                thumbContainer.innerHTML += `
-                    <div onclick="document.getElementById('modalMainImage').src='${thumb}'" class="aspect-square bg-slate-100 rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-600 cursor-pointer transition">
-                        <img src="${thumb}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=100'">
-                    </div>
-                `;
-            });
-
-            document.getElementById('productModal').classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
+        }
 
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
