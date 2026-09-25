@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Technology Solutions | Security, IT, Networking & Electrical Solutions</title>
+    <title>Dynamic Technology Solutions - Prizor & HOC Catalog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -110,7 +110,7 @@
                     </div>
                     <div>
                         <h1 class="font-extrabold text-slate-900 text-base sm:text-lg tracking-tight leading-none">Dynamic Technology Solutions</h1>
-                        <p class="text-[10px] font-semibold text-brand-600 tracking-widest mt-0.5 uppercase">CCTV, IT Infrastructure, Networking, Electrical & Fire Safety</p>
+                        <p class="text-[10px] font-semibold text-brand-600 tracking-widest mt-0.5 uppercase">CCTV, Fire Safety & Security Services</p>
                     </div>
                 </a>
                 
@@ -815,8 +815,7 @@
                 ],
                 description: "Complete fire safety system installation, fire extinguisher refilling, and maintenance services in Boisar.",
                 specs: { "Brand": "DTS Services", "Location": "Boisar & Nearby" }
-            }
-
+            },
             {
                 id: 1001,
                 name: "Enterprise Network Switch - Managed Gigabit",
@@ -985,7 +984,7 @@
                 description: "Fire alarm and safety solutions with system installation, maintenance and support.",
                 specs: { "Application": "Commercial / Industrial", "Service": "Supply / Installation / AMC", "Focus": "Fire Safety" }
             }
-        },
+        ];
 
         let currentBrandFilter = 'all';
         let currentCategoryFilter = 'all';
@@ -1227,7 +1226,6 @@
             activeModalProduct = null;
         }
 
-        // Lightbox Functions for Image Zoom
         function openLightbox(imgSrc) {
             document.getElementById('lightboxImage').src = imgSrc;
             document.getElementById('lightboxModal').classList.remove('hidden');
