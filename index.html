@@ -3480,7 +3480,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
-        });
+        });
+
 
         function filterBrand(brand) {
             currentBrandFilter = brand;
@@ -3588,7 +3589,8 @@
             html += '</div>';
             searchDropdown.innerHTML = html;
             searchDropdown.classList.remove('hidden');
-        }
+        }
+
 
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
