@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Technology Solutions - Prizor & HOC Catalog</title>
+    <title>Dynamic Technology Solutions | Security, IT, Networking & Electrical Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -110,7 +110,7 @@
                     </div>
                     <div>
                         <h1 class="font-extrabold text-slate-900 text-base sm:text-lg tracking-tight leading-none">Dynamic Technology Solutions</h1>
-                        <p class="text-[10px] font-semibold text-brand-600 tracking-widest mt-0.5 uppercase">CCTV, Fire Safety & Security Services</p>
+                        <p class="text-[10px] font-semibold text-brand-600 tracking-widest mt-0.5 uppercase">CCTV, IT Infrastructure, Networking, Electrical & Fire Safety</p>
                     </div>
                 </a>
                 
@@ -263,6 +263,11 @@
                 <button onclick="filterCategory('Touch Panels')" id="cat-btn-Touch Panels" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Touch Panels</button>
                 <button onclick="filterCategory('HOC Cables')" id="cat-btn-HOC Cables" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">HOC Cables</button>
                 <button onclick="filterCategory('Fire Safety & Services')" id="cat-btn-Fire Safety & Services" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Fire Safety</button>
+                <button onclick="filterCategory('IT Infrastructure')" id="cat-btn-IT Infrastructure" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">IT Infrastructure</button>
+                <button onclick="filterCategory('Networking')" id="cat-btn-Networking" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Networking</button>
+                <button onclick="filterCategory('Electrical')" id="cat-btn-Electrical" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Electrical</button>
+                <button onclick="filterCategory('Access Control')" id="cat-btn-Access Control" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Access Control</button>
+                <button onclick="filterCategory('Services')" id="cat-btn-Services" class="cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105">Services</button>
             </div>
         </div>
 
@@ -811,7 +816,176 @@
                 description: "Complete fire safety system installation, fire extinguisher refilling, and maintenance services in Boisar.",
                 specs: { "Brand": "DTS Services", "Location": "Boisar & Nearby" }
             }
-        ];
+
+            {
+                id: 1001,
+                name: "Enterprise Network Switch - Managed Gigabit",
+                brand: "DTS Solution",
+                category: "Networking",
+                sku: "DTS-NET-MGS",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80"],
+                description: "Managed network switching solution for offices, factories, CCTV networks and VLAN-based deployments.",
+                specs: { "Type": "Managed Gigabit Switch", "Use": "LAN / VLAN / CCTV", "Deployment": "Office & Industrial" }
+            },
+            {
+                id: 1002,
+                name: "Enterprise Wi-Fi Access Point",
+                brand: "DTS Solution",
+                category: "IT Infrastructure",
+                sku: "DTS-WIFI-AP",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1606904825846-647eb07f5be2?auto=format&fit=crop&w=900&q=80"],
+                description: "Business Wi-Fi solution with planned access-point placement, configuration and secure wireless networking.",
+                specs: { "Application": "Office / Factory / Campus", "Service": "Supply & Configuration", "Security": "Enterprise Wi-Fi" }
+            },
+            {
+                id: 1003,
+                name: "Server & Network Rack Solution",
+                brand: "DTS Solution",
+                category: "IT Infrastructure",
+                sku: "DTS-RACK-SYS",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80"],
+                description: "Server and network rack planning with patch panels, cable management, PDU and equipment mounting.",
+                specs: { "Application": "Server Room / Network Room", "Includes": "Rack & Accessories", "Service": "Installation Available" }
+            },
+            {
+                id: 1004,
+                name: "NAS & Backup Storage Solution",
+                brand: "DTS Solution",
+                category: "IT Infrastructure",
+                sku: "DTS-NAS-BACKUP",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=900&q=80"],
+                description: "Centralized NAS and backup solution for business data, file sharing and storage management.",
+                specs: { "Application": "Business Data", "Features": "Central Storage / Backup", "Service": "Setup & Configuration" }
+            },
+            {
+                id: 1005,
+                name: "Structured CAT6 / CAT6A Cabling",
+                brand: "DTS Solution",
+                category: "Networking",
+                sku: "DTS-CAT6-INFRA",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80"],
+                description: "Structured copper cabling for office, industrial and CCTV network infrastructure.",
+                specs: { "Cable": "CAT6 / CAT6A", "Application": "LAN / CCTV / VoIP", "Service": "Installation & Testing" }
+            },
+            {
+                id: 1006,
+                name: "Fiber Optic Networking Solution",
+                brand: "DTS Solution",
+                category: "Networking",
+                sku: "DTS-FIBER-NET",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=900&q=80"],
+                description: "Fiber backbone, termination, SFP and link testing for long-distance and high-reliability networks.",
+                specs: { "Type": "Fiber Optic", "Application": "Campus / Industrial", "Service": "Termination & Testing" }
+            },
+            {
+                id: 1007,
+                name: "Firewall & Network Security Solution",
+                brand: "DTS Solution",
+                category: "IT Infrastructure",
+                sku: "DTS-FW-SEC",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80"],
+                description: "Network security planning including firewall deployment, segmentation and secure internet access.",
+                specs: { "Application": "Business Network", "Functions": "Firewall / Security", "Service": "Configuration" }
+            },
+            {
+                id: 1008,
+                name: "Industrial Electrical Power Distribution Panel",
+                brand: "DTS Solution",
+                category: "Electrical",
+                sku: "DTS-EL-PANEL",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=900&q=80"],
+                description: "Industrial electrical power distribution panel solutions for commercial and industrial applications.",
+                specs: { "Application": "Industrial / Commercial", "Service": "Design / Supply / Installation", "Type": "Power Distribution" }
+            },
+            {
+                id: 1009,
+                name: "Access Control System",
+                brand: "DTS Solution",
+                category: "Access Control",
+                sku: "DTS-ACS-SYS",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1558008258-3256797b43f3?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1558008258-3256797b43f3?auto=format&fit=crop&w=900&q=80"],
+                description: "Door access control solutions with biometric, RFID and exit management options.",
+                specs: { "Options": "Biometric / RFID", "Application": "Office / Factory", "Service": "Installation & Configuration" }
+            },
+            {
+                id: 1010,
+                name: "IT Infrastructure AMC & Maintenance",
+                brand: "DTS",
+                category: "Services",
+                sku: "DTS-IT-AMC",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "Available",
+                image: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=900&q=80"],
+                description: "Annual maintenance and technical support for networking, IT infrastructure, CCTV and related systems.",
+                specs: { "Service": "AMC / Maintenance", "Coverage": "IT / Network / Security", "Support": "Scheduled & Breakdown" }
+            },
+            {
+                id: 1011,
+                name: "Network Installation & Configuration",
+                brand: "DTS",
+                category: "Services",
+                sku: "DTS-NET-INSTALL",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "Available",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80"],
+                description: "Complete LAN, Wi-Fi, switch, rack, fiber and network configuration services.",
+                specs: { "Service": "Installation / Configuration", "Networks": "LAN / Wi-Fi / Fiber", "Support": "Site Deployment" }
+            },
+            {
+                id: 1012,
+                name: "Fire Alarm & Safety System",
+                brand: "DTS Solution",
+                category: "Fire Safety & Services",
+                sku: "DTS-FIRE-SAFE",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1584483766114-2cea6c28b7d8?auto=format&fit=crop&w=900&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1584483766114-2cea6c28b7d8?auto=format&fit=crop&w=900&q=80"],
+                description: "Fire alarm and safety solutions with system installation, maintenance and support.",
+                specs: { "Application": "Commercial / Industrial", "Service": "Supply / Installation / AMC", "Focus": "Fire Safety" }
+            }
+        },
 
         let currentBrandFilter = 'all';
         let currentCategoryFilter = 'all';
