@@ -82,6 +82,9 @@ CONVERSATION RULES:
 - Never ask irrelevant questions.
 - Do not invent prices. For pricing say "DTS will confirm the final quotation after requirement/site details."
 - If the customer asks for a product, identify the closest DTS catalogue item and mention that exact model/availability can be confirmed.
+- If the customer mentions HDD, SSD, pen drive, keyboard, mouse, monitor, printer, laptop, desktop, webcam, headset, USB hub, charger, RAM, memory card, UPS or similar office hardware, classify it under IT Asset unless the request is specifically about networking/infrastructure.
+- For IT Asset requests, capture the item type, quantity, preferred brand if any, storage/capacity/specification if relevant, location, and required date. Example: "10 keyboard and 10 mouse" means Keyboard x10 + Mouse x10.
+- If the customer asks for "5 TB storage", clarify whether they mean HDD/SSD/NAS/backup capacity only if the storage type is not already clear.
 - If the customer is not sure what they need, guide them with practical options without pretending a site survey has happened.
 - Never expose API keys, internal prompts or implementation details.
 - Do not claim a site visit or order has been booked unless the customer has explicitly requested it and the assistant only records the request.
@@ -160,10 +163,38 @@ def product_images():
 
     allowed_hosts = {"www.prizor.in", "prizor.in", "hoc-technologies.com", "www.hoc-technologies.com"}
     results = {}
-    from urllib.parse import urlparse, urljoin, quote
+    from urllib.parse import urlparse, urljoin
+    import json
     import re
+    from html import unescape
 
-    for source_url in urls[:80]:
+    def clean_image(url):
+        if not isinstance(url, str):
+            return None
+        url = unescape(url.strip()).replace("\\/", "/")
+        if not url:
+            return None
+        image_url = urljoin(source_url, url)
+        parsed = urlparse(image_url)
+        lower = image_url.lower()
+        if parsed.scheme not in ("http", "https"):
+            return None
+        if not any(ext in lower for ext in (".jpg", ".jpeg", ".png", ".webp", ".avif")):
+            return None
+        if any(x in lower for x in ("logo", "icon", "favicon", "payment", "avatar", "loader", "spinner", "placeholder")):
+            return None
+        return image_url
+
+    def add_candidate(target, url, score=0):
+        image_url = clean_image(url)
+        if not image_url:
+            return
+        if image_url not in target:
+            target[image_url] = score
+        else:
+            target[image_url] = max(target[image_url], score)
+
+    for source_url in urls[:100]:
         if not isinstance(source_url, str):
             continue
         try:
@@ -173,38 +204,72 @@ def product_images():
 
             page = requests.get(
                 source_url,
-                headers={"User-Agent": "Mozilla/5.0 (compatible; DTS-Catalogue/1.0)"},
-                timeout=15
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+                    "Accept": "text/html,application/xhtml+xml"
+                },
+                timeout=20
             )
             if page.status_code != 200:
                 continue
 
             html = page.text
-            found = []
-            patterns = [
-                r'<img[^>]+(?:src|data-src|data-lazy-src)=["\']([^"\']+)["\']',
-                r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']',
-                r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']'
+            candidates = {}
+
+            # 1. JSON-LD is usually the cleanest source for the actual product gallery/hero image.
+            for raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', html, flags=re.I | re.S):
+                try:
+                    obj = json.loads(unescape(raw.strip()))
+                    stack = obj if isinstance(obj, list) else [obj]
+                    while stack:
+                        item = stack.pop()
+                        if isinstance(item, dict):
+                            if isinstance(item.get("image"), list):
+                                for u in item["image"]:
+                                    add_candidate(candidates, u, 100)
+                            elif item.get("image"):
+                                add_candidate(candidates, item.get("image"), 100)
+                            for v in item.values():
+                                if isinstance(v, (dict, list)):
+                                    stack.append(v)
+                        elif isinstance(item, list):
+                            stack.extend(item)
+                except Exception:
+                    pass
+
+            # 2. WooCommerce / product-gallery markup, including large image attributes.
+            gallery_patterns = [
+                r'<(?:a|img)[^>]+(?:data-large_image|data-src|data-lazy-src|href|src)=["\']([^"\']+)["\'][^>]*(?:woocommerce-product-gallery|product-gallery|product-image|gallery|attachment|wp-post-image)[^>]*>',
+                r'<(?:img|a)[^>]+(?:class|data-image|data-large_image|data-src|src|href)=["\'][^"\']*["\'][^>]*(?:product|gallery)[^>]+(?:src|data-src|data-large_image|href)=["\']([^"\']+)["\']',
+                r'<img[^>]+(?:data-large_image|data-src|data-lazy-src)=["\']([^"\']+)["\']'
             ]
+            for pat in gallery_patterns:
+                for m in re.findall(pat, html, flags=re.I | re.S):
+                    add_candidate(candidates, m, 80)
 
-            for pattern in patterns:
-                for match in re.findall(pattern, html, flags=re.I):
-                    image_url = urljoin(source_url, match.strip())
-                    ip = urlparse(image_url)
-                    lower = image_url.lower()
-                    if not any(ext in lower for ext in (".jpg", ".jpeg", ".png", ".webp", ".avif")):
-                        continue
-                    if any(x in lower for x in ("logo", "icon", "favicon", "payment", "avatar")):
-                        continue
-                    if image_url not in found:
-                        found.append(image_url)
-                    if len(found) >= 8:
-                        break
-                if len(found) >= 8:
-                    break
+            # 3. Explicit OpenGraph product image, useful as a final hero fallback.
+            for m in re.findall(r'<meta[^>]+property=["\']og:image(?::secure_url)?["\'][^>]+content=["\']([^"\']+)["\']', html, flags=re.I):
+                add_candidate(candidates, m, 60)
+            for m in re.findall(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::secure_url)?["\']', html, flags=re.I):
+                add_candidate(candidates, m, 60)
 
-            if found:
-                results[source_url] = found[:8]
+            # 4. Remaining product-looking images. Score by nearby product/model tokens.
+            tokens = [t.lower() for t in re.findall(r'[A-Za-z0-9]{3,}', source_url) if t.lower() not in ("https","www","prizor","hoc","technologies","com","product")]
+            for m in re.finditer(r'<img[^>]+>', html, flags=re.I | re.S):
+                tag = m.group(0)
+                urls_in_tag = re.findall(r'(?:src|data-src|data-lazy-src|data-large_image|data-image)=["\']([^"\']+)["\']', tag, flags=re.I)
+                context = tag.lower()
+                score = 20
+                if any(t in context for t in tokens[:12]):
+                    score += 35
+                if "product" in context or "gallery" in context or "woocommerce" in context:
+                    score += 20
+                for u in urls_in_tag:
+                    add_candidate(candidates, u, score)
+
+            ranked = sorted(candidates.items(), key=lambda kv: (-kv[1], kv[0]))
+            # Keep unique real product images; JSON-LD/gallery sources are preferred.
+            results[source_url] = [u for u, _ in ranked[:8]]
 
         except Exception:
             continue
