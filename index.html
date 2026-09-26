@@ -2772,7 +2772,7 @@
             {
                 id: 11,
                 name: "Fire Safety Equipment & Maintenance Services",
-                brand: "DTS",
+                brand: "",
                 category: "Fire Safety & Services",
                 sku: "DTS-SRV-FIRE01",
                 price: "On Request",
@@ -2785,9 +2785,8 @@
                     "https://m.media-amazon.com/images/I/71qZJO0t61L._SY879_.jpg"
                 ],
                 description: "Complete fire safety system installation, fire extinguisher refilling, and maintenance services in Boisar.",
-                specs: { "Brand": "DTS Services", "Location": "Boisar & Nearby" }
-            }
-
+                specs: { "Brand": "", "Location": "Boisar & Nearby" }
+            },
             {
                 id: 1001,
                 name: "Enterprise Network Switch - Managed Gigabit",
@@ -2917,7 +2916,7 @@
             {
                 id: 1010,
                 name: "IT Infrastructure AMC & Maintenance",
-                brand: "DTS",
+                brand: "",
                 category: "Services",
                 sku: "DTS-IT-AMC",
                 price: "Get Quote",
@@ -2931,7 +2930,7 @@
             {
                 id: 1011,
                 name: "Network Installation & Configuration",
-                brand: "DTS",
+                brand: "",
                 category: "Services",
                 sku: "DTS-NET-INSTALL",
                 price: "Get Quote",
@@ -2955,10 +2954,9 @@
                 thumbnails: ["https://images.unsplash.com/photo-1584483766114-2cea6c28b7d8?auto=format&fit=crop&w=900&q=80"],
                 description: "Fire alarm and safety solutions with system installation, maintenance and support.",
                 specs: { "Application": "Commercial / Industrial", "Service": "Supply / Installation / AMC", "Focus": "Fire Safety" }
-            }
-        },
-,
-id: 2001,
+            },
+            {
+                id: 2001,
                 name: "24 Port PoE Switch (24+2 Giga)",
                 brand: "Prizor",
                 category: "Networking",
@@ -3334,7 +3332,7 @@ id: 2001,
             },
             {
                 id: 2026,
-                name: "CAT6 M-COPPEER 305M UTP OUTDOOR DOUBLE COATED – CAT6 305M M-CU",
+                name: "CAT6 M-COPPER 305M UTP OUTDOOR DOUBLE COATED – CAT6 305M M-CU",
                 brand: "HOC",
                 category: "Networking",
                 sku: "CAT6-305M-M-CU-OUT",
@@ -3468,163 +3466,6 @@ id: 2001,
                 specs: { "Brand": "HOC", "Model": "HUEX02", "Source": "Official manufacturer catalogue" }
             }
     ];
-
-        let currentBrandFilter = 'all';
-        let currentCategoryFilter = 'all';
-        let searchQuery = '';
-        let activeModalProduct = null;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts(products);
-            setupSearchListeners();
-        });
-
-
-        function filterBrand(brand) {
-            currentBrandFilter = brand;
-            document.querySelectorAll('.brand-filter-btn').forEach(btn => {
-                btn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-slate-400 transition hover:scale-105';
-            });
-            const activeBtn = document.getElementById(`btn-brand-${brand}`);
-            if (activeBtn) {
-                activeBtn.className = 'brand-filter-btn px-3 py-1 rounded-full bg-brand-600 text-white transition shadow-sm hover:scale-105';
-            }
-            applyFilters();
-        }
-
-        function filterCategory(category) {
-            currentCategoryFilter = category;
-            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-                btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition hover:scale-105';
-            });
-            const activeBtn = document.getElementById(`cat-btn-${category}`);
-            if (activeBtn) {
-                activeBtn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition shadow-sm hover:scale-105';
-            }
-            applyFilters();
-        }
-
-        function applyFilters() {
-            let filtered = products;
-            if (currentBrandFilter !== 'all') {
-                filtered = filtered.filter(p => p.brand === currentBrandFilter);
-            }
-            if (currentCategoryFilter !== 'all') {
-                filtered = filtered.filter(p => p.category === currentCategoryFilter);
-            }
-            if (searchQuery.trim() !== '') {
-                const query = searchQuery.toLowerCase();
-                filtered = filtered.filter(p => 
-                    p.name.toLowerCase().includes(query) || 
-                    p.sku.toLowerCase().includes(query) || 
-                    p.description.toLowerCase().includes(query) ||
-                    p.category.toLowerCase().includes(query)
-                );
-            }
-            renderProducts(filtered);
-        }
-
-        function setupSearchListeners() {
-            const searchInput = document.getElementById('searchInput');
-            const clearSearchBtn = document.getElementById('clearSearchBtn');
-            const searchDropdown = document.getElementById('searchDropdown');
-
-            searchInput.addEventListener('input', (e) => {
-                searchQuery = e.target.value;
-                if (searchQuery.trim().length > 0) {
-                    clearSearchBtn.classList.remove('hidden');
-                    showSearchDropdown(searchQuery);
-                } else {
-                    clearSearchBtn.classList.add('hidden');
-                    searchDropdown.classList.add('hidden');
-                }
-                applyFilters();
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
-                    searchDropdown.classList.add('hidden');
-                }
-            });
-        }
-
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            searchQuery = '';
-            document.getElementById('clearSearchBtn').classList.add('hidden');
-            document.getElementById('searchDropdown').classList.add('hidden');
-            applyFilters();
-        }
-
-        function showSearchDropdown(query) {
-            const searchDropdown = document.getElementById('searchDropdown');
-            const matches = products.filter(p => 
-                p.name.toLowerCase().includes(query.toLowerCase()) || 
-                p.sku.toLowerCase().includes(query.toLowerCase()) ||
-                p.category.toLowerCase().includes(query.toLowerCase())
-            ).slice(0, 5);
-
-            if (matches.length === 0) {
-                searchDropdown.innerHTML = `<div class="p-4 text-xs text-slate-500 text-center">No products found matching "${query}"</div>`;
-                searchDropdown.classList.remove('hidden');
-                return;
-            }
-
-            let html = '<div class="divide-y divide-slate-100">';
-            matches.forEach(p => {
-                html += `
-                    <div onclick="openProductModal(${p.id}); document.getElementById('searchDropdown').classList.add('hidden');" class="p-3 hover:bg-slate-50 flex items-center gap-3 cursor-pointer transition">
-                        <img src="${p.image}" class="w-10 h-10 object-cover rounded-lg bg-slate-100" onerror="this.src='https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=100'">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-xs font-bold text-slate-900 truncate">${p.name}</h4>
-                            <p class="text-[10px] text-slate-500">${p.category} &bull; <span class="font-mono text-brand-600">${p.sku}</span></p>
-                        </div>
-                        <span class="text-xs font-bold text-brand-600">${p.price}</span>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            searchDropdown.innerHTML = html;
-            searchDropdown.classList.remove('hidden');
-        }
-
-
-        function closeProductModal() {
-            document.getElementById('productModal').classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-            activeModalProduct = null;
-        }
-
-        // Lightbox Functions for Image Zoom
-        function openLightbox(imgSrc) {
-            document.getElementById('lightboxImage').src = imgSrc;
-            document.getElementById('lightboxModal').classList.remove('hidden');
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightboxModal').classList.add('hidden');
-        }
-
-        function inquireWhatsApp(productName, sku) {
-            const phone = "918390909845";
-            const message = encodeURIComponent(`Hello Dynamic Technology Solutions, I am interested in ordering/inquiring about: *${productName}* (SKU: ${sku}). Please share availability and final quotation.`);
-            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-        }
-
-        function inquireOnWhatsAppFromModal() {
-            if (!activeModalProduct) return;
-            inquireWhatsApp(activeModalProduct.name, activeModalProduct.sku);
-        }
-
-        function resetCatalog() {
-            currentBrandFilter = 'all';
-            currentCategoryFilter = 'all';
-            searchQuery = '';
-            document.getElementById('searchInput').value = '';
-            document.getElementById('clearSearchBtn').classList.add('hidden');
-            filterBrand('all');
-            filterCategory('all');
-        }
 
         const DTS_AI_API = "https://dts-tech-solutions.onrender.com/api/chat";
         let aiMessages = [];
