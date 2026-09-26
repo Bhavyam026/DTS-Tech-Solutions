@@ -191,8 +191,6 @@ def product_images():
                 for match in re.findall(pattern, html, flags=re.I):
                     image_url = urljoin(source_url, match.strip())
                     ip = urlparse(image_url)
-                    if ip.hostname not in allowed_hosts:
-                        continue
                     lower = image_url.lower()
                     if not any(ext in lower for ext in (".jpg", ".jpeg", ".png", ".webp", ".avif")):
                         continue
@@ -206,7 +204,7 @@ def product_images():
                     break
 
             if found:
-                results[source_url] = ["/get-image?url=" + quote(x, safe="") for x in found[:8]]
+                results[source_url] = found[:8]
 
         except Exception:
             continue
