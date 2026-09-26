@@ -3844,53 +3844,13 @@
                 const selectedCategory =
                     String(currentCategoryFilter || '').toLowerCase();
 
-                const categoryAliases = {
-                    'cctv & surveillance': [
-                        'cctv & surveillance',
-                        'cameras',
-                        'ptz cameras',
-                        'nvr',
-                        'dvr'
-                    ],
-                    'it infrastructure': [
-                        'it infrastructure',
-                        'touch panels'
-                    ],
-                    'networking': [
-                        'networking',
-                        'poe switch',
-                        'hoc cables'
-                    ],
-                    'electrical': [
-                        'electrical'
-                    ],
-                    'fire safety & services': [
-                        'fire safety & services',
-                        'fire safety'
-                    ],
-                    'access control': [
-                        'access control',
-                        'video door phone'
-                    ],
-                    'services': [
-                        'services'
-                    ]
-                };
-
-                const allowedCategories =
-                    categoryAliases[selectedCategory] ||
-                    [selectedCategory];
-
-                filtered =
-                    filtered.filter(function(product) {
-                        return allowedCategories.includes(
-                            String(product.category || '').toLowerCase()
-                        );
-                    });
+                filtered = filtered.filter(function(product) {
+                    return String(product.category || '').trim().toLowerCase() === selectedCategory;
+                });
 
             }
 
-
+            
             /* SEARCH */
 
             if (searchQuery) {
@@ -5716,6 +5676,41 @@ Thank you.`;
         /* =========================================================
            INITIAL PAGE SETUP
            ========================================================= */
+
+        async function hydrateOfficialProductImages() {
+            const catalogueProducts = products.filter(function(product) {
+                return product && product.officialUrl;
+            });
+            if (!catalogueProducts.length) return;
+            try {
+                const response = await fetch(
+                    'https://dts-tech-solutions.onrender.com/api/product-images',
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            urls: catalogueProducts.map(function(product) {
+                                return product.officialUrl;
+                            })
+                        })
+                    }
+                );
+                if (!response.ok) return;
+                const data = await response.json();
+                const imageMap = data && data.images ? data.images : {};
+                catalogueProducts.forEach(function(product) {
+                    const images = imageMap[product.officialUrl];
+                    if (Array.isArray(images) && images.length) {
+                        product.image = images[0];
+                        product.thumbnails = images;
+                    }
+                });
+                renderProducts(getFilteredProducts());
+            } catch (error) {
+                console.warn('Official product image hydration failed:', error);
+            }
+        }
+
 
         function initializeCatalogue() {
 
