@@ -3477,7 +3477,8 @@ id: 2001,
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearchListeners();
-        });
+        });
+
 
         function filterBrand(brand) {
             currentBrandFilter = brand;
@@ -3585,7 +3586,8 @@ id: 2001,
             html += '</div>';
             searchDropdown.innerHTML = html;
             searchDropdown.classList.remove('hidden');
-        }
+        }
+
 
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
