@@ -151,6 +151,69 @@ def proxy_image():
     except Exception as e:
         return str(e), 500
 
+@app.route('/api/product-images', methods=['POST'])
+def product_images():
+    data = request.get_json(silent=True) or {}
+    urls = data.get("urls", [])
+    if not isinstance(urls, list):
+        return jsonify({"error": "urls must be a list"}), 400
+
+    allowed_hosts = {"www.prizor.in", "prizor.in", "hoc-technologies.com", "www.hoc-technologies.com"}
+    results = {}
+    from urllib.parse import urlparse, urljoin, quote
+    import re
+
+    for source_url in urls[:80]:
+        if not isinstance(source_url, str):
+            continue
+        try:
+            parsed = urlparse(source_url)
+            if parsed.scheme not in ("http", "https") or parsed.hostname not in allowed_hosts:
+                continue
+
+            page = requests.get(
+                source_url,
+                headers={"User-Agent": "Mozilla/5.0 (compatible; DTS-Catalogue/1.0)"},
+                timeout=15
+            )
+            if page.status_code != 200:
+                continue
+
+            html = page.text
+            found = []
+            patterns = [
+                r'<img[^>]+(?:src|data-src|data-lazy-src)=["\']([^"\']+)["\']',
+                r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']',
+                r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']'
+            ]
+
+            for pattern in patterns:
+                for match in re.findall(pattern, html, flags=re.I):
+                    image_url = urljoin(source_url, match.strip())
+                    ip = urlparse(image_url)
+                    if ip.hostname not in allowed_hosts:
+                        continue
+                    lower = image_url.lower()
+                    if not any(ext in lower for ext in (".jpg", ".jpeg", ".png", ".webp", ".avif")):
+                        continue
+                    if any(x in lower for x in ("logo", "icon", "favicon", "payment", "avatar")):
+                        continue
+                    if image_url not in found:
+                        found.append(image_url)
+                    if len(found) >= 8:
+                        break
+                if len(found) >= 8:
+                    break
+
+            if found:
+                results[source_url] = ["/get-image?url=" + quote(x, safe="") for x in found[:8]]
+
+        except Exception:
+            continue
+
+    return jsonify({"images": results})
+
+
 @app.route('/chat', methods=['POST'])
 def chat_compat():
     data = request.get_json(silent=True) or {}
