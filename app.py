@@ -4,21 +4,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-
-# The website is hosted on GitHub Pages. Keep CORS explicit instead of
-# allowing every origin to call the backend.
-ALLOWED_ORIGINS = {
-    "https://bhavyam026.github.io",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:5500",
-    "http://127.0.0.1:5500",
-}
-CORS(app, resources={
-    r"/api/*": {"origins": list(ALLOWED_ORIGINS)},
-    r"/chat": {"origins": list(ALLOWED_ORIGINS)},
-    r"/get-image": {"origins": list(ALLOWED_ORIGINS)},
-})
+CORS(app)
 
 DTS_KNOWLEDGE = """
 BUSINESS:
@@ -126,97 +112,58 @@ CONVERSATION RULES:
 """
 
 def format_whatsapp_notification(summary_text):
-    """Create the owner-facing enquiry message."""
+    """Convert the AI's structured enquiry summary into a compact owner notification."""
     summary = summary_text.strip()
     return (
-        "NEW DTS WEBSITE ENQUIRY\n"
-        "━━━━━━━━━━━━━━━━━━━━\n"
+        "NEW DTS WEBSITE ENQUIRY\\n"
+        "━━━━━━━━━━━━━━━━━━━━\\n"
         + summary
-        + "\n━━━━━━━━━━━━━━━━━━━━\n"
+        + "\\n━━━━━━━━━━━━━━━━━━━━\\n"
         "Source: DTS Website AI Assistant"
     )
 
 
 def send_whatsapp_notification(summary_text):
-    """Send an enquiry notification through the official Meta WhatsApp Cloud API.
+    """Send an enquiry notification to the DTS owner's WhatsApp via Meta Cloud API.
 
-    Required:
+    Required environment variables:
       WHATSAPP_ACCESS_TOKEN
       WHATSAPP_PHONE_NUMBER_ID
       WHATSAPP_RECIPIENT_NUMBER
 
-    For reliable automatic outbound notifications, configure an approved
-    WhatsApp template:
-      WHATSAPP_TEMPLATE_NAME
-      WHATSAPP_TEMPLATE_LANGUAGE (default: en_US)
-
-    The free-form text mode is intentionally disabled by default because
-    Meta's messaging rules can reject business-initiated free-form messages
-    outside an active customer-service window.
+    Optional:
+      WHATSAPP_API_VERSION (defaults to v23.0)
     """
     access_token = os.environ.get("WHATSAPP_ACCESS_TOKEN", "").strip()
     phone_number_id = os.environ.get("WHATSAPP_PHONE_NUMBER_ID", "").strip()
     recipient = os.environ.get("WHATSAPP_RECIPIENT_NUMBER", "").strip()
     api_version = os.environ.get("WHATSAPP_API_VERSION", "v23.0").strip() or "v23.0"
-    template_name = os.environ.get("WHATSAPP_TEMPLATE_NAME", "").strip()
-    template_language = os.environ.get("WHATSAPP_TEMPLATE_LANGUAGE", "en_US").strip() or "en_US"
-    allow_freeform = os.environ.get("WHATSAPP_ALLOW_FREEFORM", "").strip().lower() == "true"
 
     if not access_token or not phone_number_id or not recipient:
         return {
             "sent": False,
             "configured": False,
-            "error": "WhatsApp Cloud API credentials are not configured."
+            "error": "WhatsApp Cloud API environment variables are not configured."
         }
 
     recipient = "".join(ch for ch in recipient if ch.isdigit())
     if not recipient:
         return {
             "sent": False,
-            "configured": False,
+            "configured": True,
             "error": "WHATSAPP_RECIPIENT_NUMBER is invalid."
         }
 
-    if not template_name and not allow_freeform:
-        return {
-            "sent": False,
-            "configured": False,
-            "error": "Configure an approved WHATSAPP_TEMPLATE_NAME for automatic outbound notifications."
-        }
-
     url = f"https://graph.facebook.com/{api_version}/{phone_number_id}/messages"
-
-    if template_name:
-        # The approved template should contain one body variable, e.g.
-        # {{1}}, which receives the enquiry summary.
-        payload = {
-            "messaging_product": "whatsapp",
-            "to": recipient,
-            "type": "template",
-            "template": {
-                "name": template_name,
-                "language": {"code": template_language},
-                "components": [{
-                    "type": "body",
-                    "parameters": [{
-                        "type": "text",
-                        "text": format_whatsapp_notification(summary_text)[:1024]
-                    }]
-                }]
-            }
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": recipient,
+        "type": "text",
+        "text": {
+            "preview_url": False,
+            "body": format_whatsapp_notification(summary_text)[:3900]
         }
-    else:
-        # Only use this when explicitly enabled and the recipient is within
-        # an active WhatsApp customer-service window.
-        payload = {
-            "messaging_product": "whatsapp",
-            "to": recipient,
-            "type": "text",
-            "text": {
-                "preview_url": False,
-                "body": format_whatsapp_notification(summary_text)[:3900]
-            }
-        }
+    }
 
     try:
         response = requests.post(
@@ -229,12 +176,8 @@ def send_whatsapp_notification(summary_text):
             timeout=20
         )
 
-        try:
-            result = response.json()
-        except Exception:
-            result = {}
-
         if 200 <= response.status_code < 300:
+            result = response.json()
             return {
                 "sent": True,
                 "configured": True,
@@ -244,9 +187,13 @@ def send_whatsapp_notification(summary_text):
                 )
             }
 
-        api_error = result.get("error", {}) if isinstance(result, dict) else {}
-        error_message = api_error.get("message") if isinstance(api_error, dict) else None
+        try:
+            error_data = response.json()
+        except Exception:
+            error_data = {"error": response.text[:1000]}
 
+        api_error = error_data.get("error", {}) if isinstance(error_data, dict) else {}
+        error_message = api_error.get("message") if isinstance(api_error, dict) else None
         return {
             "sent": False,
             "configured": True,
@@ -272,8 +219,7 @@ def clean_customer_reply(reply):
     """Remove backend-only enquiry markers before the reply reaches the website."""
     if not isinstance(reply, str):
         return ""
-    cleaned = reply.replace("ENQUIRY_SUMMARY", "").replace("END_SUMMARY", "")
-    return cleaned.strip()
+    return reply.replace("ENQUIRY_SUMMARY", "").replace("END_SUMMARY", "").strip()
 
 
 def extract_response_text(data):
@@ -314,49 +260,300 @@ def health():
 
 @app.route('/get-image')
 def proxy_image():
-    img_url = request.args.get('url', '').strip()
+    img_url = request.args.get('url')
     if not img_url:
         return "Image URL missing", 400
 
-    from urllib.parse import urlparse
-    allowed_image_hosts = {
-        "prizor.in",
-        "www.prizor.in",
-        "hoc-technologies.com",
-        "www.hoc-technologies.com",
-    }
-
     try:
-        parsed = urlparse(img_url)
-        if parsed.scheme not in ("http", "https") or parsed.hostname not in allowed_image_hosts:
-            return "Image host not allowed", 403
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Referer': img_url
+        }
 
-        response = requests.get(
-            img_url,
-            headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
-                "Referer": f"{parsed.scheme}://{parsed.netloc}/",
-            },
-            timeout=10,
-            allow_redirects=True,
-        )
-
-        final_host = urlparse(response.url).hostname
-        if final_host not in allowed_image_hosts:
-            return "Image redirect host not allowed", 403
+        response = requests.get(img_url, headers=headers, stream=True, timeout=10)
 
         if response.status_code == 200:
             return Response(
                 response.content,
-                content_type=response.headers.get("content-type", "image/jpeg")
+                content_type=response.headers.get('content-type', 'image/jpeg')
             )
-
         return "Failed to fetch image", response.status_code
 
-    except requests.RequestException:
-        return "Image fetch failed", 502
-    except Exception:
-        return "Image fetch failed", 500
+    except Exception as e:
+        return str(e), 500
+
+@app.route('/api/product-images', methods=['POST'])
+def product_images():
+    data = request.get_json(silent=True) or {}
+    urls = data.get("urls", [])
+    if not isinstance(urls, list):
+        return jsonify({"error": "urls must be a list"}), 400
+
+    allowed_hosts = {"www.prizor.in", "prizor.in", "hoc-technologies.com", "www.hoc-technologies.com"}
+    results = {}
+    from urllib.parse import urlparse, urljoin
+    import json
+    import re
+    from html import unescape
+
+    def clean_image(url):
+        if not isinstance(url, str):
+            return None
+        url = unescape(url.strip()).replace("\\/", "/")
+        if not url:
+            return None
+        image_url = urljoin(source_url, url)
+        parsed = urlparse(image_url)
+        lower = image_url.lower()
+        if parsed.scheme not in ("http", "https"):
+            return None
+        if not any(ext in lower for ext in (".jpg", ".jpeg", ".png", ".webp", ".avif")):
+            return None
+        if any(x in lower for x in ("logo", "icon", "favicon", "payment", "avatar", "loader", "spinner", "placeholder")):
+            return None
+        return image_url
+
+    def add_candidate(target, url, score=0):
+        image_url = clean_image(url)
+        if not image_url:
+            return
+        if image_url not in target:
+            target[image_url] = score
+        else:
+            target[image_url] = max(target[image_url], score)
+
+    for source_url in urls[:100]:
+        if not isinstance(source_url, str):
+            continue
+        try:
+            parsed = urlparse(source_url)
+            if parsed.scheme not in ("http", "https") or parsed.hostname not in allowed_hosts:
+                continue
+
+            page = requests.get(
+                source_url,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+                    "Accept": "text/html,application/xhtml+xml"
+                },
+                timeout=20
+            )
+            if page.status_code != 200:
+                continue
+
+            html = page.text
+            candidates = {}
+
+            # 1. JSON-LD is usually the cleanest source for the actual product gallery/hero image.
+            for raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', html, flags=re.I | re.S):
+                try:
+                    obj = json.loads(unescape(raw.strip()))
+                    stack = obj if isinstance(obj, list) else [obj]
+                    while stack:
+                        item = stack.pop()
+                        if isinstance(item, dict):
+                            if isinstance(item.get("image"), list):
+                                for u in item["image"]:
+                                    add_candidate(candidates, u, 100)
+                            elif item.get("image"):
+                                add_candidate(candidates, item.get("image"), 100)
+                            for v in item.values():
+                                if isinstance(v, (dict, list)):
+                                    stack.append(v)
+                        elif isinstance(item, list):
+                            stack.extend(item)
+                except Exception:
+                    pass
+
+            # 2. WooCommerce / product-gallery markup, including large image attributes.
+            gallery_patterns = [
+                r'<(?:a|img)[^>]+(?:data-large_image|data-src|data-lazy-src|href|src)=["\']([^"\']+)["\'][^>]*(?:woocommerce-product-gallery|product-gallery|product-image|gallery|attachment|wp-post-image)[^>]*>',
+                r'<(?:img|a)[^>]+(?:class|data-image|data-large_image|data-src|src|href)=["\'][^"\']*["\'][^>]*(?:product|gallery)[^>]+(?:src|data-src|data-large_image|href)=["\']([^"\']+)["\']',
+                r'<img[^>]+(?:data-large_image|data-src|data-lazy-src)=["\']([^"\']+)["\']'
+            ]
+            for pat in gallery_patterns:
+                for m in re.findall(pat, html, flags=re.I | re.S):
+                    add_candidate(candidates, m, 80)
+
+            # 3. Explicit OpenGraph product image, useful as a final hero fallback.
+            for m in re.findall(r'<meta[^>]+property=["\']og:image(?::secure_url)?["\'][^>]+content=["\']([^"\']+)["\']', html, flags=re.I):
+                add_candidate(candidates, m, 60)
+            for m in re.findall(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::secure_url)?["\']', html, flags=re.I):
+                add_candidate(candidates, m, 60)
+
+            # 4. Remaining product-looking images. Score by nearby product/model tokens.
+            tokens = [t.lower() for t in re.findall(r'[A-Za-z0-9]{3,}', source_url) if t.lower() not in ("https","www","prizor","hoc","technologies","com","product")]
+            for m in re.finditer(r'<img[^>]+>', html, flags=re.I | re.S):
+                tag = m.group(0)
+                urls_in_tag = re.findall(r'(?:src|data-src|data-lazy-src|data-large_image|data-image)=["\']([^"\']+)["\']', tag, flags=re.I)
+                context = tag.lower()
+                score = 20
+                if any(t in context for t in tokens[:12]):
+                    score += 35
+                if "product" in context or "gallery" in context or "woocommerce" in context:
+                    score += 20
+                for u in urls_in_tag:
+                    add_candidate(candidates, u, score)
+
+            ranked = sorted(candidates.items(), key=lambda kv: (-kv[1], kv[0]))
+            # Keep unique real product images; JSON-LD/gallery sources are preferred.
+            results[source_url] = [u for u, _ in ranked[:8]]
+
+        except Exception:
+            continue
+
+    return jsonify({"images": results})
 
 
+@app.route('/chat', methods=['POST'])
+def chat_compat():
+    data = request.get_json(silent=True) or {}
+    messages = data.get("messages")
 
+    if not isinstance(messages, list):
+        conversation = data.get("conversation", [])
+        current_message = data.get("message", "")
+        messages = conversation if isinstance(conversation, list) else []
+        if current_message and (not messages or messages[-1].get("content") != current_message):
+            messages = messages + [{"role": "user", "content": current_message}]
+
+    language = data.get("language", "english")
+
+    with app.test_request_context(
+        "/api/chat",
+        method="POST",
+        json={"messages": messages, "language": language}
+    ):
+        return chat()
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        return jsonify({
+            "error": "AI backend is not configured. Add OPENAI_API_KEY to the Render environment."
+        }), 503
+
+    data = request.get_json(silent=True) or {}
+    messages = data.get("messages", [])
+    language = str(data.get("language", "english")).lower()
+
+    if not isinstance(messages, list) or not messages:
+        return jsonify({"error": "messages are required"}), 400
+
+    safe_messages = []
+    for msg in messages[-20:]:
+        if not isinstance(msg, dict):
+            continue
+        role = msg.get("role")
+        content = msg.get("content")
+        if role in ("user", "assistant") and isinstance(content, str) and content.strip():
+            safe_messages.append({
+                "role": role,
+                "content": content[:5000]
+            })
+
+    if not safe_messages:
+        return jsonify({"error": "No valid conversation messages supplied"}), 400
+
+    language_instruction = ""
+    if language == "hindi":
+        language_instruction = "Prefer natural Hindi/Hinglish unless the customer clearly uses English."
+    elif language == "english":
+        language_instruction = "Prefer clear, natural English unless the customer clearly uses Hindi/Hinglish."
+
+    try:
+        model = os.environ.get("OPENAI_MODEL", "gpt-5.6-luna").strip() or "gpt-5.6-luna"
+
+        payload = {
+            "model": model,
+            "instructions": SYSTEM_PROMPT + "\n" + language_instruction,
+            "input": safe_messages,
+            "max_output_tokens": 900
+        }
+
+        response = requests.post(
+            "https://api.openai.com/v1/responses",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            },
+            json=payload,
+            timeout=60
+        )
+
+        if response.status_code >= 400:
+            try:
+                error_data = response.json()
+            except Exception:
+                error_data = {"error": response.text[:1000]}
+
+            api_error = error_data.get("error", {}) if isinstance(error_data, dict) else {}
+            error_code = api_error.get("code") if isinstance(api_error, dict) else None
+            error_message = api_error.get("message") if isinstance(api_error, dict) else None
+
+            if response.status_code == 401:
+                public_error = "OpenAI API key is invalid or expired. Update OPENAI_API_KEY in Render Environment Variables."
+            elif response.status_code == 404:
+                public_error = f"OpenAI model '{model}' was not found or is not available to this API key."
+            elif response.status_code == 429:
+                public_error = "OpenAI API rate limit or quota was reached. Please check the OpenAI project billing/limits."
+            else:
+                public_error = error_message or f"OpenAI API request failed with HTTP {response.status_code}."
+
+            return jsonify({
+                "error": public_error,
+                "status_code": response.status_code,
+                "code": error_code,
+                "model": model
+            }), 502
+
+        result = response.json()
+        reply = extract_response_text(result)
+
+        if not reply:
+            return jsonify({"error": "AI returned an empty response"}), 502
+
+        # Send the owner a WhatsApp notification only the first time a
+        # conversation produces an enquiry summary, preventing duplicates
+        # when the browser sends the full conversation on the next turn.
+        whatsapp_result = {
+            "sent": False,
+            "configured": bool(
+                os.environ.get("WHATSAPP_ACCESS_TOKEN")
+                and os.environ.get("WHATSAPP_PHONE_NUMBER_ID")
+                and os.environ.get("WHATSAPP_RECIPIENT_NUMBER")
+            )
+        }
+
+        has_summary = "ENQUIRY_SUMMARY" in reply and "END_SUMMARY" in reply
+        previous_summary_exists = any(
+            "ENQUIRY_SUMMARY" in msg.get("content", "")
+            and "END_SUMMARY" in msg.get("content", "")
+            for msg in safe_messages[:-1]
+            if msg.get("role") == "assistant"
+        )
+
+        if has_summary and not previous_summary_exists:
+            start = reply.find("ENQUIRY_SUMMARY") + len("ENQUIRY_SUMMARY")
+            end = reply.find("END_SUMMARY", start)
+            summary_text = reply[start:end].strip()
+            if summary_text:
+                whatsapp_result = send_whatsapp_notification(summary_text)
+
+        return jsonify({
+            "reply": clean_customer_reply(reply),
+            "model": model,
+            "whatsapp": whatsapp_result
+        })
+
+    except requests.Timeout:
+        return jsonify({"error": "AI service timed out"}), 504
+    except requests.RequestException as e:
+        return jsonify({"error": f"AI network error: {str(e)}"}), 502
+    except Exception as e:
+        return jsonify({"error": f"AI backend error: {str(e)}"}), 500
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
