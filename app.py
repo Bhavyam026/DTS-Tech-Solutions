@@ -126,24 +126,31 @@ def format_whatsapp_notification(summary_text):
 def send_whatsapp_notification(summary_text):
     """Send an enquiry notification to the DTS owner's WhatsApp via Meta Cloud API.
 
-    Required environment variables:
+    Required:
       WHATSAPP_ACCESS_TOKEN
       WHATSAPP_PHONE_NUMBER_ID
       WHATSAPP_RECIPIENT_NUMBER
 
-    Optional:
-      WHATSAPP_API_VERSION (defaults to v23.0)
+    For reliable business notifications, configure an approved WhatsApp template:
+      WHATSAPP_TEMPLATE_NAME
+      WHATSAPP_TEMPLATE_LANGUAGE (optional, default en_US)
+
+    Free-form text is disabled by default and can only be enabled explicitly with:
+      WHATSAPP_ALLOW_FREEFORM=true
     """
     access_token = os.environ.get("WHATSAPP_ACCESS_TOKEN", "").strip()
     phone_number_id = os.environ.get("WHATSAPP_PHONE_NUMBER_ID", "").strip()
     recipient = os.environ.get("WHATSAPP_RECIPIENT_NUMBER", "").strip()
     api_version = os.environ.get("WHATSAPP_API_VERSION", "v23.0").strip() or "v23.0"
+    template_name = os.environ.get("WHATSAPP_TEMPLATE_NAME", "").strip()
+    template_language = os.environ.get("WHATSAPP_TEMPLATE_LANGUAGE", "en_US").strip() or "en_US"
+    allow_freeform = os.environ.get("WHATSAPP_ALLOW_FREEFORM", "").strip().lower() == "true"
 
     if not access_token or not phone_number_id or not recipient:
         return {
             "sent": False,
             "configured": False,
-            "error": "WhatsApp Cloud API environment variables are not configured."
+            "error": "WhatsApp Cloud API credentials are not configured."
         }
 
     recipient = "".join(ch for ch in recipient if ch.isdigit())
@@ -154,16 +161,44 @@ def send_whatsapp_notification(summary_text):
             "error": "WHATSAPP_RECIPIENT_NUMBER is invalid."
         }
 
-    url = f"https://graph.facebook.com/{api_version}/{phone_number_id}/messages"
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": recipient,
-        "type": "text",
-        "text": {
-            "preview_url": False,
-            "body": format_whatsapp_notification(summary_text)[:3900]
+    if not template_name and not allow_freeform:
+        return {
+            "sent": False,
+            "configured": True,
+            "template_configured": False,
+            "error": "WhatsApp template is not configured."
         }
-    }
+
+    url = f"https://graph.facebook.com/{api_version}/{phone_number_id}/messages"
+
+    if template_name:
+        payload = {
+            "messaging_product": "whatsapp",
+            "to": recipient,
+            "type": "template",
+            "template": {
+                "name": template_name,
+                "language": {"code": template_language},
+                "components": [
+                    {
+                        "type": "body",
+                        "parameters": [
+                            {"type": "text", "text": format_whatsapp_notification(summary_text)[:1000]}
+                        ]
+                    }
+                ]
+            }
+        }
+    else:
+        payload = {
+            "messaging_product": "whatsapp",
+            "to": recipient,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": format_whatsapp_notification(summary_text)[:3900]
+            }
+        }
 
     try:
         response = requests.post(
@@ -176,27 +211,28 @@ def send_whatsapp_notification(summary_text):
             timeout=20
         )
 
-        if 200 <= response.status_code < 300:
+        try:
             result = response.json()
+        except Exception:
+            result = {}
+
+        if 200 <= response.status_code < 300:
             return {
                 "sent": True,
                 "configured": True,
+                "template_configured": bool(template_name),
                 "message_id": (
                     result.get("messages", [{}])[0].get("id")
                     if isinstance(result, dict) else None
                 )
             }
 
-        try:
-            error_data = response.json()
-        except Exception:
-            error_data = {"error": response.text[:1000]}
-
-        api_error = error_data.get("error", {}) if isinstance(error_data, dict) else {}
+        api_error = result.get("error", {}) if isinstance(result, dict) else {}
         error_message = api_error.get("message") if isinstance(api_error, dict) else None
         return {
             "sent": False,
             "configured": True,
+            "template_configured": bool(template_name),
             "status_code": response.status_code,
             "error": error_message or "WhatsApp Cloud API request failed."
         }
@@ -205,12 +241,14 @@ def send_whatsapp_notification(summary_text):
         return {
             "sent": False,
             "configured": True,
+            "template_configured": bool(template_name),
             "error": "WhatsApp notification timed out."
         }
     except requests.RequestException as e:
         return {
             "sent": False,
             "configured": True,
+            "template_configured": bool(template_name),
             "error": f"WhatsApp network error: {str(e)}"
         }
 
@@ -236,26 +274,31 @@ def extract_response_text(data):
                     chunks.append(text)
     return "\n".join(chunks).strip()
 
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({
+        "service": "DTS AI Backend",
+        "status": "ok",
+        "health": "/health"
+    })
+
+
 @app.route('/health', methods=['GET'])
 def health():
+    whatsapp_credentials = all([
+        os.environ.get("WHATSAPP_ACCESS_TOKEN"),
+        os.environ.get("WHATSAPP_PHONE_NUMBER_ID"),
+        os.environ.get("WHATSAPP_RECIPIENT_NUMBER")
+    ])
+    template_configured = bool(os.environ.get("WHATSAPP_TEMPLATE_NAME"))
     return jsonify({
         "status": "ok",
         "service": "DTS AI Backend",
         "ai_configured": bool(os.environ.get("OPENAI_API_KEY")),
-        "whatsapp_configured": bool(
-            os.environ.get("WHATSAPP_ACCESS_TOKEN")
-            and os.environ.get("WHATSAPP_PHONE_NUMBER_ID")
-            and os.environ.get("WHATSAPP_RECIPIENT_NUMBER")
-        ),
-        "whatsapp_template_configured": bool(
-            os.environ.get("WHATSAPP_TEMPLATE_NAME")
-        ),
-        "whatsapp_automatic_ready": bool(
-            os.environ.get("WHATSAPP_ACCESS_TOKEN")
-            and os.environ.get("WHATSAPP_PHONE_NUMBER_ID")
-            and os.environ.get("WHATSAPP_RECIPIENT_NUMBER")
-            and os.environ.get("WHATSAPP_TEMPLATE_NAME")
-        )
+        "whatsapp_configured": whatsapp_credentials,
+        "whatsapp_template_configured": template_configured,
+        "whatsapp_automatic_ready": whatsapp_credentials and template_configured,
+        "whatsapp_freeform_enabled": os.environ.get("WHATSAPP_ALLOW_FREEFORM", "").strip().lower() == "true"
     })
 
 @app.route('/get-image')
@@ -556,4 +599,17 @@ def chat():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    if os.environ.get("RENDER", "").lower() == "true":
+        # Render currently starts this file directly. Use Gunicorn in production
+        # without requiring a Dashboard start-command change.
+        import sys
+        import subprocess
+        subprocess.run([
+            sys.executable, "-m", "gunicorn",
+            "--bind", f"0.0.0.0:{port}",
+            "--workers", os.environ.get("WEB_CONCURRENCY", "1"),
+            "--timeout", "120",
+            "app:app"
+        ], check=False)
+    else:
+        app.run(host='0.0.0.0', port=port)
