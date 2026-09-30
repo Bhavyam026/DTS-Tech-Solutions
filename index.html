@@ -6523,18 +6523,20 @@ Thank you.`;
 
                 removeAITyping();
 
-                const fallback =
-                    getLocalAssistantResponse(message);
+                const errorMessage =
+                    error && error.message
+                        ? error.message
+                        : 'AI service is temporarily unavailable.';
 
                 addAIMessage(
-                    fallback,
+                    '⚠️ ' + errorMessage + '\n\nPlease try again in a moment.',
                     'bot'
                 );
 
                 aiConversation.push({
                     role: 'assistant',
-                    content: fallback
-                });
+                    content: 'AI service error: ' + errorMessage
+                );
 
             } finally {
 
