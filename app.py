@@ -461,7 +461,8 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "DTS AI Backend",
-        "ai_configured": bool(os.environ.get("HF_TOKEN")),\n        "ai_provider": "huggingface",
+        "ai_configured": bool(os.environ.get("HF_TOKEN")),
+        "ai_provider": "huggingface",
         "whatsapp_configured": whatsapp_credentials,
         "whatsapp_template_configured": template_configured,
         "whatsapp_automatic_ready": whatsapp_credentials and template_configured,
