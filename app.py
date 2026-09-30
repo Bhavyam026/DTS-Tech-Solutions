@@ -258,7 +258,7 @@ def call_free_ai(safe_messages, language):
     if not hf_token:
         return {"ok": False, "status": 503, "error": "Free AI is not configured yet. Add HF_TOKEN in Render Environment Variables."}
 
-    model = os.environ.get("HF_MODEL", "openai/gpt-oss-120b").strip() or "openai/gpt-oss-120b"
+    model = os.environ.get("HF_MODEL", "openai/gpt-oss-120b:fastest").strip() or "openai/gpt-oss-120b:fastest"
 
     if language == "hindi":
         language_instruction = "Reply naturally in Hindi. If the customer uses English technical/product terms, keep those terms naturally."
@@ -317,7 +317,7 @@ def call_free_ai(safe_messages, language):
         else:
             public_error = error_message or f"Free AI request failed with HTTP {response.status_code}."
 
-        return {"ok": False, "status": 502, "error": public_error, "provider_status": response.status_code, "provider_code": error_code, "model": model}
+        return {"ok": False, "status": response.status_code if response.status_code in (401, 403, 404, 429, 503) else 502, "error": public_error, "provider_status": response.status_code, "provider_code": error_code, "model": model}
 
     reply = extract_chat_completion_text(result)
     if not reply:
