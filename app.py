@@ -260,19 +260,186 @@ def clean_customer_reply(reply):
     return reply.replace("ENQUIRY_SUMMARY", "").replace("END_SUMMARY", "").strip()
 
 
-def extract_response_text(data):
-    # Responses API normally exposes output_text; keep a fallback for compatible response shapes.
-    if isinstance(data.get("output_text"), str) and data["output_text"].strip():
-        return data["output_text"].strip()
+def extract_chat_completion_text(data):
+    """Extract text from Hugging Face OpenAI-compatible Chat Completions API."""
+    try:
+        choices = data.get("choices", [])
+        if not choices:
+            return ""
 
-    chunks = []
-    for item in data.get("output", []) or []:
-        for content in item.get("content", []) or []:
-            if isinstance(content, dict) and content.get("type") in ("output_text", "text"):
-                text = content.get("text")
-                if text:
-                    chunks.append(text)
-    return "\n".join(chunks).strip()
+        message = choices[0].get("message", {})
+        content = message.get("content", "")
+
+        if isinstance(content, str):
+            return content.strip()
+
+        if isinstance(content, list):
+            parts = []
+            for item in content:
+                if isinstance(item, dict) and item.get("text"):
+                    parts.append(str(item["text"]))
+            return "\n".join(parts).strip()
+
+        return ""
+    except Exception:
+        return ""
+
+
+def call_free_ai(safe_messages, language):
+    """
+    Call Hugging Face Inference Providers.
+
+    Required:
+      HF_TOKEN
+
+    Optional:
+      HF_MODEL
+
+    Default model:
+      openai/gpt-oss-120b
+    """
+    hf_token = os.environ.get("HF_TOKEN", "").strip()
+
+    if not hf_token:
+        return {
+            "ok": False,
+            "status": 503,
+            "error": (
+                "Free AI is not configured yet. "
+                "Add HF_TOKEN in Render Environment Variables."
+            )
+        }
+
+    model = (
+        os.environ.get("HF_MODEL", "openai/gpt-oss-120b").strip()
+        or "openai/gpt-oss-120b"
+    )
+
+    if language == "hindi":
+        language_instruction = (
+            "Prefer natural Hindi/Hinglish unless the customer clearly uses English."
+        )
+    elif language == "english":
+        language_instruction = (
+            "Prefer clear, natural English unless the customer clearly uses Hindi/Hinglish."
+        )
+    else:
+        language_instruction = "Match the customer's language naturally."
+
+    messages = [
+        {
+            "role": "system",
+            "content": SYSTEM_PROMPT + "\n" + language_instruction
+        }
+    ]
+
+    messages.extend(
+        {
+            "role": msg["role"],
+            "content": msg["content"]
+        }
+        for msg in safe_messages
+    )
+
+    payload = {
+        "model": model,
+        "messages": messages,
+        "max_tokens": 900,
+        "temperature": 0.35,
+        "stream": False
+    }
+
+    try:
+        response = requests.post(
+            "https://router.huggingface.co/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {hf_token}",
+                "Content-Type": "application/json"
+            },
+            json=payload,
+            timeout=90
+        )
+    except requests.Timeout:
+        return {
+            "ok": False,
+            "status": 504,
+            "error": "Free AI service timed out. Please try again."
+        }
+    except requests.RequestException as e:
+        return {
+            "ok": False,
+            "status": 502,
+            "error": f"Free AI network error: {str(e)}"
+        }
+
+    try:
+        result = response.json()
+    except Exception:
+        result = {"error": {"message": response.text[:1000]}}
+
+    if response.status_code >= 400:
+        api_error = result.get("error", {}) if isinstance(result, dict) else {}
+
+        if isinstance(api_error, dict):
+            error_message = api_error.get("message")
+            error_code = api_error.get("code")
+        else:
+            error_message = None
+            error_code = None
+
+        if response.status_code == 401:
+            public_error = (
+                "Hugging Face token is invalid. "
+                "Please update HF_TOKEN in Render Environment Variables."
+            )
+        elif response.status_code == 403:
+            public_error = (
+                "Hugging Face token does not have inference permission."
+            )
+        elif response.status_code == 404:
+            public_error = (
+                f"Free AI model '{model}' was not found or is unavailable."
+            )
+        elif response.status_code == 429:
+            public_error = (
+                "Free AI usage limit was reached. Please try again later."
+            )
+        elif response.status_code == 503:
+            public_error = (
+                "Free AI provider is temporarily unavailable. "
+                "Please try again in a moment."
+            )
+        else:
+            public_error = (
+                error_message
+                or f"Free AI request failed with HTTP {response.status_code}."
+            )
+
+        return {
+            "ok": False,
+            "status": 502,
+            "error": public_error,
+            "provider_status": response.status_code,
+            "provider_code": error_code,
+            "model": model
+        }
+
+    reply = extract_chat_completion_text(result)
+
+    if not reply:
+        return {
+            "ok": False,
+            "status": 502,
+            "error": "Free AI returned an empty response.",
+            "model": model
+        }
+
+    return {
+        "ok": True,
+        "reply": reply,
+        "model": model
+    }
+
 
 @app.route('/', methods=['GET'])
 def root():
@@ -294,7 +461,7 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "DTS AI Backend",
-        "ai_configured": bool(os.environ.get("OPENAI_API_KEY")),
+        "ai_configured": bool(os.environ.get("HF_TOKEN")),\n        "ai_provider": "huggingface",
         "whatsapp_configured": whatsapp_credentials,
         "whatsapp_template_configured": template_configured,
         "whatsapp_automatic_ready": whatsapp_credentials and template_configured,
@@ -471,12 +638,6 @@ def chat_compat():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        return jsonify({
-            "error": "AI backend is not configured. Add OPENAI_API_KEY to the Render environment."
-        }), 503
-
     data = request.get_json(silent=True) or {}
     messages = data.get("messages", [])
     language = str(data.get("language", "english")).lower()
@@ -485,11 +646,14 @@ def chat():
         return jsonify({"error": "messages are required"}), 400
 
     safe_messages = []
+
     for msg in messages[-20:]:
         if not isinstance(msg, dict):
             continue
+
         role = msg.get("role")
         content = msg.get("content")
+
         if role in ("user", "assistant") and isinstance(content, str) and content.strip():
             safe_messages.append({
                 "role": role,
@@ -497,105 +661,82 @@ def chat():
             })
 
     if not safe_messages:
-        return jsonify({"error": "No valid conversation messages supplied"}), 400
-
-    language_instruction = ""
-    if language == "hindi":
-        language_instruction = "Prefer natural Hindi/Hinglish unless the customer clearly uses English."
-    elif language == "english":
-        language_instruction = "Prefer clear, natural English unless the customer clearly uses Hindi/Hinglish."
-
-    try:
-        model = os.environ.get("OPENAI_MODEL", "gpt-5.6-luna").strip() or "gpt-5.6-luna"
-
-        payload = {
-            "model": model,
-            "instructions": SYSTEM_PROMPT + "\n" + language_instruction,
-            "input": safe_messages,
-            "max_output_tokens": 900
-        }
-
-        response = requests.post(
-            "https://api.openai.com/v1/responses",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json"
-            },
-            json=payload,
-            timeout=60
-        )
-
-        if response.status_code >= 400:
-            try:
-                error_data = response.json()
-            except Exception:
-                error_data = {"error": response.text[:1000]}
-
-            api_error = error_data.get("error", {}) if isinstance(error_data, dict) else {}
-            error_code = api_error.get("code") if isinstance(api_error, dict) else None
-            error_message = api_error.get("message") if isinstance(api_error, dict) else None
-
-            if response.status_code == 401:
-                public_error = "OpenAI API key is invalid or expired. Update OPENAI_API_KEY in Render Environment Variables."
-            elif response.status_code == 404:
-                public_error = f"OpenAI model '{model}' was not found or is not available to this API key."
-            elif response.status_code == 429:
-                public_error = "OpenAI API rate limit or quota was reached. Please check the OpenAI project billing/limits."
-            else:
-                public_error = error_message or f"OpenAI API request failed with HTTP {response.status_code}."
-
-            return jsonify({
-                "error": public_error,
-                "status_code": response.status_code,
-                "code": error_code,
-                "model": model
-            }), 502
-
-        result = response.json()
-        reply = extract_response_text(result)
-
-        if not reply:
-            return jsonify({"error": "AI returned an empty response"}), 502
-
-        # Send the owner a WhatsApp notification only the first time a
-        # conversation produces an enquiry summary, preventing duplicates
-        # when the browser sends the full conversation on the next turn.
-        whatsapp_result = {
-            "sent": False,
-            "configured": bool(
-                os.environ.get("WHATSAPP_ACCESS_TOKEN")
-                and os.environ.get("WHATSAPP_PHONE_NUMBER_ID")
-                and os.environ.get("WHATSAPP_RECIPIENT_NUMBER")
-            )
-        }
-
-        has_summary = "ENQUIRY_SUMMARY" in reply and "END_SUMMARY" in reply
-        previous_summary_exists = any(
-            "ENQUIRY_SUMMARY" in msg.get("content", "")
-            and "END_SUMMARY" in msg.get("content", "")
-            for msg in safe_messages[:-1]
-            if msg.get("role") == "assistant"
-        )
-
-        if has_summary and not previous_summary_exists:
-            start = reply.find("ENQUIRY_SUMMARY") + len("ENQUIRY_SUMMARY")
-            end = reply.find("END_SUMMARY", start)
-            summary_text = reply[start:end].strip()
-            if summary_text:
-                whatsapp_result = send_whatsapp_notification(summary_text)
-
         return jsonify({
-            "reply": clean_customer_reply(reply),
-            "model": model,
-            "whatsapp": whatsapp_result
-        })
+            "error": "No valid conversation messages supplied"
+        }), 400
 
-    except requests.Timeout:
-        return jsonify({"error": "AI service timed out"}), 504
-    except requests.RequestException as e:
-        return jsonify({"error": f"AI network error: {str(e)}"}), 502
-    except Exception as e:
-        return jsonify({"error": f"AI backend error: {str(e)}"}), 500
+    # ========================================================
+    # FREE AI
+    # ========================================================
+    ai_result = call_free_ai(
+        safe_messages,
+        language
+    )
+
+    if not ai_result.get("ok"):
+        return jsonify({
+            "error": ai_result.get(
+                "error",
+                "Free AI service failed."
+            ),
+            "provider_status": ai_result.get("provider_status"),
+            "model": ai_result.get("model")
+        }), ai_result.get("status", 502)
+
+    reply = ai_result["reply"]
+
+    # ========================================================
+    # EXISTING WHATSAPP FLOW - PRESERVED
+    # ========================================================
+    whatsapp_result = {
+        "sent": False,
+        "configured": bool(
+            os.environ.get("WHATSAPP_ACCESS_TOKEN")
+            and os.environ.get("WHATSAPP_PHONE_NUMBER_ID")
+            and os.environ.get("WHATSAPP_RECIPIENT_NUMBER")
+        )
+    }
+
+    has_summary = (
+        "ENQUIRY_SUMMARY" in reply
+        and "END_SUMMARY" in reply
+    )
+
+    previous_summary_exists = any(
+        "ENQUIRY_SUMMARY" in msg.get("content", "")
+        and "END_SUMMARY" in msg.get("content", "")
+        for msg in safe_messages[:-1]
+        if msg.get("role") == "assistant"
+    )
+
+    if has_summary and not previous_summary_exists:
+        start = (
+            reply.find("ENQUIRY_SUMMARY")
+            + len("ENQUIRY_SUMMARY")
+        )
+
+        end = reply.find(
+            "END_SUMMARY",
+            start
+        )
+
+        summary_text = reply[start:end].strip()
+
+        if summary_text:
+            whatsapp_result = send_whatsapp_notification(
+                summary_text
+            )
+
+    return jsonify({
+        "reply": clean_customer_reply(reply),
+        "model": ai_result.get(
+            "model",
+            "openai/gpt-oss-120b"
+        ),
+        "provider": "huggingface",
+        "whatsapp": whatsapp_result
+    })
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
