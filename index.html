@@ -5999,24 +5999,80 @@ Thank you.`;
                 typeof products === 'undefined' ||
                 !Array.isArray(products)
             ) {
-
-                console.error(
-                    'Product catalogue data is not available.'
-                );
-
+                console.error('Product catalogue data is not available.');
                 return;
-
             }
 
+            currentSortedProducts = [...products];
 
-            currentSortedProducts =
-                [...products];
+            try {
+                renderProducts(products);
+            } catch (error) {
+                console.error('Main product renderer failed. Using safe catalogue renderer:', error);
 
+                const grid = document.getElementById('productGrid');
+                const count = document.getElementById('productCount');
+                const empty = document.getElementById('noProducts');
 
-            renderProducts(
-                products
-            );
+                if (!grid) return;
 
+                grid.innerHTML = '';
+
+                products.forEach(function(product) {
+                    if (!product) return;
+
+                    const id = Number(product.id);
+                    const name = escapeHtml(product.name || 'DTS Product');
+                    const category = escapeHtml(product.category || 'Solution');
+                    const image = product.image || (
+                        Array.isArray(product.thumbnails) &&
+                        product.thumbnails.length
+                            ? product.thumbnails[0]
+                            : ''
+                    );
+                    const price = escapeHtml(product.price || 'Get Quote');
+
+                    const card = document.createElement('article');
+                    card.className = 'product-card fade-in';
+                    card.setAttribute('data-product-id', String(id));
+
+                    card.innerHTML = `
+                        <div class="product-image-area">
+                            ${image
+                                ? '<img src="' + escapeHtml(image) + '" alt="' + name + '" loading="lazy" onerror="this.style.display=\'none\'">'
+                                : '<div class="w-full h-full flex items-center justify-center bg-slate-100"><i class="fa-solid fa-box text-4xl text-slate-300"></i></div>'
+                            }
+                            <div class="product-badge">${category}</div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-title">${name}</div>
+                            <div class="product-description">${category}</div>
+                            <div class="mt-5 pt-4 border-t border-slate-100 flex items-end justify-between gap-3">
+                                <div class="amazon-price">${price}</div>
+                                <button type="button" class="amazon-button">Details <i class="fa-solid fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', function() {
+                        if (typeof openProductModal === 'function') {
+                            openProductModal(id);
+                        }
+                    });
+
+                    grid.appendChild(card);
+                });
+
+                if (count) {
+                    count.textContent = products.length + (products.length === 1 ? ' Product' : ' Products');
+                }
+
+                grid.classList.remove('hidden');
+
+                if (empty) {
+                    empty.classList.add('hidden');
+                }
+            }
         }
 
 
