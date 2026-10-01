@@ -6765,14 +6765,16 @@ Thank you.`;
            DOM READY
            ========================================================= */
 
-        document.addEventListener(
-            'DOMContentLoaded',
-            function() {
-
-                initializeCatalogue();
-
-            }
-        );
+        /*
+         * Catalogue is initialized directly because this script is loaded
+         * after the catalogue DOM. This also prevents a missed
+         * DOMContentLoaded event from leaving the product grid blank.
+         */
+        try {
+            initializeCatalogue();
+        } catch (error) {
+            console.error('Catalogue initialization failed:', error);
+        }
 
     </script>
 
