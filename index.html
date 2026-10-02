@@ -3610,7 +3610,7 @@
         ];
 
         const DTS_AI_API = "https://dts-tech-solutions.onrender.com/api/chat";
-        let aiMessages = [];
+        let aiConversation = [];
 
         function escapeHtml(value) {
 
@@ -5108,7 +5108,26 @@
                     'modal-open'
                 );
 
+            
+
+            const aiArea = document.getElementById('aiMessageArea');
+
+            if (aiArea && !aiArea.querySelector('.ai-message')) {
+                aiArea.innerHTML = `
+                    <div class="ai-message bot">
+                        Hello! 👋 I'm the DTS AI Assistant.
+                        <br><br>
+                        Tell me what you need in your own words — CCTV, networking,
+                        IT infrastructure, electrical, fire safety, access control,
+                        cabling, AMC, or any other technical requirement.
+                        <br><br>
+                        I'll ask only the details needed for your enquiry.
+                    </div>
+                `;
             }
+
+
+}
 
         }
 
