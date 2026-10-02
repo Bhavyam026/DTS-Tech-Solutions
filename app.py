@@ -257,10 +257,48 @@ def extract_chat_completion_text(data):
     except Exception:
         return ""
 
+def local_dts_fallback(safe_messages, language):
+    """Deterministic fallback so the website assistant remains usable if HF is unavailable."""
+    user_messages = [m["content"].strip() for m in safe_messages if m.get("role") == "user" and m.get("content")]
+    current = user_messages[-1] if user_messages else ""
+    text = current.lower()
+    is_first = len(user_messages) == 1
+    greeting_only = text.strip() in {"hi","hello","hey","hii","hiii","namaste","good morning","good afternoon","good evening"}
+
+    if greeting_only:
+        return {"ok": True, "reply": "Hello! 👋 I'm the DTS AI Assistant. What do you need help with — CCTV, networking, IT infrastructure, electrical, fire safety, access control, cabling or AMC?", "model": "dts-local-fallback", "provider": "local"}
+
+    if "cctv" in text or "camera" in text:
+        count_match = re.search(r"\b(\d+)\s*(?:camera|cameras)\b", text)
+        count_text = f" You mentioned {count_match.group(1)} camera(s)." if count_match else ""
+        if language == "hindi" or any(x in text for x in ("mujhe","chahiye","ke liye","mein")):
+            opening = "Hello! 👋 Bilkul, CCTV requirement mein help karta hoon." if is_first else "Bilkul, CCTV requirement samajh gaya."
+            reply = f"{opening}{count_text}\n\nBas next details bata dijiye:\n1. Indoor, outdoor ya dono?\n2. Mobile/remote monitoring chahiye?\n3. New installation hai ya existing system upgrade?"
+        else:
+            opening = "Hello! 👋 Sure, I can help with your CCTV requirement." if is_first else "Sure, I understand the CCTV requirement."
+            reply = f"{opening}{count_text}\n\nPlease share:\n1. Indoor, outdoor or both?\n2. Do you need mobile/remote monitoring?\n3. Is this a new installation or an upgrade?"
+        return {"ok": True, "reply": reply, "model": "dts-local-fallback", "provider": "local"}
+
+    if any(x in text for x in ("network","lan","wifi","wi-fi","switch","firewall","fiber")):
+        opening = "Hello! 👋 I can help with the networking requirement." if is_first else "Got it, this is a networking requirement."
+        return {"ok": True, "reply": f"{opening}\n\nPlease share:\n1. Office, factory or other site?\n2. Approx. number of users/devices?\n3. LAN, Wi-Fi, fiber or complete network setup?", "model": "dts-local-fallback", "provider": "local"}
+
+    if any(x in text for x in ("server","nas","storage","backup","laptop","desktop","printer","monitor","keyboard","mouse","ups")):
+        opening = "Hello! 👋 I can help with this IT requirement." if is_first else "Got it, I understand the IT requirement."
+        return {"ok": True, "reply": f"{opening}\n\nPlease share the item/service, quantity, preferred brand or specification (if any), location and required date.", "model": "dts-local-fallback", "provider": "local"}
+
+    if any(x in text for x in ("electrical","panel","wiring","fire alarm","fire safety","suppression","access control","biometric","amc")):
+        opening = "Hello! 👋 DTS can help with this requirement." if is_first else "Understood. DTS can help with this requirement."
+        return {"ok": True, "reply": f"{opening}\n\nPlease share the site type, location, exact scope/quantity and whether this is a new installation, upgrade or AMC.", "model": "dts-local-fallback", "provider": "local"}
+
+    opening = "Hello! 👋 " if is_first else ""
+    return {"ok": True, "reply": opening + "Please tell me what you need in your own words. I’ll ask only the relevant details needed for the DTS enquiry.", "model": "dts-local-fallback", "provider": "local"}
+
+
 def call_free_ai(safe_messages, language):
     hf_token = os.environ.get("HF_TOKEN", "").strip()
     if not hf_token:
-        return {"ok": False, "status": 503, "error": "Free AI is not configured yet. Add HF_TOKEN in Render Environment Variables."}
+        return local_dts_fallback(safe_messages, language)
 
     model = os.environ.get("HF_MODEL", "openai/gpt-oss-120b:fastest").strip() or "openai/gpt-oss-120b:fastest"
 
@@ -290,9 +328,13 @@ def call_free_ai(safe_messages, language):
             timeout=90
         )
     except requests.Timeout:
-        return {"ok": False, "status": 504, "error": "Free AI service timed out. Please try again."}
+        fallback = local_dts_fallback(safe_messages, language)
+        fallback["provider_error"] = "Hugging Face timeout"
+        return fallback
     except requests.RequestException as e:
-        return {"ok": False, "status": 502, "error": f"Free AI network error: {str(e)}"}
+        fallback = local_dts_fallback(safe_messages, language)
+        fallback["provider_error"] = "Hugging Face network error"
+        return fallback
 
     try:
         result = response.json()
@@ -321,11 +363,16 @@ def call_free_ai(safe_messages, language):
         else:
             public_error = error_message or f"Free AI request failed with HTTP {response.status_code}."
 
-        return {"ok": False, "status": response.status_code if response.status_code in (401, 403, 404, 429, 503) else 502, "error": public_error, "provider_status": response.status_code, "provider_code": error_code, "model": model}
+        fallback = local_dts_fallback(safe_messages, language)
+        fallback["provider_status"] = response.status_code
+        fallback["provider_error"] = public_error
+        return fallback
 
     reply = extract_chat_completion_text(result)
     if not reply:
-        return {"ok": False, "status": 502, "error": "Free AI returned an empty response.", "model": model}
+        fallback = local_dts_fallback(safe_messages, language)
+        fallback["provider_error"] = "Hugging Face returned an empty response"
+        return fallback
 
     return {"ok": True, "reply": reply, "model": model}
 
@@ -546,7 +593,7 @@ def chat():
     return jsonify({
         "reply": clean_customer_reply(reply),
         "model": ai_result.get("model", "openai/gpt-oss-120b"),
-        "provider": "huggingface",
+        "provider": ai_result.get("provider", "huggingface"),
         "whatsapp": whatsapp_result
     })
 
