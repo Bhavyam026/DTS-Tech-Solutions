@@ -266,11 +266,10 @@ def extract_chat_completion_text(data):
         return ""
 
 def local_dts_fallback(safe_messages, language):
-    """Deterministic DTS fallback when the external AI provider is unavailable."""
+    """Deterministic DTS fallback with conversation-aware intent handling."""
     user_messages = [m["content"].strip() for m in safe_messages if m.get("role") == "user" and m.get("content")]
     current = user_messages[-1] if user_messages else ""
-    # Normalize common customer typing/spelling mistakes for intent detection only.
-    # The original customer message is kept unchanged for conversation context.
+
     def normalize_customer_text(value):
         value = value.lower()
         typo_map = {
@@ -289,64 +288,205 @@ def local_dts_fallback(safe_messages, language):
             "quation": "quotation", "quotion": "quotation", "quotaton": "quotation",
             "monitr": "monitor", "prnter": "printer", "keybord": "keyboard",
             "mous": "mouse", "laptp": "laptop", "servr": "server",
-            "storag": "storage", "upsystem": "ups"
+            "storag": "storage", "upsystem": "ups", "proudct": "product",
+            "cctv": "cctv"
         }
         for wrong, right in typo_map.items():
-            value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
+            value = re.sub(r"\b" + re.escape(wrong) + r"\b", right, value)
         return value
+
+    def has_any(value, terms):
+        return any(term in value for term in terms)
+
+    def latest_value(patterns):
+        for raw in reversed(user_messages):
+            normalized = normalize_customer_text(raw)
+            for pattern in patterns:
+                match = re.search(pattern, normalized)
+                if match:
+                    return match.group(1).strip()
+        return ""
 
     text = normalize_customer_text(current)
     history = normalize_customer_text(" ".join(user_messages))
     is_first = len(user_messages) == 1
-    greeting_only = text.strip() in {"hi","hello","hey","hii","hiii","namaste","good morning","good afternoon","good evening"}
+    previous_assistant = " ".join(
+        m.get("content", "") for m in safe_messages[:-1] if m.get("role") == "assistant"
+    ).lower()
 
+    greeting_only = text.strip() in {
+        "hi", "hello", "hey", "hii", "hiii", "namaste",
+        "good morning", "good afternoon", "good evening"
+    }
     if greeting_only:
         return {"ok": True, "reply": "Hello! 👋 I'm the DTS AI Assistant. What do you need help with — CCTV, networking, IT infrastructure, electrical, fire safety, access control, cabling or AMC?", "model": "dts-local-fallback", "provider": "local"}
 
-    if any(x in text for x in ("what will be included","what is included","ky ky rahega","kya kya rahega","isme kya rahega","andar kya rahega")) and any(x in history for x in ("desktop","pc","computer")):
-        return {"ok": True, "reply": "500 desktops ke liye exact configuration customer requirement ke hisaab se confirm karni hogi. Typical desktop solution mein CPU/system unit, motherboard, RAM, storage (SSD/HDD), power supply, cabinet, keyboard aur mouse hote hain. Monitor bhi include karna hai ya sirf desktop CPU, ye confirm karna hoga. Exact brand/model aur specification quotation ke time DTS confirm karega.", "model": "dts-local-fallback", "provider": "local"}
+    # Language capability questions should continue the same conversation.
+    if has_any(text, ("hindi aati hai", "hindi samajhte", "hindi bolte")):
+        return {"ok": True, "reply": "Haan, Hindi samajhta hoon. Aap Hindi ya Roman Hindi mein freely requirement bata sakte hain. Aapko DTS mein kya chahiye?", "model": "dts-local-fallback", "provider": "local"}
+    if has_any(text, ("english aati hai", "english samajhte", "english bolte")):
+        return {"ok": True, "reply": "Yes, English is supported. You can continue in English or Hindi. What do you need from DTS?", "model": "dts-local-fallback", "provider": "local"}
 
-    if any(x in text for x in ("electrical panel","electric panel","electrical","power distribution","distribution panel")):
-        opening = "Hello! 👋 DTS electrical requirement mein help kar sakta hai." if is_first else "Samajh gaya, electrical panel requirement hai."
-        return {"ok": True, "reply": f"{opening}\n\nAapne 2 electrical panels, 240 watt bola hai. Panel ke liye exact load/capacity aur panel ka type/scope confirm karna zaroori hai. 240 W exact load hai ya 240 kW, please confirm. Uske baad DTS exact panel specification quotation ke liye prepare karega.", "model": "dts-local-fallback", "provider": "local"}
+    # Product/service catalogue question.
+    if has_any(text, (
+        "ky ky tumre pass", "kya kya tumhare pass", "kya kya hai", "what do you have",
+        "what products do you sell", "which products", "koni product sell", "kaunse product",
+        "konse product", "products sell karte", "product sell karte", "catalogue", "catalog"
+    )):
+        return {"ok": True, "reply": "DTS mein mainly ye solutions/products milte hain:\n• CCTV & Surveillance — IP cameras, PTZ, NVR/DVR, PoE switches, video door phone\n• Networking — switches, Wi-Fi, firewall, fiber, CAT6/CAT6A cabling\n• IT Assets & Infrastructure — desktop, laptop, monitor, printer, server, NAS, UPS, racks\n• Electrical — power distribution panels, electrical work\n• Fire & Safety — fire alarm, detection, suppression, extinguishers & maintenance\n• Access Control — biometric, RFID/card, door access\n• Installation, Configuration, Troubleshooting & AMC\nAap jis product ka naam bataoge, main usi ke options/requirement details bata dunga.", "model": "dts-local-fallback", "provider": "local"}
 
-    if any(x in text for x in ("fire safety","fire safety equipment","fire equipment","fire alarm","fire extinguisher","suppression")):
-        opening = "Hello! 👋 DTS fire & safety requirement mein help kar sakta hai." if is_first else "Samajh gaya, fire safety equipment requirement hai."
-        return {"ok": True, "reply": f"{opening}\n\nAapne 5 fire safety equipment bola hai. Exact equipment type abhi specified nahi hai — jaise fire extinguisher, fire alarm/detector ya suppression equipment. Aap equipment type bata dijiye; exact model/quantity-wise quotation DTS confirm karega.", "model": "dts-local-fallback", "provider": "local"}
+    # Carry the last meaningful category into short follow-up messages.
+    cctv_context = has_any(history, ("cctv", "camera", "nvr", "dvr", "ptz", "surveillance"))
+    desktop_context = has_any(history, ("desktop", "pc", "computer"))
+    electrical_context = has_any(history, ("electrical", "panel", "power distribution"))
+    fire_context = has_any(history, ("fire safety", "fire alarm", "fire extinguisher", "suppression"))
+    network_context = has_any(history, ("network", "lan", "wifi", "wi-fi", "switch", "firewall", "fiber"))
+    access_context = has_any(history, ("access control", "biometric", "rfid", "door access"))
 
-    if "cctv" in text or "camera" in text:
-        count_match = re.search(r"\b(\d+)\s*(?:camera|cameras)\b", text)
-        count_text = f" Aapne {count_match.group(1)} camera(s) bola hai." if count_match else ""
-        opening = "Hello! 👋 Bilkul, CCTV requirement mein help karta hoon." if is_first else "Bilkul, CCTV requirement samajh gaya."
-        reply = f"{opening}{count_text}\n\nBas next details bata dijiye:\n1. Indoor, outdoor ya dono?\n2. Mobile/remote monitoring chahiye?\n3. New installation hai ya existing system upgrade?"
-        return {"ok": True, "reply": reply, "model": "dts-local-fallback", "provider": "local"}
+    # Extract basic enquiry details from the conversation.
+    qty_cctv = latest_value([r"\b(\d+)\s*(?:camera|cameras|camra)\b", r"\b(\d+)\s*(?:cctv)\b"])
+    qty_desktop = latest_value([r"\b(\d+)\s*(?:desktop|desktops|pc|pcs|computer|computers)\b"])
+    qty_fire = latest_value([r"\b(\d+)\s*(?:fire\s+)?(?:safety\s+)?equipment"])
+    qty_panel = latest_value([r"\b(\d+)\s*(?:electrical\s+)?panels?\b"])
 
-    if any(x in text for x in ("network","lan","wifi","wi-fi","switch","firewall","fiber")):
-        opening = "Hello! 👋 I can help with the networking requirement." if is_first else "Got it, this is a networking requirement."
-        return {"ok": True, "reply": f"{opening}\n\nPlease share:\n1. Office, factory or other site?\n2. Approx. number of users/devices?\n3. LAN, Wi-Fi, fiber or complete network setup?", "model": "dts-local-fallback", "provider": "local"}
+    # Confirmation should finalize a collected enquiry only when customer/contact details are present.
+    confirm = text.strip() in {"yes", "yes please", "haan", "ha", "haa", "ok", "okay", "confirm", "confirmed", "sahi hai", "theek hai", "thik hai", "done"}
+    if confirm and any((cctv_context, desktop_context, electrical_context, fire_context, network_context, access_context)):
+        name = latest_value([r"(?:my name is|name is|naam hai|mera naam)\s*[:\-]?\s*(.+)"])
+        phone = latest_value([r"(?:phone|mobile|number|whatsapp)\s*(?:number|no)?\s*(?:is|hai|:)?\s*(\+?\d[\d\s\-]{8,})"])
+        location = latest_value([r"(?:location|site location|place)\s*(?:is|hai|:)?\s*([A-Za-z][A-Za-z\s,\-]{2,})"])
+        company = latest_value([r"(?:company|site|office|factory)\s*(?:name)?\s*(?:is|hai|:)?\s*([A-Za-z][A-Za-z0-9\s&,\-]{2,})"])
+        missing = []
+        if not name: missing.append("your name")
+        if not phone: missing.append("reachable mobile/WhatsApp number")
+        if not location: missing.append("site/location")
+        if missing:
+            return {"ok": True, "reply": "Requirement details almost ready. Bas " + ", ".join(missing) + " share kar dijiye. Uske baad main enquiry summary bana kar DTS ko WhatsApp handoff ke liye process karunga.", "model": "dts-local-fallback", "provider": "local"}
 
-    if any(x in text for x in ("desktop","pc","computer")):
-        opening = "Hello! 👋 DTS can help with the desktop requirement." if is_first else "Got it, desktop requirement samajh gaya."
-        qty_match = re.search(r"\b(\d+)\s*(?:desktop|desktops|pc|pcs|computer|computers)\b", text)
-        qty = f" You mentioned {qty_match.group(1)} desktops." if qty_match else ""
-        return {"ok": True, "reply": f"{opening}{qty}\n\nPlease confirm:\n1. Desktop CPU only ya monitor + keyboard + mouse ke saath complete setup?\n2. Required specification, if any (RAM/storage/processor).\n3. Location and required date.", "model": "dts-local-fallback", "provider": "local"}
+        requirement_parts = []
+        if cctv_context:
+            requirement_parts.append("CCTV requirement")
+        if desktop_context:
+            requirement_parts.append("Desktop/PC requirement")
+        if electrical_context:
+            requirement_parts.append("Electrical requirement")
+        if fire_context:
+            requirement_parts.append("Fire & Safety requirement")
+        if network_context:
+            requirement_parts.append("Networking requirement")
+        if access_context:
+            requirement_parts.append("Access Control requirement")
 
-    if any(x in text for x in ("server","nas","storage","backup","laptop","printer","monitor","keyboard","mouse","ups")):
-        opening = "Hello! 👋 I can help with this IT requirement." if is_first else "Got it, I understand the IT requirement."
-        return {"ok": True, "reply": f"{opening}\n\nPlease share the item/service, quantity, preferred brand or specification (if any), location and required date.", "model": "dts-local-fallback", "provider": "local"}
+        summary = (
+            "ENQUIRY_SUMMARY\n"
+            f"Customer Name: {name}\n"
+            f"Customer WhatsApp/Phone: {phone}\n"
+            f"Company/Site: {company or 'Not provided'}\n"
+            f"Location: {location}\n"
+            "Site Type: Not provided\n"
+            f"Requirement: {', '.join(requirement_parts)}\n"
+            f"Product/Service: {', '.join(requirement_parts)}\n"
+            f"Quantity/Scale: {qty_cctv + (' CCTV cameras' if qty_cctv else '')}{qty_desktop + (' desktops' if qty_desktop else '')}{qty_panel + (' electrical panels' if qty_panel else '')}{qty_fire + (' fire safety equipment' if qty_fire else '') or 'Not provided'}\n"
+            "Existing System: Not provided\n"
+            "New Installation/Upgrade: Not provided\n"
+            "Mobile/Remote Monitoring: Not provided\n"
+            "Required Date: Not provided\n"
+            "Site Visit: Not provided\n"
+            "Special Requirements: Not provided\n"
+            "Next Action: DTS to review the enquiry and confirm exact model/availability/quotation.\n"
+            "END_SUMMARY\n\n"
+            "Thanks. I’ve prepared the enquiry summary for DTS. Once the WhatsApp handoff is accepted, DTS can continue with the quotation/details."
+        )
+        return {"ok": True, "reply": summary, "model": "dts-local-fallback", "provider": "local"}
 
-    if any(x in text for x in ("access control","biometric","door access")):
-        opening = "Hello! 👋 DTS can help with access control." if is_first else "Understood, this is an access-control requirement."
-        return {"ok": True, "reply": f"{opening}\n\nPlease share the number of doors, approximate users and whether you need biometric attendance, card/RFID or another access method.", "model": "dts-local-fallback", "provider": "local"}
+    # Follow-up answers should update the active requirement rather than reset.
+    if cctv_context:
+        if has_any(text, ("indoor", "outdoor", "dono", "both")):
+            indoor = "indoor" in text
+            outdoor = "outdoor" in text
+            monitoring_known = has_any(history, ("mobile", "remote", "monitoring", "phone par", "mobile viewing"))
+            upgrade_known = has_any(history, ("new installation", "new setup", "upgrade", "existing"))
+            details = "Indoor + outdoor dono noted." if indoor and outdoor else "Outdoor noted." if outdoor else "Indoor noted."
+            next_q = []
+            if not monitoring_known: next_q.append("Mobile/remote monitoring chahiye?")
+            if not upgrade_known: next_q.append("New installation hai ya existing system upgrade?")
+            if next_q:
+                return {"ok": True, "reply": f"{details} {next_q[0]}" + (f"\n{next_q[1]}" if len(next_q) > 1 else ""), "model": "dts-local-fallback", "provider": "local"}
+            return {"ok": True, "reply": f"{details} Ye details bhi noted hain. Agar enquiry final karni hai to 'confirm' bol dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+        if qty_cctv or has_any(text, ("cctv", "camera", "surveillance")):
+            count_text = f" {qty_cctv} cameras" if qty_cctv else " CCTV"
+            return {"ok": True, "reply": f"{count_text} ke liye DTS help karega. Indoor/outdoor coverage bata dijiye, aur mobile monitoring chahiye ya nahi. New installation hai ya existing upgrade?", "model": "dts-local-fallback", "provider": "local"}
+
+    if desktop_context:
+        if has_any(text, ("what will be included", "what is included", "ky ky rahega", "kya kya rahega", "isme kya rahega", "andar kya rahega")):
+            return {"ok": True, "reply": "Desktop setup mein typically CPU/system unit, motherboard, RAM, storage (SSD/HDD), power supply, cabinet, keyboard aur mouse hote hain. Monitor include karna hai ya sirf desktop CPU, ye confirm karna hoga. Exact brand/model aur specification quotation ke time DTS confirm karega.", "model": "dts-local-fallback", "provider": "local"}
+
+        if qty_desktop or has_any(text, ("desktop", "pc", "computer")):
+            return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted. CPU-only chahiye ya monitor + keyboard + mouse ke saath complete setup? Agar specification hai to processor/RAM/storage bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    # Mixed requirements: keep both categories instead of choosing the first/last one.
+    category_hits = []
+    if has_any(text, ("electrical", "panel", "power distribution")): category_hits.append("electrical")
+    if has_any(text, ("fire safety", "fire alarm", "fire extinguisher", "suppression")): category_hits.append("fire")
+    if len(category_hits) >= 2:
+        return {"ok": True, "reply": "Dono requirements noted — electrical + fire safety. Electrical ke liye panel/load details bata dijiye. Fire safety ke liye equipment type (extinguisher, alarm/detector, suppression, etc.) aur quantity bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if electrical_context:
+        if has_any(text, ("240 watt", "240w", "240 kw", "240kw")):
+            return {"ok": True, "reply": "240 W ya 240 kW mein se exact load confirm kar dijiye. Saath mein panel ka type/scope bhi bata dijiye, phir DTS exact specification quotation ke liye prepare karega.", "model": "dts-local-fallback", "provider": "local"}
+        if has_any(text, ("electrical", "panel", "power distribution")):
+            return {"ok": True, "reply": "Electrical panel requirement noted. Approximate load/capacity, panel type/scope, aur new installation ya modification bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if fire_context:
+        if has_any(text, ("fire", "safety", "alarm", "extinguisher", "suppression", "equipment")):
+            return {"ok": True, "reply": "Fire safety requirement noted. Equipment type bata dijiye — extinguisher, fire alarm/detector, suppression ya complete system? Quantity bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if network_context and has_any(text, ("network", "lan", "wifi", "switch", "fiber", "firewall")):
+        return {"ok": True, "reply": "Networking requirement noted. Approx. users/devices, LAN/Wi-Fi/fiber scope, aur new setup ya existing upgrade bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if access_context and has_any(text, ("access", "biometric", "rfid", "door")):
+        return {"ok": True, "reply": "Access-control requirement noted. Number of doors, approximate users, aur biometric/RFID/card requirement bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    # Direct known-category detection for a new message.
+    if has_any(text, ("cctv", "camera", "surveillance", "nvr", "dvr", "ptz")):
+        count_match = re.search(r"\b(\d+)\s*(?:camera|cameras|cctv)\b", text)
+        count_text = f" {count_match.group(1)} cameras noted." if count_match else ""
+        return {"ok": True, "reply": ("CCTV requirement noted." + count_text + "\nIndoor, outdoor ya dono? Mobile/remote monitoring chahiye? New installation hai ya existing upgrade?"), "model": "dts-local-fallback", "provider": "local"}
+
+    if has_any(text, ("electrical", "panel", "power distribution")):
+        return {"ok": True, "reply": "Electrical requirement noted. Panel/work ka type, approximate load/capacity aur new installation ya modification bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if has_any(text, ("fire safety", "fire alarm", "fire extinguisher", "suppression", "safety equipment")):
+        return {"ok": True, "reply": "Fire safety requirement noted. Equipment type aur quantity bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if has_any(text, ("network", "lan", "wifi", "wi-fi", "switch", "firewall", "fiber")):
+        return {"ok": True, "reply": "Networking requirement noted. Approx. users/devices aur LAN/Wi-Fi/fiber scope bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if has_any(text, ("desktop", "pc", "computer")):
+        return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted. CPU-only chahiye ya complete setup (monitor + keyboard + mouse) bhi? Required processor/RAM/storage bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if has_any(text, ("server", "nas", "storage", "backup", "laptop", "printer", "monitor", "keyboard", "mouse", "ups")):
+        return {"ok": True, "reply": "IT requirement noted. Item, quantity, preferred brand/specification (if any), location aur required date bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    if has_any(text, ("access control", "biometric", "rfid", "door access")):
+        return {"ok": True, "reply": "Access-control requirement noted. Number of doors, approximate users aur biometric/RFID/card requirement bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    custom_terms = (
+        "drone", "robot", "projector", "biometric machine", "attendance machine",
+        "metal detector", "boom barrier", "turnstile", "video wall", "led wall",
+        "intercom", "pa system", "public address", "copier", "scanner",
+        "walkie talkie", "gps tracker", "air conditioner", "ac"
+    )
+    requirement_language = (
+        "need", "want", "require", "chahiye", "chiye", "mangta", "mangti",
+        "lena hai", "purchase", "buy", "price", "kitana", "kitna", "quotation"
+    )
+    if has_any(text, custom_terms) and has_any(text, requirement_language):
+        return {"ok": True, "reply": "Samajh gaya. Ye current catalogue mein regular item ke roop mein listed nahi hai, lekin DTS isko custom requirement ke roop mein check/source/implement kar sakta hai. Exact model aur availability DTS confirm karega.\n\nCUSTOM_HANDOFF", "model": "dts-local-fallback", "provider": "local"}
 
     opening = "Hello! 👋 " if is_first else ""
-    custom_terms = ("drone","robot","projector","biometric machine","attendance machine","metal detector","boom barrier","turnstile","video wall","led wall","intercom","pa system","public address","copier","scanner","walkie talkie","gps tracker","air conditioner","ac")
-    requirement_language = ("need","want","require","chahiye","chiye","mangta","mangti","lena hai","purchase","buy","price","kitana","kitna","quotation")
-    if any(term in text for term in custom_terms) and any(term in text for term in requirement_language):
-        opening = "Hello! 👋 " if is_first else ""
-        return {"ok": True, "reply": opening + "Samajh gaya. Ye requirement current catalogue mein regular item ke roop mein listed nahi hai, lekin DTS isko custom requirement ke roop mein check kar sakta hai. Exact model/availability DTS confirm karega.\n\nCUSTOM_HANDOFF", "model": "dts-local-fallback", "provider": "local"}
-
-    return {"ok": True, "reply": opening + "Please tell me what you need in your own words. I’ll ask only the relevant details needed for the DTS enquiry.", "model": "dts-local-fallback", "provider": "local"}
+    return {"ok": True, "reply": opening + "Aap requirement naturally bata sakte hain — Hindi, Roman Hindi ya English mein. Main uske hisaab se sirf relevant details poochunga.", "model": "dts-local-fallback", "provider": "local"}
 
 def call_free_ai(safe_messages, language):
     hf_token = os.environ.get("HF_TOKEN", "").strip()
