@@ -293,7 +293,7 @@ def local_dts_fallback(safe_messages, language):
             "cctv": "cctv"
         }
         for wrong, right in typo_map.items():
-            value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
+            value = re.sub(r"\b" + re.escape(wrong) + r"\b", right, value)
         # Fuzzy spelling correction for intent detection only. Original customer text is preserved.
         explicit_typos = {
             "wnat":"want","wnt":"want","ful":"full","complet":"complete",
@@ -303,7 +303,7 @@ def local_dts_fallback(safe_messages, language):
             "chaheye":"chahiye"
         }
         for wrong, right in explicit_typos.items():
-            value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
+            value = re.sub(r"\b" + re.escape(wrong) + r"\b", right, value)
         vocabulary = ["want","full","complete","desktop","hdd","storage","processor","monitor",
                       "keyboard","camera","electrical","panel","safety","equipment","network",
                       "wireless","projector","biometric","quotation","chahiye","need","require"]
@@ -312,7 +312,7 @@ def local_dts_fallback(safe_messages, language):
                 continue
             match = get_close_matches(token, vocabulary, n=1, cutoff=0.84)
             if match:
-                value = re.sub(r"\\b" + re.escape(token) + r"\\b", match[0], value)
+                value = re.sub(r"\b" + re.escape(token) + r"\b", match[0], value)
         return value
 
     def has_any(value, terms):
@@ -363,53 +363,110 @@ def local_dts_fallback(safe_messages, language):
     network_context = has_any(history, ("network", "lan", "wifi", "wi-fi", "switch", "firewall", "fiber"))
     access_context = has_any(history, ("access control", "biometric", "rfid", "door access"))
 
-    # Very short answers such as "new" inherit the active requirement.
-    if text.strip() in {"new", "new one", "new setup", "new installation"}:
-        active = []
-        if cctv_context: active.append("CCTV/NVR-DVR")
-        if desktop_context:
-        complete_setup_known = has_any(history, ("full setup", "complete setup", "full desktop setup", "complete desktop setup", "monitor + keyboard + mouse", "monitor keyboard mouse"))
-        cpu_only_known = has_any(history, ("cpu only", "cpu-only", "only cpu", "sirf cpu"))
-        hdd_known = has_any(history, ("hdd", "hard disk", "harddrive"))
-        ssd_known = has_any(history, ("ssd", "solid state"))
-        ram_known = bool(re.search(r"\b\d+\s*(?:gb|tb)?\s*ram\b", history))
-        processor_known = has_any(history, ("processor", "core i3", "core i5", "core i7", "ryzen"))
-        storage_known = hdd_known or ssd_known or has_any(history, ("storage",))
+    # Desktop/IT Asset state is conversation-aware. Once the customer confirms a
+    # setup choice, never ask the same setup question again.
+    desktop_numbers = re.findall(r"\\b(\\d+)\\s*(?:desktop|pc|computer)s?\\b", history)
+    qty_desktop = desktop_numbers[-1] if desktop_numbers else ""
 
-        if has_any(text, ("what will be included", "what is included", "ky ky rahega", "kya kya rahega", "isme kya rahega", "andar kya rahega")):
+    complete_setup_known = has_any(history, (
+        "full setup", "complete setup", "full desktop setup", "complete desktop setup",
+        "monitor + keyboard + mouse", "monitor keyboard mouse", "monitor keyboard and mouse"
+    ))
+    cpu_only_known = has_any(history, ("cpu only", "cpu-only", "only cpu", "sirf cpu"))
+    hdd_known = has_any(history, ("hdd", "hard disk", "harddrive"))
+    ssd_known = has_any(history, ("ssd", "solid state"))
+    ram_known = bool(re.search(r"\\b(?:\\d+\\s*)?(?:gb|tb)?\\s*ram\\b", history))
+    processor_known = has_any(history, (
+        "processor", "core i3", "core i5", "core i7", "core i9",
+        "ryzen 3", "ryzen 5", "ryzen 7", "ryzen 9"
+    ))
+    storage_known = hdd_known or ssd_known or has_any(history, ("storage", "hard disk", "solid state"))
+
+    desktop_setup_words = (
+        "full setup", "complete setup", "full desktop setup", "complete desktop setup",
+        "monitor + keyboard + mouse", "monitor keyboard mouse", "monitor keyboard and mouse"
+    )
+    desktop_cpu_words = ("cpu only", "cpu-only", "only cpu", "sirf cpu")
+    desktop_storage_words = ("hdd", "hard disk", "harddrive", "ssd", "storage")
+    desktop_processor_words = (
+        "processor", "core i3", "core i5", "core i7", "core i9",
+        "ryzen 3", "ryzen 5", "ryzen 7", "ryzen 9"
+    )
+
+    if desktop_context:
+        # Answer component/inclusion questions without resetting state.
+        if has_any(text, (
+            "what will be included", "what is included", "ky ky rahega",
+            "kya kya rahega", "isme kya rahega", "andar kya rahega"
+        )):
             return {"ok": True, "reply": "Complete desktop setup mein typically CPU/system unit, motherboard, RAM, storage (SSD/HDD), power supply, cabinet, monitor, keyboard aur mouse include kiye ja sakte hain. Exact brand/model/specification DTS quotation ke time confirm karega.", "model": "dts-local-fallback", "provider": "local"}
 
-        if complete_setup_known or cpu_only_known:
-            parts = []
-            if complete_setup_known: parts.append("complete setup")
-            elif cpu_only_known: parts.append("CPU-only setup")
-            if hdd_known: parts.append("HDD")
-            if ssd_known: parts.append("SSD")
-            if ram_known: parts.append("RAM")
-            if processor_known: parts.append("processor")
+        # Capture setup choice from the CURRENT message.
+        if has_any(text, desktop_setup_words):
+            complete_setup_known = True
+        if has_any(text, desktop_cpu_words):
+            cpu_only_known = True
 
-            if text.strip() in ("nahi", "no", "na", "nope"):
-                return {"ok": True, "reply": f"Okay. {qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} mein {', '.join(parts)} noted hain. Agar processor/RAM/storage ki specific preference nahi hai, DTS suitable option suggest kar sakta hai.", "model": "dts-local-fallback", "provider": "local"}
-
-            if has_any(text, ("hdd", "hard disk", "harddrive", "ssd", "storage", "ram", "processor", "core i3", "core i5", "core i7", "ryzen")):
-                missing = []
-                if not processor_known: missing.append("processor preference")
-                if not ram_known: missing.append("RAM")
-                if not storage_known: missing.append("storage/HDD/SSD")
-                if missing:
-                    return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted with {', '.join(parts)}. Please share {', '.join(missing[:2])}.", "model": "dts-local-fallback", "provider": "local"}
-                return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted: {', '.join(parts)}. Agar ye details final hain to customer name, site/location aur WhatsApp/phone number share kar dijiye.", "model": "dts-local-fallback", "provider": "local"}
-
+        # "nahi/no" must never erase a setup choice already confirmed.
+        if text.strip() in ("nahi", "no", "na", "nope"):
             if complete_setup_known:
                 missing = []
                 if not processor_known: missing.append("processor preference")
                 if not ram_known: missing.append("RAM")
                 if not storage_known: missing.append("HDD/SSD or storage preference")
+                return {"ok": True, "reply": f"Okay, complete setup confirmed for {qty_desktop or 'the'} desktop(s). No problem. Please share {', '.join(missing[:2])}. If you don't have a specific preference, just say 'no preference'.", "model": "dts-local-fallback", "provider": "local"}
+            if cpu_only_known:
+                return {"ok": True, "reply": f"Okay, CPU-only setup noted for {qty_desktop or 'the'} desktop(s). Please share processor, RAM and storage preference.", "model": "dts-local-fallback", "provider": "local"}
+
+        # Capture HDD/SSD/storage/processor/RAM information from a follow-up.
+        if has_any(text, desktop_storage_words) or has_any(text, desktop_processor_words) or has_any(text, ("ram", "memory")):
+            missing = []
+            if not processor_known: missing.append("processor preference")
+            if not ram_known: missing.append("RAM")
+            if not storage_known: missing.append("HDD/SSD or storage preference")
+
+            # Current message may itself provide one of the missing details.
+            current_storage = has_any(text, desktop_storage_words)
+            current_processor = has_any(text, desktop_processor_words)
+            current_ram = has_any(text, ("ram", "memory"))
+            if current_storage:
+                storage_known = True
+                if not processor_known: missing = [x for x in missing if x != "processor preference"]
+                if not ram_known: missing = [x for x in missing if x != "RAM"]
+            if current_processor:
+                processor_known = True
+                missing = [x for x in missing if x != "processor preference"]
+            if current_ram:
+                ram_known = True
+                missing = [x for x in missing if x != "RAM"]
+
+            parts = []
+            if complete_setup_known: parts.append("complete setup")
+            elif cpu_only_known: parts.append("CPU-only setup")
+            if hdd_known or current_storage and has_any(text, ("hdd", "hard disk", "harddrive")): parts.append("HDD")
+            if ssd_known or current_storage and has_any(text, ("ssd", "solid state")): parts.append("SSD")
+            if ram_known or current_ram: parts.append("RAM")
+            if processor_known or current_processor: parts.append("processor")
+
+            if missing:
+                return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted with {', '.join(parts)}. Please share {', '.join(missing[:2])}.", "model": "dts-local-fallback", "provider": "local"}
+            return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted: {', '.join(parts)}. Please share customer name, site/location and WhatsApp/phone number.", "model": "dts-local-fallback", "provider": "local"}
+
+        # If setup was already confirmed, never repeat the setup question.
+        if complete_setup_known:
+            missing = []
+            if not processor_known: missing.append("processor preference")
+            if not ram_known: missing.append("RAM")
+            if not storage_known: missing.append("HDD/SSD or storage preference")
+            if missing:
                 return {"ok": True, "reply": f"Complete setup confirmed for {qty_desktop or 'the'} desktop(s). Please share {', '.join(missing[:2])}.", "model": "dts-local-fallback", "provider": "local"}
 
-        if qty_desktop or has_any(text, ("desktop", "pc", "computer")):
-            return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted. CPU-only chahiye ya monitor + keyboard + mouse ke saath complete setup? Agar specification hai to processor/RAM/storage bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+        if cpu_only_known:
+            return {"ok": True, "reply": f"CPU-only setup confirmed for {qty_desktop or 'the'} desktop(s). Please share processor, RAM and storage preference.", "model": "dts-local-fallback", "provider": "local"}
 
+        # First desktop requirement: capture quantity and ask setup choice once.
+        if qty_desktop or has_any(text, ("desktop", "pc", "computer")):
+            return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted. CPU-only chahiye ya monitor + keyboard + mouse ke saath complete setup?", "model": "dts-local-fallback", "provider": "local"}
 
     # Mixed requirements: keep both categories instead of choosing the first/last one.
     category_hits = []
@@ -474,7 +531,19 @@ def local_dts_fallback(safe_messages, language):
     opening = "Hello! 👋 " if is_first else ""
     return {"ok": True, "reply": opening + "Aap requirement naturally bata sakte hain — Hindi, Roman Hindi ya English mein. Main uske hisaab se sirf relevant details poochunga.", "model": "dts-local-fallback", "provider": "local"}
 
+def should_use_deterministic_desktop_flow(safe_messages):
+    user_messages = [m.get("content", "").strip() for m in safe_messages if m.get("role") == "user" and m.get("content")]
+    if not user_messages:
+        return False
+    joined = " ".join(user_messages).lower()
+    desktop_terms = ("desktop", "dekstop", "deskop", "destop", "pc", "computer")
+    followup_terms = ("full setup", "complete setup", "chiye", "chahiye", "hdd", "hard disk", "ssd", "ram", "processor", "nahi", "no")
+    return any(term in joined for term in desktop_terms) and (len(user_messages) > 1 or any(term in joined for term in followup_terms))
+
 def call_free_ai(safe_messages, language):
+    if should_use_deterministic_desktop_flow(safe_messages):
+        return local_dts_fallback(safe_messages, language)
+
     hf_token = os.environ.get("HF_TOKEN", "").strip()
     if not hf_token:
         return local_dts_fallback(safe_messages, language)
