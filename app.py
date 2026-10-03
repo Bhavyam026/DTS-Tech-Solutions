@@ -120,6 +120,13 @@ ADAPTIVE ENQUIRY FLOW:
 - If customer is just asking a question, answer it; do not prematurely start full enquiry collection.
 - If customer is unsure, guide them with practical options and clearly state when a site survey is useful.
 
+CUSTOM / UNLISTED REQUIREMENTS:
+- If the customer asks for a product, equipment or service that is not clearly one of the known catalogue products/services, do not end the conversation or simply say unavailable.
+- Treat it as a CUSTOM REQUIREMENT. Say DTS can check/source/implement it and exact model/availability will be confirmed by DTS.
+- Ask only minimum useful details, then offer direct DTS contact.
+- For a clearly custom/unlisted request, include CUSTOM_HANDOFF once in the reply.
+- Do not use CUSTOM_HANDOFF for a normal known catalogue item or normal DTS service.
+
 SALES HANDOFF:
 - When enough information is collected for a useful sales handoff, collect customer name, company/site, location and reachable phone/WhatsApp if not already provided.
 - Do not repeatedly ask for information already given.
@@ -307,6 +314,12 @@ def local_dts_fallback(safe_messages, language):
         return {"ok": True, "reply": f"{opening}\n\nPlease share the number of doors, approximate users and whether you need biometric attendance, card/RFID or another access method.", "model": "dts-local-fallback", "provider": "local"}
 
     opening = "Hello! 👋 " if is_first else ""
+    custom_terms = ("drone","robot","projector","biometric machine","attendance machine","metal detector","boom barrier","turnstile","video wall","led wall","intercom","pa system","public address","copier","scanner","walkie talkie","gps tracker","air conditioner","ac")
+    requirement_language = ("need","want","require","chahiye","chiye","mangta","mangti","lena hai","purchase","buy","price","kitana","kitna","quotation")
+    if any(term in text for term in custom_terms) and any(term in text for term in requirement_language):
+        opening = "Hello! 👋 " if is_first else ""
+        return {"ok": True, "reply": opening + "Samajh gaya. Ye requirement current catalogue mein regular item ke roop mein listed nahi hai, lekin DTS isko custom requirement ke roop mein check kar sakta hai. Exact model/availability DTS confirm karega.\n\nCUSTOM_HANDOFF", "model": "dts-local-fallback", "provider": "local"}
+
     return {"ok": True, "reply": opening + "Please tell me what you need in your own words. I’ll ask only the relevant details needed for the DTS enquiry.", "model": "dts-local-fallback", "provider": "local"}
 
 def call_free_ai(safe_messages, language):
