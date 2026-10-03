@@ -412,7 +412,20 @@ def local_dts_fallback(safe_messages, language):
         "ryzen 3", "ryzen 5", "ryzen 7", "ryzen 9"
     )
 
-    if desktop_context:
+    # A new explicit category in the CURRENT message must override an older desktop
+    # context. This prevents a previous desktop enquiry from trapping the conversation
+    # in the desktop processor/RAM flow when the customer switches to CCTV, networking,
+    # electrical, fire, access control or a custom product.
+    current_non_desktop_category = has_any(text, (
+        "cctv", "camera", "surveillance", "nvr", "dvr", "ptz",
+        "network", "lan", "wifi", "wi-fi", "switch", "firewall", "fiber", "cat6",
+        "electrical", "panel", "power distribution",
+        "fire safety", "fire alarm", "fire extinguisher", "suppression", "safety equipment",
+        "access control", "biometric", "rfid", "door access",
+        "projector"
+    ))
+
+    if desktop_context and not current_non_desktop_category:
         # Answer component/inclusion questions without resetting state.
         if has_any(text, (
             "what will be included", "what is included", "ky ky rahega",
