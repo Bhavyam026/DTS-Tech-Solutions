@@ -45,6 +45,7 @@ KNOWN CATALOG PRODUCTS:
 - HOC CAT6 Outdoor Shielded Gel-Filled Cable 305m
 - HOC High Speed HDMI 2.0 Cable 3m
 - DTS Fire Safety Equipment & Maintenance Services
+- Prizor Full HD Monitor range: PRIZ-17FHD-M, PRIZ-19FHD-M, PRIZ-24FHD-FL, PRIZ-32FHD-FL; official Prizor material lists Full HD 1920x1080, 8-bit image processing, 3D noise reduction, Dark Mode and 2-year warranty.
 
 NEW IT INFRASTRUCTURE CATALOGUE:
 - DTS Server & Storage Solutions
@@ -62,6 +63,8 @@ NEW IT INFRASTRUCTURE CATALOGUE:
 
 IMPORTANT:
 DTS is a solutions provider/integrator. Do not claim DTS manufactures third-party hardware.
+DTS has authorization/dealership documentation for PRIZOR and HOC; when relevant, the assistant may state that DTS is an authorized/dealership partner for those brands.
+PRIZOR official product information may be used for PRIZOR product questions when the DTS catalogue does not contain the requested detail. HOC official product information may be used for HOC product questions when the DTS catalogue does not contain the requested detail.
 Do not invent exact price, stock, model number, warranty duration, return policy or technical specification.
 If a customer asks for a detail that is NOT explicitly present in this knowledge, say it is not listed in the current catalogue and DTS can confirm the exact detail/model during quotation. Never guess.
 When brand is not specified, describe it as a DTS-supplied/implemented solution and confirm exact brand/model during quotation.
@@ -356,6 +359,22 @@ def local_dts_fallback(safe_messages, language):
         return {"ok": True, "reply": "DTS mein mainly ye solutions/products milte hain:\n• CCTV & Surveillance — IP cameras, PTZ, NVR/DVR, PoE switches, video door phone\n• Networking — switches, Wi-Fi, firewall, fiber, CAT6/CAT6A cabling\n• IT Assets & Infrastructure — desktop, laptop, monitor, printer, server, NAS, UPS, racks\n• Electrical — power distribution panels, electrical work\n• Fire & Safety — fire alarm, detection, suppression, extinguishers & maintenance\n• Access Control — biometric, RFID/card, door access\n• Installation, Configuration, Troubleshooting & AMC\nAap jis product ka naam bataoge, main usi ke options/requirement details bata dunga.", "model": "dts-local-fallback", "provider": "local"}
 
     # Carry the last meaningful category into short follow-up messages.
+    # Product-information mode: answer direct product/brand/specification questions before enquiry collection.
+    product_question = has_any(text, ("hai", "he", "have", "available", "konse", "kaunse", "which", "what", "specification", "specifications", "specs", "model", "brand", "warranty", "detail", "details", "size", "inch", "resolution"))
+    asks_about_monitor = has_any(text, ("monitor", "display"))
+    asks_prizor = has_any(text, ("prizor", "prizor ka", "prizor ke"))
+    asks_hoc = has_any(text, ("hoc", "cat6", "cable", "cables"))
+
+    if asks_about_monitor and (product_question or asks_prizor):
+        if asks_prizor:
+            return {"ok": True, "reply": "Haan. DTS PRIZOR products offer karta hai aur PRIZOR monitor range available hai. Official PRIZOR information ke according Full HD 1920×1080 monitors mein PRIZ-17FHD-M, PRIZ-19FHD-M, PRIZ-24FHD-FL aur PRIZ-32FHD-FL models listed hain. Key specifications: Full HD 1920×1080, 8-bit image processing, 3D noise reduction, Dark Mode aur 2-year manufacturer warranty. Exact model/availability DTS se confirm ki ja sakti hai. Aapko kitne monitors aur kaunsa size chahiye?", "model": "dts-product-knowledge", "provider": "local"}
+        return {"ok": True, "reply": "DTS catalogue mein DTS Business Monitor & Display solution listed hai. Brand: DTS Solution; size: requirement-based; supply: DTS. Agar aap PRIZOR monitor specifically pooch rahe hain, PRIZOR ki official product range mein Full HD monitors bhi listed hain. Aap brand aur size bata dein, main relevant option identify karunga.", "model": "dts-product-knowledge", "provider": "local"}
+
+    if asks_hoc and product_question:
+        if has_any(text, ("cat6", "lan", "networking")):
+            return {"ok": True, "reply": "Haan. DTS HOC networking products offer karta hai. Current DTS catalogue mein HOC CAT6 Pure Copper Networking Cable 305m aur HOC CAT6 Outdoor Shielded Gel-Filled Cable 305m listed hain. Aap indoor ya outdoor cable chahiye aur quantity/length kitni chahiye?", "model": "dts-product-knowledge", "provider": "local"}
+        return {"ok": True, "reply": "Haan. DTS catalogue mein HOC CCTV copper cable, CAT6 networking cable, coaxial cable aur HDMI cable products listed hain. Aap HOC ka kaunsa product/model pooch rahe hain?", "model": "dts-product-knowledge", "provider": "local"}
+
     cctv_context = has_any(history, ("cctv", "camera", "nvr", "dvr", "ptz", "surveillance"))
     desktop_context = has_any(history, ("desktop", "pc", "computer"))
     electrical_context = has_any(history, ("electrical", "panel", "power distribution"))
