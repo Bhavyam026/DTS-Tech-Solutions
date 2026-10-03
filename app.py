@@ -3,6 +3,7 @@ import requests
 from flask_cors import CORS
 import os
 import re
+from difflib import get_close_matches
 
 app = Flask(__name__)
 CORS(app)
@@ -292,7 +293,29 @@ def local_dts_fallback(safe_messages, language):
             "cctv": "cctv"
         }
         for wrong, right in typo_map.items():
-            value = re.sub(r"\b" + re.escape(wrong) + r"\b", right, value)
+            value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
+
+        # Context-friendly spelling correction for common customer typos.
+        explicit_typos = {
+            "wnat": "want", "wnt": "want", "watn": "want",
+            "ful": "full", "fll": "full",
+            "complet": "complete", "compelete": "complete", "complate": "complete",
+            "hed": "hdd", "hddr": "hdd", "hddd": "hdd",
+            "ramm": "ram", "storag": "storage", "storadge": "storage",
+            "prossesor": "processor", "procesor": "processor", "proceser": "processor",
+            "moniter": "monitor", "keybord": "keyboard",
+            "chye": "chahiye", "chiye": "chahiye", "chaheye": "chahiye"
+        }
+        for wrong, right in explicit_typos.items():
+            value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
+
+        vocabulary = ["want", "full", "complete", "desktop", "hdd", "storage", "processor", "monitor", "keyboard", "camera", "electrical", "panel", "safety", "equipment", "network", "wireless", "projector", "biometric", "quotation", "chahiye", "need", "require"]
+        for token in re.findall(r"[a-z0-9]+", value):
+            if len(token) < 4 or token in vocabulary:
+                continue
+            match = get_close_matches(token, vocabulary, n=1, cutoff=0.82)
+            if match:
+                value = re.sub(r"\\b" + re.escape(token) + r"\\b", match[0], value)
         return value
 
     def has_any(value, terms):
@@ -347,107 +370,48 @@ def local_dts_fallback(safe_messages, language):
     if text.strip() in {"new", "new one", "new setup", "new installation"}:
         active = []
         if cctv_context: active.append("CCTV/NVR-DVR")
-        if desktop_context: active.append("Desktop/IT")
-        if electrical_context: active.append("Electrical")
-        if fire_context: active.append("Fire & Safety")
-        if network_context: active.append("Networking")
-        if access_context: active.append("Access Control")
-        if active:
-            return {"ok": True, "reply": "New installation noted for " + ", ".join(active) + ". Ab jo details missing hain wahi complete karte hain. CCTV/NVR-DVR ho to camera/NVR-DVR quantity aur site type; electrical ho to panel type/load; access control ho to doors/users; AMC ho to existing system aur site details bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
-    # Extract basic enquiry details from the conversation.
-    qty_cctv = latest_value([r"\b(\d+)\s*(?:camera|cameras|camra)\b", r"\b(\d+)\s*(?:cctv)\b"])
-    qty_desktop = latest_value([r"\b(\d+)\s*(?:desktop|desktops|pc|pcs|computer|computers)\b"])
-    qty_fire = latest_value([r"\b(\d+)\s*(?:fire\s+)?(?:safety\s+)?equipment"])
-    qty_panel = latest_value([r"\b(\d+)\s*(?:electrical\s+)?panels?\b"])
-
-    # Short language/product follow-ups must not fall into the generic fallback.
-    if text.strip() in {"hindi", "hindi?", "hindi language", "hindi language?"}:
-        return {"ok": True, "reply": "Haan, Hindi supported hai. Aap Hindi ya Roman Hindi mein requirement bata sakte hain. Aapko DTS mein kya chahiye?", "model": "dts-local-fallback", "provider": "local"}
-    if text.strip() in {"english", "english?", "english language", "english language?"}:
-        return {"ok": True, "reply": "Yes, English supported hai. Aap English mein requirement bata sakte hain. Aapko DTS mein kya chahiye?", "model": "dts-local-fallback", "provider": "local"}
-
-    # Detect multiple requested products/services in one customer message.
-    requested_categories = []
-    if has_any(text, ("nvr", "dvr", "cctv", "camera", "ptz")): requested_categories.append("CCTV / NVR-DVR")
-    if has_any(text, ("nas", "server", "storage", "backup", "desktop", "laptop", "printer")): requested_categories.append("IT / NAS")
-    if has_any(text, ("electrical", "panel", "power distribution")): requested_categories.append("Electrical")
-    if has_any(text, ("fire safety", "fire alarm", "fire extinguisher", "suppression")): requested_categories.append("Fire & Safety")
-    if has_any(text, ("biometric", "access control", "rfid", "door access")): requested_categories.append("Access Control")
-    if has_any(text, ("amc", "annual maintenance", "maintenance contract")): requested_categories.append("AMC")
-    if len(requested_categories) >= 2:
-        return {"ok": True, "reply": "Theek hai, maine ye requirements note kar li hain: " + ", ".join(requested_categories) + ". Ab hum ek-ek karke required details complete karte hain. Aap jis item se start karna chahte hain uska quantity/type bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
-    # Confirmation should finalize a collected enquiry only when customer/contact details are present.
-    confirm = text.strip() in {"yes", "yes please", "haan", "ha", "haa", "ok", "okay", "confirm", "confirmed", "sahi hai", "theek hai", "thik hai", "done"}
-    if confirm and any((cctv_context, desktop_context, electrical_context, fire_context, network_context, access_context)):
-        name = latest_value([r"(?:my name is|name is|naam hai|mera naam)\s*[:\-]?\s*(.+)"])
-        phone = latest_value([r"(?:phone|mobile|number|whatsapp)\s*(?:number|no)?\s*(?:is|hai|:)?\s*(\+?\d[\d\s\-]{8,})"])
-        location = latest_value([r"(?:location|site location|place)\s*(?:is|hai|:)?\s*([A-Za-z][A-Za-z\s,\-]{2,})"])
-        company = latest_value([r"(?:company|site|office|factory)\s*(?:name)?\s*(?:is|hai|:)?\s*([A-Za-z][A-Za-z0-9\s&,\-]{2,})"])
-        missing = []
-        if not name: missing.append("your name")
-        if not phone: missing.append("reachable mobile/WhatsApp number")
-        if not location: missing.append("site/location")
-        if missing:
-            return {"ok": True, "reply": "Requirement details almost ready. Bas " + ", ".join(missing) + " share kar dijiye. Uske baad main enquiry summary bana kar DTS ko WhatsApp handoff ke liye process karunga.", "model": "dts-local-fallback", "provider": "local"}
-
-        requirement_parts = []
-        if cctv_context:
-            requirement_parts.append("CCTV requirement")
         if desktop_context:
-            requirement_parts.append("Desktop/PC requirement")
-        if electrical_context:
-            requirement_parts.append("Electrical requirement")
-        if fire_context:
-            requirement_parts.append("Fire & Safety requirement")
-        if network_context:
-            requirement_parts.append("Networking requirement")
-        if access_context:
-            requirement_parts.append("Access Control requirement")
+        complete_setup_known = has_any(history, (
+            "full setup", "full desktop setup", "complete setup", "complete desktop setup",
+            "monitor + keyboard + mouse", "monitor keyboard mouse"
+        ))
+        cpu_only_known = has_any(history, ("cpu only", "cpu-only", "only cpu", "sirf cpu"))
+        hdd_known = has_any(history, ("hdd", "hard disk", "harddrive"))
+        ssd_known = has_any(history, ("ssd", "solid state"))
+        ram_known = bool(re.search(r"\b\d+\s*(?:gb|tb)?\s*ram\b", history))
+        processor_known = has_any(history, ("processor", "core i3", "core i5", "core i7", "ryzen"))
+        storage_known = hdd_known or ssd_known or has_any(history, ("storage",))
 
-        summary = (
-            "ENQUIRY_SUMMARY\n"
-            f"Customer Name: {name}\n"
-            f"Customer WhatsApp/Phone: {phone}\n"
-            f"Company/Site: {company or 'Not provided'}\n"
-            f"Location: {location}\n"
-            "Site Type: Not provided\n"
-            f"Requirement: {', '.join(requirement_parts)}\n"
-            f"Product/Service: {', '.join(requirement_parts)}\n"
-            f"Quantity/Scale: {qty_cctv + (' CCTV cameras' if qty_cctv else '')}{qty_desktop + (' desktops' if qty_desktop else '')}{qty_panel + (' electrical panels' if qty_panel else '')}{qty_fire + (' fire safety equipment' if qty_fire else '') or 'Not provided'}\n"
-            "Existing System: Not provided\n"
-            "New Installation/Upgrade: Not provided\n"
-            "Mobile/Remote Monitoring: Not provided\n"
-            "Required Date: Not provided\n"
-            "Site Visit: Not provided\n"
-            "Special Requirements: Not provided\n"
-            "Next Action: DTS to review the enquiry and confirm exact model/availability/quotation.\n"
-            "END_SUMMARY\n\n"
-            "Thanks. I’ve prepared the enquiry summary for DTS. Once the WhatsApp handoff is accepted, DTS can continue with the quotation/details."
-        )
-        return {"ok": True, "reply": summary, "model": "dts-local-fallback", "provider": "local"}
-
-    # Follow-up answers should update the active requirement rather than reset.
-    if cctv_context:
-        if has_any(text, ("indoor", "outdoor", "dono", "both")):
-            indoor = "indoor" in text
-            outdoor = "outdoor" in text
-            monitoring_known = has_any(history, ("mobile", "remote", "monitoring", "phone par", "mobile viewing"))
-            upgrade_known = has_any(history, ("new installation", "new setup", "upgrade", "existing"))
-            details = "Indoor + outdoor dono noted." if indoor and outdoor else "Outdoor noted." if outdoor else "Indoor noted."
-            next_q = []
-            if not monitoring_known: next_q.append("Mobile/remote monitoring chahiye?")
-            if not upgrade_known: next_q.append("New installation hai ya existing system upgrade?")
-            if next_q:
-                return {"ok": True, "reply": f"{details} {next_q[0]}" + (f"\n{next_q[1]}" if len(next_q) > 1 else ""), "model": "dts-local-fallback", "provider": "local"}
-            return {"ok": True, "reply": f"{details} Ye details bhi noted hain. Agar enquiry final karni hai to 'confirm' bol dijiye.", "model": "dts-local-fallback", "provider": "local"}
-
-        if qty_cctv or has_any(text, ("cctv", "camera", "surveillance")):
-            count_text = f" {qty_cctv} cameras" if qty_cctv else " CCTV"
-            return {"ok": True, "reply": f"{count_text} ke liye DTS help karega. Indoor/outdoor coverage bata dijiye, aur mobile monitoring chahiye ya nahi. New installation hai ya existing upgrade?", "model": "dts-local-fallback", "provider": "local"}
-
-    if desktop_context:
         if has_any(text, ("what will be included", "what is included", "ky ky rahega", "kya kya rahega", "isme kya rahega", "andar kya rahega")):
-            return {"ok": True, "reply": "Desktop setup mein typically CPU/system unit, motherboard, RAM, storage (SSD/HDD), power supply, cabinet, keyboard aur mouse hote hain. Monitor include karna hai ya sirf desktop CPU, ye confirm karna hoga. Exact brand/model aur specification quotation ke time DTS confirm karega.", "model": "dts-local-fallback", "provider": "local"}
+            return {"ok": True, "reply": "Complete desktop setup mein typically CPU/system unit, motherboard, RAM, storage (SSD/HDD), power supply, cabinet, monitor, keyboard aur mouse include kiye ja sakte hain. Exact brand/model/specification DTS quotation ke time confirm karega.", "model": "dts-local-fallback", "provider": "local"}
+
+        if complete_setup_known or cpu_only_known:
+            parts = []
+            if complete_setup_known: parts.append("complete setup")
+            elif cpu_only_known: parts.append("CPU-only setup")
+            if hdd_known: parts.append("HDD")
+            if ssd_known: parts.append("SSD")
+            if ram_known: parts.append("RAM")
+            if processor_known: parts.append("processor")
+
+            if text.strip() in ("nahi", "no", "na", "nope"):
+                return {"ok": True, "reply": f"Okay. {qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} mein {', '.join(parts)} noted hain. Agar processor/RAM/storage ki specific preference nahi hai, DTS suitable option suggest kar sakta hai.", "model": "dts-local-fallback", "provider": "local"}
+
+            if has_any(text, ("hdd", "hard disk", "harddrive", "ssd", "storage", "ram", "processor", "core i3", "core i5", "core i7", "ryzen")):
+                next_missing = []
+                if not processor_known: next_missing.append("processor preference")
+                if not ram_known: next_missing.append("RAM")
+                if not storage_known: next_missing.append("storage/HDD/SSD")
+                if next_missing:
+                    return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted with {', '.join(parts)}. Please share {', '.join(next_missing[:2])}.", "model": "dts-local-fallback", "provider": "local"}
+                return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted: {', '.join(parts)}. Agar ye details final hain to customer name, site/location aur WhatsApp/phone number share kar dijiye for the enquiry summary.", "model": "dts-local-fallback", "provider": "local"}
+
+            if complete_setup_known:
+                next_missing = []
+                if not processor_known: next_missing.append("processor preference")
+                if not ram_known: next_missing.append("RAM")
+                if not storage_known: next_missing.append("HDD/SSD or storage preference")
+                return {"ok": True, "reply": f"Complete setup confirmed for {qty_desktop or 'the'} desktop(s). {('Next, please share ' + ', '.join(next_missing[:2]) + '.') if next_missing else 'The main specifications are noted.'}", "model": "dts-local-fallback", "provider": "local"}
 
         if qty_desktop or has_any(text, ("desktop", "pc", "computer")):
             return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted. CPU-only chahiye ya monitor + keyboard + mouse ke saath complete setup? Agar specification hai to processor/RAM/storage bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
