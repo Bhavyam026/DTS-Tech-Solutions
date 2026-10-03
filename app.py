@@ -283,7 +283,7 @@ def local_dts_fallback(safe_messages, language):
             "dekstop": "desktop", "deskop": "desktop", "destop": "desktop",
             "projctor": "projector", "projetor": "projector", "projecter": "projector",
             "biometic": "biometric", "biomatric": "biometric", "machne": "machine",
-            "netwrok": "network", "netwrk": "network",
+            "netwrok": "network", "netwrk": "network", "netwrokng": "network",
             "wirless": "wireless", "wifii": "wifi", "firealrm": "fire alarm",
             "extingusher": "extinguisher", "supression": "suppression",
             "quation": "quotation", "quotion": "quotation", "quotaton": "quotation",
@@ -468,27 +468,45 @@ def local_dts_fallback(safe_messages, language):
         if qty_desktop or has_any(text, ("desktop", "pc", "computer")):
             return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted. CPU-only chahiye ya monitor + keyboard + mouse ke saath complete setup?", "model": "dts-local-fallback", "provider": "local"}
 
-    # Mixed requirements: keep both categories instead of choosing the first/last one.
+    # Mixed requirements: keep multiple categories instead of choosing the first/last one.
     category_hits = []
+    if has_any(text, ("cctv", "camera", "surveillance", "nvr", "dvr", "ptz")): category_hits.append("cctv")
     if has_any(text, ("electrical", "panel", "power distribution")): category_hits.append("electrical")
-    if has_any(text, ("fire safety", "fire alarm", "fire extinguisher", "suppression")): category_hits.append("fire")
-    if len(category_hits) >= 2:
-        return {"ok": True, "reply": "Dono requirements noted — electrical + fire safety. Electrical ke liye panel/load details bata dijiye. Fire safety ke liye equipment type (extinguisher, alarm/detector, suppression, etc.) aur quantity bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+    if has_any(text, ("fire safety", "fire alarm", "fire extinguisher", "suppression", "safety equipment")): category_hits.append("fire")
+    if has_any(text, ("network", "lan", "wifi", "wi-fi", "switch", "firewall", "fiber", "cat6")): category_hits.append("network")
+    if has_any(text, ("access control", "biometric", "rfid", "door access")): category_hits.append("access")
+    if len(set(category_hits)) >= 2:
+        labels = []
+        if "cctv" in category_hits: labels.append("CCTV")
+        if "network" in category_hits: labels.append("Networking")
+        if "electrical" in category_hits: labels.append("Electrical")
+        if "fire" in category_hits: labels.append("Fire Safety")
+        if "access" in category_hits: labels.append("Access Control")
+        return {"ok": True, "reply": "Multiple requirements noted — " + " + ".join(labels) + ". Main har requirement ke relevant details ek-ek karke collect karunga. Pehle " + labels[0] + " ke liye quantity/scope aur site/location bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
+    # Continue the category already established in the conversation. This block
+    # deliberately runs before the desktop fallback so a later CCTV/network/fire/
+    # electrical message can never inherit the desktop template by mistake.
+    if cctv_context:
+        if has_any(text, ("indoor", "outdoor", "both", "mobile", "remote", "new installation", "upgrade", "retention", "camera", "cctv", "nvr", "dvr")):
+            count_match = re.search(r"\b(\d+)\s*(?:camera|cameras|cctv)\b", history)
+            count_text = f"{count_match.group(1)} cameras noted. " if count_match else ""
+            return {"ok": True, "reply": "CCTV requirement noted. " + count_text + "Please share any remaining detail: camera count/areas, indoor or outdoor, recording/retention, mobile monitoring, and new installation or upgrade.", "model": "dts-local-fallback", "provider": "local"}
+        if not is_first:
+            return {"ok": True, "reply": "CCTV requirement is noted. Please share camera quantity/areas, indoor or outdoor, recording/retention and mobile monitoring details.", "model": "dts-local-fallback", "provider": "local"}
 
     if electrical_context:
         if has_any(text, ("240 watt", "240w", "240 kw", "240kw")):
             return {"ok": True, "reply": "240 W ya 240 kW mein se exact load confirm kar dijiye. Saath mein panel ka type/scope bhi bata dijiye, phir DTS exact specification quotation ke liye prepare karega.", "model": "dts-local-fallback", "provider": "local"}
-        if has_any(text, ("electrical", "panel", "power distribution")):
-            return {"ok": True, "reply": "Electrical panel requirement noted. Approximate load/capacity, panel type/scope, aur new installation ya modification bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+        return {"ok": True, "reply": "Electrical requirement noted. Panel/work ka type, approximate load/capacity aur new installation ya modification bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
 
     if fire_context:
-        if has_any(text, ("fire", "safety", "alarm", "extinguisher", "suppression", "equipment")):
-            return {"ok": True, "reply": "Fire safety requirement noted. Equipment type bata dijiye — extinguisher, fire alarm/detector, suppression ya complete system? Quantity bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+        return {"ok": True, "reply": "Fire safety requirement noted. Equipment type bata dijiye — extinguisher, fire alarm/detector, suppression ya complete system? Quantity bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
 
-    if network_context and has_any(text, ("network", "lan", "wifi", "switch", "fiber", "firewall")):
-        return {"ok": True, "reply": "Networking requirement noted. Approx. users/devices, LAN/Wi-Fi/fiber scope, aur new setup ya existing upgrade bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+    if network_context:
+        return {"ok": True, "reply": "Networking requirement noted. Approx. users/devices, LAN/Wi-Fi/fiber scope, switches/firewall if required, aur new setup ya existing upgrade bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
 
-    if access_context and has_any(text, ("access", "biometric", "rfid", "door")):
+    if access_context:
         return {"ok": True, "reply": "Access-control requirement noted. Number of doors, approximate users, aur biometric/RFID/card requirement bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
 
     # Direct known-category detection for a new message.
@@ -531,17 +549,47 @@ def local_dts_fallback(safe_messages, language):
     opening = "Hello! 👋 " if is_first else ""
     return {"ok": True, "reply": opening + "Aap requirement naturally bata sakte hain — Hindi, Roman Hindi ya English mein. Main uske hisaab se sirf relevant details poochunga.", "model": "dts-local-fallback", "provider": "local"}
 
-def should_use_deterministic_desktop_flow(safe_messages):
+def should_use_deterministic_known_flow(safe_messages):
     user_messages = [m.get("content", "").strip() for m in safe_messages if m.get("role") == "user" and m.get("content")]
     if not user_messages:
         return False
     joined = " ".join(user_messages).lower()
-    desktop_terms = ("desktop", "dekstop", "deskop", "destop", "pc", "computer")
-    followup_terms = ("full setup", "complete setup", "chiye", "chahiye", "hdd", "hard disk", "ssd", "ram", "processor", "nahi", "no")
-    return any(term in joined for term in desktop_terms) and (len(user_messages) > 1 or any(term in joined for term in followup_terms))
+
+    # Normalize the whole conversation before deciding whether deterministic
+    # routing is needed. This prevents the hosted model from overriding clear
+    # DTS categories with the desktop template.
+    normalized_parts = []
+    for raw in user_messages:
+        value = raw.lower()
+        typo_map = {
+            "eletrical":"electrical","electrial":"electrical","electrcal":"electrical",
+            "elecrical":"electrical","elecical":"electrical","plane":"panel","panle":"panel",
+            "pannel":"panel","saftey":"safety","safty":"safety","equpment":"equipment",
+            "equipmnt":"equipment","equiment":"equipment","camra":"camera","cammera":"camera",
+            "cmera":"camera","netwrok":"network","netwrk":"network","netwrokng":"network",
+            "dekstop":"desktop","deskop":"desktop","destop":"desktop","wnat":"want",
+            "wnt":"want","ful":"full","complet":"complete","compelete":"complete",
+            "complate":"complete","hed":"hdd","hddr":"hdd","chiye":"chahiye",
+            "chye":"chahiye","chaheye":"chahiye"
+        }
+        for wrong, right in typo_map.items():
+            value = re.sub(r"\b" + re.escape(wrong) + r"\b", right, value)
+        normalized_parts.append(value)
+    normalized = " ".join(normalized_parts)
+
+    known_terms = (
+        "cctv", "camera", "nvr", "dvr", "ptz", "surveillance",
+        "network", "lan", "wifi", "wi-fi", "switch", "firewall", "fiber", "cat6",
+        "electrical", "panel", "power distribution",
+        "fire safety", "fire alarm", "fire extinguisher", "suppression",
+        "access control", "biometric", "rfid", "door access",
+        "desktop", "pc", "computer", "laptop", "printer", "monitor", "keyboard",
+        "mouse", "server", "nas", "storage", "backup", "ups"
+    )
+    return any(term in normalized for term in known_terms)
 
 def call_free_ai(safe_messages, language):
-    if should_use_deterministic_desktop_flow(safe_messages):
+    if should_use_deterministic_known_flow(safe_messages):
         return local_dts_fallback(safe_messages, language)
 
     hf_token = os.environ.get("HF_TOKEN", "").strip()
