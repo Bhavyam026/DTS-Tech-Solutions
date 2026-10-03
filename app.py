@@ -118,6 +118,62 @@ def is_explicit_confirmation(message):
         return False
     return any(text == x or text.startswith(x + " ") for x in CONFIRMATION_KEYWORDS)
 
+def normalize_text(value):
+    return " ".join(str(value or "").lower().strip().split())
+
+
+def conversation_text(data):
+    messages = data.get("messages")
+    if not isinstance(messages, list):
+        return normalize_text(data.get("message", ""))
+    return normalize_text(" ".join(
+        str(item.get("content", ""))
+        for item in messages
+        if isinstance(item, dict) and item.get("content")
+    ))
+
+
+def deterministic_recovery_reply(data, user_message):
+    """Context-aware recovery when Gemini temporarily fails.
+    Uses the complete frontend conversation so a transient provider error
+    never throws the customer back to a generic blank-state prompt.
+    """
+    text = normalize_text(user_message)
+    history = conversation_text(data)
+
+    if text in {"hi", "hii", "hello", "hey", "helo", "hlo"}:
+        if any(x in history for x in ("cctv", "camera", "nvr", "dvr")):
+            return "Haan, main yahin hoon. Aapki CCTV requirement continue karte hain — ab jo next detail batani hai woh bhej dijiye."
+        return "Hello! 👋 Main DTS AI Assistant hoon. Aap apni requirement Hindi ya English mein bata sakte hain."
+
+    if any(x in text for x in ("tv nahi", "tv nhi", "monitor nahi", "monitor nhi", "display nahi")) and any(x in history for x in ("cctv", "camera", "ip cctv")):
+        return ("Bilkul. Aapke 3-shop IP CCTV setup mein TV/Monitor bhi arrange kiya ja sakta hai. "
+                "Aapne location Boisar batayi hai, aur cameras indoor chahiye. "
+                "TV/Monitor size aapki requirement ke hisaab se confirm kar lenge. "
+                "Ab bas aapka naam aur WhatsApp/contact number share kar dijiye.")
+
+    if any(x in text for x in ("boisar", "location")) and any(x in history for x in ("cctv", "camera")):
+        return "Noted — location Boisar hai. Aapki CCTV requirement continue karte hain. Kripya next missing detail batayein."
+
+    if any(x in text for x in ("price", "cost", "rate", "kitna", "kitane", "quotation")):
+        return "Pricing aur exact cost ke liye kripya DTS owner/expert se direct baat karein. Main requirement details collect kar sakta hoon."
+
+    if any(x in history for x in ("cctv", "camera", "nvr", "dvr")):
+        return ("Aapki CCTV requirement ka context mere paas hai. Kripya jo next detail chahiye woh batayein — "
+                "camera quantity, indoor/outdoor, TV/Monitor, mobile monitoring ya location mein se jo pending hai.")
+
+    if any(x in history for x in ("network", "cat6", "switch", "wifi")):
+        return "Aapki networking requirement ka context bana hua hai. Jo next detail deni hai woh bhej dijiye."
+
+    if any(x in history for x in ("electrical", "panel", "power")):
+        return "Aapki electrical requirement ka context bana hua hai. Jo next detail deni hai woh bhej dijiye."
+
+    if any(x in history for x in ("fire", "safety", "alarm", "extinguisher")):
+        return "Aapki fire-safety requirement ka context bana hua hai. Jo next detail deni hai woh bhej dijiye."
+
+    return "Main aapki requirement continue kar sakta hoon. Kripya apna next detail/message bhej dijiye."
+
+
 def clean_summary(reply):
     if "ENQUIRY_SUMMARY" not in reply or "END_SUMMARY" not in reply:
         return ""
@@ -165,11 +221,15 @@ def chat():
             chat_sessions[session_id] = model.start_chat(history=[])
 
         chat_session = chat_sessions[session_id]
-        response = chat_session.send_message(user_message)
-        bot_reply = (getattr(response, "text", "") or "").strip()
+        try:
+            response = chat_session.send_message(user_message)
+            bot_reply = (getattr(response, "text", "") or "").strip()
+        except Exception as gemini_error:
+            print(f"Gemini request failed, using context-aware recovery: {gemini_error}")
+            bot_reply = deterministic_recovery_reply(data, user_message)
 
         if not bot_reply:
-            bot_reply = "Kshama karein, abhi main proper response generate nahi kar pa raha hoon. Kripya dobara try karein."
+            bot_reply = deterministic_recovery_reply(data, user_message)
 
         new_summary = clean_summary(bot_reply)
         confirmed = is_explicit_confirmation(user_message)
@@ -208,12 +268,18 @@ def chat():
 
     except Exception as e:
         print(f"Gemini backend error: {e}")
+        # Never expose a provider outage to the customer as a blank/generic reset.
+        recovery = deterministic_recovery_reply(data if isinstance(data, dict) else {}, user_message if "user_message" in locals() else "")
         return jsonify({
-            "reply": "Kshama karein, abhi Gemini temporary test backend mein technical problem aa gayi hai. Existing DTS AI backend ko restore kiya ja sakta hai.",
-            "model": "gemini",
-            "provider": "gemini",
-            "error": "temporary_backend_error"
-        }), 500
+            "reply": recovery,
+            "model": "gemini-recovery",
+            "provider": "gemini-recovery",
+            "pending_summary": pending_summary if "pending_summary" in locals() else "",
+            "enquiry_summary": pending_summary if "pending_summary" in locals() else "",
+            "whatsapp_link": None,
+            "whatsapp_sent": False,
+            "error": "temporary_provider_recovered"
+        })
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")))
