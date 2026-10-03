@@ -294,26 +294,23 @@ def local_dts_fallback(safe_messages, language):
         }
         for wrong, right in typo_map.items():
             value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
-
-        # Context-friendly spelling correction for common customer typos.
+        # Fuzzy spelling correction for intent detection only. Original customer text is preserved.
         explicit_typos = {
-            "wnat": "want", "wnt": "want", "watn": "want",
-            "ful": "full", "fll": "full",
-            "complet": "complete", "compelete": "complete", "complate": "complete",
-            "hed": "hdd", "hddr": "hdd", "hddd": "hdd",
-            "ramm": "ram", "storag": "storage", "storadge": "storage",
-            "prossesor": "processor", "procesor": "processor", "proceser": "processor",
-            "moniter": "monitor", "keybord": "keyboard",
-            "chye": "chahiye", "chiye": "chahiye", "chaheye": "chahiye"
+            "wnat":"want","wnt":"want","ful":"full","complet":"complete",
+            "compelete":"complete","complate":"complete","hed":"hdd","hddr":"hdd",
+            "ramm":"ram","storag":"storage","prossesor":"processor","procesor":"processor",
+            "moniter":"monitor","keybord":"keyboard","chye":"chahiye","chiye":"chahiye",
+            "chaheye":"chahiye"
         }
         for wrong, right in explicit_typos.items():
             value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
-
-        vocabulary = ["want", "full", "complete", "desktop", "hdd", "storage", "processor", "monitor", "keyboard", "camera", "electrical", "panel", "safety", "equipment", "network", "wireless", "projector", "biometric", "quotation", "chahiye", "need", "require"]
+        vocabulary = ["want","full","complete","desktop","hdd","storage","processor","monitor",
+                      "keyboard","camera","electrical","panel","safety","equipment","network",
+                      "wireless","projector","biometric","quotation","chahiye","need","require"]
         for token in re.findall(r"[a-z0-9]+", value):
             if len(token) < 4 or token in vocabulary:
                 continue
-            match = get_close_matches(token, vocabulary, n=1, cutoff=0.82)
+            match = get_close_matches(token, vocabulary, n=1, cutoff=0.84)
             if match:
                 value = re.sub(r"\\b" + re.escape(token) + r"\\b", match[0], value)
         return value
@@ -371,10 +368,7 @@ def local_dts_fallback(safe_messages, language):
         active = []
         if cctv_context: active.append("CCTV/NVR-DVR")
         if desktop_context:
-        complete_setup_known = has_any(history, (
-            "full setup", "full desktop setup", "complete setup", "complete desktop setup",
-            "monitor + keyboard + mouse", "monitor keyboard mouse"
-        ))
+        complete_setup_known = has_any(history, ("full setup", "complete setup", "full desktop setup", "complete desktop setup", "monitor + keyboard + mouse", "monitor keyboard mouse"))
         cpu_only_known = has_any(history, ("cpu only", "cpu-only", "only cpu", "sirf cpu"))
         hdd_known = has_any(history, ("hdd", "hard disk", "harddrive"))
         ssd_known = has_any(history, ("ssd", "solid state"))
@@ -398,23 +392,24 @@ def local_dts_fallback(safe_messages, language):
                 return {"ok": True, "reply": f"Okay. {qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} mein {', '.join(parts)} noted hain. Agar processor/RAM/storage ki specific preference nahi hai, DTS suitable option suggest kar sakta hai.", "model": "dts-local-fallback", "provider": "local"}
 
             if has_any(text, ("hdd", "hard disk", "harddrive", "ssd", "storage", "ram", "processor", "core i3", "core i5", "core i7", "ryzen")):
-                next_missing = []
-                if not processor_known: next_missing.append("processor preference")
-                if not ram_known: next_missing.append("RAM")
-                if not storage_known: next_missing.append("storage/HDD/SSD")
-                if next_missing:
-                    return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted with {', '.join(parts)}. Please share {', '.join(next_missing[:2])}.", "model": "dts-local-fallback", "provider": "local"}
-                return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted: {', '.join(parts)}. Agar ye details final hain to customer name, site/location aur WhatsApp/phone number share kar dijiye for the enquiry summary.", "model": "dts-local-fallback", "provider": "local"}
+                missing = []
+                if not processor_known: missing.append("processor preference")
+                if not ram_known: missing.append("RAM")
+                if not storage_known: missing.append("storage/HDD/SSD")
+                if missing:
+                    return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted with {', '.join(parts)}. Please share {', '.join(missing[:2])}.", "model": "dts-local-fallback", "provider": "local"}
+                return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted: {', '.join(parts)}. Agar ye details final hain to customer name, site/location aur WhatsApp/phone number share kar dijiye.", "model": "dts-local-fallback", "provider": "local"}
 
             if complete_setup_known:
-                next_missing = []
-                if not processor_known: next_missing.append("processor preference")
-                if not ram_known: next_missing.append("RAM")
-                if not storage_known: next_missing.append("HDD/SSD or storage preference")
-                return {"ok": True, "reply": f"Complete setup confirmed for {qty_desktop or 'the'} desktop(s). {('Next, please share ' + ', '.join(next_missing[:2]) + '.') if next_missing else 'The main specifications are noted.'}", "model": "dts-local-fallback", "provider": "local"}
+                missing = []
+                if not processor_known: missing.append("processor preference")
+                if not ram_known: missing.append("RAM")
+                if not storage_known: missing.append("HDD/SSD or storage preference")
+                return {"ok": True, "reply": f"Complete setup confirmed for {qty_desktop or 'the'} desktop(s). Please share {', '.join(missing[:2])}.", "model": "dts-local-fallback", "provider": "local"}
 
         if qty_desktop or has_any(text, ("desktop", "pc", "computer")):
             return {"ok": True, "reply": f"{qty_desktop + ' desktops' if qty_desktop else 'Desktop requirement'} noted. CPU-only chahiye ya monitor + keyboard + mouse ke saath complete setup? Agar specification hai to processor/RAM/storage bhi bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
+
 
     # Mixed requirements: keep both categories instead of choosing the first/last one.
     category_hits = []
