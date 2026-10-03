@@ -269,8 +269,34 @@ def local_dts_fallback(safe_messages, language):
     """Deterministic DTS fallback when the external AI provider is unavailable."""
     user_messages = [m["content"].strip() for m in safe_messages if m.get("role") == "user" and m.get("content")]
     current = user_messages[-1] if user_messages else ""
-    text = current.lower()
-    history = " ".join(user_messages).lower()
+    # Normalize common customer typing/spelling mistakes for intent detection only.
+    # The original customer message is kept unchanged for conversation context.
+    def normalize_customer_text(value):
+        value = value.lower()
+        typo_map = {
+            "eletrical": "electrical", "electrial": "electrical", "electrcal": "electrical",
+            "elecrical": "electrical", "electical": "electrical",
+            "plane": "panel", "panle": "panel", "pannel": "panel",
+            "saftey": "safety", "safty": "safety", "safte": "safety",
+            "equpment": "equipment", "equipmnt": "equipment", "equiment": "equipment",
+            "camra": "camera", "cammera": "camera", "cmera": "camera",
+            "dekstop": "desktop", "deskop": "desktop", "destop": "desktop",
+            "projctor": "projector", "projetor": "projector", "projecter": "projector",
+            "biometic": "biometric", "biomatric": "biometric", "machne": "machine",
+            "netwrok": "network", "netwrk": "network",
+            "wirless": "wireless", "wifii": "wifi", "firealrm": "fire alarm",
+            "extingusher": "extinguisher", "supression": "suppression",
+            "quation": "quotation", "quotion": "quotation", "quotaton": "quotation",
+            "monitr": "monitor", "prnter": "printer", "keybord": "keyboard",
+            "mous": "mouse", "laptp": "laptop", "servr": "server",
+            "storag": "storage", "upsystem": "ups"
+        }
+        for wrong, right in typo_map.items():
+            value = re.sub(r"\\b" + re.escape(wrong) + r"\\b", right, value)
+        return value
+
+    text = normalize_customer_text(current)
+    history = normalize_customer_text(" ".join(user_messages))
     is_first = len(user_messages) == 1
     greeting_only = text.strip() in {"hi","hello","hey","hii","hiii","namaste","good morning","good afternoon","good evening"}
 
