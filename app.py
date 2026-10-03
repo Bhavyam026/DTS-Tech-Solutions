@@ -778,6 +778,31 @@ def chat():
     if not safe_messages:
         return jsonify({"error": "No valid conversation messages supplied"}), 400
 
+    pending_summary = str(data.get("pending_summary", "") or "").strip()
+    current_user_text = safe_messages[-1]["content"].strip().lower()
+    confirmation_terms = {
+        "yes", "yes please", "haan", "ha", "haa", "ok", "okay", "confirm",
+        "confirmed", "sahi hai", "theek hai", "thik hai", "done", "send it",
+        "bhej do", "bhej dijiye", "send kar do", "send kardo", "send karo",
+        "whatsapp pe bhej do", "whatsapp par bhej do", "haan bhej do"
+    }
+    is_confirmation = current_user_text in confirmation_terms
+    if pending_summary and is_confirmation:
+        whatsapp_result = send_whatsapp_notification(pending_summary)
+        if whatsapp_result.get("sent"):
+            handoff_reply = "Yes. Requirement summary DTS ke WhatsApp par send kar di gayi hai. Ab DTS team enquiry review karke aage confirm karegi."
+        else:
+            handoff_reply = "Requirement summary ready hai, lekin DTS WhatsApp par automatic send nahi ho paya. Aap neeche diye gaye DTS contact option se summary directly WhatsApp kar sakte hain."
+        return jsonify({
+            "reply": handoff_reply,
+            "model": "dts-enquiry-handoff",
+            "provider": "backend",
+            "whatsapp": whatsapp_result,
+            "enquiry_summary": True,
+            "whatsapp_sent": bool(whatsapp_result.get("sent")),
+            "pending_summary": "" if whatsapp_result.get("sent") else pending_summary
+        })
+
     ai_result = call_free_ai(safe_messages, language)
     if not ai_result.get("ok"):
         return jsonify({
@@ -803,20 +828,27 @@ def chat():
         if msg.get("role") == "assistant"
     )
 
-    if has_summary and not previous_summary_exists:
+    held_summary = ""
+    if has_summary:
         start = reply.find("ENQUIRY_SUMMARY") + len("ENQUIRY_SUMMARY")
         end = reply.find("END_SUMMARY", start)
-        summary_text = reply[start:end].strip()
-        if summary_text:
-            whatsapp_result = send_whatsapp_notification(summary_text)
+        held_summary = reply[start:end].strip()
+        if held_summary:
+            customer_reply = clean_customer_reply(reply)
+            customer_reply += "\n\nYe requirement summary sahi hai? Confirm karoge to main DTS ko WhatsApp handoff ke liye bhejunga."
+        else:
+            customer_reply = clean_customer_reply(reply)
+    else:
+        customer_reply = clean_customer_reply(reply)
 
     return jsonify({
-        "reply": clean_customer_reply(reply),
+        "reply": customer_reply,
         "model": ai_result.get("model", "openai/gpt-oss-120b"),
         "provider": ai_result.get("provider", "huggingface"),
         "whatsapp": whatsapp_result,
         "enquiry_summary": has_summary,
-        "whatsapp_sent": bool(whatsapp_result.get("sent"))
+        "whatsapp_sent": bool(whatsapp_result.get("sent")),
+        "pending_summary": held_summary
     })
 
 if __name__ == '__main__':
