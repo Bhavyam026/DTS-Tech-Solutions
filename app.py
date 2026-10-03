@@ -343,12 +343,39 @@ def local_dts_fallback(safe_messages, language):
     network_context = has_any(history, ("network", "lan", "wifi", "wi-fi", "switch", "firewall", "fiber"))
     access_context = has_any(history, ("access control", "biometric", "rfid", "door access"))
 
+    # Very short answers such as "new" inherit the active requirement.
+    if text.strip() in {"new", "new one", "new setup", "new installation"}:
+        active = []
+        if cctv_context: active.append("CCTV/NVR-DVR")
+        if desktop_context: active.append("Desktop/IT")
+        if electrical_context: active.append("Electrical")
+        if fire_context: active.append("Fire & Safety")
+        if network_context: active.append("Networking")
+        if access_context: active.append("Access Control")
+        if active:
+            return {"ok": True, "reply": "New installation noted for " + ", ".join(active) + ". Ab jo details missing hain wahi complete karte hain. CCTV/NVR-DVR ho to camera/NVR-DVR quantity aur site type; electrical ho to panel type/load; access control ho to doors/users; AMC ho to existing system aur site details bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
     # Extract basic enquiry details from the conversation.
     qty_cctv = latest_value([r"\b(\d+)\s*(?:camera|cameras|camra)\b", r"\b(\d+)\s*(?:cctv)\b"])
     qty_desktop = latest_value([r"\b(\d+)\s*(?:desktop|desktops|pc|pcs|computer|computers)\b"])
     qty_fire = latest_value([r"\b(\d+)\s*(?:fire\s+)?(?:safety\s+)?equipment"])
     qty_panel = latest_value([r"\b(\d+)\s*(?:electrical\s+)?panels?\b"])
 
+    # Short language/product follow-ups must not fall into the generic fallback.
+    if text.strip() in {"hindi", "hindi?", "hindi language", "hindi language?"}:
+        return {"ok": True, "reply": "Haan, Hindi supported hai. Aap Hindi ya Roman Hindi mein requirement bata sakte hain. Aapko DTS mein kya chahiye?", "model": "dts-local-fallback", "provider": "local"}
+    if text.strip() in {"english", "english?", "english language", "english language?"}:
+        return {"ok": True, "reply": "Yes, English supported hai. Aap English mein requirement bata sakte hain. Aapko DTS mein kya chahiye?", "model": "dts-local-fallback", "provider": "local"}
+
+    # Detect multiple requested products/services in one customer message.
+    requested_categories = []
+    if has_any(text, ("nvr", "dvr", "cctv", "camera", "ptz")): requested_categories.append("CCTV / NVR-DVR")
+    if has_any(text, ("nas", "server", "storage", "backup", "desktop", "laptop", "printer")): requested_categories.append("IT / NAS")
+    if has_any(text, ("electrical", "panel", "power distribution")): requested_categories.append("Electrical")
+    if has_any(text, ("fire safety", "fire alarm", "fire extinguisher", "suppression")): requested_categories.append("Fire & Safety")
+    if has_any(text, ("biometric", "access control", "rfid", "door access")): requested_categories.append("Access Control")
+    if has_any(text, ("amc", "annual maintenance", "maintenance contract")): requested_categories.append("AMC")
+    if len(requested_categories) >= 2:
+        return {"ok": True, "reply": "Theek hai, maine ye requirements note kar li hain: " + ", ".join(requested_categories) + ". Ab hum ek-ek karke required details complete karte hain. Aap jis item se start karna chahte hain uska quantity/type bata dijiye.", "model": "dts-local-fallback", "provider": "local"}
     # Confirmation should finalize a collected enquiry only when customer/contact details are present.
     confirm = text.strip() in {"yes", "yes please", "haan", "ha", "haa", "ok", "okay", "confirm", "confirmed", "sahi hai", "theek hai", "thik hai", "done"}
     if confirm and any((cctv_context, desktop_context, electrical_context, fire_context, network_context, access_context)):
@@ -787,7 +814,9 @@ def chat():
         "reply": clean_customer_reply(reply),
         "model": ai_result.get("model", "openai/gpt-oss-120b"),
         "provider": ai_result.get("provider", "huggingface"),
-        "whatsapp": whatsapp_result
+        "whatsapp": whatsapp_result,
+        "enquiry_summary": has_summary,
+        "whatsapp_sent": bool(whatsapp_result.get("sent"))
     })
 
 if __name__ == '__main__':
