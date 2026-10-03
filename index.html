@@ -6638,7 +6638,7 @@ Thank you.`;
                         },
                         body: JSON.stringify({
                             messages: aiConversation,
-                            language: /[\\u0900-\\u097F]/.test(message) ? 'hindi' : 'english'
+                            language: /[\\u0900-\\u097F]/.test(message) ? 'hindi' : 'english',
                             pending_summary: pendingAIEnquirySummary,
                         })
                     }
