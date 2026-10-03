@@ -703,6 +703,8 @@
             font-size: 20px;
         }
 
+        .ai-action-card{margin-top:10px;padding:12px;border:1px solid #dbe3ec;border-radius:14px;background:#f8fafc}.ai-action-title{font-size:12px;font-weight:800;color:#0f172a;margin-bottom:8px}.ai-action-buttons{display:grid;gap:8px}.ai-action-button{min-height:40px;border:0;border-radius:10px;padding:0 12px;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}.ai-action-whatsapp{background:#16a34a;color:#fff}.ai-action-call{background:#0f172a;color:#fff}.ai-action-enquiry{background:#e0f2fe;color:#075985}.ai-feedback-card{margin-top:10px;padding:12px;border:1px solid #dbe3ec;border-radius:14px;background:#fff}.ai-feedback-title{font-size:12px;font-weight:800;color:#0f172a}.ai-feedback-ratings{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px}.ai-feedback-rating{min-height:36px;border:1px solid #e2e8f0;border-radius:9px;background:#f8fafc;font-size:11px;font-weight:700;cursor:pointer}.ai-feedback-rating.selected{border-color:#0f172a;background:#e2e8f0}.ai-feedback-text{width:100%;min-height:60px;margin-top:9px;padding:8px 10px;border:1px solid #e2e8f0;border-radius:9px;resize:vertical;font-size:11px;outline:none}.ai-feedback-submit{width:100%;min-height:38px;margin-top:8px;border:0;border-radius:9px;background:#0f172a;color:#fff;font-size:11px;font-weight:800;cursor:pointer}
+
         .ai-modal {
             position: fixed;
             inset: 0;
@@ -6190,52 +6192,65 @@ Thank you.`;
            AI MESSAGE HTML
            ========================================================= */
 
-        function addAIMessage(
-            message,
-            type = 'bot'
-        ) {
-
-            const area =
-                document.getElementById(
-                    'aiMessageArea'
-                );
-
-
-            if (!area) {
-                return;
-            }
-
-
-            const messageDiv =
-                document.createElement(
-                    'div'
-                );
-
-
-            messageDiv.className =
-                `ai-message ${type}`;
-
-
-            messageDiv.innerHTML =
-                formatAIMessage(
-                    message
-                );
-
-
-            area.appendChild(
-                messageDiv
-            );
-
-
-            area.scrollTop =
-                area.scrollHeight;
-
+        function addAIMessage(message,type='bot'){
+            const area=document.getElementById('aiMessageArea');
+            if(!area)return;
+            const messageDiv=document.createElement('div');
+            messageDiv.className=`ai-message ${type}`;
+            const cleanMessage=String(message||'').replace(/CUSTOM_HANDOFF/g,'').trim();
+            messageDiv.innerHTML=formatAIMessage(cleanMessage);
+            area.appendChild(messageDiv);
+            if(type==='bot'&&String(message||'').includes('CUSTOM_HANDOFF')) addAICustomHandoffCard();
+            area.scrollTop=area.scrollHeight;
         }
 
+        function addAICustomHandoffCard(){
+            const area=document.getElementById('aiMessageArea');
+            if(!area||document.getElementById('aiCustomHandoff'))return;
+            const card=document.createElement('div');
+            card.id='aiCustomHandoff'; card.className='ai-action-card';
+            card.innerHTML=`<div class="ai-action-title">This is a custom requirement. DTS can check/source the required product or solution.</div><div class="text-[10px] text-slate-500 mb-2">Choose how you want to connect with DTS:</div><div class="ai-action-buttons">
+<a class="ai-action-button ai-action-whatsapp" href="#" target="_blank" rel="noopener noreferrer" onclick="return prepareDTSContact('whatsapp');"><i class="fa-brands fa-whatsapp"></i> WhatsApp DTS</a>
+<a class="ai-action-button ai-action-call" href="tel:+918390909845" onclick="showAIFeedback();"><i class="fa-solid fa-phone"></i> Call DTS</a>
+<a class="ai-action-button ai-action-enquiry" href="#" onclick="return prepareDTSContact('enquiry');"><i class="fa-solid fa-paper-plane"></i> Send Enquiry</a></div>`;
+            area.appendChild(card); area.scrollTop=area.scrollHeight;
+        }
 
-        /* =========================================================
-           AI MESSAGE FORMATTER
-           ========================================================= */
+        function getAIConversationText(){return aiConversation.filter(m=>m&&m.role==='user').map(m=>m.content).join(' | ').slice(0,1200);}
+
+        function prepareDTSContact(type){
+            const requirement=getAIConversationText()||'Custom requirement from DTS website AI Assistant';
+            const text='Hello DTS, I have a custom requirement from the website AI Assistant. Requirement: '+requirement;
+            if(type==='whatsapp'){
+                const url='https://wa.me/918390909845?text='+encodeURIComponent(text);
+                const link=document.querySelector('#aiCustomHandoff .ai-action-whatsapp');
+                if(link)link.href=url;
+                showAIFeedback(); return true;
+            }
+            if(type==='enquiry'){
+                window.location.href='mailto:dtsboisar@gmail.com?subject='+encodeURIComponent('DTS Website Enquiry')+'&body='+encodeURIComponent(text);
+                showAIFeedback(); return false;
+            }
+            return true;
+        }
+
+        let selectedAIFeedback='';
+        function showAIFeedback(){
+            const area=document.getElementById('aiMessageArea');
+            if(!area||document.getElementById('aiFeedbackCard'))return;
+            const card=document.createElement('div'); card.id='aiFeedbackCard'; card.className='ai-feedback-card';
+            card.innerHTML=`<div class="ai-feedback-title">How was your DTS AI Assistant experience?</div><div class="text-[10px] text-slate-500 mt-1">Your feedback helps us improve the website and service.</div><div class="ai-feedback-ratings">
+<button class="ai-feedback-rating" onclick="selectAIFeedback(this,'Very Good')">⭐ Very Good</button><button class="ai-feedback-rating" onclick="selectAIFeedback(this,'Good')">🙂 Good</button><button class="ai-feedback-rating" onclick="selectAIFeedback(this,'Average')">😐 Average</button><button class="ai-feedback-rating" onclick="selectAIFeedback(this,'Poor')">☹️ Poor</button></div><textarea id="aiFeedbackText" class="ai-feedback-text" placeholder="Optional feedback..."></textarea><button id="aiFeedbackSubmit" class="ai-feedback-submit" onclick="submitAIFeedback()">Send Feedback</button>`;
+            area.appendChild(card); area.scrollTop=area.scrollHeight;
+        }
+        function selectAIFeedback(button,rating){selectedAIFeedback=rating;document.querySelectorAll('.ai-feedback-rating').forEach(i=>i.classList.remove('selected'));button.classList.add('selected');}
+        function submitAIFeedback(){
+            if(!selectedAIFeedback){alert('Please select a rating first.');return;}
+            const comment=document.getElementById('aiFeedbackText')?.value.trim()||'No comment';
+            const body='DTS AI Assistant Feedback\nRating: '+selectedAIFeedback+'\nComment: '+comment;
+            window.location.href='https://wa.me/918390909845?text='+encodeURIComponent(body);
+            const button=document.getElementById('aiFeedbackSubmit'); if(button){button.textContent='Feedback Ready ✓';button.disabled=true;}
+        }
 
         function formatAIMessage(message) {
 
@@ -6670,14 +6685,16 @@ Thank you.`;
                         ? error.message
                         : 'AI service is temporarily unavailable.';
 
+                const fallbackReply = getLocalAssistantResponse(message);
+
                 addAIMessage(
-                    '⚠️ ' + errorMessage + '\n\nPlease try again in a moment.',
+                    fallbackReply,
                     'bot'
                 );
 
                 aiConversation.push({
                     role: 'assistant',
-                    content: 'AI service error: ' + errorMessage
+                    content: fallbackReply
                 });
 
             } finally {
