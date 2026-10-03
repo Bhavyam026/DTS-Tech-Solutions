@@ -2443,6 +2443,7 @@
 
         let aiConversation = [];
         let pendingAIEnquirySummary = '';
+        const aiSessionId = 'dts-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
 
         /*
          * IMPORTANT:
@@ -6640,6 +6641,7 @@ Thank you.`;
                             messages: aiConversation,
                             language: /[\\u0900-\\u097F]/.test(message) ? 'hindi' : 'english',
                             pending_summary: pendingAIEnquirySummary,
+                            session_id: aiSessionId,
                         })
                     }
                 );
@@ -6696,7 +6698,17 @@ Thank you.`;
                         ? error.message
                         : 'AI service is temporarily unavailable.';
 
-                const fallbackReply = getLocalAssistantResponse(message);
+                const recentContext = aiConversation.filter(function(item){ return item && item.content; }).map(function(item){ return String(item.content); }).join(' ').toLowerCase();
+
+                let fallbackReply = getLocalAssistantResponse(message);
+
+                if (/\\b(hi|hii|hello|hey|helo|hlo)\\b/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
+                    fallbackReply = 'Haan, main yahin hoon. Aapki CCTV requirement continue karte hain — jo next detail deni hai woh bhej dijiye.';
+                } else if (/(tv|monitor|display)\\s*(nahi|nhi|nahin)/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
+                    fallbackReply = 'Bilkul. Aapke CCTV setup mein TV/Monitor bhi arrange kiya ja sakta hai. Aapne Boisar location aur indoor IP CCTV requirement batayi hai. Ab bas aapka naam aur WhatsApp/contact number share kar dijiye.';
+                } else if (recentContext.includes('cctv') && message.trim()) {
+                    fallbackReply = 'Aapki CCTV requirement ka context mere paas hai. Kripya jo next detail deni hai woh batayein — camera quantity, indoor/outdoor, TV/Monitor, mobile monitoring ya location mein se jo pending hai.';
+                }
 
                 addAIMessage(
                     fallbackReply,
