@@ -2442,6 +2442,7 @@
         let currentModalImageIndex = 0;
 
         let aiConversation = [];
+        let pendingAIEnquirySummary = '';
 
         /*
          * IMPORTANT:
@@ -6638,6 +6639,7 @@ Thank you.`;
                         body: JSON.stringify({
                             messages: aiConversation,
                             language: /[\\u0900-\\u097F]/.test(message) ? 'hindi' : 'english'
+                            pending_summary: pendingAIEnquirySummary,
                         })
                     }
                 );
@@ -6670,6 +6672,15 @@ Thank you.`;
                     role: 'assistant',
                     content: reply
                 });
+
+                if (typeof data.pending_summary === 'string' && data.pending_summary.trim()) {
+                    pendingAIEnquirySummary = data.pending_summary.trim();
+                }
+
+                if (data.whatsapp_sent) {
+                    pendingAIEnquirySummary = '';
+                    showAIFeedback();
+                }
 
             } catch (error) {
 
@@ -6715,6 +6726,7 @@ Thank you.`;
         function resetAIConversation() {
 
             aiConversation = [];
+            pendingAIEnquirySummary = '';
 
 
             const area =
