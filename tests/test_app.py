@@ -101,3 +101,61 @@ def test_sessions_do_not_share_conversation_state():
     assert first.get_json()["state"] == "SUMMARY_READY"
     assert second.get_json()["state"] == "GATHERING"
     assert second.get_json()["pending_summary"] is None
+
+
+def test_health_endpoint_reports_configuration_without_calling_model():
+    response = dts_app.app.test_client().get("/health")
+    body = response.get_json()
+
+    assert response.status_code == 200
+    assert body["status"] == "ok"
+    assert body["service"] == "DTS Gemini AI Backend"
+    assert "ai_configured" in body
+    assert "not a live Gemini response" in body["note"]
+
+
+def test_github_pages_origin_passes_cors_preflight():
+    origin = "https://bhavyam026.github.io"
+    response = dts_app.app.test_client().options(
+        "/api/chat",
+        headers={
+            "Origin": origin,
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers.get("Access-Control-Allow-Origin") == origin
+    assert "POST" in response.headers.get("Access-Control-Allow-Methods", "")
+
+
+def test_cctv_without_location_does_not_prepare_whatsapp_draft():
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(client, session_id, "2 CCTV cameras")
+    body = response.get_json()
+
+    assert response.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
+    assert body["whatsapp_sent"] is False
+
+
+def test_model_failure_returns_bounded_json_error():
+    class BrokenModel:
+        def start_chat(self, history=None):
+            raise RuntimeError("simulated provider outage")
+
+    dts_app.model = BrokenModel()
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(client, session_id, "Hello")
+
+    assert response.status_code == 502
+    assert response.is_json
+    assert "error" in response.get_json()
+
