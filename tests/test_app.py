@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -159,3 +160,20 @@ def test_model_failure_returns_bounded_json_error():
     assert response.is_json
     assert "error" in response.get_json()
 
+def test_expired_session_is_recreated_without_stale_summary():
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    first = post_message(client, session_id, "I need CCTV cameras in Boisar")
+    assert first.get_json()["state"] == "SUMMARY_READY"
+
+    dts_app._sessions[session_id]["updated_at"] = (
+        time.time() - dts_app.SESSION_TTL_SECONDS - 1
+    )
+    second = post_message(client, session_id, "Hello again")
+    body = second.get_json()
+
+    assert second.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
