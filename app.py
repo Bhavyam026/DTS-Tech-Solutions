@@ -27,6 +27,8 @@ CORS(
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
+# Use a distinct stable fallback; Gemini 3.7 requests may be routed to the 3.8 primary.
+GEMINI_FALLBACK_MODEL = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.6-flash").strip()
 GEMINI_TIMEOUT_MS = 30000
 
 SYSTEM_INSTRUCTION = """
@@ -83,12 +85,65 @@ def _get_gemini_client():
     return _client
 
 
+def _is_transient_provider_error(error):
+    """Return True for temporary provider errors where model failover may help."""
+    status_code = getattr(error, "status_code", None)
+    if status_code in (429, 500, 502, 503, 504):
+        return True
+    message = str(error).upper()
+    return any(marker in message for marker in (
+        "429 RESOURCE_EXHAUSTED", "500 INTERNAL", "502 BAD GATEWAY",
+        "503 UNAVAILABLE", "504 GATEWAY TIMEOUT",
+    ))
+
+
+def _parse_json_object(raw_text):
+    """Parse JSON objects even if the model wraps them in a Markdown code fence."""
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        return None
+    text = raw_text.strip()
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        unfenced = re.sub(r"^\`\`\`(?:json)?\s*|\s*\`\`\`$", "", text, flags=re.IGNORECASE).strip()
+        match = re.search(r"\{[\s\S]*\}", unfenced)
+        if not match:
+            raise
+        parsed = json.loads(match.group(0))
+    return parsed if isinstance(parsed, dict) else None
+
+
 class _ChatAdapter:
-    def __init__(self, chat):
+    def __init__(self, chat, client=None, history=None, config=None, model_name=None):
         self._chat = chat
+        self._client = client
+        self._history = history or []
+        self._config = config
+        self._model_name = model_name or GEMINI_MODEL
 
     def send_message(self, message):
-        return self._chat.send_message(message=message)
+        try:
+            return self._chat.send_message(message=message)
+        except Exception as error:
+            fallback = GEMINI_FALLBACK_MODEL
+            if (
+                not _is_transient_provider_error(error)
+                or self._client is None
+                or not fallback
+                or fallback == self._model_name
+            ):
+                raise
+            app.logger.warning(
+                "Primary Gemini model %s had a transient error; trying fallback model %s.",
+                self._model_name,
+                fallback,
+            )
+            fallback_chat = self._client.chats.create(
+                model=fallback,
+                history=self._history,
+                config=self._config,
+            )
+            return fallback_chat.send_message(message=message)
 
 
 class _GeminiChatModel:
@@ -107,21 +162,48 @@ class _GeminiChatModel:
                         parts=[types.Part(text="\n".join(text_parts))],
                     )
                 )
-        chat = _get_gemini_client().chats.create(
+        client = _get_gemini_client()
+        chat = client.chats.create(
             model=GEMINI_MODEL,
             history=sdk_history,
             config=_generation_config,
         )
-        return _ChatAdapter(chat)
+        return _ChatAdapter(
+            chat,
+            client=client,
+            history=sdk_history,
+            config=_generation_config,
+            model_name=GEMINI_MODEL,
+        )
 
 
 class _GeminiExtractorModel:
     def generate_content(self, prompt):
-        return _get_gemini_client().models.generate_content(
-            model=GEMINI_MODEL,
-            contents=prompt,
-            config=_extractor_config,
-        )
+        client = _get_gemini_client()
+        try:
+            return client.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=prompt,
+                config=_extractor_config,
+            )
+        except Exception as error:
+            fallback = GEMINI_FALLBACK_MODEL
+            if (
+                not _is_transient_provider_error(error)
+                or not fallback
+                or fallback == GEMINI_MODEL
+            ):
+                raise
+            app.logger.warning(
+                "Primary Gemini extractor model %s had a transient error; trying fallback model %s.",
+                GEMINI_MODEL,
+                fallback,
+            )
+            return client.models.generate_content(
+                model=fallback,
+                contents=prompt,
+                config=_extractor_config,
+            )
 
 
 # Keep these adapter interfaces easy to replace with deterministic test doubles.
@@ -193,7 +275,7 @@ def _is_valid_indian_mobile(value):
 def _extract_details(user_messages):
     prompt = json.dumps({"customer_messages": user_messages}, ensure_ascii=False)
     response = extractor_model.generate_content(prompt)
-    parsed = json.loads(response.text or "{}")
+    parsed = _parse_json_object(response.text or "")
     if not isinstance(parsed, dict):
         return None
 
@@ -270,6 +352,7 @@ def health():
         "service": "DTS Gemini AI Backend",
         "ai_configured": bool(GEMINI_API_KEY),
         "model": GEMINI_MODEL,
+        "fallback_model": GEMINI_FALLBACK_MODEL or None,
         "note": (
             "Health confirms configuration only, not a live Gemini response or WhatsApp delivery. "
             "WhatsApp handoff opens a prefilled link; it does not send automatically."
