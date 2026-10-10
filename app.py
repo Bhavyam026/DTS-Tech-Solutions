@@ -27,8 +27,8 @@ CORS(
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
-# Optional provider failover helps when the primary model is temporarily overloaded.
-GEMINI_FALLBACK_MODEL = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.7-flash").strip()
+# Use a distinct stable fallback; Gemini 3.7 requests may be routed to the 3.8 primary.
+GEMINI_FALLBACK_MODEL = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.6-flash").strip()
 GEMINI_TIMEOUT_MS = 30000
 
 SYSTEM_INSTRUCTION = """
