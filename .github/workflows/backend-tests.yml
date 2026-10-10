@@ -22,6 +22,20 @@ jobs:
           pip install -r requirements.txt pytest
       - name: Compile backend
         run: python -m py_compile app.py
+      - name: Check inline frontend JavaScript syntax
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+
+          html = Path("index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script\\b[^>]*>(.*?)</script>", html, flags=re.IGNORECASE | re.DOTALL)
+          inline_scripts = [script for script in scripts if script.strip()]
+          if not inline_scripts:
+              raise SystemExit("No inline JavaScript block found in index.html")
+          Path("/tmp/dts-frontend-check.js").write_text("\\n".join(inline_scripts), encoding="utf-8")
+          PY
+          node --check /tmp/dts-frontend-check.js
       - name: Run API tests
         env:
           GEMINI_API_KEY: test-key
