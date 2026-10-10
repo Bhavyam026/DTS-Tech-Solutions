@@ -6723,9 +6723,20 @@ Thank you.`;
                 input.value = message;
                 autoResizeAIInput(input);
 
+                const errorText = error && typeof error.message === 'string'
+                    ? error.message.trim()
+                    : '';
+                const isFriendlyBackendError = errorText &&
+                    !errorText.startsWith('AI backend returned HTTP') &&
+                    errorText !== 'Failed to fetch' &&
+                    errorText !== 'Load failed' &&
+                    errorText !== 'NetworkError when attempting to fetch resource.';
+
                 const outageMessage = error && error.name === 'AbortError'
                     ? 'DTS AI ka response time par nahi aaya.'
-                    : 'DTS AI backend se connection nahi ho pa raha.';
+                    : (isFriendlyBackendError
+                        ? errorText
+                        : 'DTS AI backend se connection nahi ho pa raha.');
 
                 addAIMessage(
                     outageMessage + ' Aapka message process nahi hua. Aapka text input mein wapas rakha hai; kripya connection restore hone par Send dobara dabayein.',
