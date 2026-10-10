@@ -6661,7 +6661,7 @@ Thank you.`;
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            messages: aiConversation,
+                            messages: [{ role: 'user', content: message }],
                             session_id: aiSessionId,
                         })
                     }
