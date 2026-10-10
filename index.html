@@ -2441,9 +2441,25 @@
         let currentModalImages = [];
         let currentModalImageIndex = 0;
 
+        function createAISessionId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return 'dts-' + window.crypto.randomUUID();
+            }
+
+            // Secure fallback for browsers that support Web Crypto but not randomUUID().
+            if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+                const bytes = new Uint8Array(16);
+                window.crypto.getRandomValues(bytes);
+                return 'dts-' + Array.from(bytes, function(byte) {
+                    return byte.toString(16).padStart(2, '0');
+                }).join('');
+            }
+
+            throw new Error('Secure session ID generation is unavailable in this browser.');
+        }
+
         let aiConversation = [];
-        let pendingAIEnquirySummary = '';
-        const aiSessionId = 'dts-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+        let aiSessionId = createAISessionId();
 
         /*
          * IMPORTANT:
@@ -6639,8 +6655,6 @@ Thank you.`;
                         },
                         body: JSON.stringify({
                             messages: aiConversation,
-                            language: /[\\u0900-\\u097F]/.test(message) ? 'hindi' : 'english',
-                            pending_summary: pendingAIEnquirySummary,
                             session_id: aiSessionId,
                         })
                     }
@@ -6675,13 +6689,8 @@ Thank you.`;
                     content: reply
                 });
 
-                if (typeof data.pending_summary === 'string' && data.pending_summary.trim()) {
-                    pendingAIEnquirySummary = data.pending_summary.trim();
-                }
-
                 if (data.whatsapp_sent) {
-                    pendingAIEnquirySummary = '';
-                    showAIFeedback();
+            showAIFeedback();
                 }
 
             } catch (error) {
@@ -6737,10 +6746,9 @@ Thank you.`;
 
         function resetAIConversation() {
 
-            aiConversation = [];
-            pendingAIEnquirySummary = '';
-
-
+            
+            aiSessionId = createAISessionId();
+aiConversation = [];
             const area =
                 document.getElementById(
                     'aiMessageArea'
