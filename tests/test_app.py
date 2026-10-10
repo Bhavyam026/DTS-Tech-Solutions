@@ -196,6 +196,49 @@ def test_model_failure_returns_bounded_json_error():
     assert response.is_json
     assert "error" in response.get_json()
 
+def test_json_parser_accepts_fenced_json_object():
+    parsed = dts_app._parse_json_object(
+        '```json\n{"product_service":"fire safety equipment","location":"Boisar"}\n```'
+    )
+    assert parsed == {
+        "product_service": "fire safety equipment",
+        "location": "Boisar",
+    }
+
+
+def test_chat_adapter_falls_back_on_transient_primary_model_error(monkeypatch):
+    class BrokenPrimaryChat:
+        def send_message(self, message):
+            raise RuntimeError("503 UNAVAILABLE: temporary high demand")
+
+    class FakeChats:
+        def __init__(self):
+            self.models = []
+
+        def create(self, model, history, config):
+            self.models.append(model)
+            return FakeChat(history)
+
+    class FakeClient:
+        def __init__(self):
+            self.chats = FakeChats()
+
+    fake_client = FakeClient()
+    monkeypatch.setattr(dts_app, "GEMINI_FALLBACK_MODEL", "gemini-3.7-flash")
+    adapter = dts_app._ChatAdapter(
+        BrokenPrimaryChat(),
+        client=fake_client,
+        history=[{"role": "user", "parts": ["previous test turn"]}],
+        config={},
+        model_name="gemini-3.8-flash",
+    )
+
+    response = adapter.send_message("5 fire safety equipment")
+
+    assert response.text == "Thanks, I have noted your enquiry."
+    assert fake_client.chats.models == ["gemini-3.7-flash"]
+
+
 def test_expired_session_is_recreated_without_stale_summary():
     client = dts_app.app.test_client()
     session_id = "dts-12345678-1234-4234-8234-123456789abc"
