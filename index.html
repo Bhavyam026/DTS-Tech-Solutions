@@ -6295,6 +6295,13 @@ Thank you.`;
                 );
 
 
+            // Only turn our WhatsApp draft URLs into links; escapeHtml runs first.
+            formatted = formatted.replace(
+                /(https:\/\/wa\.me\/[0-9]+(?:\?text=[^\s<]+)?)/g,
+                '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-green-300 underline break-all">Open WhatsApp draft</a>'
+            );
+
+
             formatted =
                 formatted.replace(
                     /\n/g,
