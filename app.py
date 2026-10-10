@@ -491,14 +491,18 @@ def chat_api():
             # The extractor is a second Gemini request. Only call it once the
             # customer has actually supplied a valid-looking Indian mobile number;
             # this avoids spending two quota units on every short chat turn.
-            mobile_pattern = re.compile(
-                r"(?<!\d)(?:\+?91[\s-]?)?0?[6-9](?:[\s-]?\d){9}(?!\d)"
+            phone_pattern = re.compile(
+                r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)"
             )
-            has_valid_mobile = any(
-                _is_valid_indian_mobile(match.group(0))
+            phone_candidates = [
+                match.group(0)
                 for message in user_messages
-                for match in mobile_pattern.finditer(message)
+                for match in phone_pattern.finditer(message)
+            ]
+            has_valid_mobile = any(
+                _is_valid_indian_mobile(candidate) for candidate in phone_candidates
             )
+            has_invalid_mobile = bool(phone_candidates) and not has_valid_mobile
             try:
                 details = _extract_details(user_messages) if has_valid_mobile else None
             except Exception as extraction_error:
@@ -526,7 +530,9 @@ def chat_api():
                 session["state"] = "GATHERING"
                 session["summary"] = None
                 session["details"] = details
-                if details and not _is_valid_indian_mobile(details.get("contact_number", "")):
+                if has_invalid_mobile or (
+                    details and not _is_valid_indian_mobile(details.get("contact_number", ""))
+                ):
                     bot_reply += (
                         "\n\nEnquiry summary banane se pehle kripya apna valid 10-digit "
                         + "Indian mobile number share karein (number 6, 7, 8 ya 9 se shuru ho)."
