@@ -6694,7 +6694,9 @@ Thank you.`;
                     content: reply
                 });
 
-                if (data.whatsapp_sent) {
+                // WhatsApp is a user-opened draft, so whatsapp_sent stays false.
+                // Trigger feedback only after the customer confirms the summary.
+                if (data.state === 'CONFIRMED') {
                     showAIFeedback();
                 }
 
