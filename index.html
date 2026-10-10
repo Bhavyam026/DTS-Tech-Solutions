@@ -1497,7 +1497,6 @@
                 <button
                     onclick="setCategoryFilter('Fire Safety & Services')"
                     class="category-card text-left">
-
                     <div class="category-icon">
                         <i class="fa-solid fa-fire-extinguisher"></i>
                     </div>
@@ -2441,9 +2440,25 @@
         let currentModalImages = [];
         let currentModalImageIndex = 0;
 
+        function createAISessionId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                return 'dts-' + window.crypto.randomUUID();
+            }
+
+            // Secure fallback for browsers that support Web Crypto but not randomUUID().
+            if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+                const bytes = new Uint8Array(16);
+                window.crypto.getRandomValues(bytes);
+                return 'dts-' + Array.from(bytes, function(byte) {
+                    return byte.toString(16).padStart(2, '0');
+                }).join('');
+            }
+
+            throw new Error('Secure session ID generation is unavailable in this browser.');
+        }
+
         let aiConversation = [];
-        let pendingAIEnquirySummary = '';
-        const aiSessionId = 'dts-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+        let aiSessionId = createAISessionId();
 
         /*
          * IMPORTANT:
@@ -4481,7 +4496,6 @@
 
         }
 
-
         /* =========================================================
            CATEGORY FILTER
            ========================================================= */
@@ -4981,7 +4995,6 @@
 
                 menu.style.display =
                     'block';
-
                 if (icon) {
                     icon.className =
                         'fa-solid fa-xmark';
@@ -5480,7 +5493,6 @@
                 `;
 
             }
-
 
             return `
                 <table class="modal-spec-table">
@@ -6279,6 +6291,13 @@ Thank you.`;
                 );
 
 
+            // Only turn our WhatsApp draft URLs into links; escapeHtml runs first.
+            formatted = formatted.replace(
+                /(https:\/\/wa\.me\/[0-9]+(?:\?text=[^\s<]+)?)/g,
+                '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-green-300 underline break-all">Open WhatsApp draft</a>'
+            );
+
+
             formatted =
                 formatted.replace(
                     /\n/g,
@@ -6433,20 +6452,13 @@ Thank you.`;
                 text.includes('camera') ||
                 text.includes('surveillance')
             ) {
+                const quantityMatch = text.match(/[0-9]+/);
+                const quantityNote = quantityMatch
+                    ? 'Noted: ' + quantityMatch[0] + ' CCTV camera(s). '
+                    : 'Sure, DTS can help with CCTV. ';
 
-                return `
-                    Sure. I can help with CCTV.
-
-                    Please tell me:
-                    1. Site type — home, office, shop or factory?
-                    2. Approximate number of cameras?
-                    3. Indoor, outdoor or both?
-                    4. Do you need mobile monitoring?
-                    5. New installation or existing system upgrade?
-
-                    Once I have these details, I can help identify the suitable DTS solution.
-                `;
-
+                return quantityNote +
+                    'Installation kis location par chahiye? Cameras indoor, outdoor ya dono ke liye hain?';
             }
 
 
@@ -6628,6 +6640,10 @@ Thank you.`;
 
             const AI_BACKEND_URL =
                 'https://dts-tech-solutions.onrender.com/api/chat';
+            const abortController = new AbortController();
+            const timeoutId = window.setTimeout(function() {
+                abortController.abort();
+            }, 25000);
 
             try {
                 const response = await fetch(
@@ -6637,10 +6653,9 @@ Thank you.`;
                         headers: {
                             'Content-Type': 'application/json'
                         },
+                        signal: abortController.signal,
                         body: JSON.stringify({
-                            messages: aiConversation,
-                            language: /[\\u0900-\\u097F]/.test(message) ? 'hindi' : 'english',
-                            pending_summary: pendingAIEnquirySummary,
+                            messages: [{ role: 'user', content: message }],
                             session_id: aiSessionId,
                         })
                     }
@@ -6675,12 +6690,9 @@ Thank you.`;
                     content: reply
                 });
 
-                if (typeof data.pending_summary === 'string' && data.pending_summary.trim()) {
-                    pendingAIEnquirySummary = data.pending_summary.trim();
-                }
-
-                if (data.whatsapp_sent) {
-                    pendingAIEnquirySummary = '';
+                // WhatsApp is a user-opened draft, so whatsapp_sent stays false.
+                // Trigger feedback only after the customer confirms the summary.
+                if (data.state === 'CONFIRMED') {
                     showAIFeedback();
                 }
 
@@ -6693,35 +6705,36 @@ Thank you.`;
 
                 removeAITyping();
 
-                const errorMessage =
-                    error && error.message
-                        ? error.message
-                        : 'AI service is temporarily unavailable.';
-
-                const recentContext = aiConversation.filter(function(item){ return item && item.content; }).map(function(item){ return String(item.content); }).join(' ').toLowerCase();
-
-                let fallbackReply = getLocalAssistantResponse(message);
-
-                if (/\\b(hi|hii|hello|hey|helo|hlo)\\b/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
-                    fallbackReply = 'Haan, main yahin hoon. Aapki CCTV requirement continue karte hain — jo next detail deni hai woh bhej dijiye.';
-                } else if (/(tv|monitor|display)\\s*(nahi|nhi|nahin)/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
-                    fallbackReply = 'Bilkul. Aapke CCTV setup mein TV/Monitor bhi arrange kiya ja sakta hai. Aapne Boisar location aur indoor IP CCTV requirement batayi hai. Ab bas aapka naam aur WhatsApp/contact number share kar dijiye.';
-                } else if (recentContext.includes('cctv') && message.trim()) {
-                    fallbackReply = 'Aapki CCTV requirement ka context mere paas hai. Kripya jo next detail deni hai woh batayein — camera quantity, indoor/outdoor, TV/Monitor, mobile monitoring ya location mein se jo pending hai.';
+                // Do not pretend the local fallback processed this enquiry.
+                // The backend owns conversation state, so ask the customer to retry.
+                const userBubbles = document.querySelectorAll('#aiMessageArea .ai-message.user');
+                if (userBubbles.length) {
+                    userBubbles[userBubbles.length - 1].remove();
                 }
 
+                if (
+                    aiConversation.length &&
+                    aiConversation[aiConversation.length - 1].role === 'user' &&
+                    aiConversation[aiConversation.length - 1].content === message
+                ) {
+                    aiConversation.pop();
+                }
+
+                input.value = message;
+                autoResizeAIInput(input);
+
+                const outageMessage = error && error.name === 'AbortError'
+                    ? 'DTS AI ka response time par nahi aaya.'
+                    : 'DTS AI backend se connection nahi ho pa raha.';
+
                 addAIMessage(
-                    fallbackReply,
+                    outageMessage + ' Aapka message process nahi hua. Aapka text input mein wapas rakha hai; kripya connection restore hone par Send dobara dabayein.',
                     'bot'
                 );
 
-                aiConversation.push({
-                    role: 'assistant',
-                    content: fallbackReply
-                });
-
             } finally {
 
+                window.clearTimeout(timeoutId);
                 setAISendingState(false);
 
                 setTimeout(function() {
@@ -6737,10 +6750,8 @@ Thank you.`;
 
         function resetAIConversation() {
 
+            aiSessionId = createAISessionId();
             aiConversation = [];
-            pendingAIEnquirySummary = '';
-
-
             const area =
                 document.getElementById(
                     'aiMessageArea'
@@ -6787,3 +6798,5 @@ Thank you.`;
 
 </body>
 </html>
+
+
