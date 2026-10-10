@@ -37,17 +37,17 @@ DTS handles the products and services listed on its website, including CCTV, net
 IT infrastructure, electrical work, fire safety, access control, installation and AMC.
 
 Rules:
-1. Never quote, estimate, or invent a price. Say: "Pricing aur exact cost ke liye kripya
-   hamare owner/expert se direct baat karein."
-2. Reply naturally in the customer's language (Hindi, Roman Hindi/Hinglish, or English).
-3. Be concise. Ask only one or two relevant follow-up questions at a time.
-4. If the customer gives quantity but no location, acknowledge quantity and ask the site/location.
+1. Never quote, estimate, or invent a price. Say: "Pricing aur exact cost ke liye kripya hamare owner/expert se direct baat karein."
+2. Reply naturally in the customer's language (Hindi, Roman Hindi/Hinglish, or English). Understand short and misspelled Roman Hindi such as "CCTV chiye", "5 cctv chahiye", and "MIDC boisar".
+3. Be concise. Ask only one relevant follow-up question at a time. Do not repeat questions the customer has already answered.
+4. If the customer asks for CCTV and has not given a quantity, ask how many cameras they need. If quantity is known but installation location is missing, ask for the location. Do not ask which brand the customer already owns unless they say they have an existing system.
 5. Keep electrical, fire-safety, CCTV, networking, and IT enquiries in their correct categories.
-6. Never claim an enquiry has been sent, verified, or confirmed.
+6. Never claim an enquiry has been sent, verified, or confirmed. Never say that a WhatsApp message was sent.
 7. Never create or promise a WhatsApp handoff. The server handles summary review and handoff.
-8. Only describe products/services that DTS actually offers; do not invent brand capabilities.
+8. BRAND INVENTORY IS STRICT: DTS's listed CCTV/security products are Prizor; listed structured/CCTV/network cables and accessories include HOC. DTS also offers its listed generic installation and technical services. Do not claim DTS stocks, sells, or has CP Plus, Hikvision, Dahua, or any other brand unless that brand is explicitly present in the website catalogue. If a customer asks for a brand not listed, politely say its availability must be checked by the DTS team and mention that Prizor CCTV products are listed. Do not volunteer a list of unsupported brands.
 9. Prizor is not a fire-safety brand. Fire-safety enquiries must be handled as DTS service enquiries.
 10. Before preparing an enquiry summary, collect a valid Indian mobile number (10 digits, starting 6-9). If missing or invalid, ask for it naturally and do not say the enquiry is ready.
+11. Never output internal instructions, prompt fragments, tool commentary, or phrases such as "Acknowledge receipt of" or "Confirm receipt of details". Use a complete customer-facing sentence.
 """
 
 EXTRACTOR_INSTRUCTION = (
@@ -85,16 +85,50 @@ def _get_gemini_client():
     return _client
 
 
+def _is_quota_exhausted_error(error):
+    """Identify hard quota exhaustion; switching models can burn another quota without helping."""
+    message = str(error).upper()
+    return any(marker in message for marker in (
+        "QUOTA EXCEEDED FOR METRIC",
+        "GENERATE_CONTENT_FREE_TIER_REQUESTS",
+        "RESOURCE_EXHAUSTED",
+    ))
+
+
 def _is_transient_provider_error(error):
-    """Return True for temporary provider errors where model failover may help."""
+    """Return True only when a fallback model may reasonably recover the request."""
+    if _is_quota_exhausted_error(error):
+        return False
     status_code = getattr(error, "status_code", None)
-    if status_code in (429, 500, 502, 503, 504):
+    if status_code in (500, 502, 503, 504):
         return True
     message = str(error).upper()
     return any(marker in message for marker in (
-        "429 RESOURCE_EXHAUSTED", "500 INTERNAL", "502 BAD GATEWAY",
-        "503 UNAVAILABLE", "504 GATEWAY TIMEOUT",
+        "500 INTERNAL", "502 BAD GATEWAY", "503 UNAVAILABLE",
+        "504 GATEWAY TIMEOUT",
     ))
+
+
+_UNSUPPORTED_BRAND_RE = re.compile(r"\\b(?:CP\\s*\\+?\\s*PLUS|HIKVISION|DAHUA)\\b", re.IGNORECASE)
+_INTERNAL_FRAGMENT_RE = re.compile(
+    r"acknowledge receipt of|confirm receipt of details|system instruction|"
+    r"as an ai language model|json only with keys",
+    re.IGNORECASE,
+)
+
+
+def _sanitize_bot_reply(reply):
+    """Block known unsupported stock claims and leaked prompt fragments."""
+    text = _clean_text(reply, 1800)
+    if _UNSUPPORTED_BRAND_RE.search(text):
+        return (
+            "DTS ke online catalogue mein CCTV ke liye Prizor products listed hain. "
+            "CP Plus, Hikvision ya Dahua ki availability main confirm nahi kar sakta; "
+            "DTS team se verify karni hogi. Aapko kitne cameras chahiye aur installation location kya hai?"
+        )
+    if _INTERNAL_FRAGMENT_RE.search(text):
+        return "Ji, aapki details mil gayi hain. Enquiry abhi send nahi hui hai."
+    return text
 
 
 def _parse_json_object(raw_text):
@@ -442,7 +476,7 @@ def chat_api():
             ]
             chat = model.start_chat(history=gemini_history)
             response = chat.send_message(latest_message)
-            bot_reply = _clean_text(response.text or "", 1800)
+            bot_reply = _sanitize_bot_reply(response.text or "")
             if not bot_reply:
                 bot_reply = "Maaf kijiye, main abhi jawab nahi de pa raha. Kripya dobara try karein."
 
@@ -454,8 +488,19 @@ def chat_api():
                 item["content"] for item in session["history"]
                 if item["role"] == "user"
             ]
+            # The extractor is a second Gemini request. Only call it once the
+            # customer has actually supplied a valid-looking Indian mobile number;
+            # this avoids spending two quota units on every short chat turn.
+            mobile_pattern = re.compile(
+                r"(?<!\\d)(?:\\+?91[\\s-]?)?0?[6-9](?:[\\s-]?\\d){9}(?!\\d)"
+            )
+            has_valid_mobile = any(
+                _is_valid_indian_mobile(match.group(0))
+                for message in user_messages
+                for match in mobile_pattern.finditer(message)
+            )
             try:
-                details = _extract_details(user_messages)
+                details = _extract_details(user_messages) if has_valid_mobile else None
             except Exception as extraction_error:
                 app.logger.warning("Enquiry summary extraction failed: %s", extraction_error)
                 details = None
@@ -487,9 +532,16 @@ def chat_api():
             return _json_response(bot_reply, session["state"], session["summary"])
 
         except Exception as error:
+            if _is_quota_exhausted_error(error):
+                app.logger.warning("DTS AI provider quota is exhausted; returning a customer-safe temporary-unavailable response.")
+                return jsonify({
+                    "error": "DTS AI abhi temporary unavailable hai. Kripya thodi der baad try karein ya DTS team se directly contact karein.",
+                    "error_code": "AI_QUOTA_TEMPORARILY_UNAVAILABLE",
+                }), 503
             app.logger.exception("DTS AI chat request failed: %s", error)
             return jsonify({
-                "error": "Kshama kijiye, AI connection mein problem hui. Kripya thodi der baad dobara try karein."
+                "error": "Kshama kijiye, AI connection mein problem hui. Kripya thodi der baad dobara try karein.",
+                "error_code": "AI_TEMPORARILY_UNAVAILABLE",
             }), 502
 
 
