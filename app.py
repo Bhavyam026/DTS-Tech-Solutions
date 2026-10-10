@@ -4,7 +4,7 @@ import re
 import threading
 import time
 import urllib.parse
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, send_from_directory, request, jsonify
 import google.generativeai as genai
 
 app = Flask(__name__)
@@ -193,7 +193,8 @@ def _json_response(reply, state, summary=None, whatsapp_draft_url=None):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # index.html is stored at the repository root, not in Flask's templates/ directory.
+    return send_from_directory(app.root_path, "index.html")
 
 
 @app.route("/api/chat", methods=["POST"])
