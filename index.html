@@ -1497,7 +1497,6 @@
                 <button
                     onclick="setCategoryFilter('Fire Safety & Services')"
                     class="category-card text-left">
-
                     <div class="category-icon">
                         <i class="fa-solid fa-fire-extinguisher"></i>
                     </div>
@@ -4497,7 +4496,6 @@
 
         }
 
-
         /* =========================================================
            CATEGORY FILTER
            ========================================================= */
@@ -4997,7 +4995,6 @@
 
                 menu.style.display =
                     'block';
-
                 if (icon) {
                     icon.className =
                         'fa-solid fa-xmark';
@@ -5496,7 +5493,6 @@
                 `;
 
             }
-
 
             return `
                 <table class="modal-spec-table">
@@ -6709,32 +6705,32 @@ Thank you.`;
 
                 removeAITyping();
 
-                const errorMessage =
-                    error && error.message
-                        ? error.message
-                        : 'AI service is temporarily unavailable.';
-
-                const recentContext = aiConversation.filter(function(item){ return item && item.content; }).map(function(item){ return String(item.content); }).join(' ').toLowerCase();
-
-                let fallbackReply = getLocalAssistantResponse(message);
-
-                if (/\b(hi|hii|hello|hey|helo|hlo)\b/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
-                    fallbackReply = 'Haan, main yahin hoon. Aapki CCTV requirement continue karte hain — jo next detail deni hai woh bhej dijiye.';
-                } else if (/(tv|monitor|display)\s*(nahi|nhi|nahin)/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
-                    fallbackReply = 'Bilkul. Aapke CCTV setup mein TV/Monitor bhi arrange kiya ja sakta hai. Aapne Boisar location aur indoor IP CCTV requirement batayi hai. Ab bas aapka naam aur WhatsApp/contact number share kar dijiye.';
-                } else if (recentContext.includes('cctv') && message.trim()) {
-                    fallbackReply = 'Samajh gaya. CCTV setup ke liye site location kya hai, aur cameras indoor, outdoor ya dono jagah lagenge?';
+                // Do not pretend the local fallback processed this enquiry.
+                // The backend owns conversation state, so ask the customer to retry.
+                const userBubbles = document.querySelectorAll('#aiMessageArea .ai-message.user');
+                if (userBubbles.length) {
+                    userBubbles[userBubbles.length - 1].remove();
                 }
 
+                if (
+                    aiConversation.length &&
+                    aiConversation[aiConversation.length - 1].role === 'user' &&
+                    aiConversation[aiConversation.length - 1].content === message
+                ) {
+                    aiConversation.pop();
+                }
+
+                input.value = message;
+                autoResizeAIInput(input);
+
+                const outageMessage = error && error.name === 'AbortError'
+                    ? 'DTS AI ka response time par nahi aaya.'
+                    : 'DTS AI backend se connection nahi ho pa raha.';
+
                 addAIMessage(
-                    fallbackReply,
+                    outageMessage + ' Aapka message process nahi hua. Aapka text input mein wapas rakha hai; kripya connection restore hone par Send dobara dabayein.',
                     'bot'
                 );
-
-                aiConversation.push({
-                    role: 'assistant',
-                    content: fallbackReply
-                });
 
             } finally {
 
@@ -6802,3 +6798,5 @@ Thank you.`;
 
 </body>
 </html>
+
+
