@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -28,12 +29,13 @@ class FakeExtractor:
     def generate_content(self, prompt):
         payload = json.loads(prompt)
         customer_text = " ".join(payload.get("customer_messages", []))
+        numbers = re.findall(r"(?<!\\d)(?:\\+?91[\\s-]?)?0?\\d{10}(?!\\d)", customer_text)
         details = {
             "product_service": "CCTV cameras" if "cctv cameras" in customer_text.casefold() else None,
             "location": "Boisar" if "boisar" in customer_text.casefold() else None,
             "quantity": None,
             "contact_name": None,
-            "contact_number": None,
+            "contact_number": numbers[-1] if numbers else None,
             "notes": None,
         }
         return SimpleNamespace(text=json.dumps(details))
@@ -72,7 +74,7 @@ def test_whatsapp_draft_requires_explicit_summary_confirmation():
     client = dts_app.app.test_client()
     session_id = "dts-12345678-1234-4234-8234-123456789abc"
 
-    first = post_message(client, session_id, "I need CCTV cameras in Boisar")
+    first = post_message(client, session_id, "I need CCTV cameras in Boisar, number 9876543210")
     assert first.status_code == 200
     assert first.get_json()["state"] == "SUMMARY_READY"
     assert first.get_json()["pending_summary"]
@@ -96,7 +98,7 @@ def test_sessions_do_not_share_conversation_state():
     first_session = "dts-12345678-1234-4234-8234-123456789abc"
     second_session = "dts-abcdefab-cdef-4abc-8def-abcdefabcdef"
 
-    first = post_message(client, first_session, "I need CCTV cameras in Boisar")
+    first = post_message(client, first_session, "I need CCTV cameras in Boisar, number 9876543210")
     second = post_message(client, second_session, "Hello")
 
     assert first.get_json()["state"] == "SUMMARY_READY"
@@ -145,6 +147,40 @@ def test_cctv_without_location_does_not_prepare_whatsapp_draft():
     assert body["whatsapp_sent"] is False
 
 
+
+def test_valid_indian_mobile_number_formats():
+    assert dts_app._is_valid_indian_mobile("9876543210")
+    assert dts_app._is_valid_indian_mobile("+91 9876543210")
+    assert dts_app._is_valid_indian_mobile("09876543210")
+    assert not dts_app._is_valid_indian_mobile("1234567890")
+    assert not dts_app._is_valid_indian_mobile("987654321")
+
+
+def test_summary_waits_for_valid_mobile_number():
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    invalid = post_message(
+        client,
+        session_id,
+        "I need CCTV cameras in Boisar, number 1234567890",
+    )
+    invalid_body = invalid.get_json()
+    assert invalid.status_code == 200
+    assert invalid_body["state"] == "GATHERING"
+    assert invalid_body["pending_summary"] is None
+    assert invalid_body["whatsapp_draft_url"] is None
+    assert "valid 10-digit" in invalid_body["reply"]
+
+    valid = post_message(client, session_id, "My mobile number is 9876543210")
+    valid_body = valid.get_json()
+    assert valid.status_code == 200
+    assert valid_body["state"] == "SUMMARY_READY"
+    assert "9876543210" in valid_body["pending_summary"]
+    assert valid_body["whatsapp_draft_url"] is None
+    assert valid_body["whatsapp_sent"] is False
+
+
 def test_model_failure_returns_bounded_json_error():
     class BrokenModel:
         def start_chat(self, history=None):
@@ -164,7 +200,7 @@ def test_expired_session_is_recreated_without_stale_summary():
     client = dts_app.app.test_client()
     session_id = "dts-12345678-1234-4234-8234-123456789abc"
 
-    first = post_message(client, session_id, "I need CCTV cameras in Boisar")
+    first = post_message(client, session_id, "I need CCTV cameras in Boisar, number 9876543210")
     assert first.get_json()["state"] == "SUMMARY_READY"
 
     dts_app._sessions[session_id]["updated_at"] = (
