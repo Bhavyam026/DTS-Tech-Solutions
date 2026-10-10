@@ -506,7 +506,7 @@ def chat_api():
                 details = None
                 if _is_quota_exhausted_error(extraction_error):
                     bot_reply += (
-                        "\\n\\nMaaf kijiye, AI service limit ki wajah se abhi enquiry summary "
+                        "\n\nMaaf kijiye, AI service limit ki wajah se abhi enquiry summary "
                         "prepare nahi ho paayi. Enquiry send nahi hui hai; kripya thodi der baad dobara try karein."
                     )
 
