@@ -57,13 +57,10 @@ EXTRACTOR_INSTRUCTION = (
 )
 
 _generation_config = types.GenerateContentConfig(
-    temperature=0.4,
-    top_p=0.9,
     max_output_tokens=300,
     system_instruction=SYSTEM_INSTRUCTION,
 )
 _extractor_config = types.GenerateContentConfig(
-    temperature=0,
     max_output_tokens=350,
     response_mime_type="application/json",
     system_instruction=EXTRACTOR_INSTRUCTION,
