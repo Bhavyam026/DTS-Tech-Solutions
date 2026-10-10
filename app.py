@@ -45,6 +45,7 @@ Rules:
 7. Never create or promise a WhatsApp handoff. The server handles summary review and handoff.
 8. Only describe products/services that DTS actually offers; do not invent brand capabilities.
 9. Prizor is not a fire-safety brand. Fire-safety enquiries must be handled as DTS service enquiries.
+10. Before preparing an enquiry summary, collect a valid Indian mobile number (10 digits, starting 6-9). If missing or invalid, ask for it naturally and do not say the enquiry is ready.
 """
 
 EXTRACTOR_INSTRUCTION = (
@@ -177,6 +178,17 @@ def _clean_text(value, max_length=240):
         return ""
     return " ".join(value.strip().split())[:max_length]
 
+def _is_valid_indian_mobile(value):
+    """Accept Indian mobile numbers in 10-digit, 0-prefixed, or +91-prefixed form."""
+    if not isinstance(value, str):
+        return False
+    digits = re.sub(r"\D", "", value)
+    if len(digits) == 12 and digits.startswith("91"):
+        digits = digits[2:]
+    elif len(digits) == 11 and digits.startswith("0"):
+        digits = digits[1:]
+    return len(digits) == 10 and digits[0] in "6789"
+
 
 def _extract_details(user_messages):
     prompt = json.dumps({"customer_messages": user_messages}, ensure_ascii=False)
@@ -200,6 +212,7 @@ def _extract_details(user_messages):
             details[key] = ""
     if not details["product_service"] or not details["location"]:
         return None
+    # Keep partial details so the chat can request a missing/invalid number.
     return details
 
 
@@ -364,20 +377,27 @@ def chat_api():
                 app.logger.warning("Enquiry summary extraction failed: %s", extraction_error)
                 details = None
 
-            if details:
+            if details and _is_valid_indian_mobile(details.get("contact_number", "")):
                 summary = _format_summary(details)
                 session["details"] = details
                 session["summary"] = summary
                 session["state"] = "SUMMARY_READY"
                 bot_reply += (
-                    "\n\n**Please review this summary:**\n"
+                    "\\n\\n**Please review this summary:**\\n"
                     + summary
-                    + "\n\nAgar sab sahi hai, agle message mein exactly "
+                    + "\\n\\nAgar sab sahi hai, agle message mein exactly "
                     + "**CONFIRM SUMMARY** likhein. Agar kuch galat hai, correction bhejein. "
                     + "Confirmation se pehle koi WhatsApp draft link nahi banega."
                 )
             else:
                 session["state"] = "GATHERING"
+                session["summary"] = None
+                session["details"] = details
+                if details and not _is_valid_indian_mobile(details.get("contact_number", "")):
+                    bot_reply += (
+                        "\\n\\nEnquiry summary banane se pehle kripya apna valid 10-digit "
+                        + "Indian mobile number share karein (number 6, 7, 8 ya 9 se shuru ho)."
+                    )
 
             session["history"][-1]["content"] = bot_reply
             session["updated_at"] = time.time()
