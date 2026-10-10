@@ -28,8 +28,7 @@ RULES:
 generation_config = {
     "temperature": 0.5,
     "top_p": 0.9,
-    "top_k": 40,
-    "max_output_tokens": 384,
+    "max_output_tokens": 250,
 }
 
 model = genai.GenerativeModel(
@@ -134,6 +133,25 @@ def chat():
 
         if not bot_reply:
             bot_reply = "Ji, batayiye. Main aapki requirement note kar raha hoon."
+
+        # Anti-loop guard inspired by the supplied test code. Keep conversation history;
+        # never clear the session, because that would lose the customer's requirement.
+        loop_phrases = (
+            "context mere paas hai",
+            "next detail pending hai",
+            "camera quantity, indoor/outdoor",
+            "please describe your requirement in a little more detail",
+        )
+        if any(phrase in bot_reply.lower() for phrase in loop_phrases):
+            history_text = " ".join(
+                (getattr(part, "text", "") or "")
+                for item in chat_session.history[-12:]
+                for part in (getattr(item, "parts", None) or [])
+            ).lower()
+            if any(term in history_text for term in ("cctv", "camera", "ip cctv")):
+                bot_reply = "Bilkul, aapki CCTV requirement par hi aage badhte hain. Jo detail aapne abhi batayi hai, uske hisaab se agla sawal poochunga—kya aap apna naam aur contact number share kar sakte hain?"
+            else:
+                bot_reply = "Ji, batayiye—main aapki latest baat ke hisaab se madad karta hoon. Aapko kis product ya service ki zaroorat hai?"
 
         mobile = extract_mobile(user_message)
         if mobile:
