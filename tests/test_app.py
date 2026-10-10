@@ -1,8 +1,11 @@
 import json
 import os
+import sys
+from pathlib import Path
 from types import SimpleNamespace
 
 os.environ.setdefault("GEMINI_API_KEY", "test-key")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import app as dts_app
 
