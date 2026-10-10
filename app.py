@@ -109,7 +109,7 @@ def _is_transient_provider_error(error):
     ))
 
 
-_UNSUPPORTED_BRAND_RE = re.compile(r"\\b(?:CP\\s*\\+?\\s*PLUS|HIKVISION|DAHUA)\\b", re.IGNORECASE)
+_UNSUPPORTED_BRAND_RE = re.compile(r"\b(?:CP\s*\+?\s*PLUS|HIKVISION|DAHUA)\b", re.IGNORECASE)
 _INTERNAL_FRAGMENT_RE = re.compile(
     r"acknowledge receipt of|confirm receipt of details|system instruction|"
     r"as an ai language model|json only with keys",
@@ -492,7 +492,7 @@ def chat_api():
             # customer has actually supplied a valid-looking Indian mobile number;
             # this avoids spending two quota units on every short chat turn.
             mobile_pattern = re.compile(
-                r"(?<!\\d)(?:\\+?91[\\s-]?)?0?[6-9](?:[\\s-]?\\d){9}(?!\\d)"
+                r"(?<!\d)(?:\+?91[\s-]?)?0?[6-9](?:[\s-]?\d){9}(?!\d)"
             )
             has_valid_mobile = any(
                 _is_valid_indian_mobile(match.group(0))
