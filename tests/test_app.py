@@ -321,3 +321,51 @@ def test_expired_session_is_recreated_without_stale_summary():
     assert body["state"] == "GATHERING"
     assert body["pending_summary"] is None
     assert body["whatsapp_draft_url"] is None
+
+
+
+def test_dts_brand_inventory_never_claims_unlisted_cctv_brands():
+    reply = dts_app._sanitize_bot_reply(
+        "Humare paas CP Plus, Hikvision, Dahua available hai."
+    )
+    assert "Prizor products listed" in reply
+    assert "availability main confirm nahi kar sakta" in reply
+    assert "available hai" not in reply
+
+
+def test_internal_prompt_fragment_is_replaced_with_customer_safe_acknowledgement():
+    reply = dts_app._sanitize_bot_reply(
+        "**: * Acknowledge receipt of details clearly without claiming"
+    )
+    assert reply == "Ji, aapki details mil gayi hain. Enquiry abhi send nahi hui hai."
+    assert "Acknowledge receipt of" not in reply
+
+
+def test_quota_exhaustion_does_not_trigger_model_fallback():
+    error = RuntimeError(
+        "429 RESOURCE_EXHAUSTED: Quota exceeded for metric: "
+        "generate_content_free_tier_requests"
+    )
+    assert dts_app._is_quota_exhausted_error(error)
+    assert not dts_app._is_transient_provider_error(error)
+
+
+def test_extractor_is_not_called_until_customer_provides_mobile_number():
+    class NoCallExtractor:
+        def __init__(self):
+            self.called = False
+
+        def generate_content(self, prompt):
+            self.called = True
+            raise AssertionError("Extractor should not run before a mobile number is supplied")
+
+    extractor = NoCallExtractor()
+    dts_app.extractor_model = extractor
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(client, session_id, "CCTV chiye")
+
+    assert response.status_code == 200
+    assert response.get_json()["state"] == "GATHERING"
+    assert extractor.called is False
