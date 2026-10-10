@@ -6690,7 +6690,7 @@ Thank you.`;
                 });
 
                 if (data.whatsapp_sent) {
-            showAIFeedback();
+                    showAIFeedback();
                 }
 
             } catch (error) {
@@ -6746,9 +6746,8 @@ Thank you.`;
 
         function resetAIConversation() {
 
-            
             aiSessionId = createAISessionId();
-aiConversation = [];
+            aiConversation = [];
             const area =
                 document.getElementById(
                     'aiMessageArea'
