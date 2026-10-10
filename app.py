@@ -383,9 +383,9 @@ def chat_api():
                 session["summary"] = summary
                 session["state"] = "SUMMARY_READY"
                 bot_reply += (
-                    "\\n\\n**Please review this summary:**\\n"
+                    "\n\n**Please review this summary:**\n"
                     + summary
-                    + "\\n\\nAgar sab sahi hai, agle message mein exactly "
+                    + "\n\nAgar sab sahi hai, agle message mein exactly "
                     + "**CONFIRM SUMMARY** likhein. Agar kuch galat hai, correction bhejein. "
                     + "Confirmation se pehle koi WhatsApp draft link nahi banega."
                 )
@@ -395,7 +395,7 @@ def chat_api():
                 session["details"] = details
                 if details and not _is_valid_indian_mobile(details.get("contact_number", "")):
                     bot_reply += (
-                        "\\n\\nEnquiry summary banane se pehle kripya apna valid 10-digit "
+                        "\n\nEnquiry summary banane se pehle kripya apna valid 10-digit "
                         + "Indian mobile number share karein (number 6, 7, 8 ya 9 se shuru ho)."
                     )
 
