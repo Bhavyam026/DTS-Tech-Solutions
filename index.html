@@ -6456,20 +6456,13 @@ Thank you.`;
                 text.includes('camera') ||
                 text.includes('surveillance')
             ) {
+                const quantityMatch = text.match(/[0-9]+/);
+                const quantityNote = quantityMatch
+                    ? 'Noted: ' + quantityMatch[0] + ' CCTV camera(s). '
+                    : 'Sure, DTS can help with CCTV. ';
 
-                return `
-                    Sure. I can help with CCTV.
-
-                    Please tell me:
-                    1. Site type — home, office, shop or factory?
-                    2. Approximate number of cameras?
-                    3. Indoor, outdoor or both?
-                    4. Do you need mobile monitoring?
-                    5. New installation or existing system upgrade?
-
-                    Once I have these details, I can help identify the suitable DTS solution.
-                `;
-
+                return quantityNote +
+                    'Installation kis location par chahiye? Cameras indoor, outdoor ya dono ke liye hain?';
             }
 
 
@@ -6651,6 +6644,10 @@ Thank you.`;
 
             const AI_BACKEND_URL =
                 'https://dts-tech-solutions.onrender.com/api/chat';
+            const abortController = new AbortController();
+            const timeoutId = window.setTimeout(function() {
+                abortController.abort();
+            }, 25000);
 
             try {
                 const response = await fetch(
@@ -6660,6 +6657,7 @@ Thank you.`;
                         headers: {
                             'Content-Type': 'application/json'
                         },
+                        signal: abortController.signal,
                         body: JSON.stringify({
                             messages: [{ role: 'user', content: message }],
                             session_id: aiSessionId,
@@ -6718,12 +6716,12 @@ Thank you.`;
 
                 let fallbackReply = getLocalAssistantResponse(message);
 
-                if (/\\b(hi|hii|hello|hey|helo|hlo)\\b/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
+                if (/\b(hi|hii|hello|hey|helo|hlo)\b/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
                     fallbackReply = 'Haan, main yahin hoon. Aapki CCTV requirement continue karte hain — jo next detail deni hai woh bhej dijiye.';
-                } else if (/(tv|monitor|display)\\s*(nahi|nhi|nahin)/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
+                } else if (/(tv|monitor|display)\s*(nahi|nhi|nahin)/.test(message.toLowerCase()) && recentContext.includes('cctv')) {
                     fallbackReply = 'Bilkul. Aapke CCTV setup mein TV/Monitor bhi arrange kiya ja sakta hai. Aapne Boisar location aur indoor IP CCTV requirement batayi hai. Ab bas aapka naam aur WhatsApp/contact number share kar dijiye.';
                 } else if (recentContext.includes('cctv') && message.trim()) {
-                    fallbackReply = 'Aapki CCTV requirement ka context mere paas hai. Kripya jo next detail deni hai woh batayein — camera quantity, indoor/outdoor, TV/Monitor, mobile monitoring ya location mein se jo pending hai.';
+                    fallbackReply = 'Samajh gaya. CCTV setup ke liye site location kya hai, aur cameras indoor, outdoor ya dono jagah lagenge?';
                 }
 
                 addAIMessage(
@@ -6738,6 +6736,7 @@ Thank you.`;
 
             } finally {
 
+                window.clearTimeout(timeoutId);
                 setAISendingState(false);
 
                 setTimeout(function() {
