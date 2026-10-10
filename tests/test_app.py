@@ -29,7 +29,7 @@ class FakeExtractor:
     def generate_content(self, prompt):
         payload = json.loads(prompt)
         customer_text = " ".join(payload.get("customer_messages", []))
-        numbers = re.findall(r"(?<!\\d)(?:\\+?91[\\s-]?)?0?\\d{10}(?!\\d)", customer_text)
+        numbers = re.findall(r"(?<!\d)(?:\+?91[\s-]?)?0?\d{10}(?!\d)", customer_text)
         details = {
             "product_service": "CCTV cameras" if "cctv cameras" in customer_text.casefold() else None,
             "location": "Boisar" if "boisar" in customer_text.casefold() else None,
