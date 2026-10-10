@@ -369,3 +369,31 @@ def test_extractor_is_not_called_until_customer_provides_mobile_number():
     assert response.status_code == 200
     assert response.get_json()["state"] == "GATHERING"
     assert extractor.called is False
+
+
+
+def test_extractor_quota_error_never_claims_enquiry_was_sent():
+    class QuotaLimitedExtractor:
+        def generate_content(self, prompt):
+            raise RuntimeError(
+                "429 RESOURCE_EXHAUSTED: Quota exceeded for metric: "
+                "generate_content_free_tier_requests"
+            )
+
+    dts_app.extractor_model = QuotaLimitedExtractor()
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(
+        client,
+        session_id,
+        "I need CCTV cameras in Boisar, number 9876543210",
+    )
+    body = response.get_json()
+
+    assert response.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
+    assert body["whatsapp_sent"] is False
+    assert "Enquiry send nahi hui hai" in body["reply"]
