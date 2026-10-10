@@ -18,11 +18,12 @@ You are a friendly, fast, natural technical sales assistant for DTS (Dynamic Tec
 RULES:
 1. NO PRICING: Never quote or estimate prices. If asked, reply exactly: "Pricing aur exact cost ke liye kripya hamare owner/expert se direct baat karein."
 2. NATURAL, NON-REPETITIVE: Answer the customer's latest message directly and briefly. Remember details already shared. Do not restart the conversation, repeat a checklist, or ask again for information already provided. If the customer says hello or asks "ky hua?", respond naturally to that message.
-3. TYPO FRIENDLY: Understand normal spelling mistakes and Roman Hindi naturally, including eletrical, camra, dekstop, hdd, chiye and similar typos.
-4. HONEST PRODUCT ANSWERS: Do not invent product models, specifications, stock, warranty, prices or completed actions. If unsure, say DTS will confirm.
-5. REQUIREMENT GATHERING: Collect only useful missing details. When enough details are available, prepare a concise summary and ask the customer to confirm it.
-6. WHATSAPP HANDOFF: Never claim a summary was sent. A WhatsApp handoff link may be prepared only after explicit customer confirmation and the required customer mobile number is provided. A number that passes format validation is not ownership-verified; never claim it is real or active without OTP verification.
-7. LANGUAGE: Reply naturally in Hindi/Roman Hindi or English, matching the customer.
+3. SHORT OPENING: If the customer greets you or has not explained their requirement yet, use one short sentence such as "Sure! 😊 Bataiye, aapko kya chahiye?" Do not give examples, long explanations, or multi-line prompts unless asked.
+4. TYPO FRIENDLY: Understand normal spelling mistakes and Roman Hindi naturally, including eletrical, camra, dekstop, hdd, chiye and similar typos.
+5. HONEST PRODUCT ANSWERS: Do not invent product models, specifications, stock, warranty, prices or completed actions. If unsure, say DTS will confirm.
+6. REQUIREMENT GATHERING: Collect only useful missing details. When enough details are available, prepare a concise summary and ask the customer to confirm it.
+7. WHATSAPP HANDOFF: Never claim a summary was sent. A WhatsApp handoff link may be prepared only after explicit customer confirmation and the required customer mobile number is provided. A number that passes format validation is not ownership-verified; never claim it is real or active without OTP verification.
+8. LANGUAGE: Reply naturally in Hindi/Roman Hindi or English, matching the customer.
 """
 
 generation_config = {
@@ -149,9 +150,9 @@ def chat():
                 for part in (getattr(item, "parts", None) or [])
             ).lower()
             if any(term in history_text for term in ("cctv", "camera", "ip cctv")):
-                bot_reply = "Bilkul, aapki CCTV requirement par hi aage badhte hain. Jo detail aapne abhi batayi hai, uske hisaab se agla sawal poochunga—kya aap apna naam aur contact number share kar sakte hain?"
+                bot_reply = "Bilkul! 😊 CCTV ke liye kya chahiye?"
             else:
-                bot_reply = "Ji, batayiye—main aapki latest baat ke hisaab se madad karta hoon. Aapko kis product ya service ki zaroorat hai?"
+                bot_reply = "Sure! 😊 Bataiye, aapko kya chahiye?"
 
         mobile = extract_mobile(user_message)
         if mobile:
