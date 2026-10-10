@@ -1,5 +1,6 @@
 import json
 import os
+import pytest
 import re
 import sys
 import time
@@ -224,7 +225,7 @@ def test_chat_adapter_falls_back_on_transient_primary_model_error(monkeypatch):
             self.chats = FakeChats()
 
     fake_client = FakeClient()
-    monkeypatch.setattr(dts_app, "GEMINI_FALLBACK_MODEL", "gemini-3.7-flash")
+    monkeypatch.setattr(dts_app, "GEMINI_FALLBACK_MODEL", "gemini-3.6-flash")
     adapter = dts_app._ChatAdapter(
         BrokenPrimaryChat(),
         client=fake_client,
@@ -236,7 +237,68 @@ def test_chat_adapter_falls_back_on_transient_primary_model_error(monkeypatch):
     response = adapter.send_message("5 fire safety equipment")
 
     assert response.text == "Thanks, I have noted your enquiry."
-    assert fake_client.chats.models == ["gemini-3.7-flash"]
+    assert fake_client.chats.models == ["gemini-3.6-flash"]
+
+
+
+def test_extractor_falls_back_on_transient_primary_model_error(monkeypatch):
+    class FakeModels:
+        def __init__(self):
+            self.calls = []
+
+        def generate_content(self, model, contents, config):
+            self.calls.append(model)
+            if model == "gemini-3.8-flash":
+                raise RuntimeError("503 UNAVAILABLE: temporary high demand")
+            return SimpleNamespace(
+                text='{"product_service":"fire safety equipment","location":"Boisar"}'
+            )
+
+    class FakeClient:
+        def __init__(self):
+            self.models = FakeModels()
+
+    fake_client = FakeClient()
+    monkeypatch.setattr(dts_app, "GEMINI_MODEL", "gemini-3.8-flash")
+    monkeypatch.setattr(dts_app, "GEMINI_FALLBACK_MODEL", "gemini-3.6-flash")
+    monkeypatch.setattr(dts_app, "_get_gemini_client", lambda: fake_client)
+
+    response = dts_app._GeminiExtractorModel().generate_content("test prompt")
+
+    assert response.text.startswith("{")
+    assert fake_client.models.calls == ["gemini-3.8-flash", "gemini-3.6-flash"]
+
+
+def test_json_parser_rejects_malformed_json():
+    with pytest.raises(json.JSONDecodeError):
+        dts_app._parse_json_object('{"product_service": "CCTV", "location": }')
+
+
+def test_json_parser_rejects_non_object_json():
+    assert dts_app._parse_json_object('["not", "an", "object"]') is None
+
+
+def test_malformed_extractor_json_never_prepares_whatsapp_draft():
+    class MalformedExtractor:
+        def generate_content(self, prompt):
+            return SimpleNamespace(text='\x60\x60\x60json\\n{"product_service":"fire safety equipment","location":}\\n\x60\x60\x60')
+
+    dts_app.extractor_model = MalformedExtractor()
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(
+        client,
+        session_id,
+        "I need fire safety equipment in Boisar, number 9876543210",
+    )
+    body = response.get_json()
+
+    assert response.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
+    assert body["whatsapp_sent"] is False
 
 
 def test_expired_session_is_recreated_without_stale_summary():
