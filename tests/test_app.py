@@ -281,7 +281,11 @@ def test_json_parser_rejects_non_object_json():
 def test_malformed_extractor_json_never_prepares_whatsapp_draft():
     class MalformedExtractor:
         def generate_content(self, prompt):
-            return SimpleNamespace(text='\x60\x60\x60json\\n{"product_service":"fire safety equipment","location":}\\n\x60\x60\x60')
+            return SimpleNamespace(
+                text="""\x60\x60\x60json
+{"product_service":"fire safety equipment","location":}
+\x60\x60\x60"""
+            )
 
     dts_app.extractor_model = MalformedExtractor()
     client = dts_app.app.test_client()
@@ -299,7 +303,6 @@ def test_malformed_extractor_json_never_prepares_whatsapp_draft():
     assert body["pending_summary"] is None
     assert body["whatsapp_draft_url"] is None
     assert body["whatsapp_sent"] is False
-
 
 def test_expired_session_is_recreated_without_stale_summary():
     client = dts_app.app.test_client()
