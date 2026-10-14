@@ -5,7 +5,7 @@ import threading
 import time
 import urllib.parse
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, g, has_request_context, jsonify, request, send_from_directory
 from flask_cors import CORS
 from google import genai
 from google.genai import types
@@ -29,7 +29,10 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
 # Use a distinct stable fallback; Gemini 3.7 requests may be routed to the 3.8 primary.
 GEMINI_FALLBACK_MODEL = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.6-flash").strip()
-GEMINI_TIMEOUT_MS = 30000
+GEMINI_PRIMARY_TIMEOUT_MS = 12000
+GEMINI_FALLBACK_TIMEOUT_MS = 7000
+GEMINI_REQUEST_BUDGET_SECONDS = 20
+GEMINI_TIMEOUT_MS = GEMINI_PRIMARY_TIMEOUT_MS
 
 SYSTEM_INSTRUCTION = """
 You are the friendly technical sales assistant for DTS (Dynamic Technology Solutions), Boisar.
@@ -68,21 +71,33 @@ _extractor_config = types.GenerateContentConfig(
     response_mime_type="application/json",
     system_instruction=EXTRACTOR_INSTRUCTION,
 )
-_client = None
+_clients = {}
 _client_lock = threading.Lock()
 
 
-def _get_gemini_client():
-    global _client
+def _get_gemini_client(timeout_ms=GEMINI_PRIMARY_TIMEOUT_MS):
+    """Return a client whose timeout cannot exceed this request's remaining budget."""
     if not GEMINI_API_KEY:
         raise RuntimeError("GEMINI_API_KEY is not configured on the server.")
+    deadline = getattr(g, "ai_deadline", None) if has_request_context() else None
+    if deadline is not None:
+        remaining_ms = int((deadline - time.monotonic()) * 1000)
+        timeout_ms = min(timeout_ms, (remaining_ms // 1000) * 1000)
+    if timeout_ms < 1000:
+        raise TimeoutError("DTS AI request time budget exhausted.")
+    timeout_ms = (timeout_ms // 1000) * 1000
     with _client_lock:
-        if _client is None:
-            _client = genai.Client(
+        client = _clients.get(timeout_ms)
+        if client is None:
+            client = genai.Client(
                 api_key=GEMINI_API_KEY,
-                http_options=types.HttpOptions(timeout=GEMINI_TIMEOUT_MS),
+                http_options=types.HttpOptions(
+                    timeout=timeout_ms,
+                    retry_options=types.HttpRetryOptions(attempts=1),
+                ),
             )
-    return _client
+            _clients[timeout_ms] = client
+    return client
 
 
 def _is_quota_exhausted_error(error):
@@ -97,6 +112,11 @@ def _is_quota_exhausted_error(error):
 
 def _is_transient_provider_error(error):
     """Return True only when a fallback model may reasonably recover the request."""
+    error_type = type(error)
+    if error_type.__module__.startswith("httpx") and "timeout" in error_type.__name__.casefold():
+        return True
+    if isinstance(error, TimeoutError):
+        return True
     if _is_quota_exhausted_error(error):
         return False
     status_code = getattr(error, "status_code", None)
@@ -148,9 +168,10 @@ def _parse_json_object(raw_text):
 
 
 class _ChatAdapter:
-    def __init__(self, chat, client=None, history=None, config=None, model_name=None):
+    def __init__(self, chat, client=None, fallback_client=None, history=None, config=None, model_name=None):
         self._chat = chat
         self._client = client
+        self._fallback_client = fallback_client or client
         self._history = history or []
         self._config = config
         self._model_name = model_name or GEMINI_MODEL
@@ -162,7 +183,7 @@ class _ChatAdapter:
             fallback = GEMINI_FALLBACK_MODEL
             if (
                 not _is_transient_provider_error(error)
-                or self._client is None
+                or self._fallback_client is None
                 or not fallback
                 or fallback == self._model_name
             ):
@@ -172,7 +193,7 @@ class _ChatAdapter:
                 self._model_name,
                 fallback,
             )
-            fallback_chat = self._client.chats.create(
+            fallback_chat = self._fallback_client.chats.create(
                 model=fallback,
                 history=self._history,
                 config=self._config,
@@ -196,7 +217,8 @@ class _GeminiChatModel:
                         parts=[types.Part(text="\n".join(text_parts))],
                     )
                 )
-        client = _get_gemini_client()
+        client = _get_gemini_client(GEMINI_PRIMARY_TIMEOUT_MS)
+        fallback_client = _get_gemini_client(GEMINI_FALLBACK_TIMEOUT_MS)
         chat = client.chats.create(
             model=GEMINI_MODEL,
             history=sdk_history,
@@ -205,6 +227,7 @@ class _GeminiChatModel:
         return _ChatAdapter(
             chat,
             client=client,
+            fallback_client=fallback_client,
             history=sdk_history,
             config=_generation_config,
             model_name=GEMINI_MODEL,
@@ -213,7 +236,7 @@ class _GeminiChatModel:
 
 class _GeminiExtractorModel:
     def generate_content(self, prompt):
-        client = _get_gemini_client()
+        client = _get_gemini_client(GEMINI_PRIMARY_TIMEOUT_MS)
         try:
             return client.models.generate_content(
                 model=GEMINI_MODEL,
@@ -233,7 +256,8 @@ class _GeminiExtractorModel:
                 GEMINI_MODEL,
                 fallback,
             )
-            return client.models.generate_content(
+            fallback_client = _get_gemini_client(GEMINI_FALLBACK_TIMEOUT_MS)
+            return fallback_client.models.generate_content(
                 model=fallback,
                 contents=prompt,
                 config=_extractor_config,
@@ -415,6 +439,7 @@ def chat_api():
         return jsonify({"error": "Invalid message payload."}), 400
 
     session = _get_session(session_id)
+    g.ai_deadline = time.monotonic() + GEMINI_REQUEST_BUDGET_SECONDS
 
     with session["lock"]:
         now = time.time()
