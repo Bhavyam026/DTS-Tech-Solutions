@@ -261,7 +261,7 @@ def test_extractor_falls_back_on_transient_primary_model_error(monkeypatch):
     fake_client = FakeClient()
     monkeypatch.setattr(dts_app, "GEMINI_MODEL", "gemini-3.8-flash")
     monkeypatch.setattr(dts_app, "GEMINI_FALLBACK_MODEL", "gemini-3.6-flash")
-    monkeypatch.setattr(dts_app, "_get_gemini_client", lambda: fake_client)
+    monkeypatch.setattr(dts_app, "_get_gemini_client", lambda timeout_ms=dts_app.GEMINI_PRIMARY_TIMEOUT_MS: fake_client)
 
     response = dts_app._GeminiExtractorModel().generate_content("test prompt")
 
