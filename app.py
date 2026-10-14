@@ -533,6 +533,11 @@ def chat_api():
             except Exception as extraction_error:
                 app.logger.warning("Enquiry summary extraction failed: %s", extraction_error)
                 details = None
+                if isinstance(extraction_error, TimeoutError) or "time budget exhausted" in str(extraction_error).casefold():
+                    bot_reply += (
+                        "\n\nAI response mil gaya, lekin enquiry summary time limit mein prepare nahi ho paayi. "
+                        "Kripya thodi der baad apna mobile number dobara bhejein. Enquiry abhi confirm ya send nahi hui hai."
+                    )
                 if _is_quota_exhausted_error(extraction_error):
                     bot_reply += (
                         "\n\nMaaf kijiye, AI service limit ki wajah se abhi enquiry summary "
