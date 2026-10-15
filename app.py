@@ -424,26 +424,30 @@ def _deterministic_quota_fallback(user_messages):
         "",
     )
 
+    # Use the latest quantity the customer states, including short replies like
+    # "5", "5 chiye", and phrases such as "2 pieces". Do not keep stale quantities.
     quantity_pattern = re.compile(
-        r"\b\d{1,4}\s*(?:x\s*)?(?:(?:cctv|security|ptz|prizor|electrical|fire)\s+)?"
-        r"(?:cameras?|panels?|nvr|dvr|fire alarms?|pcs?|units?|nos?|meters?|metres?|mtr|merters?)\b",
+        r"\b(\d{1,4})\s*(?:x\s*)?(?:pieces?|pcs?|units?|nos?|cameras?|panels?|"
+        r"nvr|dvr|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
         re.IGNORECASE,
     )
-    quantity_parts = list(dict.fromkeys(match.group(0).strip() for item in user_messages
-                                        for match in quantity_pattern.finditer(str(item))))
-    quantity_parts.extend(
-        match.group(0).strip() for item in user_messages
-        for match in re.finditer(r"\b(?:quantity|qty)\s*[:=-]?\s*\d+\b", str(item), re.IGNORECASE)
-        if match.group(0).strip() not in quantity_parts
-    )
-    # Cable length is commonly typed as "100 meter", "100 mtr", or misspelled "100 merter".
-    length_pattern = re.compile(r"\b\d{1,4}\s*(?:m|meters?|metres?|mtr|merters?)\b", re.IGNORECASE)
-    quantity_parts.extend(
-        match.group(0).strip() for item in user_messages
-        for match in length_pattern.finditer(str(item))
-        if match.group(0).strip() not in quantity_parts
-    )
-    quantity = ", ".join(dict.fromkeys(quantity_parts))
+    quantity = ""
+    for item in reversed(user_messages):
+        item_text = str(item).strip()
+        # A bare 1-4 digit reply is a common answer to "kitni quantity?"
+        if re.fullmatch(r"\d{1,4}", item_text):
+            quantity = item_text
+            break
+        matches = list(quantity_pattern.finditer(item_text))
+        if matches:
+            # The last quantity mentioned in the most recent matching message wins.
+            match = matches[-1]
+            quantity = match.group(0).strip()
+            break
+        qty_match = re.search(r"\b(?:quantity|qty)\s*[:=-]?\s*(\d{1,4})\b", item_text, re.IGNORECASE)
+        if qty_match:
+            quantity = qty_match.group(1)
+            break
 
     phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
     phone = next(
