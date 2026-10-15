@@ -586,19 +586,19 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     ))
     if catalog_question:
         return (
-            "Ji, DTS (Dynamic Technology Solutions) ke catalogue mein ye products/services listed hain:\\n"
+            "Ji, DTS (Dynamic Technology Solutions) ke catalogue mein ye products/services listed hain:\n"
             "• CCTV & Security: Prizor 4MP Outdoor PoE IP Camera, Prizor Smart Wi-Fi PTZ Camera, "
-            "Prizor 8-Channel NVR aur DVR\\n"
-            "• Networking: HOC CAT6 pure-copper LAN cable aur listed networking/cabling items\\n"
+            "Prizor 8-Channel NVR aur DVR\n"
+            "• Networking: HOC CAT6 pure-copper LAN cable aur listed networking/cabling items\n"
             "• IT Infrastructure: business desktop, monitor/display, network printer/MFP, server, "
-            "network rack, NAS, UPS, switches, Wi-Fi access point, firewall aur fibre/networking solutions\\n"
-            "• Electrical: industrial electrical power distribution panels aur electrical work\\n"
-            "• Fire Safety: fire alarm, safety/suppression systems aur maintenance services\\n"
-            "• Access control, installation, engineering contracting aur AMC services\\n\\n"
+            "network rack, NAS, UPS, switches, Wi-Fi access point, firewall aur fibre/networking solutions\n"
+            "• Electrical: industrial electrical power distribution panels aur electrical work\n"
+            "• Fire Safety: fire alarm, safety/suppression systems aur maintenance services\n"
+            "• Access control, installation, engineering contracting aur AMC services\n\n"
             "Aapko inmein se kis product/service ki details chahiye?"
         )
 
-    monitor_context = bool(re.search(r"\\b(?:monitor|display|screen)\\b", combined))
+    monitor_context = bool(re.search(r"\b(?:monitor|display|screen)\b", combined))
     monitor_details_question = bool(re.search(
         r"(?:uske andar|iske andar|kya kya milega|ky ky mlega|kya milega|"
         r"features?|specifications?|specs?|details?|resolution|size|ports?|"
@@ -609,7 +609,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         quantity = ""
         for message in reversed(user_messages):
             match = re.search(
-                r"\\b(\\d{1,3})\\s*(?:chahiye|chiye|chahie|pcs?|units?|nos?)\\b",
+                r"\b(\d{1,3})\s*(?:chahiye|chiye|chahie|pcs?|units?|nos?)\b",
                 str(message),
                 re.IGNORECASE,
             )
@@ -622,7 +622,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             + quantity_text
             + "Website par confirmed details ye hain: **Solution:** Monitor / Display; "
             "**Size:** Requirement Based; **Brand/Supply:** DTS Solution / DTS; "
-            "**Availability:** On Request.\\n\\n"
+            "**Availability:** On Request.\n\n"
             "Exact resolution, ports, refresh rate aur box mein included accessories catalogue mein "
             "specified nahi hain, isliye main unke baare mein guess nahi karunga. "
             "Aapko preferred screen size pata hai? Aur monitor office/desktop use ke liye chahiye "
