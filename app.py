@@ -113,6 +113,41 @@ def _call_openai(messages, *, json_mode=False, max_tokens=500):
         raise RuntimeError("OpenAI API returned an empty response.")
     return content.strip()
 
+_UNSUPPORTED_BRAND_RE = re.compile(r"\\b(?:CP\\s*\\+?\\s*PLUS|HIKVISION|DAHUA)\\b", re.IGNORECASE)
+_INTERNAL_FRAGMENT_RE = re.compile(
+    r"acknowledge receipt of|confirm receipt of details|system instruction|"
+    r"as an ai language model|json only with keys",
+    re.IGNORECASE,
+)
+
+def _sanitize_bot_reply(reply):
+    """Block unsupported stock claims and leaked internal prompt fragments."""
+    text = _clean_text(reply, 1800)
+    if _UNSUPPORTED_BRAND_RE.search(text):
+        return (
+            "DTS ke online catalogue mein CCTV ke liye Prizor products listed hain. "
+            "CP Plus, Hikvision ya Dahua ki availability main confirm nahi kar sakta; "
+            "DTS team se verify karni hogi. Aapko kitne cameras chahiye aur installation location kya hai?"
+        )
+    if _INTERNAL_FRAGMENT_RE.search(text):
+        return "Ji, aapki details mil gayi hain. Enquiry abhi send nahi hui hai."
+    return text
+
+def _parse_json_object(raw_text):
+    """Parse a JSON object even if the model wraps it in a Markdown code fence."""
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        return None
+    text = raw_text.strip()
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        unfenced = re.sub(r"^```(?:json)?\\s*|\\s*```$", "", text, flags=re.IGNORECASE).strip()
+        match = re.search(r"\\{[\\s\\S]*\\}", unfenced)
+        if not match:
+            raise
+        parsed = json.loads(match.group(0))
+    return parsed if isinstance(parsed, dict) else None
+
 class _OpenAIResponse:
     def __init__(self, text):
         self.text = text
