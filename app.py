@@ -29,9 +29,9 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
 # Use a distinct stable fallback; Gemini 3.7 requests may be routed to the 3.8 primary.
 GEMINI_FALLBACK_MODEL = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-3.6-flash").strip()
-GEMINI_PRIMARY_TIMEOUT_MS = 12000
-GEMINI_FALLBACK_TIMEOUT_MS = 7000
-GEMINI_REQUEST_BUDGET_SECONDS = 20
+GEMINI_PRIMARY_TIMEOUT_MS = 10000
+GEMINI_FALLBACK_TIMEOUT_MS = 10000
+GEMINI_REQUEST_BUDGET_SECONDS = 22
 GEMINI_TIMEOUT_MS = GEMINI_PRIMARY_TIMEOUT_MS
 
 SYSTEM_INSTRUCTION = """
@@ -83,9 +83,11 @@ def _get_gemini_client(timeout_ms=GEMINI_PRIMARY_TIMEOUT_MS):
     if deadline is not None:
         remaining_ms = int((deadline - time.monotonic()) * 1000)
         timeout_ms = min(timeout_ms, (remaining_ms // 1000) * 1000)
-    if timeout_ms < 1000:
-        raise TimeoutError("DTS AI request time budget exhausted.")
     timeout_ms = (timeout_ms // 1000) * 1000
+    # Gemini rejects manually configured deadlines below 10 seconds with HTTP 400.
+    # Fail locally rather than spending time on a request guaranteed to be rejected.
+    if timeout_ms < 10000:
+        raise TimeoutError("DTS AI request has less than Gemini's 10-second minimum budget.")
     with _client_lock:
         client = _clients.get(timeout_ms)
         if client is None:
