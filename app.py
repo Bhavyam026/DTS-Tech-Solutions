@@ -34,7 +34,9 @@ You are the friendly technical sales assistant for DTS (Dynamic Technology Solut
 Answer using only the DTS catalogue context and rules below. The catalogue includes:
 - CCTV/security: Prizor 4MP Outdoor PoE IP Security Camera; Prizor Smart Wi-Fi Wireless PTZ Security Camera; Prizor 8-Channel NVR; Prizor 8-Channel DVR.
 - Networking/cabling: HOC Structured CAT6 Pure Copper LAN Cable and listed networking/cabling items.
-- IT assets: DTS Business Monitor & Display (monitor/display, size requirement-based, DTS Solution supply, availability on request); listed business desktop and network printer/MFP products where shown in the website catalogue.
+- IT assets: DTS Business Monitor & Display (size requirement-based, DTS Solution supply, availability on request); the DTS owner confirms the monitor they have has 1 HDMI port and physical control buttons. Do not assume this applies to every Prizor model.
+- Public Prizor monitor listings found during research include PRIZ-19FHD-M (19-inch), PRIZ-22FHD-M (22-inch), PRIZ-24FHD-FL (24-inch), and PRIZ-32FHD-FL (32-inch). Some reseller listings describe Full HD 1920x1080 and HDMI/VGA/USB/CVBS interfaces, but these must NOT be attributed to the DTS owner's particular monitor unless its model matches. No 45-inch Prizor monitor was verified in the researched listings; treat 45-inch supply as needing DTS team confirmation, not as unavailable.
+- Networking/cabling research: HOC public catalogue lists NIRBHAY CAT6 indoor pure-copper cable (24 AWG, 250 MHz, up to 1 Gbps), PRITHVI CAT6 outdoor pure-copper cable (24 AWG, 250 MHz, UV/moisture-resistant jacket, up to 1 Gbps), and BRAHMOS armoured CAT6 cable (23 AWG, 250 MHz, up to 1 Gbps). These are public product-family specifications, not proof of DTS stock. Ask/check exact HOC model before applying specs or promising availability.
 - Electrical: Industrial Electrical Power Distribution Panel, electrical work.
 - Fire safety: fire alarm and safety/suppression systems; these are DTS services/products, not Prizor-branded.
 - Services: Engineering Contracting, installation, maintenance and AMC, including access control where listed.
@@ -427,7 +429,7 @@ def _deterministic_quota_fallback(user_messages):
     # Use the latest quantity the customer states, including short replies like
     # "5", "5 chiye", and phrases such as "2 pieces". Do not keep stale quantities.
     quantity_pattern = re.compile(
-        r"\b(\d{1,4})\s*(?:x\s*)?(?:pieces?|pcs?|units?|nos?|cameras?|panels?|"
+        r"\b(\d{1,4})\s*(?:x\s*)?(?:pieces?|pcs?|units?|nos?|cameras?|panels?|monitors?|displays?|screens?|"
         r"nvr|dvr|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
         re.IGNORECASE,
     )
@@ -542,24 +544,66 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         quantity = ""
         for message in reversed(user_messages):
             match = re.search(
-                r"\b(\d{1,3})\s*(?:chahiye|chiye|chahie|pcs?|units?|nos?)\b",
+                r"\b(\d{1,3})\s*(?:monitors?|displays?|screens?|chahiye|chiye|chahie|pcs?|units?|nos?)\b",
                 str(message),
                 re.IGNORECASE,
             )
             if match:
                 quantity = match.group(1)
                 break
-        quantity_text = f"Aapne {quantity} monitor bataye hain. " if quantity else ""
+        size_match = re.search(r"\b(\d{2,3})\s*(?:-?\s*inch|inches|in)\b", combined, re.IGNORECASE)
+        size_text = f" Aapne {size_match.group(1)}-inch size bataya hai." if size_match else ""
+        quantity_text = f"Aapki quantity {quantity} monitors hai." if quantity else ""
+        if re.search(r"\b45\s*(?:-?\s*inch|inches|in)\b", combined, re.IGNORECASE):
+            size_note = (
+                " Public Prizor listings mein mujhe 19, 22, 24 aur 32-inch models mile, "
+                "lekin 45-inch Prizor model verify nahi hua. Isliye 45-inch supply ko DTS team se "
+                "confirm karna hoga; main ise available ya unavailable claim nahi karunga."
+            )
+        else:
+            size_note = ""
         return (
-            "Ji, DTS catalogue mein **DTS Business Monitor & Display** listed hai. "
-            + quantity_text
-            + "Website par confirmed details ye hain: **Solution:** Monitor / Display; "
-            "**Size:** Requirement Based; **Brand/Supply:** DTS Solution / DTS; "
-            "**Availability:** On Request.\n\n"
-            "Exact resolution, ports, refresh rate aur box mein included accessories catalogue mein "
-            "specified nahi hain, isliye main unke baare mein guess nahi karunga. "
-            "Aapko preferred screen size pata hai? Aur monitor office/desktop use ke liye chahiye "
-            "ya CCTV control room ke liye?"
+            "Ji, samajh gaya. DTS ke monitor ke liye confirmed physical details: **1 HDMI port** "
+            "aur **physical control buttons**."
+            + (" " + quantity_text if quantity_text else "")
+            + size_text
+            + size_note
+            + "\n\nAapne CCTV control room ke liye bataya hai. Exact model ki resolution, refresh rate "
+            "aur box accessories abhi confirm nahi hain. Kya main aapki requirement **5 monitors, "
+            "45-inch, CCTV control room, Palghar** ke roop mein note karun aur 45-inch availability "
+            "DTS team se verify karne ke liye aage badhun?"
+        )
+
+    hoc_question = bool(re.search(r"\b(?:hoc|cat\s*6|cat6|lan cable|pure copper cable)\b", folded))
+    hoc_details_question = bool(re.search(
+        r"(?:specs?|details?|features?|indoor|outdoor|pure copper|bandwidth|speed|"
+        r"brahmos|prithvi|nirbhay|cable)", folded
+    ))
+    if hoc_question and hoc_details_question:
+        if re.search(r"\b(?:prithvi|outdoor)\b", folded):
+            model_line = (
+                "**HOC PRITHVI CAT6 Outdoor Pure Copper:** 24 AWG, 250 MHz, up to 1 Gbps; "
+                "outer jacket designed for UV and moisture protection."
+            )
+        elif re.search(r"\b(?:brahmos|armou?red)\b", folded):
+            model_line = (
+                "**HOC BRAHMOS Armoured CAT6:** 23 AWG, 250 MHz, up to 1 Gbps; armoured construction "
+                "for added physical protection."
+            )
+        elif re.search(r"\b(?:nirbhay|indoor)\b", folded):
+            model_line = (
+                "**HOC NIRBHAY CAT6 Indoor Pure Copper:** 24 AWG, 250 MHz, up to 1 Gbps."
+            )
+        else:
+            model_line = (
+                "HOC ke public catalogue mein NIRBHAY (indoor), PRITHVI (outdoor) aur BRAHMOS "
+                "(armoured) CAT6 pure-copper models listed hain. Inke specs alag hain."
+            )
+        return (
+            "Ji, HOC CAT6 cable ki public product information ke mutabik: "
+            + model_line
+            + " Ye online model-family specifications hain; DTS ke paas exact kaunsa model/stock hai, "
+            "woh confirm karna hoga. Aapko indoor cable chahiye, outdoor ya armoured?"
         )
     return None
 
