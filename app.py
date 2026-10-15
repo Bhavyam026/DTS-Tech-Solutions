@@ -63,7 +63,7 @@ EXTRACTOR_INSTRUCTION = (
 )
 
 _generation_config = types.GenerateContentConfig(
-    max_output_tokens=300,
+    max_output_tokens=500,
     system_instruction=SYSTEM_INSTRUCTION,
 )
 _extractor_config = types.GenerateContentConfig(
@@ -320,6 +320,47 @@ def _clean_text(value, max_length=240):
         return ""
     return " ".join(value.strip().split())[:max_length]
 
+PRICING_REPLY = "Pricing aur exact cost ke liye kripya hamare owner/expert se direct baat karein."
+
+
+def _is_pricing_question(message):
+    """Recognize common English and Roman-Hindi price questions for a complete fixed reply."""
+    if not isinstance(message, str):
+        return False
+    return bool(re.search(
+        r"\b(?:price|pricing|cost|rate|kitna|kitne|kitni|paise|charges|quotation|quote)\b",
+        message,
+        re.IGNORECASE,
+    ))
+
+
+def _has_customer_requirement(messages):
+    """Detect a DTS product/service request from the customer's accumulated messages."""
+    text = " ".join(str(item) for item in messages).casefold()
+    return bool(re.search(
+        r"\b(?:cctv|camera|amc|electrical|electric|panel|fire safety|fire alarm|networking|lan cable|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
+        text,
+    ))
+
+
+def _has_location_in_messages(messages):
+    """Recognize DTS service areas and common nearby industrial locations in chat history."""
+    text = " ".join(str(item) for item in messages).casefold()
+    return bool(re.search(
+        r"\b(?:boisar|palghar|mumbai|thane|navi mumbai|tarapur|taloja|vasai|virar|dahanu|vapi|silvassa|pune)\b",
+        text,
+    ))
+
+
+def _has_valid_mobile_in_messages(messages):
+    phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
+    return any(
+        _is_valid_indian_mobile(match.group(0))
+        for message in messages
+        for match in phone_pattern.finditer(str(message))
+    )
+
+
 def _is_valid_indian_mobile(value):
     """Accept Indian mobile numbers in 10-digit, 0-prefixed, or +91-prefixed form."""
     if not isinstance(value, str):
@@ -515,6 +556,23 @@ def chat_api():
                 item["content"] for item in session["history"]
                 if item["role"] == "user"
             ]
+
+            # Fixed pricing text is deterministic so a model cutoff cannot leak
+            # a partial phrase such as "Pricing aur..." to the customer.
+            if _is_pricing_question(latest_message):
+                bot_reply = PRICING_REPLY
+            elif _has_customer_requirement(user_messages) and not _has_location_in_messages(user_messages):
+                bot_reply = (
+                    "Ji, aapki requirement note kar li. Installation ya service kis "
+                    "location par chahiye? City/area ka naam bata dein."
+                )
+            elif _has_customer_requirement(user_messages) and not _has_valid_mobile_in_messages(user_messages):
+                bot_reply = (
+                    "Theek hai, requirement note kar li. Enquiry summary banane ke liye "
+                    "apna valid 10-digit Indian mobile number share karein "
+                    "(number 6, 7, 8 ya 9 se shuru ho)."
+                )
+
             # The extractor is a second Gemini request. Only call it once the
             # customer has actually supplied a valid-looking Indian mobile number;
             # this avoids spending two quota units on every short chat turn.

@@ -59,6 +59,41 @@ def post_message(client, session_id, message):
     )
 
 
+def test_pricing_question_returns_complete_fixed_reply():
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+    response = post_message(client, session_id, "price ky hai unk")
+    body = response.get_json()
+    assert response.status_code == 200
+    assert body["reply"] == dts_app.PRICING_REPLY
+    assert body["reply"].endswith("baat karein.")
+    assert "Pricing aur..." not in body["reply"]
+
+
+def test_requirement_without_location_asks_for_location():
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+    response = post_message(client, session_id, "Muze CCTV AMC aur electrical panel chiye, bas itna hi")
+    body = response.get_json()
+    assert response.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert "kis location par" in body["reply"].casefold()
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
+
+
+def test_requirement_with_location_but_without_mobile_asks_for_mobile():
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+    response = post_message(client, session_id, "Muze CCTV AMC aur electrical panel Boisar mein chiye")
+    body = response.get_json()
+    assert response.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert "10-digit indian mobile number" in body["reply"].casefold()
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
+
+
 def test_home_route_serves_root_index_html():
     response = dts_app.app.test_client().get("/")
     assert response.status_code == 200
