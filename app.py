@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import requests
 import threading
 import time
 import urllib.parse
@@ -337,7 +338,7 @@ def health():
         "service": "DTS OpenAI AI Backend",
         "ai_configured": bool(OPENAI_API_KEY),
         "model": OPENAI_MODEL,
-        "fallback_model": OPENAI_FALLBACK_MODEL or None,
+        "fallback_model": None,
         "note": (
             "Health confirms configuration only, not a live OpenAI response or WhatsApp delivery. "
             "WhatsApp handoff opens a prefilled link; it does not send automatically."
