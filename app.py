@@ -536,8 +536,8 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     monitor_context = bool(re.search(r"\b(?:monitor|display|screen)\b", combined))
     monitor_details_question = bool(re.search(
         r"(?:uske andar|iske andar|kya kya milega|ky ky mlega|kya milega|"
-        r"features?|specifications?|specs?|details?|resolution|size|ports?|"
-        r"what is included|what comes with|what features)",
+        r"features?|specifications?|specs?|details?|resolution|size|ports?|inch(?:es)?|ichh?|"
+        r"\d{2,3}\s*(?:inch(?:es)?|ichh?)|what is included|what comes with|what features)",
         folded,
     ))
     if monitor_context and monitor_details_question:
@@ -551,10 +551,10 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             if match:
                 quantity = match.group(1)
                 break
-        size_match = re.search(r"\b(\d{2,3})\s*(?:-?\s*inch|inches|in)\b", combined, re.IGNORECASE)
+        size_match = re.search(r"\b(\d{2,3})\s*(?:-?\s*inch(?:es)?|in|ichh?)\b", combined, re.IGNORECASE)
         size_text = f" Aapne {size_match.group(1)}-inch size bataya hai." if size_match else ""
         quantity_text = f"Aapki quantity {quantity} monitors hai." if quantity else ""
-        if re.search(r"\b45\s*(?:-?\s*inch|inches|in)\b", combined, re.IGNORECASE):
+        if re.search(r"\b45\s*(?:-?\s*inch(?:es)?|in|ichh?)\b", combined, re.IGNORECASE):
             size_note = (
                 " Public Prizor listings mein mujhe 19, 22, 24 aur 32-inch models mile, "
                 "lekin 45-inch Prizor model verify nahi hua. Isliye 45-inch supply ko DTS team se "
