@@ -338,7 +338,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:cctv|camera|amc|electrical|electric|panel|fire safety|fire alarm|networking|lan cable|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
+        r"\b(?:ptz|cctv|camera|amc|electrical|electric|panel|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
         text,
     ))
 
@@ -475,13 +475,15 @@ def _deterministic_quota_fallback(user_messages):
     requirements = []
     if re.search(r"\b(?:cctv\s*amc|amc.{0,20}cctv)\b", folded):
         requirements.append("CCTV AMC")
+    elif re.search(r"\bptz\b", folded):
+        requirements.append("Prizor Smart Wi-Fi PTZ Camera")
     elif re.search(r"\b(?:cctv|cameras?)\b", folded):
         requirements.append("CCTV / Security Cameras")
     if re.search(r"\b(?:electrical|electric|power distribution|electrical panel)\b", folded):
         requirements.append("Electrical Panel / Electrical Work")
     if re.search(r"\b(?:fire safety|fire alarm|suppression system)\b", folded):
         requirements.append("Fire Safety / Fire Alarm")
-    if re.search(r"\b(?:networking|lan cable|cat6|structured cabling)\b", folded):
+    if re.search(r"\b(?:networking|lan cable|cat\s*6|cat6|structured cabling)\b", folded):
         requirements.append("Networking / LAN / CAT6")
     if re.search(r"\b(?:it infra|it infrastructure|desktop|monitor|server|network rack)\b", folded):
         requirements.append("IT Infrastructure")
@@ -503,8 +505,8 @@ def _deterministic_quota_fallback(user_messages):
     )
 
     quantity_pattern = re.compile(
-        r"\b\d{1,3}\s*(?:x\s*)?(?:(?:cctv|security|electrical|fire)\s+)?"
-        r"(?:cameras?|panels?|nvr|dvr|fire alarms?|pcs?|units?|nos?)\b",
+        r"\b\d{1,4}\s*(?:x\s*)?(?:(?:cctv|security|ptz|prizor|electrical|fire)\s+)?"
+        r"(?:cameras?|panels?|nvr|dvr|fire alarms?|pcs?|units?|nos?|meters?|metres?|mtr|merters?)\b",
         re.IGNORECASE,
     )
     quantity_parts = list(dict.fromkeys(match.group(0).strip() for item in user_messages
@@ -512,6 +514,13 @@ def _deterministic_quota_fallback(user_messages):
     quantity_parts.extend(
         match.group(0).strip() for item in user_messages
         for match in re.finditer(r"\b(?:quantity|qty)\s*[:=-]?\s*\d+\b", str(item), re.IGNORECASE)
+        if match.group(0).strip() not in quantity_parts
+    )
+    # Cable length is commonly typed as "100 meter", "100 mtr", or misspelled "100 merter".
+    length_pattern = re.compile(r"\b\d{1,4}\s*(?:m|meters?|metres?|mtr|merters?)\b", re.IGNORECASE)
+    quantity_parts.extend(
+        match.group(0).strip() for item in user_messages
+        for match in length_pattern.finditer(str(item))
         if match.group(0).strip() not in quantity_parts
     )
     quantity = ", ".join(dict.fromkeys(quantity_parts))
