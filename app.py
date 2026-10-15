@@ -467,6 +467,111 @@ def index():
     return send_from_directory(app.root_path, "index.html")
 
 
+def _deterministic_quota_fallback(user_messages):
+    """Collect a minimal DTS enquiry without calling Gemini when its quota is exhausted."""
+    combined = " ".join(_clean_text(item, MAX_MESSAGE_CHARS) for item in user_messages)
+    folded = combined.casefold()
+
+    requirements = []
+    if re.search(r"\b(?:cctv\s*amc|amc.{0,20}cctv)\b", folded):
+        requirements.append("CCTV AMC")
+    elif re.search(r"\b(?:cctv|cameras?)\b", folded):
+        requirements.append("CCTV / Security Cameras")
+    if re.search(r"\b(?:electrical|electric|power distribution|electrical panel)\b", folded):
+        requirements.append("Electrical Panel / Electrical Work")
+    if re.search(r"\b(?:fire safety|fire alarm|suppression system)\b", folded):
+        requirements.append("Fire Safety / Fire Alarm")
+    if re.search(r"\b(?:networking|lan cable|cat6|structured cabling)\b", folded):
+        requirements.append("Networking / LAN / CAT6")
+    if re.search(r"\b(?:it infra|it infrastructure|desktop|monitor|server|network rack)\b", folded):
+        requirements.append("IT Infrastructure")
+    if re.search(r"\b(?:nvr|dvr)\b", folded):
+        requirements.append("NVR / DVR")
+    if re.search(r"\baccess control\b", folded):
+        requirements.append("Access Control")
+    if re.search(r"\b(?:installation|maintenance|engineering contracting)\b", folded) and not requirements:
+        requirements.append("Installation / Technical Services")
+    requirements = list(dict.fromkeys(requirements))
+
+    locations = (
+        "Navi Mumbai", "Boisar", "Palghar", "Mumbai", "Thane", "Tarapur",
+        "Taloja", "Vasai", "Virar", "Dahanu", "Vapi", "Silvassa", "Pune",
+    )
+    location = next(
+        (place for place in locations if re.search(r"\b" + re.escape(place) + r"\b", combined, re.IGNORECASE)),
+        "",
+    )
+
+    quantity_pattern = re.compile(
+        r"\b\d{1,3}\s*(?:x\s*)?(?:(?:cctv|security|electrical|fire)\s+)?"
+        r"(?:cameras?|panels?|nvr|dvr|fire alarms?|pcs?|units?|nos?)\b",
+        re.IGNORECASE,
+    )
+    quantity_parts = list(dict.fromkeys(match.group(0).strip() for item in user_messages
+                                        for match in quantity_pattern.finditer(str(item))))
+    quantity_parts.extend(
+        match.group(0).strip() for item in user_messages
+        for match in re.finditer(r"\b(?:quantity|qty)\s*[:=-]?\s*\d+\b", str(item), re.IGNORECASE)
+        if match.group(0).strip() not in quantity_parts
+    )
+    quantity = ", ".join(dict.fromkeys(quantity_parts))
+
+    phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
+    phone = next(
+        (match.group(0) for item in reversed(user_messages)
+         for match in phone_pattern.finditer(str(item))
+         if _is_valid_indian_mobile(match.group(0))),
+        "",
+    )
+
+    details = {
+        "product_service": ", ".join(requirements),
+        "location": location,
+        "quantity": quantity,
+        "contact_name": "",
+        "contact_number": phone,
+        "notes": "",
+    }
+
+    if _is_pricing_question(user_messages[-1] if user_messages else ""):
+        pricing = PRICING_REPLY
+    else:
+        pricing = ""
+
+    if not requirements:
+        question = (
+            "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai—"
+            "CCTV, electrical panel, fire safety, networking ya IT infrastructure?"
+        )
+    elif not quantity or (len(requirements) > 1 and len(quantity_parts) < len(requirements)):
+        question = (
+            "Ji, requirement note kar li. Har item/service ki quantity bata dein "
+            "(jaise CCTV cameras aur electrical panel ki alag-alag quantity)."
+            if len(requirements) > 1
+            else f"Ji, {requirements[0]} ke liye kitni quantity chahiye?"
+        )
+    elif not location:
+        question = "Installation ya service kis location par chahiye? City/area ka naam bata dein."
+    elif not phone:
+        question = (
+            "Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein "
+            "(number 6, 7, 8 ya 9 se shuru ho)."
+        )
+    else:
+        summary = _format_summary(details)
+        question = (
+            "AI quota abhi available nahi hai, isliye main aapki di hui details se summary "
+            "tayyar kar raha hoon. Please details check karein:\n\n"
+            + summary
+            + "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+            "Correction chahiye toh pehle correction bhejein. Confirmation se pehle "
+            "WhatsApp draft link nahi banega."
+        )
+
+    reply = (pricing + "\n\n" + question).strip() if pricing else question
+    return reply, details
+
+
 @app.route("/api/chat", methods=["POST"])
 def chat_api():
     payload = request.get_json(silent=True)
@@ -634,11 +739,36 @@ def chat_api():
 
         except Exception as error:
             if _is_quota_exhausted_error(error):
-                app.logger.warning("DTS AI provider quota is exhausted; returning a customer-safe temporary-unavailable response.")
-                return jsonify({
-                    "error": "DTS AI abhi temporary unavailable hai. Kripya thodi der baad try karein ya DTS team se directly contact karein.",
-                    "error_code": "AI_QUOTA_TEMPORARILY_UNAVAILABLE",
-                }), 503
+                app.logger.warning("DTS AI provider quota is exhausted; using deterministic enquiry fallback.")
+                # Persist the customer's turn even though Gemini could not answer it.
+                session["history"].append({"role": "user", "content": latest_message})
+                user_messages = [
+                    item["content"] for item in session["history"]
+                    if item["role"] == "user"
+                ]
+                reply, details = _deterministic_quota_fallback(user_messages)
+                summary_ready = bool(
+                    details.get("product_service")
+                    and details.get("quantity")
+                    and details.get("location")
+                    and _is_valid_indian_mobile(details.get("contact_number", ""))
+                )
+                session["details"] = details
+                session["summary"] = _format_summary(details) if summary_ready else None
+                session["state"] = "SUMMARY_READY" if summary_ready else "GATHERING"
+                if summary_ready:
+                    reply = (
+                        "AI quota abhi available nahi hai, isliye main aapki di hui details se "
+                        "summary tayyar kar raha hoon. Please details check karein:\n\n"
+                        + session["summary"]
+                        + "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                        "Correction chahiye toh pehle correction bhejein. Confirmation se pehle "
+                        "WhatsApp draft link nahi banega."
+                    )
+                session["history"].append({"role": "assistant", "content": reply})
+                session["history"] = session["history"][-MAX_STORED_TURNS:]
+                session["updated_at"] = time.time()
+                return _json_response(reply, session["state"], session["summary"])
             app.logger.exception("DTS AI chat request failed: %s", error)
             return jsonify({
                 "error": "Kshama kijiye, AI connection mein problem hui. Kripya thodi der baad dobara try karein.",
