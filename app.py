@@ -113,7 +113,7 @@ def _call_openai(messages, *, json_mode=False, max_tokens=500):
         raise RuntimeError("OpenAI API returned an empty response.")
     return content.strip()
 
-_UNSUPPORTED_BRAND_RE = re.compile(r"\\b(?:CP\\s*\\+?\\s*PLUS|HIKVISION|DAHUA)\\b", re.IGNORECASE)
+_UNSUPPORTED_BRAND_RE = re.compile(r"\b(?:CP\s*\\+?\s*PLUS|HIKVISION|DAHUA)\\b", re.IGNORECASE)
 _INTERNAL_FRAGMENT_RE = re.compile(
     r"acknowledge receipt of|confirm receipt of details|system instruction|"
     r"as an ai language model|json only with keys",
@@ -141,8 +141,8 @@ def _parse_json_object(raw_text):
     try:
         parsed = json.loads(text)
     except json.JSONDecodeError:
-        unfenced = re.sub(r"^```(?:json)?\\s*|\\s*```$", "", text, flags=re.IGNORECASE).strip()
-        match = re.search(r"\\{[\\s\\S]*\\}", unfenced)
+        unfenced = re.sub(r"^```(?:json)?\s*|\s*```$", "", text, flags=re.IGNORECASE).strip()
+        match = re.search(r"\{[\\s\S]*\\}", unfenced)
         if not match:
             raise
         parsed = json.loads(match.group(0))
