@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 from types import SimpleNamespace
 
-os.environ.setdefault("GEMINI_API_KEY", "test-key")
+os.environ.setdefault("OPENAI_API_KEY", "test-key")
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import app as dts_app
@@ -148,9 +148,9 @@ def test_health_endpoint_reports_configuration_without_calling_model():
 
     assert response.status_code == 200
     assert body["status"] == "ok"
-    assert body["service"] == "DTS Gemini AI Backend"
+    assert body["service"] == "DTS OpenAI AI Backend"
     assert "ai_configured" in body
-    assert "not a live Gemini response" in body["note"]
+    assert "not a live OpenAI response" in body["note"]
 
 
 def test_github_pages_origin_passes_cors_preflight():
@@ -242,68 +242,6 @@ def test_json_parser_accepts_fenced_json_object():
     }
 
 
-def test_chat_adapter_falls_back_on_transient_primary_model_error(monkeypatch):
-    class BrokenPrimaryChat:
-        def send_message(self, message):
-            raise RuntimeError("503 UNAVAILABLE: temporary high demand")
-
-    class FakeChats:
-        def __init__(self):
-            self.models = []
-
-        def create(self, model, history, config):
-            self.models.append(model)
-            return FakeChat(history)
-
-    class FakeClient:
-        def __init__(self):
-            self.chats = FakeChats()
-
-    fake_client = FakeClient()
-    monkeypatch.setattr(dts_app, "GEMINI_FALLBACK_MODEL", "gemini-3.6-flash")
-    adapter = dts_app._ChatAdapter(
-        BrokenPrimaryChat(),
-        client=fake_client,
-        history=[{"role": "user", "parts": ["previous test turn"]}],
-        config={},
-        model_name="gemini-3.8-flash",
-    )
-
-    response = adapter.send_message("5 fire safety equipment")
-
-    assert response.text == "Thanks, I have noted your enquiry."
-    assert fake_client.chats.models == ["gemini-3.6-flash"]
-
-
-
-def test_extractor_falls_back_on_transient_primary_model_error(monkeypatch):
-    class FakeModels:
-        def __init__(self):
-            self.calls = []
-
-        def generate_content(self, model, contents, config):
-            self.calls.append(model)
-            if model == "gemini-3.8-flash":
-                raise RuntimeError("503 UNAVAILABLE: temporary high demand")
-            return SimpleNamespace(
-                text='{"product_service":"fire safety equipment","location":"Boisar"}'
-            )
-
-    class FakeClient:
-        def __init__(self):
-            self.models = FakeModels()
-
-    fake_client = FakeClient()
-    monkeypatch.setattr(dts_app, "GEMINI_MODEL", "gemini-3.8-flash")
-    monkeypatch.setattr(dts_app, "GEMINI_FALLBACK_MODEL", "gemini-3.6-flash")
-    monkeypatch.setattr(dts_app, "_get_gemini_client", lambda timeout_ms=dts_app.GEMINI_PRIMARY_TIMEOUT_MS: fake_client)
-
-    response = dts_app._GeminiExtractorModel().generate_content("test prompt")
-
-    assert response.text.startswith("{")
-    assert fake_client.models.calls == ["gemini-3.8-flash", "gemini-3.6-flash"]
-
-
 def test_json_parser_rejects_malformed_json():
     with pytest.raises(json.JSONDecodeError):
         dts_app._parse_json_object('{"product_service": "CCTV", "location": }')
@@ -376,13 +314,12 @@ def test_internal_prompt_fragment_is_replaced_with_customer_safe_acknowledgement
     assert "Acknowledge receipt of" not in reply
 
 
-def test_quota_exhaustion_does_not_trigger_model_fallback():
+def test_quota_exhaustion_is_detected_for_deterministic_fallback():
     error = RuntimeError(
         "429 RESOURCE_EXHAUSTED: Quota exceeded for metric: "
         "generate_content_free_tier_requests"
     )
     assert dts_app._is_quota_exhausted_error(error)
-    assert not dts_app._is_transient_provider_error(error)
 
 
 def test_extractor_is_not_called_until_customer_provides_mobile_number():
@@ -433,45 +370,6 @@ def test_extractor_quota_error_never_claims_enquiry_was_sent():
     assert body["whatsapp_sent"] is False
     assert "Enquiry send nahi hui hai" in body["reply"]
 
-
-
-def test_gemini_timeouts_and_request_budget_are_bounded():
-    assert dts_app.GEMINI_PRIMARY_TIMEOUT_MS == 10000
-    assert dts_app.GEMINI_FALLBACK_TIMEOUT_MS == 10000
-    assert dts_app.GEMINI_REQUEST_BUDGET_SECONDS == 22
-
-
-def test_provider_timeout_is_eligible_for_fast_fallback():
-    timeout_error = type("ReadTimeout", (Exception,), {"__module__": "httpx"})("timed out")
-    assert dts_app._is_transient_provider_error(timeout_error)
-
-
-def test_gemini_client_disables_sdk_retries_and_caps_timeout(monkeypatch):
-    class FakeGenAI:
-        @staticmethod
-        def Client(api_key, http_options):
-            return SimpleNamespace(options=http_options)
-
-    monkeypatch.setattr(dts_app, "genai", FakeGenAI)
-    monkeypatch.setattr(dts_app, "GEMINI_API_KEY", "test-key")
-    dts_app._clients.clear()
-
-    with dts_app.app.test_request_context("/api/chat"):
-        from flask import g
-        g.ai_deadline = time.monotonic() + 12
-        client = dts_app._get_gemini_client(12000)
-
-    assert 10000 <= client.options.timeout <= 12000
-    assert client.options.timeout % 1000 == 0
-    assert client.options.retry_options.attempts == 1
-    dts_app._clients.clear()
-
-    with dts_app.app.test_request_context("/api/chat"):
-        from flask import g
-        g.ai_deadline = time.monotonic() + 5
-        with pytest.raises(TimeoutError, match="10-second minimum"):
-            dts_app._get_gemini_client(12000)
-    dts_app._clients.clear()
 
 
 def test_quota_exhaustion_uses_deterministic_greeting_without_provider_call():
