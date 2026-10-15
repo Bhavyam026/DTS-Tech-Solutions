@@ -401,9 +401,9 @@ def test_extractor_quota_error_never_claims_enquiry_was_sent():
 
 
 def test_gemini_timeouts_and_request_budget_are_bounded():
-    assert dts_app.GEMINI_PRIMARY_TIMEOUT_MS == 12000
-    assert dts_app.GEMINI_FALLBACK_TIMEOUT_MS == 7000
-    assert dts_app.GEMINI_REQUEST_BUDGET_SECONDS == 20
+    assert dts_app.GEMINI_PRIMARY_TIMEOUT_MS == 10000
+    assert dts_app.GEMINI_FALLBACK_TIMEOUT_MS == 10000
+    assert dts_app.GEMINI_REQUEST_BUDGET_SECONDS == 22
 
 
 def test_provider_timeout_is_eligible_for_fast_fallback():
@@ -423,10 +423,17 @@ def test_gemini_client_disables_sdk_retries_and_caps_timeout(monkeypatch):
 
     with dts_app.app.test_request_context("/api/chat"):
         from flask import g
-        g.ai_deadline = time.monotonic() + 5
+        g.ai_deadline = time.monotonic() + 12
         client = dts_app._get_gemini_client(12000)
 
-    assert 1000 <= client.options.timeout <= 5000
+    assert 10000 <= client.options.timeout <= 12000
     assert client.options.timeout % 1000 == 0
     assert client.options.retry_options.attempts == 1
+    dts_app._clients.clear()
+
+    with dts_app.app.test_request_context("/api/chat"):
+        from flask import g
+        g.ai_deadline = time.monotonic() + 5
+        with pytest.raises(TimeoutError, match="10-second minimum"):
+            dts_app._get_gemini_client(12000)
     dts_app._clients.clear()
