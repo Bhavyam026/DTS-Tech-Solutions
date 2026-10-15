@@ -25,7 +25,7 @@ CORS(
 )
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
-OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4.1-mini").strip()
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini").strip()
 OPENAI_TIMEOUT_SECONDS = 12
 AI_REQUEST_BUDGET_SECONDS = 22
 
