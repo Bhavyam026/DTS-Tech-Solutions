@@ -545,3 +545,33 @@ def test_quota_fallback_asks_for_quantity_before_summary():
     assert body["pending_summary"] is None
     assert body["whatsapp_draft_url"] is None
     assert body["whatsapp_sent"] is False
+
+
+
+def test_quota_fallback_recognizes_ptz_camera_request():
+    reply, details = dts_app._deterministic_quota_fallback(["ptz chiye muze"])
+
+    assert details["product_service"] == "Prizor Smart Wi-Fi PTZ Camera"
+    assert details["quantity"] == ""
+    assert "kitni quantity chahiye" in reply.casefold()
+    assert "CCTV, electrical panel" not in reply
+
+
+def test_quota_fallback_recognizes_cat6_cable_length_with_roman_hindi_typo():
+    reply, details = dts_app._deterministic_quota_fallback(["cat 6 chiye 100 merter"])
+
+    assert details["product_service"] == "Networking / LAN / CAT6"
+    assert details["quantity"] == "100 merter"
+    assert "kis location par" in reply.casefold()
+    assert "100 merter" not in reply  # it is retained internally for the enquiry, not echoed as a question
+
+
+def test_quota_fallback_recognizes_standard_cat6_meter_units():
+    for message, expected in [
+        ("cat6 cable 100 meter", "100 meter"),
+        ("CAT 6 chiye 100 mtr", "100 mtr"),
+        ("100 metres CAT6 cable", "100 metres"),
+    ]:
+        _reply, details = dts_app._deterministic_quota_fallback([message])
+        assert details["product_service"] == "Networking / LAN / CAT6"
+        assert details["quantity"] == expected
