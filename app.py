@@ -563,15 +563,16 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         else:
             size_note = ""
         return (
-            "Ji, samajh gaya. DTS ke monitor ke liye confirmed physical details: **1 HDMI port** "
-            "aur **physical control buttons**."
-            + (" " + quantity_text if quantity_text else "")
-            + size_text
+            "Ji, samajh gaya. Aapki requirement: **"
+            + (quantity + " monitors" if quantity else "monitor")
+            + (", " + size_match.group(1) + "-inch" if size_match else "")
+            + ", CCTV control room, Palghar**."
+            + "\n\nDTS ke Prizor monitor ke confirmed physical details: **1 HDMI port** aur "
+            "**physical control buttons**."
             + size_note
-            + "\n\nAapne CCTV control room ke liye bataya hai. Exact model ki resolution, refresh rate "
-            "aur box accessories abhi confirm nahi hain. Kya main aapki requirement **5 monitors, "
-            "45-inch, CCTV control room, Palghar** ke roop mein note karun aur 45-inch availability "
-            "DTS team se verify karne ke liye aage badhun?"
+            + "\n\nExact model ki resolution, refresh rate aur box accessories abhi verify nahi hain. "
+            "Enquiry ke liye apna valid 10-digit Indian mobile number share karein "
+            "(number 6, 7, 8 ya 9 se shuru ho)."
         )
 
     hoc_question = bool(re.search(r"\b(?:hoc|cat\s*6|cat6|lan cable|pure copper cable)\b", folded))
