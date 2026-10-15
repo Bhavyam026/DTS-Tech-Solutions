@@ -572,6 +572,65 @@ def _deterministic_quota_fallback(user_messages):
     return reply, details
 
 
+def _deterministic_catalog_reply(latest_message, user_messages):
+    """Answer common catalogue and monitor-spec questions without relying on model memory."""
+    latest = _clean_text(latest_message, MAX_MESSAGE_CHARS)
+    folded = latest.casefold()
+    combined = " ".join(str(item) for item in user_messages).casefold()
+
+    catalog_question = bool(re.search(
+        r"(?:aapke paas|apke pass|tumhare paas|kya kya hai|ky ky hai|"
+        r"what do you have|what products|which products|product list|catalog(?:ue)?|"
+        r"available products|kya milta hai)",
+        folded,
+    ))
+    if catalog_question:
+        return (
+            "Ji, DTS (Dynamic Technology Solutions) ke catalogue mein ye products/services listed hain:\n"
+            "• CCTV & Security: Prizor 4MP Outdoor PoE IP Camera, Prizor Smart Wi-Fi PTZ Camera, "
+            "Prizor 8-Channel NVR aur DVR\n"
+            "• Networking: HOC CAT6 pure-copper LAN cable aur listed networking/cabling items\n"
+            "• IT Infrastructure: business desktop, monitor/display, network printer/MFP, server, "
+            "network rack, NAS, UPS, switches, Wi-Fi access point, firewall aur fibre/networking solutions\n"
+            "• Electrical: industrial electrical power distribution panels aur electrical work\n"
+            "• Fire Safety: fire alarm, safety/suppression systems aur maintenance services\n"
+            "• Access control, installation, engineering contracting aur AMC services\n\n"
+            "Aapko inmein se kis product/service ki details chahiye?"
+        )
+
+    monitor_context = bool(re.search(r"\b(?:monitor|display|screen)\b", combined))
+    monitor_details_question = bool(re.search(
+        r"(?:uske andar|iske andar|kya kya milega|ky ky mlega|kya milega|"
+        r"features?|specifications?|specs?|details?|resolution|size|ports?|"
+        r"what is included|what comes with|what features)",
+        folded,
+    ))
+    if monitor_context and monitor_details_question:
+        quantity = ""
+        for message in reversed(user_messages):
+            match = re.search(
+                r"\b(\d{1,3})\s*(?:chahiye|chiye|chahie|pcs?|units?|nos?)\b",
+                str(message),
+                re.IGNORECASE,
+            )
+            if match:
+                quantity = match.group(1)
+                break
+        quantity_text = f"Aapne {quantity} monitor bataye hain. " if quantity else ""
+        return (
+            "Ji, DTS catalogue mein **DTS Business Monitor & Display** listed hai. "
+            + quantity_text
+            + "Website par confirmed details ye hain: **Solution:** Monitor / Display; "
+            "**Size:** Requirement Based; **Brand/Supply:** DTS Solution / DTS; "
+            "**Availability:** On Request.\n\n"
+            "Exact resolution, ports, refresh rate aur box mein included accessories catalogue mein "
+            "specified nahi hain, isliye main unke baare mein guess nahi karunga. "
+            "Aapko preferred screen size pata hai? Aur monitor office/desktop use ke liye chahiye "
+            "ya CCTV control room ke liye?"
+        )
+    return None
+
+
 @app.route("/api/chat", methods=["POST"])
 def chat_api():
     payload = request.get_json(silent=True)
@@ -637,6 +696,22 @@ def chat_api():
             session["state"] = "GATHERING"
             session["summary"] = None
             session["details"] = None
+
+        # Handle common catalogue questions deterministically so the assistant
+        # doesn't repeat its greeting or forget a quantity on follow-up questions.
+        user_messages = [
+            item["content"] for item in session["history"]
+            if item["role"] == "user"
+        ] + [latest_message]
+        catalogue_reply = _deterministic_catalog_reply(latest_message, user_messages)
+        if catalogue_reply:
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": catalogue_reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["state"] = "GATHERING"
+            session["summary"] = None
+            session["updated_at"] = time.time()
+            return _json_response(catalogue_reply, session["state"])
 
         try:
             history = session["history"][-MAX_STORED_TURNS:]
