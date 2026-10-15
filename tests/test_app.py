@@ -472,3 +472,76 @@ def test_gemini_client_disables_sdk_retries_and_caps_timeout(monkeypatch):
         with pytest.raises(TimeoutError, match="10-second minimum"):
             dts_app._get_gemini_client(12000)
     dts_app._clients.clear()
+
+
+def test_quota_exhaustion_uses_deterministic_greeting_without_provider_call():
+    class QuotaModel:
+        def start_chat(self, history=None):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED: generate_content_free_tier_requests")
+
+    dts_app.model = QuotaModel()
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(client, session_id, "hiii")
+    body = response.get_json()
+
+    assert response.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert "DTS AI Assistant" in body["reply"]
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
+    assert body["whatsapp_sent"] is False
+
+
+def test_quota_fallback_collects_details_and_requires_explicit_confirmation():
+    class QuotaModel:
+        def start_chat(self, history=None):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED: generate_content_free_tier_requests")
+
+    dts_app.model = QuotaModel()
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(
+        client, session_id,
+        "I need 2 CCTV cameras in Boisar, number 9876543210",
+    )
+    body = response.get_json()
+
+    assert response.status_code == 200
+    assert body["state"] == "SUMMARY_READY"
+    assert "CCTV / Security Cameras" in body["pending_summary"]
+    assert "2 CCTV cameras" in body["pending_summary"]
+    assert "Boisar" in body["pending_summary"]
+    assert "9876543210" in body["pending_summary"]
+    assert body["whatsapp_draft_url"] is None
+    assert body["whatsapp_sent"] is False
+    assert "CONFIRM SUMMARY" in body["reply"]
+
+    confirmed = post_message(client, session_id, "CONFIRM SUMMARY")
+    confirmed_body = confirmed.get_json()
+    assert confirmed.status_code == 200
+    assert confirmed_body["state"] == "CONFIRMED"
+    assert confirmed_body["whatsapp_draft_url"].startswith("https://wa.me/")
+    assert confirmed_body["whatsapp_sent"] is False
+
+
+def test_quota_fallback_asks_for_quantity_before_summary():
+    class QuotaModel:
+        def start_chat(self, history=None):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED: generate_content_free_tier_requests")
+
+    dts_app.model = QuotaModel()
+    client = dts_app.app.test_client()
+    session_id = "dts-12345678-1234-4234-8234-123456789abc"
+
+    response = post_message(client, session_id, "CCTV chiye Boisar")
+    body = response.get_json()
+
+    assert response.status_code == 200
+    assert body["state"] == "GATHERING"
+    assert "quantity" in body["reply"].casefold()
+    assert body["pending_summary"] is None
+    assert body["whatsapp_draft_url"] is None
+    assert body["whatsapp_sent"] is False
