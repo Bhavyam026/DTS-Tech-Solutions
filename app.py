@@ -643,10 +643,24 @@ def _deterministic_quota_fallback(user_messages):
 
 
 def _deterministic_catalog_reply(latest_message, user_messages):
-    """Answer common catalogue and monitor-spec questions without relying on model memory."""
+    """Answer common catalogue and technical questions without relying on model memory."""
     latest = _clean_text(latest_message, MAX_MESSAGE_CHARS)
     folded = latest.casefold()
     combined = " ".join(str(item) for item in user_messages).casefold()
+
+    ups_wiring_question = bool(
+        re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded)
+        and re.search(r"\b(?:wire|wires|wiring|cable|cables|mm2?|sq\.?\s*mm|gauge|kitne mm|size)\b", folded)
+    )
+    if ups_wiring_question:
+        return (
+            "UPS ki wiring ka exact cable size (mm²) sirf UPS model/rating, load/current, AC input/output voltage, "
+            "battery/DC voltage-current, cable ki length aur installation method dekhkar decide hota hai. "
+            "Bina in details ke main koi mm size guess nahi karunga, kyunki galat cable unsafe ho sakti hai. "
+            "Agar aapko UPS ka model ya nameplate par likha VA/kVA/W rating pata hai, bata dein. "
+            "Agar nahi pata, koi baat nahi—DTS team ya qualified electrician load aur site check karke sahi size confirm karega. "
+            "Aapke UPS par model ya VA/kVA/W rating likhi hai?"
+        )
 
     catalog_question = bool(re.search(
         r"(?:aapke paas|apke pass|tumhare paas|kya kya hai|ky ky hai|"
