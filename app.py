@@ -805,6 +805,23 @@ def _deterministic_general_reply(latest_message):
         r"(?:what do i get|what can i get|what will i get|how can you help|what can you help)",
         normalized,
     ))
+    asks_services = bool(re.search(
+        r"\\b(?:konsi|kon si|kaunsi|kaun si|kaun kaun si|kon kon si|which|what)\\b.{0,55}\\b(?:services?|suvidha|facilities?)\\b|"
+        r"\\b(?:services?|suvidha|facilities?)\\b.{0,55}\\b(?:dete|deti|deta|provide|available|milti|milta|karte|karti|offer|hai|hain)\\b",
+        normalized,
+    ))
+    if asks_services:
+        return (
+            "Ji, DTS (Dynamic Technology Solutions) mein aap in products aur services ke baare mein enquiry kar sakte hain:\\n\\n"
+            "1. CCTV & Security: Prizor cameras, PTZ cameras, NVR aur DVR\\n"
+            "2. Networking & Cabling: HOC CAT6 LAN cable aur networking requirements\\n"
+            "3. IT Infrastructure: UPS aur business IT assets\\n"
+            "4. Electrical: Industrial power distribution panels aur electrical work\\n"
+            "5. Fire Safety: Fire alarm aur safety systems (ye DTS service hai, Prizor-branded nahi)\\n"
+            "6. Services: Access control, installation, configuration, maintenance aur AMC\\n\\n"
+            "Exact model, price aur availability DTS team se confirm karni hogi. Aapko kis product ya service ki zaroorat hai?"
+        )
+
     if asks_what_get:
         return (
             "Yahan aapko sirf enquiry likhne mein nahi, sahi technical solution samajhne mein bhi help milegi. "
