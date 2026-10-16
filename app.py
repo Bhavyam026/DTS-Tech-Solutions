@@ -62,6 +62,7 @@ Rules:
 2. Reply naturally in the customer's language (Hindi, Roman Hindi/Hinglish, or English). Understand short and misspelled Roman Hindi such as "CCTV chiye", "5 cctv chahiye", "PTZ chiye", "cat 6 100 merter", and "MIDC boisar".
 2a. TYPO TOLERANCE: Treat "electrical plane" / "electrical planes" as a common typo for "electrical panel" / "electrical panels"; preserve the quantity attached to it. Do not interpret it as an aircraft.
 3. Be concise. Answer the customer's actual question first, then ask only one relevant follow-up question. Never repeat a greeting instead of answering.
+3a. GENERAL CONVERSATION: If the customer says hi/hello, respond warmly once and explain briefly what help is available; do not send the same default greeting for every message. If they ask "mujhe yahan kya milega", "why should I use your services", or similar general/value questions, answer directly with grounded DTS benefits and listed service categories before asking one useful follow-up. Do not invent guarantees, prices, stock, or response times.
 4. Maintain conversation context. Do not forget already supplied product, quantity, location, or phone details. Ask only for missing details.
 5. Keep electrical, fire-safety, CCTV, networking, and IT enquiries in their correct categories.
 6. Never claim an enquiry has been sent, verified, or confirmed. Never say a WhatsApp message was sent.
@@ -783,6 +784,62 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     return None
 
 
+
+def _deterministic_general_reply(latest_message):
+    """Answer greetings and general value questions even when the AI provider is unavailable."""
+    folded = _clean_text(latest_message, MAX_MESSAGE_CHARS).casefold()
+    normalized = re.sub(r"[^a-z0-9\s]", " ", folded)
+    normalized = " ".join(normalized.split())
+
+    if re.fullmatch(r"(?:hi+|hey+|hello+|hlo+|namaste|namaskar|good morning|good afternoon|good evening)", normalized):
+        return (
+            "Namaste! 😊 Main DTS AI Assistant hoon. Aap yahan CCTV, networking, IT infrastructure, "
+            "UPS, electrical panels, fire safety aur AMC ke baare mein samajh sakte hain. Main aapko "
+            "options compare karne, installation ke basic points samajhne aur enquiry prepare karne mein "
+            "help kar sakta hoon. Aapko ghar, shop, office ya factory ke liye help chahiye?"
+        )
+
+    asks_what_get = bool(re.search(
+        r"(?:mujhe|muje|muze|mujko|mujhko|yaha|yahan|yahaan|here).{0,35}"
+        r"(?:kya|ky|milega|milta|help|faida|benefit)|"
+        r"(?:what do i get|what can i get|what will i get|how can you help|what can you help)",
+        normalized,
+    ))
+    if asks_what_get:
+        return (
+            "Yahan aapko sirf enquiry likhne mein nahi, sahi technical solution samajhne mein bhi help milegi. "
+            "DTS ke listed solutions mein Prizor CCTV cameras/NVR/DVR, HOC CAT6 networking cable, UPS aur "
+            "IT infrastructure, electrical panels, fire alarm/safety systems, access control, installation "
+            "aur AMC shamil hain. Main use-case ke hisaab se basic guidance de sakta hoon, missing details "
+            "pooch sakta hoon aur aapki enquiry ka summary tayyar kar sakta hoon. Exact price, stock aur "
+            "model-specific specs DTS team se confirm karne honge. Aap kis jagah ke liye solution dekh rahe hain—"
+            "home, shop, office ya factory?"
+        )
+
+    asks_why_choose = bool(re.search(
+        r"(?:kyu|kyun|kyo|why|reason).{0,55}(?:use|choose|select|service|services|dts|aap|tum)|"
+        r"(?:use|choose|select).{0,55}(?:service|services|dts|aap|tum)|"
+        r"(?:aapke|apke|dts).{0,45}(?:service|services).{0,35}(?:kyu|kyun|use|choose|karu|kare|lena)|"
+        r"(?:why should i|why would i|why use|why choose)",
+        normalized,
+    ))
+    if asks_why_choose:
+        return (
+            "DTS ko consider karne ki 3 practical wajah hain: "
+            "(1) CCTV, networking, IT infrastructure, electrical panels, fire safety aur AMC jaise multiple "
+            "technical requirements ke liye ek hi team se baat kar sakte hain; "
+            "(2) requirement ke hisaab se product supply ke saath installation, configuration aur maintenance "
+            "support ke baare mein bhi discuss kar sakte hain; "
+            "(3) Boisar/Palghar aur aas-paas ke service areas ke liye enquiry raise kar sakte hain. "
+            "Main guaranteed response time, stock ya lowest price ka claim nahi karunga—ye details team se "
+            "confirm hongi. Aap apne home, shop, office ya factory ke liye kya solve karna chahte hain?"
+        )
+
+    if normalized in ("thanks", "thank you", "thankyou", "shukriya", "dhanyavad", "ok thanks"):
+        return "Aapka swagat hai! 😊 DTS ke kisi product ya service ke baare mein sawaal ho toh pooch sakte hain."
+
+    return None
+
 @app.route("/api/chat", methods=["POST"])
 def chat_api():
     payload = request.get_json(silent=True)
@@ -938,6 +995,14 @@ def chat_api():
             session["updated_at"] = time.time()
             return _json_response(reply, session["state"], session["summary"])
 
+        general_reply = _deterministic_general_reply(latest_message)
+        if general_reply:
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": general_reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(general_reply, session["state"], session["summary"])
+
         catalogue_reply = _deterministic_catalog_reply(latest_message, user_messages)
         if catalogue_reply:
             session["history"].append({"role": "user", "content": latest_message})
@@ -1056,6 +1121,12 @@ def chat_api():
                     item["content"] for item in session["history"]
                     if item["role"] == "user"
                 ]
+                general_reply = _deterministic_general_reply(latest_message)
+                if general_reply:
+                    session["history"].append({"role": "assistant", "content": general_reply})
+                    session["history"] = session["history"][-MAX_STORED_TURNS:]
+                    session["updated_at"] = time.time()
+                    return _json_response(general_reply, session["state"], session["summary"])
                 reply, details = _deterministic_quota_fallback(user_messages)
                 summary_ready = bool(
                     details.get("product_service")
