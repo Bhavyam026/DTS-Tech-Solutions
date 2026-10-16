@@ -451,7 +451,7 @@ def _extract_multi_item_quantities(user_messages):
     patterns = [
         (r"\b(\d{1,4})\s*(?:ups|u\.p\.s\.?|uninterruptible\s+power\s+supply)\b", "UPS"),
         (r"\b(\d{1,4})\s*(?:electrical\s+(?:panels?|planes?)|(?:electrical\s+)?panels?)\b", "Electrical Panel"),
-        (r"\b(\d{1,4})\s*(?:cctv\s*)?cameras?\b|\b(\d{1,4})\s*cctv\b", "CCTV Camera"),
+        (r"\b(\d{1,4})\s*(?:(?:indoor|outdoor|ip|wi[ -]?fi|ptz|poe)\s+)*(?:cctv\s*)?cameras?\b|\b(\d{1,4})\s*(?:(?:indoor|outdoor|ip|wi[ -]?fi|ptz|poe)\s+)*cctv\b", "CCTV Camera"),
         (r"\b(\d{1,4})\s*(?:monitors?|displays?|screens?)\b", "Monitor"),
         (r"\b(\d{1,4})\s*(?:nvr|dvr)\b", "NVR/DVR"),
         (r"\b(\d{1,4})\s*fire\s+alarms?\b", "Fire Alarm"),
@@ -949,6 +949,28 @@ def chat_api():
                     session["summary"],
                 )
 
+        if _is_explicit_confirmation(latest_message):
+            details = session.get("details") or {}
+            required_ready = bool(
+                session.get("state") == "SUMMARY_READY"
+                and session.get("summary")
+                and details.get("product_service")
+                and details.get("quantity")
+                and details.get("location")
+                and _is_valid_indian_mobile(str(details.get("contact_number", "")))
+            )
+            if not required_ready:
+                session["history"].append({"role": "user", "content": latest_message})
+                reply = (
+                    "Abhi complete enquiry summary ready nahi hai, isliye WhatsApp draft nahi banaya. "
+                    "Pehle requirement, quantity, location aur valid 10-digit Indian mobile number "
+                    "confirm kar lete hain."
+                )
+                session["history"].append({"role": "assistant", "content": reply})
+                session["history"] = session["history"][-MAX_STORED_TURNS:]
+                session["updated_at"] = time.time()
+                return _json_response(reply, session.get("state", "GATHERING"), session.get("summary"))
+
         if session["state"] == "SUMMARY_READY" and _is_explicit_confirmation(latest_message):
             summary = session["summary"]
             draft_text = (
@@ -1005,12 +1027,12 @@ def chat_api():
         latest_is_location = bool(re.search(r"\b(?:palghar|plaghar|boisar|mumbai|thane|tarapur|taloja|vasai|virar|dahanu|vapi|silvassa|pune|midc)\b", latest_text, re.IGNORECASE))
         latest_is_followup_question = bool(re.search(r"\b(?:wire|wiring|cable|mm2?|sq\.?\s*mm|battery|load|voltage|amp(?:ere)?s?|how|what|why|which|kaise|kya|kitne|kitani|spec|detail|feature|compatible|use|work|price|cost|rate)\b", latest_text, re.IGNORECASE))
         should_handle_multi_item = (
-            len(latest_item_quantities) >= 2 and not latest_is_followup_question
+            len(latest_item_quantities) >= 1 and not latest_is_followup_question
         ) or (
-            len(item_quantities) >= 2 and not latest_is_followup_question and
+            len(item_quantities) >= 1 and
             (latest_is_phone_or_numeric or latest_is_location)
         )
-        if len(item_quantities) >= 2 and should_handle_multi_item:
+        if len(item_quantities) >= 1 and should_handle_multi_item:
             labels = []
             for value in item_quantities:
                 label = value.split(" ", 1)[1]
@@ -1022,9 +1044,19 @@ def chat_api():
                  if _is_valid_indian_mobile(match.group(0))),
                 "",
             )
+            combined_customer_text = " ".join(user_messages)
+            product_labels = []
+            for label in labels:
+                if label == "CCTV Camera":
+                    if re.search(r"\\bindoor\\b", combined_customer_text, re.IGNORECASE):
+                        label = "Indoor CCTV Camera"
+                    elif re.search(r"\\boutdoor\\b", combined_customer_text, re.IGNORECASE):
+                        label = "Outdoor CCTV Camera"
+                if label not in product_labels:
+                    product_labels.append(label)
             details = {
-                "product_service": ", ".join(labels),
-                "location": _extract_known_location(user_messages),
+                "product_service": ", ".join(product_labels),
+                "location": _extract_customer_location(user_messages) or _extract_known_location(user_messages),
                 "quantity": "; ".join(item_quantities),
                 "contact_name": "",
                 "contact_number": phone,
