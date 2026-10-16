@@ -1,0 +1,72 @@
+name: DTS Free Live Smoke Tests
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check backend health
+        run: |
+          python - <<'PY'
+          import json, urllib.request
+          url = "https://dts-tech-solutions.onrender.com/health"
+          with urllib.request.urlopen(url, timeout=30) as response:
+              data = json.loads(response.read().decode())
+              assert response.status == 200, f"health status={response.status}"
+              assert data.get("status") == "ok", data
+              print("Health check PASS:", json.dumps({
+                  "status": data.get("status"),
+                  "service": data.get("service"),
+                  "provider": data.get("provider"),
+                  "ai_configured": data.get("ai_configured"),
+              }))
+          PY
+
+      - name: Check multi-product enquiry and safe UPS wiring answer
+        run: |
+          python - <<'PY'
+          import json, urllib.request, uuid
+
+          base = "https://dts-tech-solutions.onrender.com"
+          session_id = "dts-" + str(uuid.uuid4())
+
+          def post(message):
+              body = json.dumps({
+                  "session_id": session_id,
+                  "messages": [{"role": "user", "content": message}]
+              }).encode()
+              req = urllib.request.Request(
+                  base + "/api/chat", data=body,
+                  headers={"Content-Type": "application/json"},
+                  method="POST"
+              )
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  assert response.status == 200, f"chat status={response.status}"
+                  return json.loads(response.read().decode())
+
+          first = post("i want 5 ups and 3 electrical plane for plaghar loction")
+          reply = first.get("reply", "")
+          print("Multi-item response:", reply)
+          assert "5 UPS" in reply or "5 ups" in reply.lower(), "UPS quantity 5 was not retained"
+          assert "3 Electrical Panel" in reply or "3 electrical panel" in reply.lower(), "Electrical Panel quantity 3 was not retained"
+          assert "Palghar" in reply, "Palghar location was not normalized"
+          assert not first.get("whatsapp_draft_url"), "WhatsApp draft appeared before explicit confirmation"
+          assert first.get("whatsapp_sent") is False, "WhatsApp must never be marked as sent"
+
+          second = post("UPS ke liye wire kitne mm ki lagegi?")
+          answer = second.get("reply", "")
+          print("UPS wiring response:", answer)
+          assert any(word in answer.lower() for word in ("cable size", "mm²", "ups ki wiring", "wire size")), "UPS wiring answer missing"
+          assert any(word in answer.lower() for word in ("depend", "depends", "rating", "load", "model")), "Answer should explain sizing depends on technical details"
+          assert not second.get("whatsapp_draft_url"), "WhatsApp draft appeared during a technical question"
+          assert second.get("whatsapp_sent") is False, "WhatsApp must never be marked as sent"
+          print("DTS live chat smoke tests PASS")
+          PY
