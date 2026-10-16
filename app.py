@@ -353,7 +353,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panel|plane|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
+        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
         text,
     ))
 
@@ -386,6 +386,30 @@ def _is_valid_indian_mobile(value):
     elif len(digits) == 11 and digits.startswith("0"):
         digits = digits[1:]
     return len(digits) == 10 and digits[0] in "6789"
+
+
+def _mobile_validation_error(value):
+    """Return a clear error for phone-like inputs that are not valid Indian mobiles."""
+    if not isinstance(value, str):
+        return ""
+    cleaned = value.strip()
+    # Avoid interpreting ordinary prose, quantities, or product codes as phone numbers.
+    if not re.fullmatch(r"[+\d\s().-]+", cleaned):
+        return ""
+    digits = re.sub(r"\D", "", cleaned)
+    if len(digits) < 7:
+        return ""
+    if _is_valid_indian_mobile(cleaned):
+        return ""
+    if len(digits) == 11 and not digits.startswith("0"):
+        return "Aapne 11-digit number enter kiya hai. Kripya exact 10-digit Indian mobile number dein (6, 7, 8 ya 9 se shuru hone wala)."
+    if len(digits) == 12 and digits.startswith("91"):
+        return "Mobile number ka format sahi nahi lag raha. Kripya +91 ke baad 10-digit Indian mobile number dein (6, 7, 8 ya 9 se shuru hone wala)."
+    if len(digits) == 11 and digits.startswith("0"):
+        return "0 hata kar apna exact 10-digit Indian mobile number dein (6, 7, 8 ya 9 se shuru hone wala)."
+    if len(digits) != 10:
+        return f"Aapne {len(digits)} digits enter kiye hain. Kripya exact 10-digit Indian mobile number dein (6, 7, 8 ya 9 se shuru hone wala)."
+    return "Ye valid Indian mobile number nahi lag raha. Kripya 10-digit number dein jo 6, 7, 8 ya 9 se shuru hota ho."
 
 
 def _extract_multi_item_quantities(user_messages):
@@ -539,7 +563,7 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Prizor Smart Wi-Fi PTZ Camera")
     elif re.search(r"\b(?:cctv|cameras?)\b", folded):
         requirements.append("CCTV / Security Cameras")
-    if re.search(r"\b(?:electrical|electric|power distribution|electrical\s+(?:panel|plane)|electrical panel)\b", folded):
+    if re.search(r"\b(?:electrical|electric|power distribution|electrical\s+(?:panels?|planes?)|(?:electrical\s+)?panels?|(?:electrical\s+)?planes?)\b", folded):
         requirements.append("Electrical Panel / Electrical Work")
     if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
         requirements.append("UPS (Uninterruptible Power Supply)")
@@ -830,6 +854,16 @@ def chat_api():
             item["content"] for item in session["history"]
             if item["role"] == "user"
         ] + [latest_message]
+
+        mobile_error = _mobile_validation_error(latest_message)
+        if mobile_error:
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": mobile_error})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["state"] = "GATHERING"
+            session["summary"] = None
+            session["updated_at"] = time.time()
+            return _json_response(mobile_error, session["state"])
 
         # Handle clear multi-item requests deterministically so no item/quantity is lost.
         item_quantities = _extract_multi_item_quantities(user_messages)
