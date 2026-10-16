@@ -415,6 +415,19 @@ def _extract_details(user_messages):
             details[key] = candidate
         else:
             details[key] = ""
+    # Preserve explicit item-by-item quantities even if the AI extractor collapses them.
+    item_quantities = _extract_multi_item_quantities(user_messages)
+    if len(item_quantities) >= 2:
+        labels = []
+        for value in item_quantities:
+            label = value.split(" ", 1)[1]
+            if label not in labels:
+                labels.append(label)
+        details["product_service"] = ", ".join(labels)
+        details["quantity"] = "; ".join(item_quantities)
+    normalized_location = _extract_known_location(user_messages)
+    if normalized_location:
+        details["location"] = normalized_location
     if not details["product_service"] or not details["location"]:
         return None
     # Keep partial details so the chat can request a missing/invalid number.
