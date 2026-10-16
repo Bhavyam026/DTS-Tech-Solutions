@@ -77,3 +77,43 @@ def test_non_requirement_after_confirmation_stays_locked():
     assert data["pending_summary"] == session["summary"]
     assert data["whatsapp_draft_url"] is None
     assert data["whatsapp_sent"] is False
+
+
+
+def test_general_greeting_and_value_questions_get_direct_answers():
+    cases = [
+        (
+            "dts-cccccccc-cccc-cccc-cccc-cccccccccccc",
+            "hii",
+            ("Main DTS AI Assistant", "CCTV", "help"),
+        ),
+        (
+            "dts-dddddddd-dddd-dddd-dddd-dddddddddddd",
+            "muze ky milega yaha pe",
+            ("technical solution", "CCTV", "enquiry"),
+        ),
+        (
+            "dts-eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+            "ku maiapke serivces use karu",
+            ("DTS", "installation", "AMC"),
+        ),
+    ]
+
+    for session_id, message, expected_terms in cases:
+        dts_app._sessions.pop(session_id, None)
+        client = dts_app.app.test_client()
+        response = client.post(
+            "/api/chat",
+            json={
+                "session_id": session_id,
+                "messages": [{"role": "user", "content": message}],
+            },
+        )
+
+        assert response.status_code == 200
+        data = response.get_json()
+        reply = data["reply"].casefold()
+        assert all(term.casefold() in reply for term in expected_terms)
+        if message != "hii":
+            assert "aapko kis cheez ki requirement hai" not in reply
+        assert data["whatsapp_sent"] is False
