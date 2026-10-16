@@ -362,9 +362,11 @@ def _has_customer_requirement(messages):
 
 def _extract_customer_location(messages):
     """Accept known service areas and clearly supplied out-of-area locations without guessing."""
-    known = _extract_known_location(messages)
-    if known:
-        return known
+    # Use the most recently supplied location if the customer corrects it.
+    for message in reversed([str(item).strip() for item in messages]):
+        known = _extract_known_location([message])
+        if known:
+            return known
 
     for message in reversed([str(item).strip() for item in messages]):
         match = re.search(
