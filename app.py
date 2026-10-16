@@ -329,7 +329,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|amc|electrical|electric|panel|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
+        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panel|plane|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
         text,
     ))
 
@@ -338,7 +338,7 @@ def _has_location_in_messages(messages):
     """Recognize DTS service areas and common nearby industrial locations in chat history."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:boisar|palghar|mumbai|thane|navi mumbai|tarapur|taloja|vasai|virar|dahanu|vapi|silvassa|pune)\b",
+        r"\b(?:boisar|palghar|plaghar|mumbai|thane|navi mumbai|tarapur|taloja|vasai|virar|dahanu|vapi|silvassa|pune)\b",
         text,
     ))
 
@@ -515,8 +515,10 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Prizor Smart Wi-Fi PTZ Camera")
     elif re.search(r"\b(?:cctv|cameras?)\b", folded):
         requirements.append("CCTV / Security Cameras")
-    if re.search(r"\b(?:electrical|electric|power distribution|electrical panel)\b", folded):
+    if re.search(r"\b(?:electrical|electric|power distribution|electrical\s+(?:panel|plane)|electrical panel)\b", folded):
         requirements.append("Electrical Panel / Electrical Work")
+    if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
+        requirements.append("UPS (Uninterruptible Power Supply)")
     if re.search(r"\b(?:fire safety|fire alarm|suppression system)\b", folded):
         requirements.append("Fire Safety / Fire Alarm")
     if re.search(r"\b(?:networking|lan cable|cat\s*6|cat6|structured cabling)\b", folded):
@@ -535,35 +537,30 @@ def _deterministic_quota_fallback(user_messages):
         "Navi Mumbai", "Boisar", "Palghar", "Mumbai", "Thane", "Tarapur",
         "Taloja", "Vasai", "Virar", "Dahanu", "Vapi", "Silvassa", "Pune",
     )
-    location = next(
-        (place for place in locations if re.search(r"\b" + re.escape(place) + r"\b", combined, re.IGNORECASE)),
-        "",
-    )
+    location = _extract_known_location(user_messages)
 
-    # Use the latest quantity the customer states, including short replies like
-    # "5", "5 chiye", and phrases such as "2 pieces". Do not keep stale quantities.
+    # Capture per-item quantities first; otherwise use the latest single-item quantity.
+    quantity_parts = _extract_multi_item_quantities(user_messages)
+    quantity = "; ".join(quantity_parts) if quantity_parts else ""
     quantity_pattern = re.compile(
-        r"\b(\d{1,4})\s*(?:x\s*)?(?:pieces?|pcs?|units?|nos?|cameras?|panels?|monitors?|displays?|screens?|"
-        r"nvr|dvr|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
+        r"\b(\d{1,4})\s*(?:x\s*)?(?:pieces?|pcs?|units?|nos?|cameras?|panels?|planes?|monitors?|displays?|screens?|"
+        r"ups|nvr|dvr|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
         re.IGNORECASE,
     )
-    quantity = ""
-    for item in reversed(user_messages):
-        item_text = str(item).strip()
-        # A bare 1-4 digit reply is a common answer to "kitni quantity?"
-        if re.fullmatch(r"\d{1,4}", item_text):
-            quantity = item_text
-            break
-        matches = list(quantity_pattern.finditer(item_text))
-        if matches:
-            # The last quantity mentioned in the most recent matching message wins.
-            match = matches[-1]
-            quantity = match.group(0).strip()
-            break
-        qty_match = re.search(r"\b(?:quantity|qty)\s*[:=-]?\s*(\d{1,4})\b", item_text, re.IGNORECASE)
-        if qty_match:
-            quantity = qty_match.group(1)
-            break
+    if not quantity_parts:
+        for item in reversed(user_messages):
+            item_text = str(item).strip()
+            if re.fullmatch(r"\d{1,4}", item_text):
+                quantity = item_text
+                break
+            matches = list(quantity_pattern.finditer(item_text))
+            if matches:
+                quantity = matches[-1].group(0).strip()
+                break
+            qty_match = re.search(r"\b(?:quantity|qty)\s*[:=-]?\s*(\d{1,4})\b", item_text, re.IGNORECASE)
+            if qty_match:
+                quantity = qty_match.group(1)
+                break
 
     phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
     phone = next(
