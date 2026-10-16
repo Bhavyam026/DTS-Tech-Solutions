@@ -40,7 +40,7 @@ You are the friendly technical sales assistant for DTS (Dynamic Technology Solut
 Answer using only the DTS catalogue context and rules below. The catalogue includes:
 - CCTV/security: Prizor 4MP Outdoor PoE IP Security Camera; Prizor Smart Wi-Fi Wireless PTZ Security Camera; Prizor 8-Channel NVR; Prizor 8-Channel DVR.
 - Networking/cabling: HOC Structured CAT6 Pure Copper LAN Cable and listed networking/cabling items.
-- IT assets: DTS Business Monitor & Display (size requirement-based, DTS Solution supply, availability on request); the DTS owner confirms the monitor they have has 1 HDMI port and physical control buttons. Do not assume this applies to every Prizor model.
+- IT assets: UPS (Uninterruptible Power Supply) and DTS Business Monitor & Display (size requirement-based, DTS Solution supply, availability on request); the DTS owner confirms the monitor they have has 1 HDMI port and physical control buttons. Do not assume this applies to every Prizor model.
 - Public Prizor monitor listings found during research include PRIZ-19FHD-M (19-inch), PRIZ-22FHD-M (22-inch), PRIZ-24FHD-FL (24-inch), and PRIZ-32FHD-FL (32-inch). Some reseller listings describe Full HD 1920x1080 and HDMI/VGA/USB/CVBS interfaces, but these must NOT be attributed to the DTS owner's particular monitor unless its model matches. No 45-inch Prizor monitor was verified in the researched listings; treat 45-inch supply as needing DTS team confirmation, not as unavailable.
 - Networking/cabling research: HOC public catalogue lists NIRBHAY CAT6 indoor pure-copper cable (24 AWG, 250 MHz, up to 1 Gbps), PRITHVI CAT6 outdoor pure-copper cable (24 AWG, 250 MHz, UV/moisture-resistant jacket, up to 1 Gbps), and BRAHMOS armoured CAT6 cable (23 AWG, 250 MHz, up to 1 Gbps). These are public product-family specifications, not proof of DTS stock. Ask/check exact HOC model before applying specs or promising availability.
 - Electrical: Industrial Electrical Power Distribution Panel, electrical work. For UPS installations, explain that cable/wire size depends on the UPS model and rated input/output current, AC voltage, battery/DC voltage, connected load, cable length, installation method and applicable electrical code. Never guess a cable cross-section in mm². If customer doesn't know, explain simply that DTS/electrician can confirm after checking the UPS nameplate, load and cable run.
@@ -795,7 +795,16 @@ def chat_api():
 
         # Handle clear multi-item requests deterministically so no item/quantity is lost.
         item_quantities = _extract_multi_item_quantities(user_messages)
-        if len(item_quantities) >= 2:
+        latest_item_quantities = _extract_multi_item_quantities([latest_message])
+        latest_text = latest_message.strip()
+        latest_is_phone_or_numeric = bool(re.fullmatch(r"[+\d\s()-]{7,18}", latest_text))
+        latest_is_location = bool(re.search(r"\b(?:palghar|plaghar|boisar|mumbai|thane|tarapur|taloja|vasai|virar|dahanu|vapi|silvassa|pune|midc)\b", latest_text, re.IGNORECASE))
+        latest_is_followup_question = bool(re.search(r"\b(?:wire|wiring|cable|mm2?|sq\.?\s*mm|battery|load|voltage|amp(?:ere)?s?|how|what|why|which|kaise|kya|kitne|kitani|spec|detail|feature|compatible|use|work|price|cost|rate)\b", latest_text, re.IGNORECASE))
+        should_handle_multi_item = len(latest_item_quantities) >= 2 or (
+            len(item_quantities) >= 2 and not latest_is_followup_question and
+            (latest_is_phone_or_numeric or latest_is_location)
+        )
+        if len(item_quantities) >= 2 and should_handle_multi_item:
             labels = []
             for value in item_quantities:
                 label = value.split(" ", 1)[1]
