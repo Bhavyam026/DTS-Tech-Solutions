@@ -246,7 +246,6 @@ class _OpenAIExtractorModel:
                 {"role": "user", "content": prompt},
             ],
             json_mode=True,
-            json_mode=True,
             max_tokens=350,
         )
         return _OpenAIResponse(content)
