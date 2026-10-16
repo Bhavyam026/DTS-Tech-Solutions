@@ -28,7 +28,9 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini").strip()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
-AI_PROVIDER = "gemini" if GEMINI_API_KEY else "openai"
+AI_PROVIDER = os.environ.get("AI_PROVIDER", "openai").strip().lower()
+if AI_PROVIDER not in ("openai", "gemini"):
+    AI_PROVIDER = "openai"
 AI_MODEL = GEMINI_MODEL if AI_PROVIDER == "gemini" else OPENAI_MODEL
 AI_PROVIDER_TIMEOUT_SECONDS = 12
 AI_REQUEST_BUDGET_SECONDS = 22
