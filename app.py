@@ -40,7 +40,7 @@ You are the friendly technical sales assistant for DTS (Dynamic Technology Solut
 Answer using only the DTS catalogue context and rules below. The catalogue includes:
 - CCTV/security: Prizor 4MP Outdoor PoE IP Security Camera; Prizor Smart Wi-Fi Wireless PTZ Security Camera; Prizor 8-Channel NVR; Prizor 8-Channel DVR.
 - Networking/cabling: HOC Structured CAT6 Pure Copper LAN Cable and listed networking/cabling items.
-- IT assets: UPS (Uninterruptible Power Supply) and DTS Business Monitor & Display (size requirement-based, DTS Solution supply, availability on request); the DTS owner confirms the monitor they have has 1 HDMI port and physical control buttons. Do not assume this applies to every Prizor model.
+- IT assets: UPS (Uninterruptible Power Supply), DTS Business Monitor & Display, and customer-referenced Prizor 43-inch Smart 4K UHD TV. Recognize TV/television/LED TV/Smart TV requests as valid product enquiries; never redirect a TV customer to the CCTV-only list or repeat the default greeting. The 43-inch Smart 4K UHD TV name is customer-provided catalogue context; exact model number, smart platform, ports, warranty, stock, price and delivery must be confirmed by DTS before promising them. The DTS owner confirms the monitor they have has 1 HDMI port and physical control buttons. Do not assume this applies to every Prizor model.
 - Public Prizor monitor listings found during research include PRIZ-19FHD-M (19-inch), PRIZ-22FHD-M (22-inch), PRIZ-24FHD-FL (24-inch), and PRIZ-32FHD-FL (32-inch). Some reseller listings describe Full HD 1920x1080 and HDMI/VGA/USB/CVBS interfaces, but these must NOT be attributed to the DTS owner's particular monitor unless its model matches. No 45-inch Prizor monitor was verified in the researched listings; treat 45-inch supply as needing DTS team confirmation, not as unavailable.
 - Networking/cabling research: HOC public catalogue lists NIRBHAY CAT6 indoor pure-copper cable (24 AWG, 250 MHz, up to 1 Gbps), PRITHVI CAT6 outdoor pure-copper cable (24 AWG, 250 MHz, UV/moisture-resistant jacket, up to 1 Gbps), and BRAHMOS armoured CAT6 cable (23 AWG, 250 MHz, up to 1 Gbps). These are public product-family specifications, not proof of DTS stock. Ask/check exact HOC model before applying specs or promising availability.
 - Electrical: Industrial Electrical Power Distribution Panel, electrical work. For UPS installations, explain that cable/wire size depends on the UPS model and rated input/output current, AC voltage, battery/DC voltage, connected load, cable length, installation method and applicable electrical code. Never guess a cable cross-section in mm². If customer doesn't know, explain simply that DTS/electrician can confirm after checking the UPS nameplate, load and cable run.
@@ -297,8 +297,7 @@ def _new_session():
         "details": None,
         "updated_at": time.time(),
         "request_times": [],
-        "lock": threading.Lock(),
-    }
+        "lock": threading.Lock(),    }
 
 
 def _get_session(session_id):
@@ -355,7 +354,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution)\b",
+        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
         text,
     ))
 
@@ -453,6 +452,7 @@ def _extract_multi_item_quantities(user_messages):
         (r"\b(\d{1,4})\s*(?:electrical\s+(?:panels?|planes?)|(?:electrical\s+)?panels?)\b", "Electrical Panel"),
         (r"\b(\d{1,4})\s*(?:(?:indoor|outdoor|ip|wi[ -]?fi|ptz|poe)\s+)*(?:cctv\s*)?cameras?\b|\b(\d{1,4})\s*(?:(?:indoor|outdoor|ip|wi[ -]?fi|ptz|poe)\s+)*cctv\b", "CCTV Camera"),
         (r"\b(\d{1,4})\s*(?:monitors?|displays?|screens?)\b", "Monitor"),
+        (r"\b(\d{1,4})\s*(?:smart\s+)?(?:led\s+)?tvs?\b|\b(\d{1,4})\s*televisions?\b", "TV"),
         (r"\b(\d{1,4})\s*(?:nvr|dvr)\b", "NVR/DVR"),
         (r"\b(\d{1,4})\s*fire\s+alarms?\b", "Fire Alarm"),
         (r"\b(\d{1,4})\s*(?:cat\s*6|cat6|lan\s+cables?)\b", "CAT6/LAN Cable"),
@@ -597,8 +597,7 @@ def _deterministic_quota_fallback(user_messages):
     elif re.search(r"\b(?:cctv|cameras?)\b", folded):
         requirements.append("CCTV / Security Cameras")
     if re.search(r"\b(?:electrical|electric|power distribution|electrical\s+(?:panels?|planes?)|(?:electrical\s+)?panels?|(?:electrical\s+)?planes?)\b", folded):
-        requirements.append("Electrical Panel / Electrical Work")
-    if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
+        requirements.append("Electrical Panel / Electrical Work")    if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
         requirements.append("UPS (Uninterruptible Power Supply)")
     if re.search(r"\b(?:fire safety|fire alarm|suppression system)\b", folded):
         requirements.append("Fire Safety / Fire Alarm")
@@ -606,6 +605,8 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Networking / LAN / CAT6")
     if re.search(r"\b(?:it infra|it infrastructure|desktop|monitor|server|network rack)\b", folded):
         requirements.append("IT Infrastructure")
+    if re.search(r"\b(?:smart\s+tv|led\s+tv|tvs?|televisions?|4k\s+uhd)\b", folded):
+        requirements.append("Prizor 43-inch Smart 4K UHD TV" if re.search(r"\b43\s*(?:-?\s*inch(?:es)?|in|ich(?:h)?)\b", folded) else "TV / Smart TV")
     if re.search(r"\b(?:nvr|dvr)\b", folded):
         requirements.append("NVR / DVR")
     if re.search(r"\baccess control\b", folded):
@@ -625,7 +626,7 @@ def _deterministic_quota_fallback(user_messages):
     quantity = "; ".join(quantity_parts) if quantity_parts else ""
     quantity_pattern = re.compile(
         r"\b(\d{1,4})\s*(?:x\s*)?(?:pieces?|pcs?|units?|nos?|cameras?|panels?|planes?|monitors?|displays?|screens?|"
-        r"ups|nvr|dvr|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
+        r"ups|nvr|dvr|tvs?|televisions?|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
         re.IGNORECASE,
     )
     if not quantity_parts:
@@ -798,6 +799,19 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             "(number 6, 7, 8 ya 9 se shuru ho)."
         )
 
+    tv_mentioned = bool(re.search(r"\b(?:smart\s+tv|led\s+tv|tvs?|televisions?|4k\s+uhd)\b", folded))
+    if tv_mentioned:
+        tv_size = re.search(r"\b(\d{2,3})\s*(?:-?\s*inch(?:es)?|in|ichh?)\b", folded, re.IGNORECASE)
+        asks_availability = bool(re.search(r"\b(?:hai|hain|milega|milta|available|availability|listed|catalogue|catalog|yehi|yahi|nahi|nhi|kya)\b", folded))
+        asks_requirement = bool(re.search(r"\b(?:chahiye|chiye|chahie|need|want|require|order|milega|milega)\b", folded))
+        if asks_availability and not asks_requirement:
+            model_name = "Prizor 43-inch Smart 4K UHD TV" if tv_size and tv_size.group(1) == "43" else "Prizor Smart TV"
+            return (
+                f"Ji, {model_name} ke liye DTS par enquiry le sakte hain. Aap sahi keh rahe hain—TV requirement ko CCTV se alag product ke roop mein handle karna chahiye. "
+                "Exact model number, specifications, stock, price aur delivery DTS team se confirm karne honge; main bina verification ke promise nahi karunga. "
+                "Aapko kitne TV chahiye?"
+            )
+
     hoc_question = bool(re.search(r"\b(?:hoc|cat\s*6|cat6|lan cable|pure copper cable)\b", folded))
     hoc_details_question = bool(re.search(
         r"(?:specs?|details?|features?|indoor|outdoor|pure copper|bandwidth|speed|"
@@ -897,8 +911,7 @@ def _deterministic_general_reply(latest_message):
             "support ke baare mein bhi discuss kar sakte hain; "
             "(3) Boisar/Palghar aur aas-paas ke service areas ke liye enquiry raise kar sakte hain. "
             "Main guaranteed response time, stock ya lowest price ka claim nahi karunga—ye details team se "
-            "confirm hongi. Aap apne home, shop, office ya factory ke liye kya solve karna chahte hain?"
-        )
+            "confirm hongi. Aap apne home, shop, office ya factory ke liye kya solve karna chahte hain?"        )
 
     if normalized in ("thanks", "thank you", "thankyou", "shukriya", "dhanyavad", "ok thanks"):
         return "Aapka swagat hai! 😊 DTS ke kisi product ya service ke baare mein sawaal ho toh pooch sakte hain."
