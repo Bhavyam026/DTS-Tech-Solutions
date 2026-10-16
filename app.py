@@ -806,8 +806,8 @@ def _deterministic_general_reply(latest_message):
         normalized,
     ))
     asks_services = bool(re.search(
-        r"\b(?:konsi|kon si|kaunsi|kaun si|kaun kaun si|kon kon si|which|what)\\b.{0,55}\\b(?:services?|suvidha|facilities?)\\b|"
-        r"\b(?:services?|suvidha|facilities?)\\b.{0,55}\\b(?:dete|deti|deta|provide|available|milti|milta|karte|karti|offer|hai|hain)\\b",
+        r"\b(?:konsi|kon si|kaunsi|kaun si|kaun kaun si|kon kon si|which|what)\b.{0,55}\b(?:services?|suvidha|facilities?)\b|"
+        r"\b(?:services?|suvidha|facilities?)\b.{0,55}\b(?:dete|deti|deta|provide|available|milti|milta|karte|karti|offer|hai|hain)\b",
         normalized,
     ))
     if asks_services:
