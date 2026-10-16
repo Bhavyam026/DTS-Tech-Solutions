@@ -838,7 +838,9 @@ def chat_api():
         latest_is_phone_or_numeric = bool(re.fullmatch(r"[+\d\s()-]{7,18}", latest_text))
         latest_is_location = bool(re.search(r"\b(?:palghar|plaghar|boisar|mumbai|thane|tarapur|taloja|vasai|virar|dahanu|vapi|silvassa|pune|midc)\b", latest_text, re.IGNORECASE))
         latest_is_followup_question = bool(re.search(r"\b(?:wire|wiring|cable|mm2?|sq\.?\s*mm|battery|load|voltage|amp(?:ere)?s?|how|what|why|which|kaise|kya|kitne|kitani|spec|detail|feature|compatible|use|work|price|cost|rate)\b", latest_text, re.IGNORECASE))
-        should_handle_multi_item = len(latest_item_quantities) >= 2 or (
+        should_handle_multi_item = (
+            len(latest_item_quantities) >= 2 and not latest_is_followup_question
+        ) or (
             len(item_quantities) >= 2 and not latest_is_followup_question and
             (latest_is_phone_or_numeric or latest_is_location)
         )
