@@ -299,7 +299,6 @@ def _new_session():
         "request_times": [],
         "lock": threading.Lock(),    }
 
-
 def _get_session(session_id):
     now = time.time()
     with _sessions_lock:
@@ -597,8 +596,7 @@ def _deterministic_quota_fallback(user_messages):
     elif re.search(r"\b(?:cctv|cameras?)\b", folded):
         requirements.append("CCTV / Security Cameras")
     if re.search(r"\b(?:electrical|electric|power distribution|electrical\s+(?:panels?|planes?)|(?:electrical\s+)?panels?|(?:electrical\s+)?planes?)\b", folded):
-        requirements.append("Electrical Panel / Electrical Work")    if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
-        requirements.append("UPS (Uninterruptible Power Supply)")
+        requirements.append("Electrical Panel / Electrical Work")    if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):        requirements.append("UPS (Uninterruptible Power Supply)")
     if re.search(r"\b(?:fire safety|fire alarm|suppression system)\b", folded):
         requirements.append("Fire Safety / Fire Alarm")
     if re.search(r"\b(?:networking|lan cable|cat\s*6|cat6|structured cabling)\b", folded):
@@ -802,7 +800,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     tv_mentioned = bool(re.search(r"\b(?:smart\s+tv|led\s+tv|tvs?|televisions?|4k\s+uhd)\b", folded))
     if tv_mentioned:
         tv_size = re.search(r"\b(\d{2,3})\s*(?:-?\s*inch(?:es)?|in|ichh?)\b", folded, re.IGNORECASE)
-        asks_availability = bool(re.search(r"\b(?:hai|hain|milega|milta|available|availability|listed|catalogue|catalog|yehi|yahi|nahi|nhi|kya)\b", folded))
+        asks_availability = bool(re.search(r"\b(?:hai|hain|milega|milta|available|availability|listed|catalogue|catalog|yehi|yahi|nahi|nhi|nhiye|ky|kya|ye)\b", folded))
         asks_requirement = bool(re.search(r"\b(?:chahiye|chiye|chahie|need|want|require|order|milega|milega)\b", folded))
         if asks_availability and not asks_requirement:
             model_name = "Prizor 43-inch Smart 4K UHD TV" if tv_size and tv_size.group(1) == "43" else "Prizor Smart TV"
@@ -897,8 +895,7 @@ def _deterministic_general_reply(latest_message):
 
     asks_why_choose = bool(re.search(
         r"(?:ku|kyu|kyun|kyo|why|reason).{0,80}(?:use|choose|select|service|services|serivce|serivces|dts|aap|tum|karu)|"
-        r"(?:use|choose|select).{0,55}(?:service|services|serivce|serivces|dts|aap|tum)|"
-        r"(?:aapke|apke|maiapke|dts).{0,45}(?:service|services|serivce|serivces).{0,35}(?:kyu|kyun|ku|use|choose|karu|kare|lena)|"
+        r"(?:use|choose|select).{0,55}(?:service|services|serivce|serivces|dts|aap|tum)|"        r"(?:aapke|apke|maiapke|dts).{0,45}(?:service|services|serivce|serivces).{0,35}(?:kyu|kyun|ku|use|choose|karu|kare|lena)|"
         r"(?:why should i|why would i|why use|why choose)",
         normalized,
     ))
