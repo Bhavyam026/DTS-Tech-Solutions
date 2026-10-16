@@ -719,6 +719,23 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             "Aapke UPS par model ya VA/kVA/W rating likhi hai?"
         )
 
+    asks_cctv_brand = bool(
+        re.search(r"\\b(?:cctv|camera|cameras|ptz|nvr|dvr)\\b", folded)
+        and re.search(
+            r"(?:konsi|kon si|kaunsi|kaun si|kis|which|what|company|campoy|compny|kampani|brand|make).{0,55}"
+            r"(?:company|campoy|compny|kampani|brand|make|cctv|camera|ka|ki|ke|hai|hain)|"
+            r"(?:company|campoy|compny|kampani|brand|make).{0,55}(?:cctv|camera|ka|ki|ke)",
+            folded,
+        )
+    )
+    if asks_cctv_brand:
+        return (
+            "Ji, hamare catalogue mein Prizor brand ke CCTV cameras listed hain. "
+            "Options mein Prizor 4MP Outdoor PoE IP Camera aur Prizor Smart Wi-Fi PTZ Camera "
+            "shamil hain. NVR aur DVR bhi listed hain. Exact model ki availability DTS team se "
+            "confirm karni hogi. Aap outdoor PoE camera dekh rahe hain ya Wi-Fi PTZ camera?"
+        )
+
     catalog_question = bool(re.search(
         r"(?:aapke paas|apke pass|tumhare paas|kya kya hai|ky ky hai|"
         r"what do you have|what products|which products|product list|catalog(?:ue)?|"
