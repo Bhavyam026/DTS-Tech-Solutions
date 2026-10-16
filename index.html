@@ -6225,7 +6225,7 @@ Thank you.`;
             card.id='aiCustomHandoff'; card.className='ai-action-card';
             card.innerHTML=`<div class="ai-action-title">This is a custom requirement. DTS can check/source the required product or solution.</div><div class="text-[10px] text-slate-500 mb-2">Choose how you want to connect with DTS:</div><div class="ai-action-buttons">
 <a class="ai-action-button ai-action-whatsapp" href="#" target="_blank" rel="noopener noreferrer" onclick="return prepareDTSContact('whatsapp');"><i class="fa-brands fa-whatsapp"></i> WhatsApp DTS</a>
-<a class="ai-action-button ai-action-call" href="tel:+918390909845" onclick="showAIFeedback();"><i class="fa-solid fa-phone"></i> Call DTS</a>
+<a class="ai-action-button ai-action-call" href="tel:+918390909845"><i class="fa-solid fa-phone"></i> Call DTS</a>
 <a class="ai-action-button ai-action-enquiry" href="#" onclick="return prepareDTSContact('enquiry');"><i class="fa-solid fa-paper-plane"></i> Send Enquiry</a></div>`;
             area.appendChild(card); area.scrollTop=area.scrollHeight;
         }
@@ -6239,11 +6239,11 @@ Thank you.`;
                 const url='https://wa.me/918390909845?text='+encodeURIComponent(text);
                 const link=document.querySelector('#aiCustomHandoff .ai-action-whatsapp');
                 if(link)link.href=url;
-                showAIFeedback(); return true;
+                return true;
             }
             if(type==='enquiry'){
                 window.location.href='mailto:dtsboisar@gmail.com?subject='+encodeURIComponent('DTS Website Enquiry')+'&body='+encodeURIComponent(text);
-                showAIFeedback(); return false;
+                return false;
             }
             return true;
         }
@@ -6690,11 +6690,8 @@ Thank you.`;
                     content: reply
                 });
 
-                // WhatsApp is a user-opened draft, so whatsapp_sent stays false.
-                // Trigger feedback only after the customer confirms the summary.
-                if (data.state === 'CONFIRMED') {
-                    showAIFeedback();
-                }
+                // Keep the enquiry handoff focused on the confirmed customer requirement.
+                // Feedback must never replace or contaminate the WhatsApp enquiry draft.
 
             } catch (error) {
 
