@@ -817,9 +817,9 @@ def _deterministic_general_reply(latest_message):
         )
 
     asks_why_choose = bool(re.search(
-        r"(?:kyu|kyun|kyo|why|reason).{0,55}(?:use|choose|select|service|services|dts|aap|tum)|"
-        r"(?:use|choose|select).{0,55}(?:service|services|dts|aap|tum)|"
-        r"(?:aapke|apke|dts).{0,45}(?:service|services).{0,35}(?:kyu|kyun|use|choose|karu|kare|lena)|"
+        r"(?:ku|kyu|kyun|kyo|why|reason).{0,80}(?:use|choose|select|service|services|serivce|serivces|dts|aap|tum|karu)|"
+        r"(?:use|choose|select).{0,55}(?:service|services|serivce|serivces|dts|aap|tum)|"
+        r"(?:aapke|apke|maiapke|dts).{0,45}(?:service|services|serivce|serivces).{0,35}(?:kyu|kyun|ku|use|choose|karu|kare|lena)|"
         r"(?:why should i|why would i|why use|why choose)",
         normalized,
     ))
