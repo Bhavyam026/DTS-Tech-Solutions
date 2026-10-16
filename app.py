@@ -335,6 +335,20 @@ def _is_pricing_question(message):
     ))
 
 
+def _is_product_education_question(message):
+    """Do not replace a customer's technical/product question with a lead-capture prompt."""
+    if not isinstance(message, str):
+        return False
+    return bool(re.search(
+        r"\b(?:why|how|what|which|when|where|work|working|use|used|features?|specs?|specifications?|details?|"
+        r"wire|wiring|cable|battery|backup|load|voltage|amps?|ampere|mm2?|sq\.?\s*mm|capacity|runtime|"
+        r"installation|install|compatible|compatibility|difference|benefit|kaise|kyu|kyun|kya|konsa|konsi|"
+        r"kitne|kitani|lagti|lagegi|chahiye|samjhao|batao)\b",
+        message,
+        re.IGNORECASE,
+    ))
+
+
 def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
@@ -902,12 +916,12 @@ def chat_api():
             # a partial phrase such as "Pricing aur..." to the customer.
             if _is_pricing_question(latest_message):
                 bot_reply = PRICING_REPLY
-            elif _has_customer_requirement(user_messages) and not _has_location_in_messages(user_messages):
+            elif not _is_product_education_question(latest_message) and _has_customer_requirement(user_messages) and not _has_location_in_messages(user_messages):
                 bot_reply = (
                     "Ji, aapki requirement note kar li. Installation ya service kis "
                     "location par chahiye? City/area ka naam bata dein."
                 )
-            elif _has_customer_requirement(user_messages) and not _has_valid_mobile_in_messages(user_messages):
+            elif not _is_product_education_question(latest_message) and _has_customer_requirement(user_messages) and not _has_valid_mobile_in_messages(user_messages):
                 bot_reply = (
                     "Theek hai, requirement note kar li. Enquiry summary banane ke liye "
                     "apna valid 10-digit Indian mobile number share karein "
