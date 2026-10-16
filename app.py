@@ -809,7 +809,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         if asks_availability and not asks_requirement:
             model_name = "Prizor 43-inch Smart 4K UHD TV" if tv_size and tv_size.group(1) == "43" else "Prizor Smart TV"
             return (
-                f"Ji, {model_name} ke liye DTS par enquiry le sakte hain. Aap sahi keh rahe hain—TV requirement ko CCTV se alag product ke roop mein handle karna chahiye. "
+                f"Ji, {model_name} ke liye DTS par enquiry le sakte hain. Aap sahi keh rahe hain—TV ko DTS catalogue mein alag product requirement ke roop mein handle karna chahiye. "
                 "Exact model number, specifications, stock, price aur delivery DTS team se confirm karne honge; main bina verification ke promise nahi karunga. "
                 "Aapko kitne TV chahiye?"
             )
