@@ -26,7 +26,11 @@ CORS(
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini").strip()
-OPENAI_TIMEOUT_SECONDS = 12
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
+AI_PROVIDER = "gemini" if GEMINI_API_KEY else "openai"
+AI_MODEL = GEMINI_MODEL if AI_PROVIDER == "gemini" else OPENAI_MODEL
+AI_PROVIDER_TIMEOUT_SECONDS = 12
 AI_REQUEST_BUDGET_SECONDS = 22
 
 SYSTEM_INSTRUCTION = """
@@ -75,16 +79,74 @@ def _is_quota_exhausted_error(error):
         "429",
     ))
 
-def _call_openai(messages, *, json_mode=False, max_tokens=500):
-    if not OPENAI_API_KEY:
-        raise RuntimeError("OPENAI_API_KEY is not configured on the Render server.")
-    timeout = OPENAI_TIMEOUT_SECONDS
+def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
+    timeout = AI_PROVIDER_TIMEOUT_SECONDS
     deadline = getattr(g, "ai_deadline", None) if has_request_context() else None
     if deadline is not None:
         remaining = deadline - time.monotonic()
         if remaining < 1:
             raise TimeoutError("DTS AI request time budget exhausted.")
         timeout = max(1, min(timeout, remaining))
+
+    if AI_PROVIDER == "gemini":
+        if not GEMINI_API_KEY:
+            raise RuntimeError("GEMINI_API_KEY is not configured on the Render server.")
+        system_text = "\n".join(
+            item.get("content", "") for item in messages if item.get("role") == "system"
+        )
+        contents = []
+        for item in messages:
+            role = item.get("role")
+            if role == "system":
+                continue
+            if role not in ("user", "assistant", "model"):
+                continue
+            text_value = item.get("content", "")
+            if not isinstance(text_value, str) or not text_value.strip():
+                continue
+            contents.append({
+                "role": "model" if role in ("assistant", "model") else "user",
+                "parts": [{"text": text_value}],
+            })
+        if not contents:
+            raise RuntimeError("Gemini request did not contain any user messages.")
+        payload = {
+            "systemInstruction": {"parts": [{"text": system_text or SYSTEM_INSTRUCTION}]},
+            "contents": contents,
+            "generationConfig": {"maxOutputTokens": max_tokens},
+        }
+        if json_mode:
+            payload["generationConfig"]["responseMimeType"] = "application/json"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+        response = requests.post(
+            url,
+            headers={"x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"},
+            json=payload,
+            timeout=timeout,
+        )
+        try:
+            data = response.json()
+        except ValueError:
+            data = {}
+        if not response.ok:
+            error_data = data.get("error", {}) if isinstance(data, dict) else {}
+            message = error_data.get("message", "Gemini provider request failed")
+            code = error_data.get("status") or error_data.get("code") or response.status_code
+            raise RuntimeError(f"Gemini API error {response.status_code} ({code}): {message}")
+        candidates = data.get("candidates") or []
+        if not candidates:
+            feedback = data.get("promptFeedback") or {}
+            raise RuntimeError(f"Gemini API returned no response candidates: {feedback.get('blockReason', 'unknown reason')}")
+        parts = ((candidates[0].get("content") or {}).get("parts") or [])
+        result_text = "\n".join(
+            part.get("text", "") for part in parts if isinstance(part, dict)
+        ).strip()
+        if not result_text:
+            raise RuntimeError("Gemini API returned an empty response.")
+        return result_text
+
+    if not OPENAI_API_KEY:
+        raise RuntimeError("Neither GEMINI_API_KEY nor a usable OPENAI_API_KEY is configured on the Render server.")
     payload = {
         "model": OPENAI_MODEL,
         "messages": messages,
@@ -110,10 +172,10 @@ def _call_openai(messages, *, json_mode=False, max_tokens=500):
     choices = data.get("choices") or []
     if not choices:
         raise RuntimeError("OpenAI API returned no response choices.")
-    content = (choices[0].get("message") or {}).get("content")
-    if not isinstance(content, str) or not content.strip():
+    result_text = (choices[0].get("message") or {}).get("content")
+    if not isinstance(result_text, str) or not result_text.strip():
         raise RuntimeError("OpenAI API returned an empty response.")
-    return content.strip()
+    return result_text.strip()
 
 _UNSUPPORTED_BRAND_RE = re.compile(r"\b(?:CP\s*\+?\s*PLUS|HIKVISION|DAHUA)\b", re.IGNORECASE)
 _INTERNAL_FRAGMENT_RE = re.compile(
@@ -170,7 +232,7 @@ class _OpenAIChat:
         messages = [{"role": "system", "content": SYSTEM_INSTRUCTION}]
         messages.extend(self.history)
         messages.append({"role": "user", "content": message})
-        return _OpenAIResponse(_call_openai(messages, max_tokens=500))
+        return _OpenAIResponse(_call_ai_provider(messages, max_tokens=500))
 
 class _OpenAIChatModel:
     def start_chat(self, history=None):
@@ -178,11 +240,12 @@ class _OpenAIChatModel:
 
 class _OpenAIExtractorModel:
     def generate_content(self, prompt):
-        content = _call_openai(
+        content = _call_ai_provider(
             [
                 {"role": "system", "content": EXTRACTOR_INSTRUCTION},
                 {"role": "user", "content": prompt},
             ],
+            json_mode=True,
             json_mode=True,
             max_tokens=350,
         )
@@ -372,12 +435,13 @@ def _json_response(reply, state, summary=None, whatsapp_draft_url=None):
 def health():
     return jsonify({
         "status": "ok",
-        "service": "DTS OpenAI AI Backend",
-        "ai_configured": bool(OPENAI_API_KEY),
-        "model": OPENAI_MODEL,
+        "service": "DTS AI Backend",
+        "provider": AI_PROVIDER,
+        "ai_configured": bool(GEMINI_API_KEY) if AI_PROVIDER == "gemini" else bool(OPENAI_API_KEY),
+        "model": AI_MODEL,
         "fallback_model": None,
         "note": (
-            "Health confirms configuration only, not a live OpenAI response or WhatsApp delivery. "
+            "Health confirms configuration only, not a live provider response or WhatsApp delivery. "
             "WhatsApp handoff opens a prefilled link; it does not send automatically."
         ),
     })
@@ -693,14 +757,14 @@ def chat_api():
 
         try:
             history = session["history"][-MAX_STORED_TURNS:]
-            openai_history = [
+            provider_history = [
                 {
                     "role": "user" if item["role"] == "user" else "model",
                     "parts": [item["content"]],
                 }
                 for item in history
             ]
-            chat = model.start_chat(history=openai_history)
+            chat = model.start_chat(history=provider_history)
             response = chat.send_message(latest_message)
             bot_reply = _sanitize_bot_reply(response.text or "")
             if not bot_reply:
@@ -731,7 +795,7 @@ def chat_api():
                     "(number 6, 7, 8 ya 9 se shuru ho)."
                 )
 
-            # The extractor is a second OpenAI request. Only call it once the
+            # The extractor is a second AI provider request. Only call it once the
             # customer has actually supplied a valid-looking Indian mobile number;
             # this avoids spending two quota units on every short chat turn.
             phone_pattern = re.compile(
@@ -793,7 +857,7 @@ def chat_api():
         except Exception as error:
             if _is_quota_exhausted_error(error):
                 app.logger.warning("DTS AI provider quota/rate limit reached; using deterministic enquiry fallback.")
-                # Persist the customer's turn even though OpenAI could not answer it.
+                # Persist the customer's turn even though the AI provider could not answer it.
                 session["history"].append({"role": "user", "content": latest_message})
                 user_messages = [
                     item["content"] for item in session["history"]
