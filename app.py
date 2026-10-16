@@ -1048,9 +1048,9 @@ def chat_api():
             product_labels = []
             for label in labels:
                 if label == "CCTV Camera":
-                    if re.search(r"\\bindoor\\b", combined_customer_text, re.IGNORECASE):
+                    if re.search(r"\bindoor\b", combined_customer_text, re.IGNORECASE):
                         label = "Indoor CCTV Camera"
-                    elif re.search(r"\\boutdoor\\b", combined_customer_text, re.IGNORECASE):
+                    elif re.search(r"\boutdoor\b", combined_customer_text, re.IGNORECASE):
                         label = "Outdoor CCTV Camera"
                 if label not in product_labels:
                     product_labels.append(label)
