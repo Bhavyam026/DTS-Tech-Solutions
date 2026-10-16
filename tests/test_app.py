@@ -158,3 +158,76 @@ def test_general_greeting_and_value_questions_get_direct_answers():
         if message != "hii":
             assert "aapko kis cheez ki requirement hai" not in reply
         assert data["whatsapp_sent"] is False
+
+
+def test_single_item_quantity_location_and_phone_are_tracked_without_reasking():
+    session_id = "dts-33333333-3333-3333-3333-333333333333"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    first = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "5 indoor cctv mumbai"}],
+        },
+    )
+    assert first.status_code == 200
+    first_data = first.get_json()
+    assert first_data["state"] == "GATHERING"
+    assert "mobile number" in first_data["reply"].casefold()
+    assert "quantity" not in first_data["reply"].casefold() or "5" in first_data["reply"]
+    session = dts_app._sessions[session_id]
+    assert session["details"]["quantity"] == "5 CCTV Camera"
+    assert session["details"]["location"] == "Mumbai"
+    assert session["details"]["product_service"] == "Indoor CCTV Camera"
+
+    second = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "9876543210"}],
+        },
+    )
+    assert second.status_code == 200
+    second_data = second.get_json()
+    assert second_data["state"] == "SUMMARY_READY"
+    assert "5 CCTV Camera" in second_data["pending_summary"]
+    assert "Mumbai" in second_data["pending_summary"]
+    assert "9876543210" in second_data["pending_summary"]
+    assert second_data["whatsapp_draft_url"] is None
+    assert second_data["whatsapp_sent"] is False
+
+    third = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "CONFIRM SUMMARY"}],
+        },
+    )
+    assert third.status_code == 200
+    third_data = third.get_json()
+    assert third_data["state"] == "CONFIRMED"
+    assert third_data["whatsapp_draft_url"].startswith("https://wa.me/")
+    assert third_data["whatsapp_sent"] is False
+
+
+def test_confirm_summary_without_complete_summary_does_not_create_whatsapp_draft():
+    session_id = "dts-44444444-4444-4444-4444-444444444444"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    response = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "CONFIRM SUMMARY"}],
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data["state"] == "GATHERING"
+    assert data["whatsapp_draft_url"] is None
+    assert "complete enquiry summary" in data["reply"].casefold()
+    assert data["whatsapp_sent"] is False
