@@ -812,11 +812,20 @@ def chat_api():
         session["updated_at"] = now
 
         if session["state"] == "CONFIRMED":
-            return _json_response(
-                "Is enquiry summary ko pehle hi confirm kiya ja chuka hai. Nayi enquiry ke liye chat reset karein.",
-                "CONFIRMED",
-                session["summary"],
-            )
+            # A customer can start another enquiry after confirming the previous one.
+            # Reset prior enquiry data/history so old products and quantities don't leak
+            # into the new summary. Keep blocking unrelated messages until a new request.
+            if _has_customer_requirement([latest_message]):
+                session["state"] = "GATHERING"
+                session["summary"] = None
+                session["details"] = None
+                session["history"] = []
+            else:
+                return _json_response(
+                    "Is enquiry summary ko pehle hi confirm kiya ja chuka hai. Nayi enquiry ke liye product ya service ki requirement batayein.",
+                    "CONFIRMED",
+                    session["summary"],
+                )
 
         if session["state"] == "SUMMARY_READY" and _is_explicit_confirmation(latest_message):
             summary = session["summary"]
