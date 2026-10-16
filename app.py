@@ -360,14 +360,43 @@ def _has_customer_requirement(messages):
     ))
 
 
-def _has_location_in_messages(messages):
-    """Recognize DTS service areas and common nearby industrial locations in chat history."""
-    text = " ".join(str(item) for item in messages).casefold()
-    return bool(re.search(
-        r"\b(?:boisar|palghar|plaghar|mumbai|thane|navi mumbai|tarapur|taloja|vasai|virar|dahanu|vapi|silvassa|pune)\b",
-        text,
-    ))
+def _extract_customer_location(messages):
+    """Accept known service areas and clearly supplied out-of-area locations without guessing."""
+    known = _extract_known_location(messages)
+    if known:
+        return known
 
+    for message in reversed([str(item).strip() for item in messages]):
+        match = re.search(
+            r"\b(?:location|city|area|site|installation|service)\s*(?:is|at|in|for|:|-)?\s+([A-Za-z][A-Za-z .'-]{1,45})$|"
+            r"\b(?:in|at|for|near)\s+([A-Za-z][A-Za-z .'-]{1,45})$",
+            message,
+            re.IGNORECASE,
+        )
+        if match:
+            candidate = (match.group(1) or match.group(2) or "").strip(" .,-")
+            if candidate and not re.search(
+                r"\b(?:cctv|camera|ups|panel|electrical|networking|cat6|nvr|dvr|fire safety|amc|price|cost|help|services?)\b",
+                candidate,
+                re.IGNORECASE,
+            ):
+                return candidate
+
+        # A short standalone place reply is common after the assistant asks for location.
+        if (1 <= len(message.split()) <= 3 and len(message) <= 45
+                and re.fullmatch(r"[A-Za-z][A-Za-z .'-]*", message)
+                and not re.search(
+                    r"\b(?:cctv|camera|ups|panel|electrical|networking|cat6|nvr|dvr|fire|amc|yes|no|thanks|hello|hi|ok|okay|price|cost)\b",
+                    message,
+                    re.IGNORECASE,
+                )):
+            return message.strip(" .,-")
+    return ""
+
+
+def _has_location_in_messages(messages):
+    """Accept a customer-supplied location, even if it is outside DTS's usual service area."""
+    return bool(_extract_customer_location(messages))
 
 def _has_valid_mobile_in_messages(messages):
     phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
@@ -475,7 +504,7 @@ def _extract_details(user_messages):
                 labels.append(label)
         details["product_service"] = ", ".join(labels)
         details["quantity"] = "; ".join(item_quantities)
-    normalized_location = _extract_known_location(user_messages)
+    normalized_location = _extract_customer_location(user_messages)
     if normalized_location:
         details["location"] = normalized_location
     if not details["product_service"] or not details["location"]:
