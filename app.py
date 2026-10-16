@@ -364,6 +364,37 @@ def _is_valid_indian_mobile(value):
     return len(digits) == 10 and digits[0] in "6789"
 
 
+def _extract_multi_item_quantities(user_messages):
+    """Capture per-product quantities from explicit multi-item requests."""
+    combined = " ".join(str(item) for item in user_messages)
+    patterns = [
+        (r"\b(\d{1,4})\s*(?:ups|u\.p\.s\.?|uninterruptible\s+power\s+supply)\b", "UPS"),
+        (r"\b(\d{1,4})\s*(?:electrical\s+(?:panels?|planes?)|(?:electrical\s+)?panels?)\b", "Electrical Panel"),
+        (r"\b(\d{1,4})\s*(?:cctv\s*)?cameras?\b|\b(\d{1,4})\s*cctv\b", "CCTV Camera"),
+        (r"\b(\d{1,4})\s*(?:monitors?|displays?|screens?)\b", "Monitor"),
+        (r"\b(\d{1,4})\s*(?:nvr|dvr)\b", "NVR/DVR"),
+        (r"\b(\d{1,4})\s*fire\s+alarms?\b", "Fire Alarm"),
+        (r"\b(\d{1,4})\s*(?:cat\s*6|cat6|lan\s+cables?)\b", "CAT6/LAN Cable"),
+    ]
+    found = []
+    for pattern, label in patterns:
+        for match in re.finditer(pattern, combined, re.IGNORECASE):
+            number = next((group for group in match.groups() if group), None)
+            if number:
+                found.append((match.start(), f"{number} {label}"))
+    return [value for _, value in sorted(found)]
+
+
+def _extract_known_location(user_messages):
+    combined = " ".join(str(item) for item in user_messages)
+    if re.search(r"\b(?:palghar|plaghar)\b", combined, re.IGNORECASE):
+        return "Palghar MIDC" if re.search(r"\bmidc\b", combined, re.IGNORECASE) else "Palghar"
+    for place in ("Navi Mumbai", "Boisar", "Mumbai", "Thane", "Tarapur", "Taloja", "Vasai", "Virar", "Dahanu", "Vapi", "Silvassa", "Pune"):
+        if re.search(r"\b" + re.escape(place) + r"\b", combined, re.IGNORECASE):
+            return place
+    return ""
+
+
 def _extract_details(user_messages):
     prompt = json.dumps({"customer_messages": user_messages}, ensure_ascii=False)
     response = extractor_model.generate_content(prompt)
