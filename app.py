@@ -720,7 +720,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
 
     asks_cctv_brand = bool(
-        re.search(r"\\b(?:cctv|camera|cameras|ptz|nvr|dvr)\\b", folded)
+        re.search(r"\b(?:cctv|camera|cameras|ptz|nvr|dvr)\b", folded)
         and re.search(
             r"(?:konsi|kon si|kaunsi|kaun si|kis|which|what|company|campoy|compny|kampani|brand|make).{0,55}"
             r"(?:company|campoy|compny|kampani|brand|make|cctv|camera|ka|ki|ke|hai|hain)|"
