@@ -792,6 +792,59 @@ def chat_api():
             item["content"] for item in session["history"]
             if item["role"] == "user"
         ] + [latest_message]
+
+        # Handle clear multi-item requests deterministically so no item/quantity is lost.
+        item_quantities = _extract_multi_item_quantities(user_messages)
+        if len(item_quantities) >= 2:
+            labels = []
+            for value in item_quantities:
+                label = value.split(" ", 1)[1]
+                if label not in labels:
+                    labels.append(label)
+            phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
+            phone = next(
+                (match.group(0) for item in user_messages for match in phone_pattern.finditer(str(item))
+                 if _is_valid_indian_mobile(match.group(0))),
+                "",
+            )
+            details = {
+                "product_service": ", ".join(labels),
+                "location": _extract_known_location(user_messages),
+                "quantity": "; ".join(item_quantities),
+                "contact_name": "",
+                "contact_number": phone,
+                "notes": "",
+            }
+            if not details["location"]:
+                reply = "Ji, samajh gaya: " + details["quantity"] + ". Installation kis city/area mein chahiye?"
+                session["state"] = "GATHERING"
+                session["summary"] = None
+            elif not phone:
+                reply = (
+                    "Ji, samajh gaya. Aapki requirement: " + details["quantity"] +
+                    ". Location: " + details["location"] +
+                    ". Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein "
+                    "(number 6, 7, 8 ya 9 se shuru ho)."
+                )
+                session["state"] = "GATHERING"
+                session["summary"] = None
+            else:
+                session["details"] = details
+                session["summary"] = _format_summary(details)
+                session["state"] = "SUMMARY_READY"
+                reply = (
+                    "Ji, dono requirements note kar li hain. Please review this summary:\n\n"
+                    + session["summary"]
+                    + "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                    "Confirmation se pehle WhatsApp draft link nahi banega."
+                )
+            session["details"] = details
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"], session["summary"])
+
         catalogue_reply = _deterministic_catalog_reply(latest_message, user_messages)
         if catalogue_reply:
             session["history"].append({"role": "user", "content": latest_message})
