@@ -231,3 +231,27 @@ def test_confirm_summary_without_complete_summary_does_not_create_whatsapp_draft
     assert data["whatsapp_draft_url"] is None
     assert "complete enquiry summary" in data["reply"].casefold()
     assert data["whatsapp_sent"] is False
+
+
+
+def test_prizor_tv_question_is_recognized_instead_of_redirecting_to_cctv():
+    message = "Prizor 43-Inch Smart 4K UHD TV ye nhiye ky ??"
+    reply = dts_app._deterministic_catalog_reply(message, [message])
+
+    assert dts_app._has_customer_requirement(["muje 43 ich ka tv chiye"])
+    assert reply is not None
+    assert "Prizor 43-inch Smart 4K UHD TV" in reply
+    assert "kitne TV chahiye" in reply
+    assert "CCTV" not in reply
+
+
+def test_tv_quantity_is_parsed_separately_from_screen_size():
+    assert dts_app._extract_multi_item_quantities(["2 TV chahiye"]) == ["2 TV"]
+    assert dts_app._extract_multi_item_quantities(["43 inch TV chahiye"]) == []
+    fallback, details = dts_app._deterministic_quota_fallback(
+        ["43 inch TV chahiye", "Mumbai"]
+    )
+    assert "TV" in details["product_service"]
+    assert details["location"] == "Mumbai"
+    assert "quantity" in fallback.casefold()
+    assert "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai" not in fallback
