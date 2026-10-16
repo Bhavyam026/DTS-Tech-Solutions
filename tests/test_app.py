@@ -87,6 +87,30 @@ def test_non_requirement_after_confirmation_stays_locked():
 
 
 
+
+def test_cctv_brand_question_answers_prizor_before_asking_quantity():
+    session_id = "dts-22222222-2222-2222-2222-222222222222"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    response = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "cctv konsi campoy ka hai ??"}],
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()
+    reply = data["reply"].casefold()
+    assert "prizor" in reply
+    assert "outdoor poe" in reply
+    assert "wi-fi ptz" in reply
+    assert "kitni quantity" not in reply
+    assert data["whatsapp_sent"] is False
+
+
 def test_general_greeting_and_value_questions_get_direct_answers():
     cases = [
         (
