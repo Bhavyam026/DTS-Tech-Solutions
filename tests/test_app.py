@@ -97,6 +97,16 @@ def test_general_greeting_and_value_questions_get_direct_answers():
             "ku maiapke serivces use karu",
             ("DTS", "installation", "AMC"),
         ),
+        (
+            "dts-ffffffff-ffff-ffff-ffff-ffffffffffff",
+            "konsi services provide karte ho",
+            ("CCTV", "CAT6", "electrical", "fire safety", "AMC"),
+        ),
+        (
+            "dts-11111111-1111-1111-1111-111111111111",
+            "kaun kaun si service dete ho",
+            ("Prizor", "NVR", "UPS", "installation"),
+        ),
     ]
 
     for session_id, message, expected_terms in cases:
