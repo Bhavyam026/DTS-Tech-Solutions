@@ -57,6 +57,13 @@ def test_new_requirement_after_confirmation_starts_fresh_enquiry(monkeypatch):
     assert session["history"][0]["content"] == "muze electrical panel bhi chahiye"
 
 
+def test_unknown_location_is_accepted_instead_of_reprompted():
+    assert dts_app._has_location_in_messages(["I need an electrical panel", "Dubai"])
+    assert dts_app._extract_customer_location(["I need an electrical panel", "Dubai"]) == "Dubai"
+    assert dts_app._has_location_in_messages(["I need CCTV installation in Dubai"])
+    assert dts_app._extract_customer_location(["I need CCTV installation in Dubai"]) == "Dubai"
+
+
 def test_non_requirement_after_confirmation_stays_locked():
     session_id = "dts-bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
     dts_app._sessions.pop(session_id, None)
