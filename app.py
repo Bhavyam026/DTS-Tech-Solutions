@@ -806,11 +806,10 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         tv_size = re.search(r"\b(\d{2,3})\s*(?:-?\s*inch(?:es)?|in|ichh?)\b", folded, re.IGNORECASE)
         asks_availability = bool(re.search(r"\b(?:hai|hain|milega|milta|available|availability|listed|catalogue|catalog|yehi|yahi|nahi|nhi|nhiye|ky|kya|ye)\b", folded))
         asks_requirement = bool(re.search(r"\b(?:chahiye|chiye|chahie|need|want|require|order)\b", folded))
-        if asks_availability and not asks_requirement:
-            model_name = "Prizor 43-inch Smart 4K UHD TV" if tv_size and tv_size.group(1) == "43" else "Prizor Smart TV"
+        if asks_availability or asks_requirement:
+            model_name = "43-inch Smart TV" if tv_size and tv_size.group(1) == "43" else "Smart TV"
             return (
-                f"Ji, {model_name} ke liye DTS par enquiry le sakte hain. Aap sahi keh rahe hain—TV ko DTS catalogue mein alag product requirement ke roop mein handle karna chahiye. "
-                "Exact model number, specifications, stock, price aur delivery DTS team se confirm karne honge; main bina verification ke promise nahi karunga. "
+                f"Ji, {model_name} ke liye hum enquiry le sakte hain. Stock aur price confirm karke aapko bata denge. "
                 "Aapko kitne TV chahiye?"
             )
 
