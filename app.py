@@ -1101,9 +1101,11 @@ def chat_api():
         # A later specific product request takes precedence over an earlier unrelated question.
         rack_terms = re.compile(r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", re.IGNORECASE)
         firewall_terms = re.compile(r"\bfirewalls?\b", re.IGNORECASE)
+        tv_terms = re.compile(r"\b(?:smart\s+tv|led\s+tv|tvs?|televisions?|4k\s+uhd)\b", re.IGNORECASE)
         last_rack_index = max((i for i, item in enumerate(user_messages) if rack_terms.search(str(item))), default=-1)
         last_firewall_index = max((i for i, item in enumerate(user_messages) if firewall_terms.search(str(item))), default=-1)
-        rack_context = last_rack_index >= 0 and last_rack_index > last_firewall_index
+        last_tv_index = max((i for i, item in enumerate(user_messages) if tv_terms.search(str(item))), default=-1)
+        rack_context = last_rack_index >= 0 and last_rack_index > max(last_firewall_index, last_tv_index)
         latest_has_rack = bool(rack_terms.search(latest_message))
         if latest_has_rack or rack_context:
             combined_rack_text = " ".join(str(item) for item in user_messages)
@@ -1158,6 +1160,97 @@ def chat_api():
             session["state"] = "SUMMARY_READY" if phone and u_size and rack_quantity and location else "GATHERING"
             if session["state"] != "SUMMARY_READY":
                 session["summary"] = None
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"], session["summary"])
+
+        # Deterministic Smart TV flow: retain size, quantity, location and phone through feature questions.
+        latest_has_tv = bool(tv_terms.search(latest_message))
+        tv_context = last_tv_index >= 0 and last_tv_index > max(last_rack_index, last_firewall_index)
+        if latest_has_tv or tv_context:
+            combined_tv_text = " ".join(str(item) for item in user_messages)
+            combined_tv_folded = combined_tv_text.casefold()
+            size_matches = list(re.finditer(r"\b(\d{2,3})\s*(?:-?\s*inch(?:es)?|in|ichh?)\b", combined_tv_text, re.IGNORECASE))
+            tv_size = size_matches[-1].group(1) if size_matches else ""
+            tv_quantity = ""
+            tv_quantities = _extract_multi_item_quantities(user_messages)
+            if tv_quantities:
+                tv_quantity = tv_quantities[-1].split(" ", 1)[0]
+            if not tv_quantity:
+                for customer_message in reversed(user_messages):
+                    standalone = re.fullmatch(r"\s*(\d{1,3})\s*", str(customer_message))
+                    if standalone:
+                        tv_quantity = standalone.group(1)
+                        break
+            location = _extract_customer_location(user_messages) or _extract_known_location(user_messages)
+            phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
+            phone_match = next((m for item in reversed(user_messages) for m in phone_pattern.finditer(str(item)) if _is_valid_indian_mobile(m.group(0))), None)
+            phone = phone_match.group(0) if phone_match else ""
+            details_question = bool(re.search(
+                r"(?:andar|box\s*me|box\s*mein|kya\s*kya|ky\s*ky|features?|specs?|"
+                r"specifications?|details?|ports?|apps?|remote|stand|accessor(?:y|ies)|"
+                r"what is included|what comes with|what features|smart\s+features?)",
+                latest_message,
+                re.IGNORECASE,
+            ))
+            asks_availability = bool(re.search(
+                r"\b(?:hai|hain|milega|milta|available|availability|listed|catalogue|catalog|yehi|yahi|nahi|nhi|nhiye|ky|kya|ye)\b",
+                latest_message,
+                re.IGNORECASE,
+            ))
+            asks_requirement = bool(re.search(r"\b(?:chahiye|chiye|chahie|need|want|require|order)\b", latest_message, re.IGNORECASE))
+            size_label = f"{tv_size}-inch " if tv_size else ""
+            feature_answer = (
+                "TV ke box mein kya-kya included hai—jaise remote, stand/wall mount aur power cable—"
+                "aur kaunse smart apps, HDMI/USB ports ya display features milenge, ye exact model par depend karta hai. "
+                "DTS team se model-wise confirm karna hoga; main bina verification ke features ya box contents pakke nahi bataunga."
+            )
+            if details_question:
+                reply = feature_answer
+                if not tv_size:
+                    reply += "\n\nAapko kitne inch ka TV chahiye?"
+                elif not tv_quantity:
+                    reply += f"\n\nAapki {size_label}Smart TV requirement note hai. Aapko kitne TV chahiye?"
+                elif not location:
+                    reply += f"\n\nAapki {size_label}Smart TV ki {tv_quantity} units ki requirement note hai. City/area bata dein."
+                elif not phone:
+                    reply += f"\n\nAapki {size_label}Smart TV ki {tv_quantity} units ki requirement {location} ke liye note hai. Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein (number 6, 7, 8 ya 9 se shuru ho)."
+            elif asks_availability and not asks_requirement and not tv_size:
+                reply = "Ji, Smart TV ke liye enquiry le sakte hain. Exact model, stock aur price DTS team se confirm karna hoga. Aapko kitne inch ka TV chahiye?"
+            elif not tv_size:
+                reply = "Ji, Smart TV ki requirement note kar sakte hain. Aapko kitne inch ka TV chahiye?"
+            elif not tv_quantity:
+                reply = f"Ji, {tv_size}-inch Smart TV ki requirement note kar li. Aapko kitne TV chahiye?"
+            elif not location:
+                reply = f"Ji, {tv_quantity} {tv_size}-inch Smart TV note kar li. Installation ya delivery ke liye city/area bata dein."
+            elif not phone:
+                reply = f"Ji, {tv_quantity} {tv_size}-inch Smart TV ki requirement {location} ke liye note hai. Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein (number 6, 7, 8 ya 9 se shuru ho)."
+            else:
+                reply = ""
+            details = {
+                "product_service": f"{tv_size}-inch Smart TV" if tv_size else "Smart TV",
+                "location": location,
+                "quantity": f"{tv_quantity} TV" if tv_quantity else "",
+                "contact_name": "",
+                "contact_number": phone,
+                "notes": "Exact model, stock, price and specifications require DTS confirmation.",
+            }
+            ready = bool(tv_size and tv_quantity and location and _is_valid_indian_mobile(phone))
+            if ready:
+                session["details"] = details
+                session["summary"] = _format_summary(details)
+                session["state"] = "SUMMARY_READY"
+                reply = (
+                    "Ji, please apni enquiry summary check karein:\n\n" + session["summary"] +
+                    "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                    "Confirmation se pehle WhatsApp draft link nahi banega."
+                )
+            else:
+                session["details"] = details
+                session["summary"] = None
+                session["state"] = "GATHERING"
             session["history"].append({"role": "user", "content": latest_message})
             session["history"].append({"role": "assistant", "content": reply})
             session["history"] = session["history"][-MAX_STORED_TURNS:]
