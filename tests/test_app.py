@@ -257,3 +257,40 @@ def test_tv_quantity_is_parsed_separately_from_screen_size():
     assert details["location"] == "Mumbai"
     assert "quantity" in fallback.casefold()
     assert "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai" not in fallback
+
+
+
+def test_tv_feature_question_keeps_existing_quantity_and_location_and_asks_only_for_phone(monkeypatch):
+    session_id = "dts-cccccccc-cccc-cccc-cccc-cccccccccccc"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+    session = dts_app._get_session(session_id)
+    session["history"] = [
+        {"role": "user", "content": "50 ich ka TV chahiye"},
+        {"role": "assistant", "content": "Ji, Smart TV ke liye enquiry le sakte hain. Kitne TV chahiye?"},
+        {"role": "user", "content": "2"},
+        {"role": "assistant", "content": "Installation ya service kis location par chahiye?"},
+        {"role": "user", "content": "palghar MIDC mai"},
+        {"role": "assistant", "content": "Apna valid 10-digit Indian mobile number share karein."},
+    ]
+
+    response = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "Tv ke andar ky ky milega ??"}],
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data["state"] == "GATHERING"
+    assert "exact model par depend karta hai" in data["reply"]
+    assert "50-inch" in data["reply"]
+    assert "2 TV" in data["reply"]
+    assert "Palghar" in data["reply"]
+    assert "mobile number" in data["reply"].casefold()
+    assert "kitne TV chahiye" not in data["reply"].casefold()
+    assert "location" not in data["reply"].casefold()
+    assert data["whatsapp_draft_url"] is None
+    assert data["whatsapp_sent"] is False
