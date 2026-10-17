@@ -240,8 +240,10 @@ def test_prizor_tv_question_is_recognized_instead_of_redirecting_to_cctv():
 
     assert dts_app._has_customer_requirement(["muje 43 ich ka tv chiye"])
     assert reply is not None
-    assert "Prizor 43-inch Smart 4K UHD TV" in reply
+    assert "43-inch Smart TV" in reply
+    assert "Stock aur price confirm karke" in reply
     assert "kitne TV chahiye" in reply
+    assert "catalogue mein alag product requirement" not in reply
     assert "CCTV" not in reply
 
 
