@@ -807,7 +807,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         asks_availability = bool(re.search(r"\b(?:hai|hain|milega|milta|available|availability|listed|catalogue|catalog|yehi|yahi|nahi|nhi|nhiye|ky|kya|ye)\b", folded))
         asks_requirement = bool(re.search(r"\b(?:chahiye|chiye|chahie|need|want|require|order)\b", folded))
         asks_tv_details = bool(re.search(
-            r"(?:andar|box\s*me|box\s*mein|kya\s*kya|ky\s*ky|milega|milega|features?|specs?|"
+            r"(?:andar|box\s*me|box\s*mein|kya\s*kya|ky\s*ky|features?|specs?|"
             r"specifications?|details?|ports?|apps?|remote|stand|accessor(?:y|ies)|screen|resolution|"
             r"smart\s+features?)",
             folded,
@@ -823,6 +823,14 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             size_label = f"{known_size.group(1)}-inch " if known_size else ""
             quantities = _extract_multi_item_quantities(user_messages)
             quantity_label = quantities[-1] if quantities else ""
+            if not quantity_label:
+                # A customer often answers a quantity prompt with only "2".
+                # Do not treat screen sizes like "50 inch" or phone numbers as quantities.
+                for customer_message in reversed(user_messages):
+                    standalone_number = re.fullmatch(r"\s*(\d{1,3})\s*", str(customer_message))
+                    if standalone_number:
+                        quantity_label = f"{standalone_number.group(1)} TV"
+                        break
             location = _extract_customer_location(user_messages) or _extract_known_location(user_messages)
             reply = (
                 "TV ke box mein kya-kya included hai—jaise remote, stand/wall mount aur power cable—"
