@@ -746,7 +746,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
 
     # Availability questions for IT products should never fall through to a generic greeting.
-    if re.search(r"\\bfirewalls?\\b", folded):
+    if re.search(r"\bfirewalls?\b", folded):
         return (
             "Ji, DTS ke IT infrastructure catalogue mein firewall/network security solutions listed hain. "
             "Exact model, stock, price aur compatibility DTS team se confirm karni hogi. "
@@ -1099,18 +1099,18 @@ def chat_api():
 
         # Keep Network Rack enquiries deterministic across category jumps and follow-ups.
         # A later specific product request takes precedence over an earlier unrelated question.
-        rack_terms = re.compile(r"\\b(?:network\\s*racks?|networkracks?|server\\s*racks?|serverracks?)\\b", re.IGNORECASE)
-        firewall_terms = re.compile(r"\\bfirewalls?\\b", re.IGNORECASE)
+        rack_terms = re.compile(r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", re.IGNORECASE)
+        firewall_terms = re.compile(r"\bfirewalls?\b", re.IGNORECASE)
         last_rack_index = max((i for i, item in enumerate(user_messages) if rack_terms.search(str(item))), default=-1)
         last_firewall_index = max((i for i, item in enumerate(user_messages) if firewall_terms.search(str(item))), default=-1)
         rack_context = last_rack_index >= 0 and last_rack_index > last_firewall_index
         latest_has_rack = bool(rack_terms.search(latest_message))
         if latest_has_rack or rack_context:
             combined_rack_text = " ".join(str(item) for item in user_messages)
-            u_matches = list(re.finditer(r"\\b(\\d{1,2})\\s*U\\b", combined_rack_text, re.IGNORECASE))
+            u_matches = list(re.finditer(r"\b(\d{1,2})\s*U\b", combined_rack_text, re.IGNORECASE))
             u_size = f"{u_matches[-1].group(1)}U" if u_matches else ""
             rack_quantity = ""
-            rack_qty_pattern = re.compile(r"\\b(\\d{1,3})\\s*(?:network\\s*racks?|networkracks?|server\\s*racks?|serverracks?|racks?|units?|pcs?|pieces?|nos?)\\b", re.IGNORECASE)
+            rack_qty_pattern = re.compile(r"\b(\d{1,3})\s*(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?|racks?|units?|pcs?|pieces?|nos?)\b", re.IGNORECASE)
             for customer_message in reversed(user_messages):
                 matches = list(rack_qty_pattern.finditer(str(customer_message)))
                 if matches:
@@ -1118,12 +1118,12 @@ def chat_api():
                     break
             if not rack_quantity:
                 for customer_message in reversed(user_messages):
-                    standalone = re.fullmatch(r"\\s*(\\d{1,3})\\s*", str(customer_message))
+                    standalone = re.fullmatch(r"\s*(\d{1,3})\s*", str(customer_message))
                     if standalone:
                         rack_quantity = standalone.group(1)
                         break
             location = _extract_customer_location(user_messages) or _extract_known_location(user_messages)
-            phone_match = re.search(r"(?<!\\d)(?:\\+?91[\\s-]?)?0?\\d(?:[\\s-]?\\d){9}(?!\\d)", " ".join(user_messages))
+            phone_match = re.search(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)", " ".join(user_messages))
             phone = phone_match.group(0) if phone_match and _is_valid_indian_mobile(phone_match.group(0)) else ""
             details = {
                 "product_service": f"Network Rack ({u_size})" if u_size else "Network Rack",
@@ -1150,8 +1150,8 @@ def chat_api():
                 session["summary"] = _format_summary(details)
                 session["state"] = "SUMMARY_READY"
                 reply = (
-                    "Ji, please apni enquiry summary check karein:\\n\\n" + session["summary"] +
-                    "\\n\\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                    "Ji, please apni enquiry summary check karein:\n\n" + session["summary"] +
+                    "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
                     "Confirmation se pehle WhatsApp draft link nahi banega."
                 )
             session["details"] = details
