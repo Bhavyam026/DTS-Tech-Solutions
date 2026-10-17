@@ -372,3 +372,42 @@ def test_network_rack_followups_collect_u_size_quantity_location_phone_and_requi
     assert confirm_data["state"] == "CONFIRMED"
     assert confirm_data["whatsapp_draft_url"].startswith("https://wa.me/")
     assert confirm_data["whatsapp_sent"] is False
+
+
+
+def test_tv_enquiry_keeps_size_quantity_location_through_feature_interruption():
+    session_id = "dts-cccccccc-dddd-eeee-ffff-aaaaaaaaaaaa"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    replies = []
+    for message in [
+        "TV hai ky ??",
+        "50 ich ka chiye",
+        "2",
+        "palghar MIDC mai",
+        "Tv ke andar ky ky milega ??",
+    ]:
+        response = client.post(
+            "/api/chat",
+            json={
+                "session_id": session_id,
+                "messages": [{"role": "user", "content": message}],
+            },
+        )
+        assert response.status_code == 200
+        data = response.get_json()
+        replies.append(data["reply"])
+        assert data["whatsapp_draft_url"] is None
+        assert data["whatsapp_sent"] is False
+
+    final_reply = replies[-1].casefold()
+    assert "exact model par depend karta hai" in final_reply
+    assert "50-inch" in final_reply
+    assert "2 tv" in final_reply
+    assert "palghar" in final_reply
+    assert "mobile number" in final_reply
+    assert "kitne tv chahiye" not in final_reply
+    assert "city/area bata dein" not in final_reply
+    assert dts_app._sessions[session_id]["state"] == "GATHERING"
+    assert dts_app._sessions[session_id]["summary"] is None
