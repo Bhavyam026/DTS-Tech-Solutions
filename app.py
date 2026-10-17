@@ -1214,9 +1214,9 @@ def chat_api():
                 elif not tv_quantity:
                     reply += f"\n\nAapki {size_label}Smart TV requirement note hai. Aapko kitne TV chahiye?"
                 elif not location:
-                    reply += f"\n\nAapki {size_label}Smart TV ki {tv_quantity} units ki requirement note hai. City/area bata dein."
+                    reply += f"\n\nAapki {size_label}Smart TV ki {tv_quantity} TV ki requirement note hai. City/area bata dein."
                 elif not phone:
-                    reply += f"\n\nAapki {size_label}Smart TV ki {tv_quantity} units ki requirement {location} ke liye note hai. Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein (number 6, 7, 8 ya 9 se shuru ho)."
+                    reply += f"\n\nAapki {size_label}Smart TV ki {tv_quantity} TV ki requirement {location} ke liye note hai. Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein (number 6, 7, 8 ya 9 se shuru ho)."
             elif asks_availability and not asks_requirement and not tv_size:
                 reply = "Ji, Smart TV ke liye enquiry le sakte hain. Exact model, stock aur price DTS team se confirm karna hoga. Aapko kitne inch ka TV chahiye?"
             elif not tv_size:
