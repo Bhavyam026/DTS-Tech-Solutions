@@ -355,7 +355,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
+        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
         text,
     ))
 
@@ -457,6 +457,8 @@ def _extract_multi_item_quantities(user_messages):
         (r"\b(\d{1,4})\s*(?:nvr|dvr)\b", "NVR/DVR"),
         (r"\b(\d{1,4})\s*fire\s+alarms?\b", "Fire Alarm"),
         (r"\b(\d{1,4})\s*(?:cat\s*6|cat6|lan\s+cables?)\b", "CAT6/LAN Cable"),
+        (r"\b(\d{1,4})\s*(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", "Network Rack"),
+        (r"\b(\d{1,4})\s*firewalls?\b", "Firewall"),
     ]
     found = []
     for pattern, label in patterns:
@@ -605,7 +607,11 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Fire Safety / Fire Alarm")
     if re.search(r"\b(?:networking|lan cable|cat\s*6|cat6|structured cabling)\b", folded):
         requirements.append("Networking / LAN / CAT6")
-    if re.search(r"\b(?:it infra|it infrastructure|desktop|monitor|server|network rack)\b", folded):
+    if re.search(r"\b(?:firewall|firewalls)\b", folded):
+        requirements.append("Firewall (IT Networking)")
+    if re.search(r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", folded):
+        requirements.append("Network Rack")
+    elif re.search(r"\b(?:it infra|it infrastructure|desktop|monitor|server|nas|switch|router)\b", folded):
         requirements.append("IT Infrastructure")
     if re.search(r"\b(?:smart\s+tv|led\s+tv|tvs?|televisions?|4k\s+uhd)\b", folded):
         requirements.append("Prizor 43-inch Smart 4K UHD TV" if re.search(r"\b43\s*(?:-?\s*inch(?:es)?|in|ich(?:h)?)\b", folded) else "TV / Smart TV")
@@ -737,6 +743,14 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             "Options mein Prizor 4MP Outdoor PoE IP Camera aur Prizor Smart Wi-Fi PTZ Camera "
             "shamil hain. NVR aur DVR bhi listed hain. Exact model ki availability DTS team se "
             "confirm karni hogi. Aap outdoor PoE camera dekh rahe hain ya Wi-Fi PTZ camera?"
+        )
+
+    # Availability questions for IT products should never fall through to a generic greeting.
+    if re.search(r"\\bfirewalls?\\b", folded):
+        return (
+            "Ji, DTS ke IT infrastructure catalogue mein firewall/network security solutions listed hain. "
+            "Exact model, stock, price aur compatibility DTS team se confirm karni hogi. "
+            "Aapko firewall chahiye? Agar haan, kitne units chahiye?"
         )
 
     catalog_question = bool(re.search(
@@ -1082,6 +1096,73 @@ def chat_api():
             session["summary"] = None
             session["updated_at"] = time.time()
             return _json_response(mobile_error, session["state"])
+
+        # Keep Network Rack enquiries deterministic across category jumps and follow-ups.
+        # A later specific product request takes precedence over an earlier unrelated question.
+        rack_terms = re.compile(r"\\b(?:network\\s*racks?|networkracks?|server\\s*racks?|serverracks?)\\b", re.IGNORECASE)
+        firewall_terms = re.compile(r"\\bfirewalls?\\b", re.IGNORECASE)
+        last_rack_index = max((i for i, item in enumerate(user_messages) if rack_terms.search(str(item))), default=-1)
+        last_firewall_index = max((i for i, item in enumerate(user_messages) if firewall_terms.search(str(item))), default=-1)
+        rack_context = last_rack_index >= 0 and last_rack_index > last_firewall_index
+        latest_has_rack = bool(rack_terms.search(latest_message))
+        if latest_has_rack or rack_context:
+            combined_rack_text = " ".join(str(item) for item in user_messages)
+            u_matches = list(re.finditer(r"\\b(\\d{1,2})\\s*U\\b", combined_rack_text, re.IGNORECASE))
+            u_size = f"{u_matches[-1].group(1)}U" if u_matches else ""
+            rack_quantity = ""
+            rack_qty_pattern = re.compile(r"\\b(\\d{1,3})\\s*(?:network\\s*racks?|networkracks?|server\\s*racks?|serverracks?|racks?|units?|pcs?|pieces?|nos?)\\b", re.IGNORECASE)
+            for customer_message in reversed(user_messages):
+                matches = list(rack_qty_pattern.finditer(str(customer_message)))
+                if matches:
+                    rack_quantity = matches[-1].group(1)
+                    break
+            if not rack_quantity:
+                for customer_message in reversed(user_messages):
+                    standalone = re.fullmatch(r"\\s*(\\d{1,3})\\s*", str(customer_message))
+                    if standalone:
+                        rack_quantity = standalone.group(1)
+                        break
+            location = _extract_customer_location(user_messages) or _extract_known_location(user_messages)
+            phone_match = re.search(r"(?<!\\d)(?:\\+?91[\\s-]?)?0?\\d(?:[\\s-]?\\d){9}(?!\\d)", " ".join(user_messages))
+            phone = phone_match.group(0) if phone_match and _is_valid_indian_mobile(phone_match.group(0)) else ""
+            details = {
+                "product_service": f"Network Rack ({u_size})" if u_size else "Network Rack",
+                "location": location,
+                "quantity": f"{rack_quantity} Network Rack" if rack_quantity else "",
+                "contact_name": "",
+                "contact_number": phone,
+                "notes": "",
+            }
+            if not u_size:
+                reply = "Ji, Network Rack ki requirement note kar li. Kaunsa U size chahiye—jaise 6U, 9U, 12U, 18U ya koi aur?"
+            elif not rack_quantity:
+                reply = f"Ji, {u_size} Network Rack. Aapko kitne racks chahiye?"
+            elif not location:
+                reply = f"Ji, {rack_quantity} {u_size} Network Rack note kar liye. Installation kis city/area mein chahiye?"
+            elif not phone:
+                reply = (
+                    f"Ji, {rack_quantity} {u_size} Network Rack ki requirement {location} ke liye note hai. "
+                    "Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein "
+                    "(number 6, 7, 8 ya 9 se shuru ho)."
+                )
+            else:
+                session["details"] = details
+                session["summary"] = _format_summary(details)
+                session["state"] = "SUMMARY_READY"
+                reply = (
+                    "Ji, please apni enquiry summary check karein:\\n\\n" + session["summary"] +
+                    "\\n\\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                    "Confirmation se pehle WhatsApp draft link nahi banega."
+                )
+            session["details"] = details
+            session["state"] = "SUMMARY_READY" if phone and u_size and rack_quantity and location else "GATHERING"
+            if session["state"] != "SUMMARY_READY":
+                session["summary"] = None
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"], session["summary"])
 
         # Handle clear multi-item requests deterministically so no item/quantity is lost.
         item_quantities = _extract_multi_item_quantities(user_messages)
