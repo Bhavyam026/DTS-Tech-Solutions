@@ -294,3 +294,81 @@ def test_tv_feature_question_keeps_existing_quantity_and_location_and_asks_only_
     assert "location" not in data["reply"].casefold()
     assert data["whatsapp_draft_url"] is None
     assert data["whatsapp_sent"] is False
+
+
+
+def test_firewall_to_network_rack_transition_does_not_repeat_greeting():
+    session_id = "dts-aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    first = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "firewall hai apke pass"}],
+        },
+    )
+    assert first.status_code == 200
+    first_data = first.get_json()
+    assert "firewall" in first_data["reply"].casefold()
+    assert "catalogue mein firewall" in first_data["reply"].casefold()
+    assert "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai" not in first_data["reply"]
+
+    second = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "networkrack chiye"}],
+        },
+    )
+    assert second.status_code == 200
+    second_data = second.get_json()
+    assert "network rack" in second_data["reply"].casefold()
+    assert "u size" in second_data["reply"].casefold()
+    assert "kitne racks" not in second_data["reply"].casefold() or "u size" in second_data["reply"].casefold()
+    assert "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai" not in second_data["reply"]
+    assert second_data["state"] == "GATHERING"
+    assert second_data["pending_summary"] is None
+    assert second_data["whatsapp_draft_url"] is None
+    assert second_data["whatsapp_sent"] is False
+
+
+def test_network_rack_followups_collect_u_size_quantity_location_phone_and_require_confirmation():
+    session_id = "dts-bbbbbbbb-cccc-dddd-eeee-ffffffffffff"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    messages = ["networkrack chiye", "12U", "2 racks", "Palghar MIDC", "9876543210"]
+    responses = []
+    for message in messages:
+        response = client.post(
+            "/api/chat",
+            json={
+                "session_id": session_id,
+                "messages": [{"role": "user", "content": message}],
+            },
+        )
+        assert response.status_code == 200
+        responses.append(response.get_json())
+        assert responses[-1]["whatsapp_draft_url"] is None
+        assert responses[-1]["whatsapp_sent"] is False
+
+    final = responses[-1]
+    assert final["state"] == "SUMMARY_READY"
+    assert "Network Rack (12U)" in final["pending_summary"]
+    assert "2 Network Rack" in final["pending_summary"]
+    assert "Palghar MIDC" in final["pending_summary"]
+    assert "9876543210" in final["pending_summary"]
+
+    confirm = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "CONFIRM SUMMARY"}],
+        },
+    )
+    confirm_data = confirm.get_json()
+    assert confirm_data["state"] == "CONFIRMED"
+    assert confirm_data["whatsapp_draft_url"].startswith("https://wa.me/")
+    assert confirm_data["whatsapp_sent"] is False
