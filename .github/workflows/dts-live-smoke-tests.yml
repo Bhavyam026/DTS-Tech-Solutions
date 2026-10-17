@@ -70,3 +70,61 @@ jobs:
           assert second.get("whatsapp_sent") is False, "WhatsApp must never be marked as sent"
           print("DTS live chat smoke tests PASS")
           PY
+
+      - name: Check Network Rack category transition and TV feature follow-up
+        run: |
+          python - <<'PY'
+          import json, urllib.request, uuid
+
+          base = "https://dts-tech-solutions.onrender.com"
+
+          def make_session():
+              return "dts-" + str(uuid.uuid4())
+
+          def post(session_id, message):
+              body = json.dumps({
+                  "session_id": session_id,
+                  "messages": [{"role": "user", "content": message}]
+              }).encode()
+              req = urllib.request.Request(
+                  base + "/api/chat", data=body,
+                  headers={"Content-Type": "application/json"},
+                  method="POST"
+              )
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  assert response.status == 200
+                  data = json.loads(response.read().decode())
+                  assert data.get("whatsapp_sent") is False, "WhatsApp must never be marked sent"
+                  return data
+
+          rack_session = make_session()
+          firewall = post(rack_session, "firewall hai apke pass")
+          assert "firewall" in firewall["reply"].lower(), firewall
+          rack = post(rack_session, "networkrack chiye")
+          assert "network rack" in rack["reply"].lower(), rack
+          assert "u size" in rack["reply"].lower(), rack
+          assert "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai" not in rack["reply"]
+          for message in ("12U", "2 racks", "Palghar MIDC", "9876543210"):
+              rack = post(rack_session, message)
+              assert not rack.get("whatsapp_draft_url"), "Draft must wait for explicit summary confirmation"
+          assert rack["state"] == "SUMMARY_READY", rack
+          assert "Network Rack (12U)" in rack["pending_summary"], rack
+          assert "2 Network Rack" in rack["pending_summary"], rack
+          assert "Palghar MIDC" in rack["pending_summary"], rack
+
+          tv_session = make_session()
+          post(tv_session, "TV hai ky ??")
+          post(tv_session, "50 ich ka chiye")
+          post(tv_session, "2")
+          post(tv_session, "palghar MIDC mai")
+          tv = post(tv_session, "Tv ke andar ky ky milega ??")
+          answer = tv["reply"].lower()
+          assert "exact model par depend karta hai" in answer, tv
+          assert "50-inch" in tv["reply"], tv
+          assert "2 tv" in answer, tv
+          assert "palghar" in answer, tv
+          assert "mobile number" in answer, tv
+          assert "kitne tv chahiye" not in answer, tv
+          assert not tv.get("whatsapp_draft_url"), "TV feature question must not create a draft"
+          print("Network Rack transition and TV feature follow-up live tests PASS")
+          PY
