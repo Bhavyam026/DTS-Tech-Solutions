@@ -806,8 +806,49 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         tv_size = re.search(r"\b(\d{2,3})\s*(?:-?\s*inch(?:es)?|in|ichh?)\b", folded, re.IGNORECASE)
         asks_availability = bool(re.search(r"\b(?:hai|hain|milega|milta|available|availability|listed|catalogue|catalog|yehi|yahi|nahi|nhi|nhiye|ky|kya|ye)\b", folded))
         asks_requirement = bool(re.search(r"\b(?:chahiye|chiye|chahie|need|want|require|order)\b", folded))
+        asks_tv_details = bool(re.search(
+            r"(?:andar|box\s*me|box\s*mein|kya\s*kya|ky\s*ky|milega|milega|features?|specs?|"
+            r"specifications?|details?|ports?|apps?|remote|stand|accessor(?:y|ies)|screen|resolution|"
+            r"smart\s+features?)",
+            folded,
+        ))
+        if asks_tv_details:
+            combined = " ".join(str(item) for item in user_messages)
+            combined_folded = combined.casefold()
+            known_size = re.search(
+                r"\b(\d{2,3})\s*(?:-?\s*inch(?:es)?|in|ichh?)\b",
+                combined_folded,
+                re.IGNORECASE,
+            )
+            size_label = f"{known_size.group(1)}-inch " if known_size else ""
+            quantities = _extract_multi_item_quantities(user_messages)
+            quantity_label = quantities[-1] if quantities else ""
+            location = _extract_customer_location(user_messages) or _extract_known_location(user_messages)
+            reply = (
+                "TV ke box mein kya-kya included hai—jaise remote, stand/wall mount aur power cable—"
+                "aur kaunse smart apps, HDMI/USB ports ya display features milenge, ye exact model par depend karta hai. "
+                "DTS team se model-wise confirm karna hoga; main bina verification ke features ya box contents pakke nahi bataunga."
+            )
+            if quantity_label and location and not _has_valid_mobile_in_messages(user_messages):
+                reply += (
+                    f"\n\nAapki {size_label}TV ki {quantity_label} requirement {location} ke liye note hai. "
+                    "Enquiry aage badhane ke liye apna valid 10-digit Indian mobile number share karein "
+                    "(number 6, 7, 8 ya 9 se shuru ho)."
+                )
+            elif quantity_label and not location:
+                reply += "\n\nAapko kitne TV chahiye, ye note hai. Installation ya delivery ke liye city/area bata dein."
+            elif not quantity_label:
+                reply += "\n\nAapko kitne TV chahiye?"
+            elif not _has_valid_mobile_in_messages(user_messages):
+                reply += (
+                    f"\n\nAapki {size_label}TV ki {quantity_label} requirement note hai. "
+                    "Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein "
+                    "(number 6, 7, 8 ya 9 se shuru ho)."
+                )
+            return reply
+
         if asks_availability or asks_requirement:
-            model_name = "43-inch Smart TV" if tv_size and tv_size.group(1) == "43" else "Smart TV"
+            model_name = f"{tv_size.group(1)}-inch Smart TV" if tv_size else "Smart TV"
             return (
                 f"Ji, {model_name} ke liye hum enquiry le sakte hain. Stock aur price confirm karke aapko bata denge. "
                 "Aapko kitne TV chahiye?"
