@@ -456,7 +456,7 @@ def _extract_multi_item_quantities(user_messages):
         (r"\b(\d{1,4})\s*(?:smart\s+)?(?:led\s+)?tvs?\b|\b(\d{1,4})\s*televisions?\b", "TV"),
         (r"\b(\d{1,4})\s*(?:nvr|dvr)\b", "NVR/DVR"),
         (r"\b(\d{1,4})\s*fire\s+alarms?\b", "Fire Alarm"),
-        (r"\b(\d{1,4})\s*(?:smoke\s+detectors?|smoke\s+alarms?)\b", "Smoke Detector"),
+        (r"\b(\d{1,4})\s*(?:(?:smoke|somke)\s+(?:detectors?|detetar|detetars?)|smoke\s+alarms?)\b", "Smoke Detector"),
         (r"\b(\d{1,4})\s*(?:cat\s*6|cat6|lan\s+cables?)\b", "CAT6/LAN Cable"),
         (r"\b(\d{1,4})\s*(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", "Network Rack"),
         (r"\b(\d{1,4})\s*firewalls?\b", "Firewall"),
@@ -604,7 +604,7 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Electrical Panel / Electrical Work")
     if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
         requirements.append("UPS (Uninterruptible Power Supply)")
-    if re.search(r"\b(?:smoke\s+detectors?|smoke\s+alarms?)\b", folded):
+    if re.search(r"\b(?:(?:smoke|somke)\s+(?:detectors?|detetar|detetars?)|smoke\s+alarms?)\b", folded):
         requirements.append("Fire Safety / Smoke Detector")
     elif re.search(r"\b(?:fire safety|fire alarms?|fire alarm systems?|suppression systems?|fire extinguishers?)\b", folded):
         requirements.append("Fire Safety / Fire Alarm")
@@ -749,7 +749,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
 
     # Fire-safety product questions should be answered directly, not sent to the default menu.
-    if re.search(r"\b(?:smoke\s+detectors?|smoke\s+alarms?)\b", folded):
+    if re.search(r"\b(?:(?:smoke|somke)\s+(?:detectors?|detetar|detetars?)|smoke\s+alarms?)\b", folded):
         if re.search(r"\b(?:kaise|how|work|working|use|used|purpose|kya karta|function)\b", folded):
             return (
                 "Smoke detector hawa mein dhuaan detect karta hai aur compatible fire alarm system ke saath "
