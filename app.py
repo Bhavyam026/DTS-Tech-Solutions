@@ -329,9 +329,11 @@ def _normalize_customer_text(value):
     text = _clean_text(value, MAX_MESSAGE_CHARS).casefold()
     # Normalize frequent transliterations/typos before downstream intent matching.
     replacements = (
-        (r"\b(?:acess|acces|access)\s+(?:contraol|controal|contol|control)\b", "access control"),
-        (r"\bpen\s+driver\b", "pen drive"),
-        (r"\bpen\s*drivr\b", "pen drive"),
+        (r"\b(?:acess|acces|access)\s+(?:control|controll|contol|contraol|controal|contral)\b", "access control"),
+        (r"\b(?:pen\s+driver|pen\s*draiver|pen\s*drivr|pen-drive|pendriver)\b", "pen drive"),
+        (r"\b(?:desk\s*top|desktp|desktopp)\b", "desktop"),
+        (r"\b(?:fire\s+alaram|fire\s+alram|fire\s+alrm)\b", "fire alarm"),
+        (r"\b(?:smok\s+detector|somke\s+detector|smoke\s+detekar|somke\s+detekar)\b", "smoke detector"),
         (r"\bkyky\b", "kya kya"),
         (r"\bky\s+ky\b", "kya kya"),
         (r"\bky\b", "kya"),
