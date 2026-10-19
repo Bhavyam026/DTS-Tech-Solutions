@@ -551,3 +551,42 @@ def test_new_desktop_question_is_not_hijacked_by_old_pen_drive_context():
     assert "processor" in reply.casefold()
     assert "ram" in reply.casefold()
     assert "pen drive" not in reply.casefold()
+
+
+
+def test_hdd_switches_context_after_pen_drive_and_is_added_as_second_product():
+    session_id = "dts-12345678-abcd-1234-abcd-123456789012"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    first = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "pen drive hai"}],
+        },
+    )
+    assert first.status_code == 200
+    assert "capacity" in first.get_json()["reply"].casefold()
+
+    second = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "hdd bhi chiye"}],
+        },
+    )
+    assert second.status_code == 200
+    reply = second.get_json()["reply"].casefold()
+    assert "hdd" in reply
+    assert "internal" in reply and "external" in reply
+    assert "kitni pen drives" not in reply
+    assert second.get_json()["whatsapp_draft_url"] is None
+    assert second.get_json()["whatsapp_sent"] is False
+
+    fallback, details = dts_app._deterministic_quota_fallback(
+        ["pen drive hai", "hdd bhi chiye"]
+    )
+    assert "USB Pen Drive" in details["product_service"]
+    assert "HDD / Hard Disk Drive" in details["product_service"]
+    assert "Har item/service ki quantity" in fallback
