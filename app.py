@@ -756,7 +756,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # so enquiry collection cannot mistake it for a purchase request.
     ups_in_context = bool(re.search(r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined))
     asks_ups_contents = bool(re.search(
-        r"(?:ky\s*ky\s*hota|kya\s*kya\s*hota|kyky|kya\s*hota|"
+        r"(?:ky\s*ky\s*hota|ky\s+hota|kya\s*kya\s*hota|kyky|kya\s*hota|"
         r"andar\s*(?:ky|kya)|mai\s*(?:kyky|ky\s*ky|kya\s*kya)|"
         r"what\s+is\s+inside|what\s+does\s+it\s+contain|components?|parts?)",
         normalized,
@@ -784,7 +784,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
         r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined
     ))
     asks_ups_components = bool(re.search(
-        r"(?:ky\s*ky\s*hota|kya\s*kya\s*hota|kyky\s*hota|kya\s*hota|"
+        r"(?:ky\s*ky\s*hota|ky\s+hota|kya\s*kya\s*hota|kyky\s*hota|kya\s*hota|"
         r"andar\s+ky|andar\s+kya|mai\s+ky\s+ky|mai\s+kya\s+kya|"
         r"contains?|included|components?|parts?|andar\s+what)",
         normalized,
