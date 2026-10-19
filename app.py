@@ -757,7 +757,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # Prefer the product explicitly named in the latest message. Old conversation
     # context may resolve pronouns/follow-ups, but must never override a new product.
     latest_names_other_product = bool(re.search(
-        r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|desktop|computer|laptop|"
+        r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|aio|all\s*in\s*one|desktop|computer|laptop|"
         r"cctv|camera|nvr|dvr|cat\s*6|cat6|network\s*rack|firewall|printer|monitor)\b",
         normalized,
     ))
@@ -854,6 +854,32 @@ def _deterministic_product_education_reply(latest_message, user_messages):
             "Pen drive ke liye DTS se enquiry kar sakte hain. Main live stock, capacity ya USB type "
             "confirm nahi kar sakta; ye team se verify karna hoga. Aapko kis capacity ki chahiye—"
             "jaise 32 GB, 64 GB, ya abhi decide nahi kiya?"
+        )
+
+    # AIO (All-in-One) desktop has different included components from a tower PC.
+    aio_terms = r"\b(?:aio|all[ -]?in[ -]?one)\b"
+    aio_named_latest = bool(re.search(aio_terms, normalized))
+    aio_in_context = aio_named_latest or (
+        bool(re.search(aio_terms, combined))
+        and not latest_names_pen_drive
+        and not re.search(r"\b(?:cctv|camera|nvr|dvr|cat\s*6|cat6|fire safety|electrical panel)\b", normalized)
+    )
+    aio_availability_question = bool(re.search(
+        r"\b(?:mil\s*jayega|mil\s*jaega|milega|available|stock|hai|hain|supply)\b", normalized
+    ))
+    if aio_in_context and aio_availability_question and not asks_how_or_details:
+        return (
+            "AIO (All-in-One) desktop ke liye DTS team se enquiry kar sakte hain. "
+            "Main live stock ya exact model availability confirm nahi kar sakta; team verify karegi. "
+            "Aapko AIO desktop chahiye—office work, billing ya kisi aur use ke liye?"
+        )
+    if aio_in_context and asks_how_or_details:
+        return (
+            "AIO (All-in-One) desktop mein computer ke main components monitor ke saath ek hi unit mein hote hain—"
+            "jaise processor, RAM, SSD/HDD storage aur built-in display. Keyboard aur mouse kai models mein box ke saath aate hain, "
+            "lekin har model mein zaroori nahi; webcam, Wi-Fi, speakers, ports aur operating system bhi model ke hisaab se alag ho sakte hain. "
+            "DTS ke exact AIO model aur box contents abhi verify nahi hain, isliye main included accessories ka promise nahi karunga. "
+            "Aapko AIO ke saath keyboard-mouse bhi chahiye? DTS team aapse baat karke model aur availability confirm karegi."
         )
 
     # Desktop follow-up: explain typical components without promising a specific bundle.
