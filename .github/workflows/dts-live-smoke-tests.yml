@@ -104,7 +104,7 @@ jobs:
           assert "network rack" in rack["reply"].lower(), rack
           assert "u size" in rack["reply"].lower(), rack
           assert "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai" not in rack["reply"]
-          for message in ("12U", "2 racks", "Palghar MIDC", "9876543210"):
+          for message in ("12U", "2 racks", "Palghar MIDC", "7826349150"):
               rack = post(rack_session, message)
               assert not rack.get("whatsapp_draft_url"), "Draft must wait for explicit summary confirmation"
           assert rack["state"] == "SUMMARY_READY", rack
@@ -127,4 +127,60 @@ jobs:
           assert "kitne tv chahiye" not in answer, tv
           assert not tv.get("whatsapp_draft_url"), "TV feature question must not create a draft"
           print("Network Rack transition and TV feature follow-up live tests PASS")
+          PY
+
+
+      - name: Check Hinglish typos, educational priority, and context preservation
+        run: |
+          python - <<'PY'
+          import json, urllib.request, uuid
+
+          base = "https://dts-tech-solutions.onrender.com"
+
+          def make_session():
+              return "dts-" + str(uuid.uuid4())
+
+          def post(session_id, message):
+              body = json.dumps({
+                  "session_id": session_id,
+                  "messages": [{"role": "user", "content": message}]
+              }).encode()
+              req = urllib.request.Request(
+                  base + "/api/chat", data=body,
+                  headers={"Content-Type": "application/json"},
+                  method="POST"
+              )
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  assert response.status == 200
+                  data = json.loads(response.read().decode())
+                  assert data.get("whatsapp_sent") is False
+                  return data
+
+          desktop_session = make_session()
+          desktop = post(desktop_session, "desktop mai ky ky hota hai")
+          assert "processor" in desktop["reply"].lower(), desktop
+          assert "ram" in desktop["reply"].lower(), desktop
+          assert "kitni quantity" not in desktop["reply"].lower(), desktop
+
+          access = post(make_session(), "acess contraol hai")
+          assert "access-control" in access["reply"].lower(), access
+          assert "attendance" in access["reply"].lower(), access
+          assert "kitni quantity" not in access["reply"].lower(), access
+
+          pen_session = make_session()
+          pen = post(pen_session, "pen driver hai?")
+          assert "pen drive" in pen["reply"].lower(), pen
+          capacity = post(pen_session, "64 ka")
+          assert "64 gb pen drive" in capacity["reply"].lower(), capacity
+          assert "kitni pen drives" in capacity["reply"].lower(), capacity
+
+          location_session = make_session()
+          post(location_session, "fire alarm chahiye")
+          post(location_session, "smoke detector")
+          post(location_session, "5")
+          location = post(location_session, "loctaion pe chiye")
+          assert "city" in location["reply"].lower() or "area" in location["reply"].lower(), location
+          assert location["state"] == "GATHERING", location
+          assert not location.get("whatsapp_draft_url"), location
+          print("Hinglish normalization and context smoke tests PASS")
           PY
