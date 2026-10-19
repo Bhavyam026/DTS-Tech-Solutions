@@ -1665,6 +1665,16 @@ def chat_api():
                     session["updated_at"] = time.time()
                     return _json_response(product_education_reply, session["state"], session.get("summary"))
 
+                # Run catalogue/technical intent handling before lead capture when the
+                # model provider is rate-limited. A quota failure must not turn every
+                # product question into "how many units do you need?"
+                catalog_reply = _deterministic_catalog_reply(latest_message, user_messages)
+                if catalog_reply:
+                    session["history"].append({"role": "assistant", "content": catalog_reply})
+                    session["history"] = session["history"][-MAX_STORED_TURNS:]
+                    session["updated_at"] = time.time()
+                    return _json_response(catalog_reply, session["state"], session.get("summary"))
+
                 general_reply = _deterministic_general_reply(latest_message)
                 if general_reply:
                     session["history"].append({"role": "assistant", "content": general_reply})
