@@ -329,14 +329,14 @@ def _normalize_customer_text(value):
     text = _clean_text(value, MAX_MESSAGE_CHARS).casefold()
     # Normalize frequent transliterations/typos without changing the stored customer message.
     replacements = (
-        (r"\\b(?:acess|acces|access)\\s+(?:contraol|controal|contol|control)\\b", "access control"),
-        (r"\\b(?:loctaion|locaiton|locaton|lokation)\\b", "location"),
-        (r"\\b(?:detekar|detekter|detetar|detectorr|detectorss)\\b", "detector"),
-        (r"\\b(?:chiye|chahie|chaye|chahiye|chaiye)\\b", "chahiye"),
-        (r"\\b(?:apke pass|aapke pass|tumare pass|tumhare pass)\\b", "aapke paas"),
-        (r"\\b(?:ky ky|kyky|kya kya)\\b", "kya kya"),
-        (r"\\b(?:fire sistem|fire sytem|fire systm)\\b", "fire system"),
-        (r"\\b(?:smoke detekar|somke detector|somke detekar)\\b", "smoke detector"),
+        (r"\b(?:acess|acces|access)\s+(?:contraol|controal|contol|control)\b", "access control"),
+        (r"\b(?:loctaion|locaiton|locaton|lokation)\b", "location"),
+        (r"\b(?:detekar|detekter|detetar|detectorr|detectorss)\b", "detector"),
+        (r"\b(?:chiye|chahie|chaye|chahiye|chaiye)\b", "chahiye"),
+        (r"\b(?:apke pass|aapke pass|tumare pass|tumhare pass)\b", "aapke paas"),
+        (r"\b(?:ky ky|kyky|kya kya)\b", "kya kya"),
+        (r"\b(?:fire sistem|fire sytem|fire systm)\b", "fire system"),
+        (r"\b(?:smoke detekar|somke detector|somke detekar)\b", "smoke detector"),
     )
     for pattern, replacement in replacements:
         text = re.sub(pattern, replacement, text)
