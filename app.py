@@ -1559,7 +1559,7 @@ def chat_api():
         # product requests. Keep the active enquiry and ask a targeted clarification.
         if (
             session.get("state") == "GATHERING"
-            and re.fullmatch(r"\d{1,4}\s*(?:ka|ki|ke)?", latest_message)
+            and re.fullmatch(r"\d{1,4}\s*(?:ka|ki|ke)", latest_message)
             and _has_customer_requirement(previous_user_messages)
         ):
             prior_text = _normalize_customer_text(" ".join(previous_user_messages))
@@ -1957,7 +1957,7 @@ def chat_api():
                 # provider quota is exhausted. Ask a contextual clarification and preserve state.
                 if (
                     session.get("state") == "GATHERING"
-                    and re.fullmatch(r"\d{1,4}\s*(?:ka|ki|ke)?", latest_message)
+                    and re.fullmatch(r"\d{1,4}\s*(?:ka|ki|ke)", latest_message)
                     and _has_customer_requirement(user_messages[:-1])
                 ):
                     reply = (
