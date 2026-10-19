@@ -355,7 +355,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarms?|fire alarm systems?|smoke detectors?|smoke alarms?|fire extinguishers?|suppression systems?|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
+        r"\b(?:ptz|cctv|camera|pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|desktop|computer|laptop|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarms?|fire alarm systems?|smoke detectors?|smoke alarms?|fire extinguishers?|suppression systems?|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
         text,
     ))
 
@@ -628,6 +628,8 @@ def _deterministic_quota_fallback(user_messages):
     folded = combined.casefold()
 
     requirements = []
+    if re.search(r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b", folded):
+        requirements.append("USB Pen Drive")
     if re.search(r"\b(?:cctv\s*amc|amc.{0,20}cctv)\b", folded):
         requirements.append("CCTV AMC")
     elif re.search(r"\bptz\b", folded):
@@ -828,10 +830,15 @@ def _deterministic_product_education_reply(latest_message, user_messages):
             "DTS team se confirm karne honge. Abhi quantity batane ki zaroorat nahi hai."
         )
 
-    # USB pen drive: answer the function question, not the enquiry form.
-    pen_drive_mentioned = bool(re.search(
-        r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b", combined
-    ))
+    # Resolve explicit product in the latest message before using older context.
+    # Otherwise a previous pen-drive question can hijack a new desktop question.
+    pen_drive_terms = r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b"
+    desktop_terms = r"\b(?:desktop|desktop\s+pc|computer\s+system|pc|computer)\b"
+    latest_names_pen_drive = bool(re.search(pen_drive_terms, normalized))
+    latest_names_desktop = bool(re.search(desktop_terms, normalized))
+    pen_drive_mentioned = latest_names_pen_drive or (
+        bool(re.search(pen_drive_terms, combined)) and not latest_names_desktop
+    )
     if pen_drive_mentioned and asks_how_or_details:
         return (
             "Pen drive ek chhota portable USB storage device hota hai. Isme photos, videos, documents "
@@ -850,9 +857,9 @@ def _deterministic_product_education_reply(latest_message, user_messages):
         )
 
     # Desktop follow-up: explain typical components without promising a specific bundle.
-    desktop_mentioned = bool(re.search(
-        r"\b(?:desktop|desktop\s+pc|computer\s+system|pc)\b", combined
-    ))
+    desktop_mentioned = latest_names_desktop or (
+        bool(re.search(desktop_terms, combined)) and not latest_names_pen_drive
+    )
     if desktop_mentioned and asks_how_or_details:
         return (
             "Desktop computer setup mein aam taur par CPU/tower ke andar processor, RAM, storage (SSD/HDD) "
