@@ -409,16 +409,47 @@ def _has_valid_mobile_in_messages(messages):
     )
 
 
-def _is_valid_indian_mobile(value):
-    """Accept Indian mobile numbers in 10-digit, 0-prefixed, or +91-prefixed form."""
+def _normalize_indian_mobile(value):
+    """Normalize a customer-supplied Indian mobile to 10 digits, or return empty."""
     if not isinstance(value, str):
-        return False
+        return ""
     digits = re.sub(r"\D", "", value)
     if len(digits) == 12 and digits.startswith("91"):
         digits = digits[2:]
     elif len(digits) == 11 and digits.startswith("0"):
         digits = digits[1:]
-    return len(digits) == 10 and digits[0] in "6789"
+    return digits if len(digits) == 10 else ""
+
+
+def _is_obvious_dummy_mobile(digits):
+    """Reject common test numbers and obvious digit sequences; this cannot prove ownership."""
+    if not re.fullmatch(r"\d{10}", digits):
+        return True
+    if len(set(digits)) == 1:
+        return True
+    common_dummies = {
+        "1234567890", "1234567891", "0123456789",
+        "9876543210", "0987654321", "9876543219",
+        "1111111111", "2222222222", "3333333333",
+        "4444444444", "5555555555", "6666666666",
+        "7777777777", "8888888888", "9999999999",
+        "0000000000", "1212121212", "1231231231",
+    }
+    if digits in common_dummies:
+        return True
+    # Reject uninterrupted ascending/descending sequences (e.g. 6789012345 is not
+    # a sequence by this rule, but 6789012345 should still be treated cautiously).
+    ascending = "0123456789"
+    descending = ascending[::-1]
+    if digits in (ascending, descending):
+        return True
+    return False
+
+
+def _is_valid_indian_mobile(value):
+    """Validate Indian mobile format and reject obvious dummy/test sequences."""
+    digits = _normalize_indian_mobile(value)
+    return bool(digits and digits[0] in "6789" and not _is_obvious_dummy_mobile(digits))
 
 
 def _mobile_validation_error(value):
@@ -434,6 +465,9 @@ def _mobile_validation_error(value):
         return ""
     if _is_valid_indian_mobile(cleaned):
         return ""
+    normalized = _normalize_indian_mobile(cleaned)
+    if normalized and normalized[0] in "6789" and _is_obvious_dummy_mobile(normalized):
+        return "Yeh number dummy/test number jaisa lag raha hai. Kripya apna mobile number dobara check karke dein. Sirf format se real ownership verify nahi ho sakti."
     if len(digits) == 11 and not digits.startswith("0"):
         return "Aapne 11-digit number enter kiya hai. Kripya exact 10-digit Indian mobile number dein (6, 7, 8 ya 9 se shuru hone wala)."
     if len(digits) == 12 and digits.startswith("91"):
