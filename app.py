@@ -926,7 +926,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     if re.search(
         r"\b(?:(?:access|acess|acces)\s+(?:control|contol|contraol|controal)|biometric|attendance machine|door access)\b",
         normalized,
-    ) and re.search(r"\\b(?:hai|hain|milega|milta|available|availability|stock|listed)\\b", normalized):
+    ) and re.search(r"\b(?:hai|hain|milega|milta|available|availability|stock|listed)\b", normalized):
         return (
             "Ji, DTS access-control solutions ke liye enquiry le sakte hain. "
             "Setup biometric attendance, card-based entry ya door access ke liye ho sakta hai; "
