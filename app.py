@@ -330,6 +330,11 @@ def _normalize_customer_text(value):
     # Normalize frequent transliterations/typos without changing the stored customer message.
     replacements = (
         (r"\b(?:acess|acces|access)\s+(?:contraol|controal|contol|control)\b", "access control"),
+        (r"\bpen\s+driver\b", "pen drive"),
+        (r"\bpen\s*drivr\b", "pen drive"),
+        (r"\bkyky\b", "kya kya"),
+        (r"\bky\s+ky\b", "kya kya"),
+        (r"\bky\b", "kya"),
         (r"\b(?:loctaion|locaiton|locaton|lokation)\b", "location"),
         (r"\b(?:detekar|detekter|detetar|detectorr|detectorss)\b", "detector"),
         (r"\b(?:chiye|chahie|chaye|chahiye|chaiye)\b", "chahiye"),
@@ -1400,6 +1405,10 @@ def chat_api():
     if latest_message is None:
         return jsonify({"error": "Invalid message payload."}), 400
 
+    # Normalize once at the API boundary so every downstream router sees the
+    # same typo-corrected Hinglish text (including education and state routing).
+    latest_message = _normalize_customer_text(latest_message)
+
     session = _get_session(session_id)
     g.ai_deadline = time.monotonic() + AI_REQUEST_BUDGET_SECONDS
 
@@ -1489,6 +1498,31 @@ def chat_api():
             item["content"] for item in session["history"]
             if item["role"] == "user"
         ] + [latest_message]
+
+        # Preserve an active enquiry when the customer confirms on-site service
+        # but hasn't supplied a real city/area yet. Never treat "location pe
+        # chahiye" itself as the location, and never reset to the greeting.
+        previous_user_messages = [
+            item["content"] for item in session["history"]
+            if item["role"] == "user"
+        ]
+        has_prior_product_context = _has_customer_requirement(previous_user_messages)
+        if (
+            session.get("state") == "GATHERING"
+            and _is_on_site_installation_request(latest_message)
+            and has_prior_product_context
+            and not _extract_customer_location(user_messages)
+        ):
+            reply = (
+                "Samajh gaya—site par installation/service chahiye. "
+                "Bas actual city ya industrial area bata dein, jaise Boisar, Palghar, Mumbai ya Thane. "
+                "Main aapki existing enquiry ka context wahi rakhta hoon."
+            )
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"], session.get("summary"))
 
         mobile_error = _mobile_validation_error(latest_message)
         if mobile_error:
@@ -1865,6 +1899,22 @@ def chat_api():
                     item["content"] for item in session["history"]
                     if item["role"] == "user"
                 ]
+                # An ambiguous short answer must not erase an active enquiry when the
+                # provider quota is exhausted. Ask a contextual clarification and preserve state.
+                if (
+                    session.get("state") == "GATHERING"
+                    and re.fullmatch(r"\d{1,4}\s*(?:ka|ki|ke)?", latest_message)
+                    and _has_customer_requirement(user_messages[:-1])
+                ):
+                    reply = (
+                        f"Aapne '{latest_message}' bataya—kya aap capacity/specification keh rahe hain "
+                        "ya quantity? Main pichhli enquiry ka context rakhta hoon; ek baar clear kar dein."
+                    )
+                    session["history"].append({"role": "assistant", "content": reply})
+                    session["history"] = session["history"][-MAX_STORED_TURNS:]
+                    session["updated_at"] = time.time()
+                    return _json_response(reply, session["state"], session.get("summary"))
+
                 # Even when the AI provider is unavailable, answer clear product questions
                 # before the deterministic enquiry fallback can ask for quantity/location.
                 product_education_reply = _deterministic_product_education_reply(latest_message, user_messages)
