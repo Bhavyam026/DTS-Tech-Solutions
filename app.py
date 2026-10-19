@@ -323,6 +323,25 @@ def _clean_text(value, max_length=240):
         return ""
     return " ".join(value.strip().split())[:max_length]
 
+
+def _normalize_customer_text(value):
+    """Normalize common Roman-Hindi spellings and predictable typos for intent matching."""
+    text = _clean_text(value, MAX_MESSAGE_CHARS).casefold()
+    # Normalize frequent transliterations/typos without changing the stored customer message.
+    replacements = (
+        (r"\\b(?:acess|acces|access)\\s+(?:contraol|controal|contol|control)\\b", "access control"),
+        (r"\\b(?:loctaion|locaiton|locaton|lokation)\\b", "location"),
+        (r"\\b(?:detekar|detekter|detetar|detectorr|detectorss)\\b", "detector"),
+        (r"\\b(?:chiye|chahie|chaye|chahiye|chaiye)\\b", "chahiye"),
+        (r"\\b(?:apke pass|aapke pass|tumare pass|tumhare pass)\\b", "aapke paas"),
+        (r"\\b(?:ky ky|kyky|kya kya)\\b", "kya kya"),
+        (r"\\b(?:fire sistem|fire sytem|fire systm)\\b", "fire system"),
+        (r"\\b(?:smoke detekar|somke detector|somke detekar)\\b", "smoke detector"),
+    )
+    for pattern, replacement in replacements:
+        text = re.sub(pattern, replacement, text)
+    return " ".join(text.split())
+
 PRICING_REPLY = "Pricing aur exact cost ke liye kripya hamare owner/expert se direct baat karein."
 
 
@@ -666,7 +685,7 @@ def index():
 def _deterministic_quota_fallback(user_messages):
     """Collect a minimal DTS enquiry without calling OpenAI when its quota is exhausted."""
     combined = " ".join(_clean_text(item, MAX_MESSAGE_CHARS) for item in user_messages)
-    folded = combined.casefold()
+    folded = _normalize_customer_text(combined)
 
     requirements = []
     if re.search(r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b", folded):
@@ -791,8 +810,8 @@ def _deterministic_quota_fallback(user_messages):
 
 def _deterministic_product_education_reply(latest_message, user_messages):
     """Answer basic product questions before the enquiry-quantity collector runs."""
-    folded = _clean_text(latest_message, MAX_MESSAGE_CHARS).casefold()
-    combined = " ".join(str(item) for item in user_messages).casefold()
+    folded = _normalize_customer_text(latest_message)
+    combined = _normalize_customer_text(" ".join(str(item) for item in user_messages))
     normalized = " ".join(re.sub(r"[^a-z0-9\s]", " ", folded).split())
 
     # Prefer the product explicitly named in the latest message. Old conversation
@@ -1048,8 +1067,8 @@ def _deterministic_product_education_reply(latest_message, user_messages):
 def _deterministic_catalog_reply(latest_message, user_messages):
     """Answer common catalogue and technical questions without relying on model memory."""
     latest = _clean_text(latest_message, MAX_MESSAGE_CHARS)
-    folded = latest.casefold()
-    combined = " ".join(str(item) for item in user_messages).casefold()
+    folded = _normalize_customer_text(latest)
+    combined = _normalize_customer_text(" ".join(str(item) for item in user_messages))
 
     # Educational UPS questions must be answered before enquiry collection.
     # Use the recent conversation context so a follow-up like "ky kam karta hai"
