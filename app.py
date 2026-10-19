@@ -378,7 +378,7 @@ def _extract_customer_location(messages):
         if match:
             candidate = (match.group(1) or match.group(2) or "").strip(" .,-")
             if candidate and not re.search(
-                r"\b(?:cctv|camera|ups|panel|electrical|networking|cat6|nvr|dvr|fire safety|amc|price|cost|help|services?)\b",
+                r"\b(?:cctv|camera|ups|panel|electrical|networking|cat6|nvr|dvr|fire safety|amc|price|cost|help|services?|pe|par|chahiye|chiye|chahie|please|installation|install|location|site)\b",
                 candidate,
                 re.IGNORECASE,
             ):
@@ -399,6 +399,26 @@ def _extract_customer_location(messages):
 def _has_location_in_messages(messages):
     """Accept a customer-supplied location, even if it is outside DTS's usual service area."""
     return bool(_extract_customer_location(messages))
+
+
+def _is_on_site_installation_request(message):
+    """Recognize on-site service intent without treating it as a supplied city."""
+    text = _clean_text(message, MAX_MESSAGE_CHARS).casefold()
+    return bool(re.search(
+        r"\b(?:location|loctaion|locaton|site|on[ -]?site|onsite|installation|install)\b.{0,30}\b(?:pe|par|chahiye|chiye|chahie|please|karna|karwani|karwana)\b|"
+        r"\b(?:location|site|onsite|on[ -]?site)\s*(?:pe|par)\s*(?:chahiye|chiye|chahie|hai)\b",
+        text,
+    ))
+
+
+def _location_prompt(messages):
+    latest = str(messages[-1]) if messages else ""
+    if _is_on_site_installation_request(latest):
+        return (
+            "Samajh gaya—detectors ki on-site installation chahiye. "
+            "Bas site ki city/area bata dein, jaise Boisar, Palghar, Mumbai ya Thane."
+        )
+    return "Installation ya service kis location par chahiye? City/area ka naam bata dein."
 
 def _has_valid_mobile_in_messages(messages):
     phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
@@ -726,7 +746,7 @@ def _deterministic_quota_fallback(user_messages):
             else f"Ji, {requirements[0]} ke liye kitni quantity chahiye?"
         )
     elif not location:
-        question = "Installation ya service kis location par chahiye? City/area ka naam bata dein."
+        question = _location_prompt(user_messages)
     elif not phone:
         question = (
             "Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein "
@@ -1729,10 +1749,7 @@ def chat_api():
             if _is_pricing_question(latest_message):
                 bot_reply = PRICING_REPLY
             elif not _is_product_education_question(latest_message) and _has_customer_requirement(user_messages) and not _has_location_in_messages(user_messages):
-                bot_reply = (
-                    "Ji, aapki requirement note kar li. Installation ya service kis "
-                    "location par chahiye? City/area ka naam bata dein."
-                )
+                bot_reply = _location_prompt(user_messages)
             elif not _is_product_education_question(latest_message) and _has_customer_requirement(user_messages) and not _has_valid_mobile_in_messages(user_messages):
                 bot_reply = (
                     "Theek hai, requirement note kar li. Enquiry summary banane ke liye "
