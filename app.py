@@ -355,7 +355,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|desktop|computer|laptop|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarms?|fire alarm systems?|smoke detectors?|smoke alarms?|fire extinguishers?|suppression systems?|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
+        r"\b(?:ptz|cctv|camera|pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|desktop|computer|laptop|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarms?|fire alarm systems?|smoke detectors?|smoke alarms?|fire extinguishers?|suppression systems?|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|(?:access|acess|acces)\s+(?:control|contol|contraol|controal)|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
         text,
     ))
 
@@ -697,7 +697,7 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Prizor 43-inch Smart 4K UHD TV" if re.search(r"\b43\s*(?:-?\s*inch(?:es)?|in|ich(?:h)?)\b", folded) else "TV / Smart TV")
     if re.search(r"\b(?:nvr|dvr)\b", folded):
         requirements.append("NVR / DVR")
-    if re.search(r"\baccess control\b", folded):
+    if re.search(r"\b(?:access|acess|acces)\s+(?:control|contol|contraol|controal)\b", folded):
         requirements.append("Access Control")
     if re.search(r"\b(?:installation|maintenance|engineering contracting)\b", folded) and not requirements:
         requirements.append("Installation / Technical Services")
@@ -989,7 +989,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
                 "Fire-safety requirement ke liye site ka type batayein—office, shop, warehouse, factory ya residential building? "
                 "Aapko fire alarm/smoke detection chahiye ya suppression system bhi? Final equipment aur coverage site survey/compliance ke hisaab se confirm hoga."
             )
-        if re.search(r"\b(?:access control|biometric|attendance machine|door access)\b", normalized):
+        if re.search(r"\b(?:(?:access|acess|acces)\s+(?:control|contol|contraol|controal)|biometric|attendance machine|door access)\b", normalized):
             return (
                 "Access control ke liye aapko staff attendance, door entry control, ya dono chahiye? "
                 "Doors/entry points ki approximate sankhya bhi baad mein note karenge; compatible device aur lock details DTS team confirm karegi."
@@ -1020,7 +1020,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
              "printer", "Printer documents print karta hai; kuch models scan/copy bhi karte hain. Ink/toner type, connectivity aur scan/copy features model ke hisaab se alag hote hain. Aapko sirf printing chahiye ya print + scan + copy wala model?"),
             (r"\b(?:network rack|server rack|rack|server|nas|switch|router|firewall|access point|networking|it infrastructure|computer network)\b",
              "IT/networking", "DTS IT infrastructure/networking requirements mein network racks, servers, storage, switches, routers, firewall aur Wi-Fi/networking setup jaise options assess kiye ja sakte hain. Exact compatibility aur availability team confirm karegi. Aapko inmein se kaunsa equipment ya complete network setup chahiye?"),
-            (r"\b(?:access control|biometric|attendance machine|door access)\b",
+            (r"\b(?:(?:access|acess|acces)\s+(?:control|contol|contraol|controal)|biometric|attendance machine|door access)\b",
              "access control", "Access-control setup se authorized logon ki entry manage ki ja sakti hai; biometric/card/door-lock options site aur system compatibility par depend karte hain. Aapko attendance machine, door access, ya dono chahiye?"),
             (r"\b(?:amc|annual maintenance|maintenance|installation|engineering contracting)\b",
              "service", "DTS installation, maintenance aur AMC/engineering service requirements discuss kar sakta hai. Scope equipment, site aur required visit/work par depend karega. Aapko kis equipment ya site ke liye service chahiye, aur kya kaam karwana hai?"),
