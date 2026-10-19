@@ -162,10 +162,20 @@ jobs:
           assert "ram" in desktop["reply"].lower(), desktop
           assert "kitni quantity" not in desktop["reply"].lower(), desktop
 
+          typo_desktop = post(make_session(), "desk top mai ky ky hota hai")
+          assert "processor" in typo_desktop["reply"].lower(), typo_desktop
+          assert "ram" in typo_desktop["reply"].lower(), typo_desktop
+
           access = post(make_session(), "acess contraol hai")
           assert "access-control" in access["reply"].lower(), access
           assert "attendance" in access["reply"].lower(), access
           assert "kitni quantity" not in access["reply"].lower(), access
+
+          access_typo = post(make_session(), "access controll hai")
+          assert "access-control" in access_typo["reply"].lower(), access_typo
+
+          fire_typo = post(make_session(), "fire alaram hai")
+          assert "fire" in fire_typo["reply"].lower(), fire_typo
 
           pen_session = make_session()
           pen = post(pen_session, "pen driver hai?")
