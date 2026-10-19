@@ -378,7 +378,7 @@ def _extract_customer_location(messages):
         if match:
             candidate = (match.group(1) or match.group(2) or "").strip(" .,-")
             if candidate and not re.search(
-                r"\b(?:cctv|camera|ups|panel|electrical|networking|cat6|nvr|dvr|fire safety|amc|price|cost|help|services?|pe|par|chahiye|chiye|chahie|please|installation|install|location|site)\b",
+                r"\b(?:cctv|cameras?|ups|panel|electrical|networking|cat\s*6|cat6|nvr|dvr|fire|smoke|detectors?|detekar|detekter|detetar|alarm|suppression|amc|price|cost|help|services?|pe|par|chahiye|chiye|chahie|please|installation|install|location|site|quantity|qty|yes|no|okay|ok)\b",
                 candidate,
                 re.IGNORECASE,
             ):
@@ -388,7 +388,7 @@ def _extract_customer_location(messages):
         if (1 <= len(message.split()) <= 3 and len(message) <= 45
                 and re.fullmatch(r"[A-Za-z][A-Za-z .'-]*", message)
                 and not re.search(
-                    r"\b(?:cctv|camera|ups|panel|electrical|networking|cat6|nvr|dvr|fire|amc|yes|no|thanks|hello|hi|ok|okay|price|cost)\b",
+                    r"\b(?:cctv|cameras?|ups|panel|electrical|networking|cat\s*6|cat6|nvr|dvr|fire|smoke|detectors?|detekar|detekter|detetar|alarm|suppression|amc|yes|no|thanks|hello|hi|ok|okay|price|cost|chahiye|chiye|chahie|pe|par|site|location|installation|install|quantity|qty|need|want|please)\b",
                     message,
                     re.IGNORECASE,
                 )):
