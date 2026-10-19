@@ -745,6 +745,77 @@ def _deterministic_quota_fallback(user_messages):
     return reply, details
 
 
+
+def _deterministic_product_education_reply(latest_message, user_messages):
+    """Answer basic product questions before the enquiry-quantity collector runs."""
+    folded = _clean_text(latest_message, MAX_MESSAGE_CHARS).casefold()
+    combined = " ".join(str(item) for item in user_messages).casefold()
+    normalized = " ".join(re.sub(r"[^a-z0-9\\s]", " ", folded).split())
+
+    asks_how_or_details = bool(re.search(
+        r"(?:ky\\s*kaam\\s*karta|kya\\s*kaam\\s*karta|ky\\s*karta|kya\\s*karta|"
+        r"kaise\\s*kaam|kaam\\s*karta|kis\\s*kaam|kya\\s*milega|ky\\s*milega|"
+        r"kya\\s*kya\\s*milega|features?|details?|what\\s+does|how\\s+does|"
+        r"what\\s+is\\s+included|what\\s+comes\\s+with|purpose|function|use\\s+of)",
+        normalized,
+    ))
+
+    # UPS follow-up: "UPS hai?" -> "ky kaam karta hai?"
+    ups_mentioned = bool(re.search(
+        r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b", combined
+    ))
+    asks_ups_working = bool(re.search(
+        r"(?:ky\\s*kaam\\s*karta|kya\\s*kaam\\s*karta|ky\\s*karta|kya\\s*karta|"
+        r"kaise\\s*kaam|kaam\\s*karta|working|how\\s+does|what\\s+does|purpose|function|use\\s+of)",
+        normalized,
+    ))
+    if ups_mentioned and asks_ups_working and not re.search(
+        r"\\b(?:wire|wires|wiring|cable|cables|mm2?|sq\\.?\\s*mm|gauge|size)\\b", normalized
+    ):
+        return (
+            "UPS (Uninterruptible Power Supply) bijli chali jaane ya voltage mein problem aane par "
+            "connected devices ko kuch samay tak backup power deta hai. Isse desktop computer, router "
+            "ya compatible network equipment achanak band hone se bach sakte hain. Backup duration "
+            "UPS capacity, battery aur connected load par depend karta hai; exact model ke features "
+            "DTS team se confirm karne honge. Abhi quantity batane ki zaroorat nahi hai."
+        )
+
+    # USB pen drive: answer the function question, not the enquiry form.
+    pen_drive_mentioned = bool(re.search(
+        r"\\b(?:pen\\s*drive|pendrive|usb\\s*drive|flash\\s*drive)\\b", combined
+    ))
+    if pen_drive_mentioned and asks_how_or_details:
+        return (
+            "Pen drive ek chhota portable USB storage device hota hai. Isme photos, videos, documents "
+            "aur doosri files save karke ek computer se doosre compatible device mein transfer kar sakte hain. "
+            "Kitna data store hoga, woh uski capacity (jaise 32 GB ya 64 GB) par depend karta hai. "
+            "Exact capacity, USB type aur compatibility model ke hisaab se confirm karni hogi. "
+            "Aapko sirf use samajhna tha ya pen drive kharidne ke liye enquiry karni hai?"
+        )
+    if re.search(r"\\b(?:pen\\s*drive|pendrive|usb\\s*drive|flash\\s*drive)\\b", normalized) and re.search(
+        r"\\b(?:hai|hain|available|milega|milta|available|stock)\\b", normalized
+    ):
+        return (
+            "Pen drive ke liye DTS se enquiry kar sakte hain. Main live stock, capacity ya USB type "
+            "confirm nahi kar sakta; ye team se verify karna hoga. Aapko kis capacity ki chahiye—"
+            "jaise 32 GB, 64 GB, ya abhi decide nahi kiya?"
+        )
+
+    # Desktop follow-up: explain typical components without promising a specific bundle.
+    desktop_mentioned = bool(re.search(
+        r"\\b(?:desktop|desktop\\s+pc|computer\\s+system|pc)\\b", combined
+    ))
+    if desktop_mentioned and asks_how_or_details:
+        return (
+            "Desktop computer setup mein aam taur par CPU/tower ke andar processor, RAM, storage (SSD/HDD) "
+            "aur power supply hoti hai; monitor, keyboard aur mouse alag se ho sakte hain ya bundle mein "
+            "aa sakte hain. DTS ke exact desktop model aur box mein kya included hai, abhi verify nahi hai—"
+            "isliye main kisi specific processor, RAM, storage ya accessories ka promise nahi karunga. "
+            "Aapko desktop office work ke liye chahiye, billing ke liye ya design/gaming jaise heavy work ke liye?"
+        )
+
+    return None
+
 def _deterministic_catalog_reply(latest_message, user_messages):
     """Answer common catalogue and technical questions without relying on model memory."""
     latest = _clean_text(latest_message, MAX_MESSAGE_CHARS)
@@ -1180,6 +1251,15 @@ def chat_api():
             session["summary"] = None
             session["updated_at"] = time.time()
             return _json_response(mobile_error, session["state"])
+
+        # Product education/availability questions must be answered before asking quantity.
+        product_education_reply = _deterministic_product_education_reply(latest_message, user_messages)
+        if product_education_reply:
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": product_education_reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(product_education_reply, session["state"], session.get("summary"))
 
         # Keep Network Rack enquiries deterministic across category jumps and follow-ups.
         # A later specific product request takes precedence over an earlier unrelated question.
