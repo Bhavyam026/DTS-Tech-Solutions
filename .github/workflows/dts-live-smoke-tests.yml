@@ -177,7 +177,8 @@ jobs:
           location_session = make_session()
           post(location_session, "fire alarm chahiye")
           post(location_session, "smoke detector")
-          post(location_session, "5")
+          quantity = post(location_session, "5")
+          assert "quantity hai ya" not in quantity["reply"].lower(), quantity
           location = post(location_session, "loctaion pe chiye")
           assert "city" in location["reply"].lower() or "area" in location["reply"].lower(), location
           assert location["state"] == "GATHERING", location
