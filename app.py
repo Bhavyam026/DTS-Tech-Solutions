@@ -751,6 +751,30 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     folded = latest.casefold()
     combined = " ".join(str(item) for item in user_messages).casefold()
 
+    # Educational UPS questions must be answered before enquiry collection.
+    # Use the recent conversation context so a follow-up like "ky kam karta hai"
+    # still resolves to UPS after the customer mentioned UPS in the previous turn.
+    ups_mentioned = bool(
+        re.search(r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b", folded)
+        or re.search(r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b", combined)
+    )
+    asks_ups_working = bool(re.search(
+        r"(?:ky\\s+kaam\\s+karta|kya\\s+kaam\\s+karta|kya\\s+karta|kaise\\s+kaam|"
+        r"kaam\\s+karta|working|how\\s+does|what\\s+does|purpose|function|use\\s+of)",
+        folded,
+    ))
+    if ups_mentioned and asks_ups_working and not re.search(
+        r"\\b(?:wire|wires|wiring|cable|cables|mm2?|sq\\.?\\s*mm|gauge|kitne mm|size)\\b", folded
+    ):
+        return (
+            "UPS ka full form Uninterruptible Power Supply hai. Iska kaam bijli chali jaane ya "
+            "voltage mein problem aane par connected devices ko kuch samay tak backup power dena hai. "
+            "Isse computer, router, network equipment ya doosre compatible devices achanak band hone "
+            "se bach sakte hain. Backup kitni der chalega, ye UPS ki capacity, battery aur connected "
+            "load par depend karta hai. Har UPS har load ko same time tak backup nahi deta, aur exact "
+            "model ke features DTS team se confirm karne honge. Abhi aapko quantity batane ki zaroorat nahi hai."
+        )
+
     ups_wiring_question = bool(
         re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded)
         and re.search(r"\b(?:wire|wires|wiring|cable|cables|mm2?|sq\.?\s*mm|gauge|kitne mm|size)\b", folded)
