@@ -220,3 +220,28 @@ jobs:
           assert hdd.get("whatsapp_sent") is False, hdd
           print("Live pen-drive to HDD context-switch test PASS")
           PY
+
+      - name: Verify pen-drive to HDD context switch on live backend
+        run: |
+          python - <<'PY'
+          import json, urllib.request, uuid
+          base = "https://dts-tech-solutions.onrender.com"
+          sid = "dts-" + str(uuid.uuid4())
+          def post(message):
+              payload = json.dumps({"session_id": sid, "messages": [{"role": "user", "content": message}]}).encode()
+              req = urllib.request.Request(base + "/api/chat", data=payload, headers={"Content-Type": "application/json"}, method="POST")
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  assert response.status == 200
+                  return json.loads(response.read().decode())
+          pen = post("pen drive hai")
+          assert "pen drive" in pen.get("reply", "").lower(), pen
+          hdd = post("hdd bhi chiye")
+          reply = hdd.get("reply", "").lower()
+          print("HDD response:", hdd.get("reply"))
+          assert "hdd" in reply or "hard disk" in reply, hdd
+          assert "internal" in reply or "external" in reply, hdd
+          assert "kitni pen drives" not in reply, hdd
+          assert not hdd.get("whatsapp_draft_url"), hdd
+          assert hdd.get("whatsapp_sent") is False, hdd
+          print("Live pen-drive to HDD context-switch test PASS")
+          PY
