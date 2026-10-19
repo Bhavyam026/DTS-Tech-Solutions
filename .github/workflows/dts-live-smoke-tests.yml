@@ -196,7 +196,7 @@ jobs:
           print("Hinglish normalization and context smoke tests PASS")
           PY
 
-- name: Verify pen-drive to HDD context switch on live backend
+      - name: Verify pen-drive to HDD context switch on live backend
         run: |
           python - <<'PY'
           import json, urllib.request, uuid
