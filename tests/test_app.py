@@ -186,7 +186,7 @@ def test_single_item_quantity_location_and_phone_are_tracked_without_reasking():
         "/api/chat",
         json={
             "session_id": session_id,
-            "messages": [{"role": "user", "content": "9876543210"}],
+            "messages": [{"role": "user", "content": "7826349150"}],
         },
     )
     assert second.status_code == 200
@@ -194,7 +194,7 @@ def test_single_item_quantity_location_and_phone_are_tracked_without_reasking():
     assert second_data["state"] == "SUMMARY_READY"
     assert "5 CCTV Camera" in second_data["pending_summary"]
     assert "Mumbai" in second_data["pending_summary"]
-    assert "9876543210" in second_data["pending_summary"]
+    assert "7826349150" in second_data["pending_summary"]
     assert second_data["whatsapp_draft_url"] is None
     assert second_data["whatsapp_sent"] is False
 
@@ -339,7 +339,7 @@ def test_network_rack_followups_collect_u_size_quantity_location_phone_and_requi
     dts_app._sessions.pop(session_id, None)
     client = dts_app.app.test_client()
 
-    messages = ["networkrack chiye", "12U", "2 racks", "Palghar MIDC", "9876543210"]
+    messages = ["networkrack chiye", "12U", "2 racks", "Palghar MIDC", "7826349150"]
     responses = []
     for message in messages:
         response = client.post(
@@ -359,7 +359,7 @@ def test_network_rack_followups_collect_u_size_quantity_location_phone_and_requi
     assert "Network Rack (12U)" in final["pending_summary"]
     assert "2 Network Rack" in final["pending_summary"]
     assert "Palghar MIDC" in final["pending_summary"]
-    assert "9876543210" in final["pending_summary"]
+    assert "7826349150" in final["pending_summary"]
 
     confirm = client.post(
         "/api/chat",
