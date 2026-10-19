@@ -414,8 +414,21 @@ def _is_on_site_installation_request(message):
 def _location_prompt(messages):
     latest = str(messages[-1]) if messages else ""
     if _is_on_site_installation_request(latest):
+        combined = " ".join(str(item) for item in (messages or [])).casefold()
+        if re.search(r"\\b(?:smoke|somke)\\s*(?:detectors?|detekar|detekter|detetar|alarms?)\\b", combined):
+            item = "5 smoke detectors" if re.search(r"\\b5\\b", combined) else "smoke detectors"
+        elif re.search(r"\\b(?:fire\\s*alarms?|fire\\s*safety|suppression)\\b", combined):
+            item = "fire-safety system"
+        elif re.search(r"\\b(?:cctv|cameras?|ptz)\\b", combined):
+            item = "CCTV cameras"
+        elif re.search(r"\\b(?:cat\\s*6|cat6|lan cable|networking)\\b", combined):
+            item = "networking/cabling"
+        elif re.search(r"\\b(?:electrical\\s+(?:panels?|planes?)|power distribution)\\b", combined):
+            item = "electrical panel/work"
+        else:
+            item = "aapki requirement"
         return (
-            "Samajh gaya—detectors ki on-site installation chahiye. "
+            f"Samajh gaya—{item} ki on-site installation chahiye. "
             "Bas site ki city/area bata dein, jaise Boisar, Palghar, Mumbai ya Thane."
         )
     return "Installation ya service kis location par chahiye? City/area ka naam bata dein."
