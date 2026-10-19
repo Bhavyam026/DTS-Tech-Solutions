@@ -94,7 +94,9 @@ def test_multi_product_quantities_remain_item_specific():
     assert "5 UPS" in details["quantity"]
     assert "3 Electrical Panel" in details["quantity"]
     assert details["location"] == "Palghar"
-    assert "CONFIRM SUMMARY" in fallback
+    # Without a customer mobile number, the safe next step is to ask for it,
+    # not to show the final confirmation phrase prematurely.
+    assert "mobile number" in fallback.casefold()
 
 
 def test_quota_fallback_does_not_mark_whatsapp_as_sent():
