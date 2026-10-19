@@ -1500,6 +1500,24 @@ def chat_api():
             )
             return _json_response(reply, "CONFIRMED", summary, whatsapp_draft_url)
 
+        # Educational/product-information intent has priority over the enquiry state
+        # machine. Answer it without clearing or advancing an existing lead state.
+        education_user_messages = [
+            item["content"] for item in session["history"]
+            if item["role"] == "user"
+        ] + [latest_message]
+        education_reply = _deterministic_product_education_reply(
+            latest_message, education_user_messages
+        )
+        if education_reply:
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": education_reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(
+                education_reply, session.get("state", "GATHERING"), session.get("summary")
+            )
+
         if session["state"] == "SUMMARY_READY":
             session["state"] = "GATHERING"
             session["summary"] = None
@@ -1536,6 +1554,29 @@ def chat_api():
             session["history"] = session["history"][-MAX_STORED_TURNS:]
             session["updated_at"] = time.time()
             return _json_response(reply, session["state"], session.get("summary"))
+
+        # Short numeric follow-ups (e.g. "64 ka") are contextual, not new
+        # product requests. Keep the active enquiry and ask a targeted clarification.
+        if (
+            session.get("state") == "GATHERING"
+            and re.fullmatch(r"\d{1,4}\s*(?:ka|ki|ke)?", latest_message)
+            and _has_customer_requirement(previous_user_messages)
+        ):
+            prior_text = _normalize_customer_text(" ".join(previous_user_messages))
+            if re.search(r"\b(?:pen\s*drive|pendrive|usb\s*drive|flash\s*drive)\b", prior_text):
+                # Pen-drive capacity is an attribute; the education handler above
+                # already handles the common "64 ka" case and asks quantity.
+                pass
+            else:
+                reply = (
+                    f"Aapne '{latest_message}' bataya. Ye quantity hai ya kisi product ki "
+                    "capacity/specification? Main pichhli enquiry ka context rakhta hoon."
+                )
+                session["history"].append({"role": "user", "content": latest_message})
+                session["history"].append({"role": "assistant", "content": reply})
+                session["history"] = session["history"][-MAX_STORED_TURNS:]
+                session["updated_at"] = time.time()
+                return _json_response(reply, session["state"], session.get("summary"))
 
         mobile_error = _mobile_validation_error(latest_message)
         if mobile_error:
