@@ -752,6 +752,25 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     combined = " ".join(str(item) for item in user_messages).casefold()
     normalized = " ".join(re.sub(r"[^a-z0-9\s]", " ", folded).split())
 
+    # Explicit Roman-Hindi UPS component question. Keep this narrow and first,
+    # so enquiry collection cannot mistake it for a purchase request.
+    ups_in_context = bool(re.search(r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined))
+    asks_ups_contents = bool(re.search(
+        r"(?:ky\s*ky\s*hota|kya\s*kya\s*hota|kyky|kya\s*hota|"
+        r"andar\s*(?:ky|kya)|mai\s*(?:kyky|ky\s*ky|kya\s*kya)|"
+        r"what\s+is\s+inside|what\s+does\s+it\s+contain|components?|parts?)",
+        normalized,
+    ))
+    if ups_in_context and asks_ups_contents:
+        return (
+            "UPS mein aam taur par battery, battery charger, inverter aur control/protection circuit hote hain. "
+            "Battery backup power store karti hai; bijli jaane par inverter battery ki DC power ko AC power mein "
+            "badal kar connected desktop ya networking device ko kuch samay tak chalata hai. "
+            "Overload aur voltage protection jaise features model ke hisaab se alag ho sakte hain. "
+            "Battery built-in hai ya external, ye bhi model par depend karta hai. "
+            "Aap desktop ke liye UPS samajhna chahte hain ya router/network ke liye?"
+        )
+
     asks_how_or_details = bool(re.search(
         r"(?:ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*kam\s*karta|ky\s*kamkarta|kya\s*kam\s*karta|kya\s*kamkarta|ky\s*karta|kya\s*karta|"
         r"kaise\s*kaam|kaam\s*karta|kis\s*kaam|kya\s*milega|ky\s*milega|"
