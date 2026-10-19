@@ -872,27 +872,27 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # pen drives and desktops. Prefer the product explicitly named in the latest turn.
     if asks_how_or_details:
         product_checks = [
-            (r"\\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\\b",
+            (r"\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\b",
              "CCTV/security", "DTS catalogue mein Prizor CCTV cameras, Wi-Fi PTZ camera, 8-channel NVR aur DVR listed hain. Camera type aur recording setup site aur compatibility par depend karta hai. Aapko camera, NVR/DVR ya complete CCTV setup mein se kya-kya chahiye?"),
-            (r"\\b(?:cat\\s*6|cat6|lan cable|ethernet cable|network cable)\\b",
+            (r"\b(?:cat\s*6|cat6|lan cable|ethernet cable|network cable)\b",
              "network cable", "CAT6/LAN cable network devices ko wired connection dene ke kaam aati hai. Indoor, outdoor aur armoured cable ka selection installation route aur environment par depend karta hai; exact HOC model/stock DTS team se confirm hoga. Aapko indoor cable, outdoor cable ya armoured cable chahiye, aur lagbhag kitni length?"),
-            (r"\\b(?:fire safety|fire alarm|smoke detector|smoke alarm|fire suppression|fire extinguisher)\\b",
+            (r"\b(?:fire safety|fire alarm|smoke detector|smoke alarm|fire suppression|fire extinguisher)\b",
              "fire safety", "DTS Fire Safety solutions mein fire alarm, smoke detection aur safety/suppression systems ki enquiry li ja sakti hai. Exact equipment, coverage aur compliance site survey ke baad confirm hote hain; ye Prizor-branded products nahi hain. Aapko smoke detectors, fire alarm panel ke saath complete system, ya suppression solution mein se kya chahiye?"),
-            (r"\\b(?:electrical panel|power distribution panel|distribution panel|electrical work|electrical)\\b",
+            (r"\b(?:electrical panel|power distribution panel|distribution panel|electrical work|electrical)\b",
              "electrical", "Electrical panel circuits mein power distribute karta hai aur design ke hisaab se protective/control components ho sakte hain. Ratings aur included components load aur site design ke mutabik engineer confirm karega. Aapko naya distribution panel chahiye, existing panel ka kaam, ya installation/maintenance?"),
-            (r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b",
+            (r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b",
              "UPS", "UPS bijli jaane par connected devices ko temporary backup power deta hai. Required capacity aur backup time connected load aur desired runtime par depend karte hain; battery/accessories exact model se confirm honge. Aapko desktop ke liye UPS chahiye ya networking/CCTV equipment ke liye?"),
-            (r"\\b(?:monitor|display|screen)\\b",
+            (r"\b(?:monitor|display|screen)\b",
              "monitor", "Monitor computer ka display hota hai. Screen size, ports, resolution aur included cables/accessories exact model par depend karte hain aur DTS team se verify honge. Aapko monitor akela chahiye ya desktop setup ke saath?"),
-            (r"\\b(?:printer|multifunction printer|mfp)\\b",
+            (r"\b(?:printer|multifunction printer|mfp)\b",
              "printer", "Printer documents print karta hai; kuch models scan/copy bhi karte hain. Ink/toner type, connectivity aur scan/copy features model ke hisaab se alag hote hain. Aapko sirf printing chahiye ya print + scan + copy wala model?"),
-            (r"\\b(?:network rack|server rack|rack|server|nas|switch|router|firewall|access point|networking|it infrastructure|computer network)\\b",
+            (r"\b(?:network rack|server rack|rack|server|nas|switch|router|firewall|access point|networking|it infrastructure|computer network)\b",
              "IT/networking", "DTS IT infrastructure/networking requirements mein network racks, servers, storage, switches, routers, firewall aur Wi-Fi/networking setup jaise options assess kiye ja sakte hain. Exact compatibility aur availability team confirm karegi. Aapko inmein se kaunsa equipment ya complete network setup chahiye?"),
-            (r"\\b(?:access control|biometric|attendance machine|door access)\\b",
+            (r"\b(?:access control|biometric|attendance machine|door access)\b",
              "access control", "Access-control setup se authorized logon ki entry manage ki ja sakti hai; biometric/card/door-lock options site aur system compatibility par depend karte hain. Aapko attendance machine, door access, ya dono chahiye?"),
-            (r"\\b(?:amc|annual maintenance|maintenance|installation|engineering contracting)\\b",
+            (r"\b(?:amc|annual maintenance|maintenance|installation|engineering contracting)\b",
              "service", "DTS installation, maintenance aur AMC/engineering service requirements discuss kar sakta hai. Scope equipment, site aur required visit/work par depend karega. Aapko kis equipment ya site ke liye service chahiye, aur kya kaam karwana hai?"),
-            (r"\\b(?:pen\\s*drive?r?|pendrive|usb\\s*drive|flash\\s*drive)\\b",
+            (r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b",
              "pen drive", "Pen drive mein files store aur transfer ki ja sakti hain. Capacity aur USB connector/type model ke hisaab se alag hote hain; live stock DTS team se confirm hoga. Aapko 32 GB, 64 GB ya koi aur capacity chahiye?")
         ]
         for pattern, _category, answer in product_checks:
@@ -901,9 +901,9 @@ def _deterministic_product_education_reply(latest_message, user_messages):
 
     # Short capacity replies such as "64 ka" should continue a prior pen-drive
     # availability enquiry instead of falling back to a greeting.
-    if re.fullmatch(r"(?:\\d{2,4}\\s*(?:gb|g|gigabyte(?:s)?)?|\\d{2,4}\\s*ka)", normalized):
+    if re.fullmatch(r"(?:\d{2,4}\s*(?:gb|g|gigabyte(?:s)?)?|\d{2,4}\s*ka)", normalized):
         if re.search(pen_drive_terms, combined) and not latest_names_desktop:
-            capacity = re.search(r"\\d{2,4}", normalized)
+            capacity = re.search(r"\d{2,4}", normalized)
             if capacity:
                 return (
                     f"Ji, {capacity.group(0)} GB pen drive ki requirement samajh gaya. "
