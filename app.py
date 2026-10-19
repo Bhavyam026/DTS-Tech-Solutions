@@ -327,7 +327,7 @@ def _clean_text(value, max_length=240):
 def _normalize_customer_text(value):
     """Normalize common Roman-Hindi spellings and predictable typos for intent matching."""
     text = _clean_text(value, MAX_MESSAGE_CHARS).casefold()
-    # Normalize frequent transliterations/typos without changing the stored customer message.
+    # Normalize frequent transliterations/typos before downstream intent matching.
     replacements = (
         (r"\b(?:acess|acces|access)\s+(?:contraol|controal|contol|control)\b", "access control"),
         (r"\bpen\s+driver\b", "pen drive"),
@@ -919,6 +919,19 @@ def _deterministic_product_education_reply(latest_message, user_messages):
             "Pen drive ke liye DTS se enquiry kar sakte hain. Main live stock, capacity ya USB type "
             "confirm nahi kar sakta; ye team se verify karna hoga. Aapko kis capacity ki chahiye—"
             "jaise 32 GB, 64 GB, ya abhi decide nahi kiya?"
+        )
+
+    # Access-control availability questions should get a direct, accurate answer
+    # even when the AI provider is unavailable; do not jump to quantity collection.
+    if re.search(
+        r"\\b(?:(?:access|acess|acces)\\s+(?:control|contol|contraol|controal)|biometric|attendance machine|door access)\\b",
+        normalized,
+    ) and re.search(r"\\b(?:hai|hain|milega|milta|available|availability|stock|listed)\\b", normalized):
+        return (
+            "Ji, DTS access-control solutions ke liye enquiry le sakte hain. "
+            "Setup biometric attendance, card-based entry ya door access ke liye ho sakta hai; "
+            "exact device, lock compatibility aur availability site ki requirement dekhkar DTS team confirm karegi. "
+            "Aapko staff attendance chahiye, door entry control, ya dono?"
         )
 
     # AIO (All-in-One) desktop has different included components from a tower PC.
