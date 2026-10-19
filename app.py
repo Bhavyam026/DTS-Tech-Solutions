@@ -640,7 +640,7 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Electrical Panel / Electrical Work")
     if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
         requirements.append("UPS (Uninterruptible Power Supply)")
-    if re.search(r"\b(?:(?:smoke|somke)\s+(?:detectors?|detetar|detetars?)|smoke\s+alarms?)\b", folded):
+    if re.search(r"\b(?:(?:smoke|somke)\s+(?:detectors?|detekar|detekter|detetar|detetars?)|smoke\s+alarms?)\b", folded):
         requirements.append("Fire Safety / Smoke Detector")
     elif re.search(r"\b(?:fire safety|fire alarms?|fire alarm systems?|suppression systems?|fire extinguishers?)\b", folded):
         requirements.append("Fire Safety / Fire Alarm")
@@ -898,7 +898,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # ask the next relevant technical preference before collecting lead details.
     # Ask one useful question at a time; never invent stock or force quantity too early.
     wants_product = bool(re.search(
-        r"\\b(?:chahiye|chahie|lena\\s+hai|lena\\s+h|buy|purchase|need|require|mil\\s*jayega|mil\\s*jaega|milega|available|supply|quotation|quote)\\b",
+        r"\b(?:chahiye|chahie|lena\s+hai|lena\s+h|buy|purchase|need|require|mil\s*jayega|mil\s*jaega|milega|available|supply|quotation|quote)\b",
         normalized,
     ))
     if wants_product:
@@ -912,48 +912,48 @@ def _deterministic_product_education_reply(latest_message, user_messages):
                 "Desktop ke liye pehle configuration decide karte hain. Processor preference kya hai—Intel Core i3, i5, i7, AMD Ryzen, ya aapko office/billing use ke hisaab se suggestion chahiye? "
                 "Exact supported options aur availability DTS team confirm karegi."
             )
-        if re.search(r"\\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\\b", normalized):
+        if re.search(r"\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\b", normalized):
             return (
                 "CCTV setup ke liye pehle use/location samajhte hain: camera shop/office ke andar lagana hai ya outdoor/factory area mein? "
                 "Uske hisaab se PoE IP camera, Wi-Fi PTZ ya NVR/DVR setup suggest kar sakte hain. Exact compatibility aur availability DTS team confirm karegi."
             )
-        if re.search(r"\\b(?:cat\\s*6|cat6|lan cable|ethernet cable|network cable)\\b", normalized):
+        if re.search(r"\b(?:cat\s*6|cat6|lan cable|ethernet cable|network cable)\b", normalized):
             return (
                 "CAT6 cable ke liye pehle do cheezein clear karte hain: lagbhag kitne meter chahiye, aur cable indoor use ke liye hai ya outdoor? "
                 "Agar route ya length confirm nahi hai, estimate bhi chalega; exact cable type DTS team verify karegi."
             )
-        if re.search(r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b", normalized):
+        if re.search(r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", normalized):
             return (
                 "UPS ke liye pehle batayein, kis equipment ko backup dena hai—desktop, CCTV, router/network rack, ya multiple devices? "
                 "Backup kitni der chahiye aur load/rating pata ho toh woh bhi batayein; exact VA/kVA capacity load ke hisaab se confirm hogi."
             )
-        if re.search(r"\\b(?:monitor|display|screen)\\b", normalized):
+        if re.search(r"\b(?:monitor|display|screen)\b", normalized):
             return (
                 "Monitor ke liye preferred screen size kya hai—22-inch, 24-inch, ya koi aur size? "
                 "Agar use gaming, office work ya CCTV monitoring ke liye hai, woh bhi batayein. Exact ports/model DTS team confirm karegi."
             )
-        if re.search(r"\\b(?:printer|multifunction printer|mfp)\\b", normalized):
+        if re.search(r"\b(?:printer|multifunction printer|mfp)\b", normalized):
             return (
                 "Printer ke liye aapko sirf print chahiye ya print + scan + copy (multifunction)? "
                 "Black-and-white ya colour bhi bata dein. Ink/toner, connectivity aur exact model DTS team verify karegi."
             )
-        if re.search(r"\\b(?:electrical panel|power distribution panel|distribution panel|electrical work)\\b", normalized):
+        if re.search(r"\b(?:electrical panel|power distribution panel|distribution panel|electrical work)\b", normalized):
             return (
                 "Electrical panel ke liye pehle application aur approximate load/rating samajhna zaroori hai. "
                 "Ye kis site ke liye hai—office, shop, factory ya building—and kya existing load/rating pata hai? "
                 "Final design/rating qualified engineer site details dekhkar confirm karega."
             )
-        if re.search(r"\\b(?:fire safety|fire alarm|smoke detector|smoke alarm|fire suppression|fire extinguisher)\\b", normalized):
+        if re.search(r"\b(?:fire safety|fire alarm|smoke detector|smoke alarm|fire suppression|fire extinguisher|somke\s+detekar|smoke\s+detekar|somke\s+detector)\b", normalized):
             return (
                 "Fire-safety requirement ke liye site ka type batayein—office, shop, warehouse, factory ya residential building? "
                 "Aapko fire alarm/smoke detection chahiye ya suppression system bhi? Final equipment aur coverage site survey/compliance ke hisaab se confirm hoga."
             )
-        if re.search(r"\\b(?:access control|biometric|attendance machine|door access)\\b", normalized):
+        if re.search(r"\b(?:access control|biometric|attendance machine|door access)\b", normalized):
             return (
                 "Access control ke liye aapko staff attendance, door entry control, ya dono chahiye? "
                 "Doors/entry points ki approximate sankhya bhi baad mein note karenge; compatible device aur lock details DTS team confirm karegi."
             )
-        if re.search(r"\\b(?:network rack|server rack|rack|server|nas|switch|router|firewall|access point|networking|it infrastructure|computer network)\\b", normalized):
+        if re.search(r"\b(?:network rack|server rack|rack|server|nas|switch|router|firewall|access point|networking|it infrastructure|computer network)\b", normalized):
             return (
                 "IT/networking enquiry ke liye pehle batayein ki aapko kaunsa equipment chahiye aur kis kaam ke liye—network rack, switch/router, firewall, server/NAS, Wi-Fi ya complete setup? "
                 "Agar existing devices ya connected users ki sankhya pata hai, woh bhi helpful hoga. Exact compatibility DTS team confirm karegi."
