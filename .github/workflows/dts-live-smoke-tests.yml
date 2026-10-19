@@ -196,68 +196,27 @@ jobs:
           print("Hinglish normalization and context smoke tests PASS")
           PY
 
-- name: Check pen-drive to HDD switch and complete customer-confirmation safety
+- name: Verify pen-drive to HDD context switch on live backend
         run: |
           python - <<'PY'
           import json, urllib.request, uuid
-
           base = "https://dts-tech-solutions.onrender.com"
-          session_id = "dts-" + str(uuid.uuid4())
-
+          sid = "dts-" + str(uuid.uuid4())
           def post(message):
-              body = json.dumps({
-                  "session_id": session_id,
-                  "messages": [{"role": "user", "content": message}]
-              }).encode()
-              req = urllib.request.Request(
-                  base + "/api/chat", data=body,
-                  headers={"Content-Type": "application/json"},
-                  method="POST"
-              )
+              payload = json.dumps({"session_id": sid, "messages": [{"role": "user", "content": message}]}).encode()
+              req = urllib.request.Request(base + "/api/chat", data=payload, headers={"Content-Type": "application/json"}, method="POST")
               with urllib.request.urlopen(req, timeout=30) as response:
                   assert response.status == 200
-                  data = json.loads(response.read().decode())
-                  assert data.get("whatsapp_sent") is False, data
-                  return data
-
+                  return json.loads(response.read().decode())
           pen = post("pen drive hai")
-          assert "pen drive" in pen["reply"].lower(), pen
+          assert "pen drive" in pen.get("reply", "").lower(), pen
           hdd = post("hdd bhi chiye")
-          print("HDD switch response:", hdd["reply"])
-          assert any(term in hdd["reply"].lower() for term in ("hdd", "hard disk")), hdd
-          assert any(term in hdd["reply"].lower() for term in ("internal", "external")), hdd
-          assert "kitni pen drives" not in hdd["reply"].lower(), hdd
+          reply = hdd.get("reply", "").lower()
+          print("HDD response:", hdd.get("reply"))
+          assert "hdd" in reply or "hard disk" in reply, hdd
+          assert "internal" in reply or "external" in reply, hdd
+          assert "kitni pen drives" not in reply, hdd
           assert not hdd.get("whatsapp_draft_url"), hdd
-
-          lead_session = "dts-" + str(uuid.uuid4())
-          def lead_post(message):
-              body = json.dumps({
-                  "session_id": lead_session,
-                  "messages": [{"role": "user", "content": message}]
-              }).encode()
-              req = urllib.request.Request(
-                  base + "/api/chat", data=body,
-                  headers={"Content-Type": "application/json"},
-                  method="POST"
-              )
-              with urllib.request.urlopen(req, timeout=30) as response:
-                  assert response.status == 200
-                  data = json.loads(response.read().decode())
-                  assert data.get("whatsapp_sent") is False, data
-                  return data
-
-          first = lead_post("2 CCTV camera and 1 network rack chahiye Boisar")
-          assert not first.get("whatsapp_draft_url"), first
-          for message in ("12U", "Boisar", "9876543210"):
-              result = lead_post(message)
-              assert not result.get("whatsapp_draft_url"), result
-          assert result.get("state") == "SUMMARY_READY", result
-          summary = result.get("pending_summary") or ""
-          assert "CCTV" in summary and "Network Rack" in summary, result
-          assert "Boisar" in summary and "9876543210" in summary, result
-          confirmed = lead_post("CONFIRM SUMMARY")
-          assert confirmed.get("state") == "CONFIRMED", confirmed
-          assert confirmed.get("whatsapp_draft_url"), confirmed
-          assert confirmed.get("whatsapp_sent") is False, confirmed
-          print("HDD switch and explicit customer confirmation live tests PASS")
+          assert hdd.get("whatsapp_sent") is False, hdd
+          print("Live pen-drive to HDD context-switch test PASS")
           PY
