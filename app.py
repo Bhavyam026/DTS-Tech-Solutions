@@ -752,9 +752,20 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     combined = " ".join(str(item) for item in user_messages).casefold()
     normalized = " ".join(re.sub(r"[^a-z0-9\s]", " ", folded).split())
 
-    # Explicit Roman-Hindi UPS component question. Keep this narrow and first,
-    # so enquiry collection cannot mistake it for a purchase request.
-    ups_in_context = bool(re.search(r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined))
+    # Prefer the product explicitly named in the latest message. Old conversation
+    # context may resolve pronouns/follow-ups, but must never override a new product.
+    latest_names_other_product = bool(re.search(
+        r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|desktop|computer|laptop|"
+        r"cctv|camera|nvr|dvr|cat\s*6|cat6|network\s*rack|firewall|printer|monitor)\b",
+        normalized,
+    ))
+    latest_names_ups = bool(re.search(
+        r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", normalized
+    ))
+    ups_in_context = latest_names_ups or (
+        bool(re.search(r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined))
+        and not latest_names_other_product
+    )
     asks_ups_contents = bool(re.search(
         r"(?:ky\s*ky\s*hota|ky\s+hota|kya\s*kya\s*hota|kyky|kya\s*hota|"
         r"andar\s*(?:ky|kya)|mai\s*(?:kyky|ky\s*ky|kya\s*kya)|"
@@ -772,17 +783,18 @@ def _deterministic_product_education_reply(latest_message, user_messages):
         )
 
     asks_how_or_details = bool(re.search(
-        r"(?:ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*kam\s*karta|ky\s*kamkarta|kya\s*kam\s*karta|kya\s*kamkarta|ky\s*karta|kya\s*karta|"
+        r"(?:ky\s*ky\s*hota|kya\s*kya\s*hota|ky\s+hota|kya\s+hota|"
+        r"andar\s*(?:ky|kya)|me\s*(?:ky|kya)\s+hota|mein\s*(?:ky|kya)\s+hota|"
+        r"ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*kam\s*karta|ky\s*kamkarta|kya\s*kam\s*karta|kya\s*kamkarta|ky\s*karta|kya\s*karta|"
         r"kaise\s*kaam|kaam\s*karta|kis\s*kaam|kya\s*milega|ky\s*milega|"
         r"kya\s*kya\s*milega|features?|details?|what\s+does|how\s+does|"
-        r"what\s+is\s+included|what\s+comes\s+with|purpose|function|use\s+of)",
+        r"what\s+is\s+inside|what\s+does\s+it\s+contain|what\s+is\s+included|what\s+comes\s+with|"
+        r"purpose|function|use\s+of|components?|parts?)",
         normalized,
     ))
 
     # UPS follow-up: "UPS hai?" -> "ky kaam karta hai?"
-    ups_mentioned = bool(re.search(
-        r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined
-    ))
+    ups_mentioned = ups_in_context
     asks_ups_components = bool(re.search(
         r"(?:ky\s*ky\s*hota|ky\s+hota|kya\s*kya\s*hota|kyky\s*hota|kya\s*hota|"
         r"andar\s+ky|andar\s+kya|mai\s+ky\s+ky|mai\s+kya\s+kya|"
