@@ -826,16 +826,16 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     # Use the recent conversation context so a follow-up like "ky kam karta hai"
     # still resolves to UPS after the customer mentioned UPS in the previous turn.
     ups_mentioned = bool(
-        re.search(r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b", folded)
-        or re.search(r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b", combined)
+        re.search(r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", folded)
+        or re.search(r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined)
     )
     asks_ups_working = bool(re.search(
-        r"(?:ky\\s+kaam\\s+karta|kya\\s+kaam\\s+karta|kya\\s+karta|kaise\\s+kaam|"
-        r"kaam\\s+karta|working|how\\s+does|what\\s+does|purpose|function|use\\s+of)",
+        r"(?:ky\s+kaam\s+karta|kya\s+kaam\s+karta|kya\s+karta|kaise\s+kaam|"
+        r"kaam\s+karta|working|how\s+does|what\s+does|purpose|function|use\s+of)",
         folded,
     ))
     if ups_mentioned and asks_ups_working and not re.search(
-        r"\\b(?:wire|wires|wiring|cable|cables|mm2?|sq\\.?\\s*mm|gauge|kitne mm|size)\\b", folded
+        r"\b(?:wire|wires|wiring|cable|cables|mm2?|sq\.?\s*mm|gauge|kitne mm|size)\b", folded
     ):
         return (
             "UPS ka full form Uninterruptible Power Supply hai. Iska kaam bijli chali jaane ya "
@@ -1620,6 +1620,15 @@ def chat_api():
                     item["content"] for item in session["history"]
                     if item["role"] == "user"
                 ]
+                # Even when the AI provider is unavailable, answer clear product questions
+                # before the deterministic enquiry fallback can ask for quantity/location.
+                product_education_reply = _deterministic_product_education_reply(latest_message, user_messages)
+                if product_education_reply:
+                    session["history"].append({"role": "assistant", "content": product_education_reply})
+                    session["history"] = session["history"][-MAX_STORED_TURNS:]
+                    session["updated_at"] = time.time()
+                    return _json_response(product_education_reply, session["state"], session.get("summary"))
+
                 general_reply = _deterministic_general_reply(latest_message)
                 if general_reply:
                     session["history"].append({"role": "assistant", "content": general_reply})
