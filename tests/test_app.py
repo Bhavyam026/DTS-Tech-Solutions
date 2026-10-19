@@ -421,6 +421,10 @@ def test_systemwide_hinglish_normalization_covers_common_product_typos():
         "loctaion pe chiye": "location pe chahiye",
         "kyky hota hai": "kya kya hota hai",
         "desktop mai ky ky hota hai": "desktop mai kya kya hota hai",
+        "desk top mai ky ky hota hai": "desktop mai kya kya hota hai",
+        "fire alaram hai": "fire alarm hai",
+        "smok detector hai": "smoke detector hai",
+        "access controll hai": "access control hai",
         "ups me ky hota hai": "ups me kya hota hai",
     }
     for message, expected in cases.items():
