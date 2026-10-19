@@ -411,3 +411,139 @@ def test_tv_enquiry_keeps_size_quantity_location_through_feature_interruption():
     assert "city/area bata dein" not in final_reply
     assert dts_app._sessions[session_id]["state"] == "GATHERING"
     assert dts_app._sessions[session_id]["summary"] is None
+
+
+
+def test_systemwide_hinglish_normalization_covers_common_product_typos():
+    cases = {
+        "acess contraol hai": "access control hai",
+        "pen driver chiye": "pen drive chahiye",
+        "loctaion pe chiye": "location pe chahiye",
+        "kyky hota hai": "kya kya hota hai",
+        "desktop mai ky ky hota hai": "desktop mai kya kya hota hai",
+        "ups me ky hota hai": "ups me kya hota hai",
+    }
+    for message, expected in cases.items():
+        assert dts_app._normalize_customer_text(message) == expected
+
+
+def test_desktop_education_precedes_quantity_collection_and_preserves_state():
+    session_id = "dts-eeeeeeee-aaaa-bbbb-cccc-dddddddddddd"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+    session = dts_app._get_session(session_id)
+    session["state"] = "GATHERING"
+    session["history"] = [
+        {"role": "user", "content": "desktop chahiye"},
+        {"role": "assistant", "content": "Desktop ke liye configuration bataiye."},
+    ]
+
+    response = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "desktop mai ky ky hota hai"}],
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "processor" in data["reply"].casefold()
+    assert "ram" in data["reply"].casefold()
+    assert "kitni quantity" not in data["reply"].casefold()
+    assert data["state"] == "GATHERING"
+    assert data["whatsapp_draft_url"] is None
+    assert data["whatsapp_sent"] is False
+
+
+def test_access_control_typo_gets_information_before_lead_collection():
+    session_id = "dts-ffffffff-aaaa-bbbb-cccc-dddddddddddd"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    response = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "acess contraol hai"}],
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "access-control" in data["reply"].casefold()
+    assert "attendance" in data["reply"].casefold()
+    assert "kitni quantity" not in data["reply"].casefold()
+    assert data["whatsapp_sent"] is False
+
+
+def test_pen_driver_typo_and_64_capacity_followup_keep_pen_drive_context():
+    session_id = "dts-99999999-aaaa-bbbb-cccc-dddddddddddd"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    first = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "pen driver hai?"}],
+        },
+    )
+    assert first.status_code == 200
+    assert "capacity" in first.get_json()["reply"].casefold() or "64 gb" in first.get_json()["reply"].casefold()
+
+    second = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "64 ka"}],
+        },
+    )
+    assert second.status_code == 200
+    data = second.get_json()
+    assert "64 gb pen drive" in data["reply"].casefold()
+    assert "kitni pen drives" in data["reply"].casefold()
+    assert data["whatsapp_sent"] is False
+
+
+def test_vague_location_reply_preserves_active_service_context():
+    session_id = "dts-88888888-aaaa-bbbb-cccc-dddddddddddd"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+    session = dts_app._get_session(session_id)
+    session["state"] = "GATHERING"
+    session["history"] = [
+        {"role": "user", "content": "fire alarm chahiye"},
+        {"role": "assistant", "content": "Aapko kitne detectors chahiye?"},
+        {"role": "user", "content": "5 detectors"},
+        {"role": "assistant", "content": "Installation kis location par chahiye?"},
+    ]
+
+    response = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "loctaion pe chiye"}],
+        },
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "city" in data["reply"].casefold() or "area" in data["reply"].casefold()
+    assert "greeting" not in data["reply"].casefold()
+    assert data["state"] == "GATHERING"
+    assert data["whatsapp_draft_url"] is None
+    assert data["whatsapp_sent"] is False
+
+
+def test_new_desktop_question_is_not_hijacked_by_old_pen_drive_context():
+    message = "desktop mai ky ky hota hai"
+    reply = dts_app._deterministic_product_education_reply(
+        message,
+        ["pen driver hai?", "desktop mai ky ky hota hai"],
+    )
+
+    assert reply is not None
+    assert "processor" in reply.casefold()
+    assert "ram" in reply.casefold()
+    assert "pen drive" not in reply.casefold()
