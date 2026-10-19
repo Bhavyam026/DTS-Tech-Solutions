@@ -924,7 +924,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # Access-control availability questions should get a direct, accurate answer
     # even when the AI provider is unavailable; do not jump to quantity collection.
     if re.search(
-        r"\\b(?:(?:access|acess|acces)\\s+(?:control|contol|contraol|controal)|biometric|attendance machine|door access)\\b",
+        r"\b(?:(?:access|acess|acces)\s+(?:control|contol|contraol|controal)|biometric|attendance machine|door access)\b",
         normalized,
     ) and re.search(r"\\b(?:hai|hain|milega|milta|available|availability|stock|listed)\\b", normalized):
         return (
