@@ -697,6 +697,8 @@ def _deterministic_quota_fallback(user_messages):
     requirements = []
     if re.search(r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b", folded):
         requirements.append("USB Pen Drive")
+    if re.search(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\b", folded):
+        requirements.append("HDD / Hard Disk Drive")
     if re.search(r"\b(?:cctv\s*amc|amc.{0,20}cctv)\b", folded):
         requirements.append("CCTV AMC")
     elif re.search(r"\bptz\b", folded):
@@ -740,7 +742,7 @@ def _deterministic_quota_fallback(user_messages):
     quantity = "; ".join(quantity_parts) if quantity_parts else ""
     quantity_pattern = re.compile(
         r"\b(\d{1,4})\s*(?:x\s*)?(?:pieces?|pcs?|units?|nos?|cameras?|panels?|planes?|monitors?|displays?|screens?|"
-        r"ups|nvr|dvr|tvs?|televisions?|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
+        r"ups|nvr|dvr|tvs?|televisions?|hard\s*disks?|hdds?|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
         re.IGNORECASE,
     )
     if not quantity_parts:
@@ -824,7 +826,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # Prefer the product explicitly named in the latest message. Old conversation
     # context may resolve pronouns/follow-ups, but must never override a new product.
     latest_names_other_product = bool(re.search(
-        r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|aio|all\s*in\s*one|desktop|computer|laptop|"
+        r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|aio|all\s*in\s*one|desktop|computer|laptop|hdd|hard\s*disk|external\s+drive|storage\s+drive|"
         r"cctv|camera|nvr|dvr|cat\s*6|cat6|network\s*rack|firewall|printer|monitor)\b",
         normalized,
     ))
@@ -897,6 +899,22 @@ def _deterministic_product_education_reply(latest_message, user_messages):
             "DTS team se confirm karne honge. Abhi quantity batane ki zaroorat nahi hai."
         )
 
+    # A newly named HDD must switch product context instead of inheriting a previous pen-drive prompt.
+    hdd_terms = r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\b"
+    latest_names_hdd = bool(re.search(hdd_terms, normalized))
+    if latest_names_hdd:
+        if re.search(r"\b(?:hai|hain|chiye|chahiye|need|want|buy|purchase|bhi)\b", normalized):
+            return (
+                "Ji, HDD bhi aapki enquiry mein add kar sakte hain. HDD computer/server ke andar lagne wala internal drive "
+                "ya alag se connect hone wala external portable drive ho sakta hai. Aapko internal HDD chahiye ya external HDD? "
+                "Capacity (jaise 1 TB ya 2 TB) baad mein confirm kar sakte hain; exact model, compatibility aur availability DTS team verify karegi."
+            )
+        return (
+            "HDD (Hard Disk Drive) data store karne ke liye hota hai. Internal HDD computer/server ke andar lagta hai, "
+            "jabki external HDD USB se connect hota hai. Exact capacity, compatibility aur availability model ke hisaab se DTS team confirm karegi. "
+            "Aapko internal HDD chahiye ya external HDD?"
+        )
+
     # Resolve explicit product in the latest message before using older context.
     # Otherwise a previous pen-drive question can hijack a new desktop question.
     pen_drive_terms = r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b"
@@ -904,7 +922,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     latest_names_pen_drive = bool(re.search(pen_drive_terms, normalized))
     latest_names_desktop = bool(re.search(desktop_terms, normalized))
     pen_drive_mentioned = latest_names_pen_drive or (
-        bool(re.search(pen_drive_terms, combined)) and not latest_names_desktop
+        bool(re.search(pen_drive_terms, combined)) and not latest_names_desktop and not latest_names_hdd
     )
     if pen_drive_mentioned and asks_how_or_details:
         return (
