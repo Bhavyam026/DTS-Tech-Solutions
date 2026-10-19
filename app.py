@@ -764,6 +764,23 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     ups_mentioned = bool(re.search(
         r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined
     ))
+    asks_ups_components = bool(re.search(
+        r"(?:ky\s*ky\s*hota|kya\s*kya\s*hota|kyky\s*hota|kya\s*hota|"
+        r"andar\s+ky|andar\s+kya|mai\s+ky\s+ky|mai\s+kya\s+kya|"
+        r"contains?|included|components?|parts?|andar\s+what)",
+        normalized,
+    ))
+    if ups_mentioned and asks_ups_components:
+        return (
+            "UPS (Uninterruptible Power Supply) mein aam taur par ye parts hote hain: "
+            "(1) Battery — backup power store karti hai; (2) Charger/charging circuit — battery charge karta hai; "
+            "(3) Inverter — battery ki DC power ko AC power mein badalta hai; "
+            "(4) Control/electronic circuit — power supply aur switching manage karta hai; "
+            "(5) Protection features — model ke hisaab se overload, short circuit ya voltage fluctuation se protection. "
+            "Har model mein features alag ho sakte hain, aur battery built-in ya external ho sakti hai. "
+            "Desktop ke liye chahiye ya router/network equipment ke liye?"
+        )
+
     asks_ups_working = bool(re.search(
         r"(?:ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*kam\s*karta|ky\s*kamkarta|kya\s*kam\s*karta|kya\s*kamkarta|ky\s*karta|kya\s*karta|"
         r"kaise\s*kaam|kaam\s*karta|working|how\s+does|what\s+does|purpose|function|use\s+of)",
