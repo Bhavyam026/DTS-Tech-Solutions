@@ -355,7 +355,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarm|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
+        r"\b(?:ptz|cctv|camera|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarms?|fire alarm systems?|smoke detectors?|smoke alarms?|fire extinguishers?|suppression systems?|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|access control|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
         text,
     ))
 
@@ -456,6 +456,7 @@ def _extract_multi_item_quantities(user_messages):
         (r"\b(\d{1,4})\s*(?:smart\s+)?(?:led\s+)?tvs?\b|\b(\d{1,4})\s*televisions?\b", "TV"),
         (r"\b(\d{1,4})\s*(?:nvr|dvr)\b", "NVR/DVR"),
         (r"\b(\d{1,4})\s*fire\s+alarms?\b", "Fire Alarm"),
+        (r"\b(\d{1,4})\s*(?:smoke\s+detectors?|smoke\s+alarms?)\b", "Smoke Detector"),
         (r"\b(\d{1,4})\s*(?:cat\s*6|cat6|lan\s+cables?)\b", "CAT6/LAN Cable"),
         (r"\b(\d{1,4})\s*(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", "Network Rack"),
         (r"\b(\d{1,4})\s*firewalls?\b", "Firewall"),
@@ -603,7 +604,9 @@ def _deterministic_quota_fallback(user_messages):
         requirements.append("Electrical Panel / Electrical Work")
     if re.search(r"\b(?:ups|u\.p\.s\.?|uninterruptible power supply)\b", folded):
         requirements.append("UPS (Uninterruptible Power Supply)")
-    if re.search(r"\b(?:fire safety|fire alarm|suppression system)\b", folded):
+    if re.search(r"\b(?:smoke\s+detectors?|smoke\s+alarms?)\b", folded):
+        requirements.append("Fire Safety / Smoke Detector")
+    elif re.search(r"\b(?:fire safety|fire alarms?|fire alarm systems?|suppression systems?|fire extinguishers?)\b", folded):
         requirements.append("Fire Safety / Fire Alarm")
     if re.search(r"\b(?:networking|lan cable|cat\s*6|cat6|structured cabling)\b", folded):
         requirements.append("Networking / LAN / CAT6")
@@ -743,6 +746,29 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             "Options mein Prizor 4MP Outdoor PoE IP Camera aur Prizor Smart Wi-Fi PTZ Camera "
             "shamil hain. NVR aur DVR bhi listed hain. Exact model ki availability DTS team se "
             "confirm karni hogi. Aap outdoor PoE camera dekh rahe hain ya Wi-Fi PTZ camera?"
+        )
+
+    # Fire-safety product questions should be answered directly, not sent to the default menu.
+    if re.search(r"\b(?:smoke\s+detectors?|smoke\s+alarms?)\b", folded):
+        if re.search(r"\b(?:kaise|how|work|working|use|used|purpose|kya karta|function)\b", folded):
+            return (
+                "Smoke detector hawa mein dhuaan detect karta hai aur compatible fire alarm system ke saath "
+                "milkar alert dene mein madad karta hai. Exact detector type, alarm panel compatibility, "
+                "coverage aur installation site ke hisaab se confirm karni hogi. Ye DTS Fire Safety solution hai, "
+                "Prizor-branded product nahi. Aapko standalone smoke detector chahiye ya fire alarm panel ke saath system?"
+            )
+        return (
+            "Ji, smoke detector DTS ke Fire Safety solutions ke under enquiry ke liye listed hai. "
+            "Main live stock ya exact model confirm nahi kar sakta; detector type, fire alarm panel compatibility "
+            "aur site suitability DTS team se verify hogi. Ye Prizor brand ka product nahi hai. "
+            "Aapko sirf smoke detector chahiye ya complete fire alarm system ke saath?"
+        )
+
+    if re.search(r"\b(?:fire\s+alarms?|fire\s+alarm\s+systems?|fire\s+safety|suppression\s+systems?|fire\s+extinguishers?)\b", folded):
+        return (
+            "Ji, DTS Fire Safety ke under fire alarm aur safety/suppression systems ke liye enquiry le sakte hain. "
+            "Exact system type, detector quantity, panel compatibility, coverage aur site compliance survey ke baad confirm honge. "
+            "Ye DTS service/product category hai, Prizor-branded nahi. Aapko fire alarm system chahiye ya sirf detectors?"
         )
 
     # Availability questions for IT products should never fall through to a generic greeting.
