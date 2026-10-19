@@ -753,7 +753,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     normalized = " ".join(re.sub(r"[^a-z0-9\s]", " ", folded).split())
 
     asks_how_or_details = bool(re.search(
-        r"(?:ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*karta|kya\s*karta|"
+        r"(?:ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*kam\s*karta|ky\s*kamkarta|kya\s*kam\s*karta|kya\s*kamkarta|ky\s*karta|kya\s*karta|"
         r"kaise\s*kaam|kaam\s*karta|kis\s*kaam|kya\s*milega|ky\s*milega|"
         r"kya\s*kya\s*milega|features?|details?|what\s+does|how\s+does|"
         r"what\s+is\s+included|what\s+comes\s+with|purpose|function|use\s+of)",
@@ -765,7 +765,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
         r"\b(?:ups|u\.?p\.?s\.?|uninterruptible power supply)\b", combined
     ))
     asks_ups_working = bool(re.search(
-        r"(?:ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*karta|kya\s*karta|"
+        r"(?:ky\s*kaam\s*karta|kya\s*kaam\s*karta|ky\s*kam\s*karta|ky\s*kamkarta|kya\s*kam\s*karta|kya\s*kamkarta|ky\s*karta|kya\s*karta|"
         r"kaise\s*kaam|kaam\s*karta|working|how\s+does|what\s+does|purpose|function|use\s+of)",
         normalized,
     ))
@@ -782,7 +782,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
 
     # USB pen drive: answer the function question, not the enquiry form.
     pen_drive_mentioned = bool(re.search(
-        r"\b(?:pen\s*drive|pendrive|usb\s*drive|flash\s*drive)\b", combined
+        r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b", combined
     ))
     if pen_drive_mentioned and asks_how_or_details:
         return (
@@ -792,7 +792,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
             "Exact capacity, USB type aur compatibility model ke hisaab se confirm karni hogi. "
             "Aapko sirf use samajhna tha ya pen drive kharidne ke liye enquiry karni hai?"
         )
-    if re.search(r"\b(?:pen\s*drive|pendrive|usb\s*drive|flash\s*drive)\b", normalized) and re.search(
+    if re.search(r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b", normalized) and re.search(
         r"\b(?:hai|hain|available|milega|milta|available|stock)\b", normalized
     ):
         return (
