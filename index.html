@@ -940,7 +940,84 @@
         body.modal-open {
             overflow: hidden;
         }
-    </style>
+    
+
+        /* DTS premium polish: subtle depth, clear focus states and reduced-motion support */
+        :root {
+            --dts-cyan: #22d3ee;
+            --dts-navy: #07141c;
+        }
+
+        ::selection {
+            background: rgba(34, 211, 238, 0.24);
+            color: #07141c;
+        }
+
+        a, button, .product-card, .category-button, .brand-button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a:focus-visible, button:focus-visible, input:focus-visible,
+        select:focus-visible, textarea:focus-visible {
+            outline: 3px solid rgba(6, 182, 212, 0.75);
+            outline-offset: 3px;
+        }
+
+        .product-card {
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+        }
+
+        .product-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 22px 48px rgba(15, 23, 42, 0.15);
+        }
+
+        .hero-gradient {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+        }
+
+        .hero-gradient::after {
+            content: "";
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            right: -130px;
+            top: -150px;
+            border: 1px solid rgba(103, 232, 249, 0.18);
+            border-radius: 50%;
+            box-shadow: 0 0 0 34px rgba(103, 232, 249, 0.035),
+                        0 0 0 72px rgba(103, 232, 249, 0.025);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dts-scroll-reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 550ms ease, transform 550ms ease;
+        }
+
+        .dts-scroll-reveal.dts-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .dts-scroll-reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+</style>
 
 <style id="dts-catalogue-integrity">
 .product-image-wrap img, .product-main-image, #modalProductImage { object-fit: contain !important; background:#f7f8fa; }
@@ -6048,20 +6125,46 @@ Thank you.`;
 
 
         function updateAIGreeting() {
-
             const greeting = document.getElementById('aiGreeting');
             if (!greeting) return;
 
-            const hour = new Date().getHours();
-            let timeGreeting = 'Good Evening';
+            const now = new Date();
+            const monthDay = String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                             String(now.getDate()).padStart(2, '0');
+            const yearMonthDay = now.getFullYear() + '-' + monthDay;
 
+            // Festival dates that change yearly are kept in a year-specific calendar.
+            // Update this list each year so greetings follow the local Indian festival calendar.
+            const datedFestivals = {
+                '2026-03-04': 'Holi ki dher saari shubhkamnayein! 🌈',
+                '2026-09-14': 'Ganesh Chaturthi ki hardik shubhkamnayein! 🙏',
+                '2026-10-20': 'Vijayadashami aur Dussehra ki hardik shubhkamnayein! 🙏',
+                '2026-11-08': 'Deepawali ki hardik shubhkamnayein! Aapke ghar aur business mein khushiyaan aur samriddhi aaye. 🪔'
+            };
+
+            const fixedFestivals = {
+                '01-01': 'Naye saal ki hardik shubhkamnayein! 🎉',
+                '01-26': 'Republic Day ki hardik shubhkamnayein! 🇮🇳',
+                '08-15': 'Swatantrata Diwas ki hardik shubhkamnayein! 🇮🇳',
+                '10-02': 'Gandhi Jayanti ki shubhkamnayein. 🙏',
+                '12-25': 'Christmas ki hardik shubhkamnayein! 🎄'
+            };
+
+            const festivalMessage = datedFestivals[yearMonthDay] || fixedFestivals[monthDay];
+            if (festivalMessage) {
+                greeting.textContent = festivalMessage + ' Dynamic Technology Solutions (DTS) mein aapka swagat hai! Aaj hum aapki kya madad kar sakte hain?';
+                return;
+            }
+
+            const hour = now.getHours();
+            let timeGreeting = 'Good Evening';
             if (hour < 12) {
                 timeGreeting = 'Good Morning';
             } else if (hour < 17) {
                 timeGreeting = 'Good Afternoon';
             }
 
-            greeting.textContent = timeGreeting + '! 👋 I’m the DTS AI Assistant.';
+            greeting.textContent = timeGreeting + '! 👋 Dynamic Technology Solutions (DTS) mein aapka swagat hai. Aaj hum aapki kya madad kar sakte hain?';
         }
 
 
@@ -6798,11 +6901,41 @@ Thank you.`;
         try {
             initializeCatalogue();
             updateAIGreeting();
+            initializeDTSScrollEffects();
         } catch (error) {
             console.error('Catalogue initialization failed:', error);
         }
 
-    </script>
+    
+
+        /* Reveal content gently as the visitor scrolls; leave it visible if unsupported. */
+        function initializeDTSScrollEffects() {
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return;
+            }
+            if (!('IntersectionObserver' in window)) return;
+
+            const targets = document.querySelectorAll(
+                'main section, body > section, .product-card'
+            );
+            targets.forEach(function (element) {
+                element.classList.add('dts-scroll-reveal');
+            });
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('dts-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+
+            targets.forEach(function (element) {
+                observer.observe(element);
+            });
+        }
+</script>
 
 </body>
 </html>
