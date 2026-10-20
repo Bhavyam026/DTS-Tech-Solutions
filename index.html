@@ -1004,6 +1004,13 @@
             transform: translateY(0);
         }
 
+        /* Keep the product catalogue visible even if scroll-reveal observation fails. */
+        #catalogue.dts-scroll-reveal,
+        #catalogue .dts-scroll-reveal {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             *, *::before, *::after {
