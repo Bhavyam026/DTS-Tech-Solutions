@@ -7220,6 +7220,25 @@ Thank you.`;
         try {
             initializeCatalogue();
             updateAIGreeting();
+
+            // Automatically load the current year's India holiday calendar.
+            // The local DTS festival dates render immediately; the free calendar
+            // can refine today's greeting/theme when it includes the festival.
+            loadDTSFestivalCalendar();
+
+            // Keep the greeting and decorations current if the page stays open
+            // across midnight, and refresh the date on a visitor returning to the tab.
+            window.setInterval(function () {
+                updateAIGreeting();
+                loadDTSFestivalCalendar();
+            }, 6 * 60 * 60 * 1000);
+            document.addEventListener('visibilitychange', function () {
+                if (!document.hidden) {
+                    updateAIGreeting();
+                    loadDTSFestivalCalendar();
+                }
+            });
+
             initializeDTSScrollEffects();
         } catch (error) {
             console.error('Catalogue initialization failed:', error);
