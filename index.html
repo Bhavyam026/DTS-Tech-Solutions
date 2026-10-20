@@ -1196,16 +1196,6 @@
 
     </header>
 
-    <!-- FESTIVAL GREETING: visible on the main website, not only inside the AI chat. -->
-    <div id="festivalBanner"
-         class="bg-amber-50 border-b border-amber-200 text-amber-950"
-         role="status" aria-live="polite">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center text-sm sm:text-base font-semibold">
-            <span aria-hidden="true">🙏</span>
-            <span id="festivalBannerMessage">Vijayadashami aur Dussehra ki hardik shubhkamnayein! Dynamic Technology Solutions (DTS) ki taraf se aapko aur aapke parivaar ko shubhkamnayein.</span>
-        </div>
-    </div>
-
 
     <!-- ============================================================
          HERO
@@ -6161,18 +6151,6 @@ Thank you.`;
             };
 
             const festivalMessage = datedFestivals[yearMonthDay] || fixedFestivals[monthDay];
-
-            // Keep the festival greeting visible on the main website as well as in the AI chat.
-            const festivalBanner = document.getElementById('festivalBanner');
-            const festivalBannerMessage = document.getElementById('festivalBannerMessage');
-            if (festivalBanner && festivalBannerMessage) {
-                if (festivalMessage) {
-                    festivalBannerMessage.textContent = festivalMessage + ' Dynamic Technology Solutions (DTS) ki taraf se aapko aur aapke parivaar ko shubhkamnayein.';
-                    festivalBanner.classList.remove('hidden');
-                } else {
-                    festivalBanner.classList.add('hidden');
-                }
-            }
 
             if (festivalMessage) {
                 greeting.textContent = festivalMessage + ' Dynamic Technology Solutions (DTS) mein aapka swagat hai! Aaj hum aapki kya madad kar sakte hain?';
