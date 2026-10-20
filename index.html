@@ -6048,20 +6048,46 @@ Thank you.`;
 
 
         function updateAIGreeting() {
-
             const greeting = document.getElementById('aiGreeting');
             if (!greeting) return;
 
-            const hour = new Date().getHours();
-            let timeGreeting = 'Good Evening';
+            const now = new Date();
+            const monthDay = String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                             String(now.getDate()).padStart(2, '0');
+            const yearMonthDay = now.getFullYear() + '-' + monthDay;
 
+            // Festival dates that change yearly are kept in a year-specific calendar.
+            // Update this list each year so greetings follow the local Indian festival calendar.
+            const datedFestivals = {
+                '2026-03-04': 'Holi ki dher saari shubhkamnayein! 🌈',
+                '2026-09-14': 'Ganesh Chaturthi ki hardik shubhkamnayein! 🙏',
+                '2026-10-20': 'Vijayadashami aur Dussehra ki hardik shubhkamnayein! 🙏',
+                '2026-11-08': 'Deepawali ki hardik shubhkamnayein! Aapke ghar aur business mein khushiyaan aur samriddhi aaye. 🪔'
+            };
+
+            const fixedFestivals = {
+                '01-01': 'Naye saal ki hardik shubhkamnayein! 🎉',
+                '01-26': 'Republic Day ki hardik shubhkamnayein! 🇮🇳',
+                '08-15': 'Swatantrata Diwas ki hardik shubhkamnayein! 🇮🇳',
+                '10-02': 'Gandhi Jayanti ki shubhkamnayein. 🙏',
+                '12-25': 'Christmas ki hardik shubhkamnayein! 🎄'
+            };
+
+            const festivalMessage = datedFestivals[yearMonthDay] || fixedFestivals[monthDay];
+            if (festivalMessage) {
+                greeting.textContent = festivalMessage + ' Dynamic Technology Solutions (DTS) mein aapka swagat hai! Aaj hum aapki kya madad kar sakte hain?';
+                return;
+            }
+
+            const hour = now.getHours();
+            let timeGreeting = 'Good Evening';
             if (hour < 12) {
                 timeGreeting = 'Good Morning';
             } else if (hour < 17) {
                 timeGreeting = 'Good Afternoon';
             }
 
-            greeting.textContent = timeGreeting + '! 👋 I’m the DTS AI Assistant.';
+            greeting.textContent = timeGreeting + '! 👋 Dynamic Technology Solutions (DTS) mein aapka swagat hai. Aaj hum aapki kya madad kar sakte hain?';
         }
 
 
