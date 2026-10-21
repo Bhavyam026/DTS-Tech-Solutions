@@ -346,6 +346,8 @@ def _normalize_customer_text(value):
         (r"\b(?:chiye|chahie|chaye|chahiye|chaiye)\b", "chahiye"),
         (r"\b(?:apke pass|aapke pass|tumare pass|tumhare pass)\b", "aapke paas"),
         (r"\b(?:muze|muje|mujhe|mujhko)\b", "mujhe"),
+        (r"\bwoapke\b", "wo aapke"),
+        (r"\bmu\s+jo\b", "mujhe jo"),
         (r"\b(?:nhi|nai|ni|nahin|nahiye)\b", "nahi"),
         (r"\b(?:karwa|karva|krwa|krva)\b", "karwa"),
         (r"\b(?:serivce|servise|servcies)\b", "service"),
@@ -1363,7 +1365,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     # If a customer asks whether an unlisted/missing item can be sourced, answer that
     # question directly instead of repeating the catalogue menu.
     asks_sourcing = bool(re.search(
-        r"(?:\b(?:jo\s+)?(?:mujhe|muze|mujhko|hame|hume)\b.{0,70}\b(?:nahi|nhi|nahin)\b.{0,25}\b(?:mila|milta|milega|listed|available|pass|paas)\b|"
+        r"(?:\b(?:jo\s+)?(?:mujhe|muze|mujhko|hame|hume)\b.{0,70}\b(?:nahi|nhi|nahin)\b.{0,25}\b(?:mila|milta|milega|listed|available|pass|paas)\b|\bmu\s+jo\s+chahiye\b.{0,80}\b(?:nahi|nhi|nahin)\b.{0,30}\b(?:mila|pass|paas|available)\b|"
         r"\b(?:catalogue|catalog|list|stock|pass|paas)\b.{0,50}\b(?:nahi|nhi|nahin|not|missing|out\s+of\s+stock)\b|"
         r"\b(?:order|arrange|mangwa|procure|source|special[ -]?order)\b.{0,45}\b(?:sakte|sakta|karwa|karva|possible|can\s+you|kya|hai)\b|"
         r"\b(?:can\s+you\s+order|can\s+you\s+arrange|special\s+order|source\s+it)\b)",
