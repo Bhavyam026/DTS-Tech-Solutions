@@ -92,15 +92,53 @@ async function main() {
     });
 
     await check('Cinematic festival MP4/WebM is integrated', async () => {
-      const videos = page.locator('video');
-      const count = await videos.count();
-      if (count < 1) throw new Error('No <video> element found; current CSS animation is not an MP4/WebM video.');
-      const source = await videos.first().getAttribute('src') ||
-        await videos.first().locator('source').first().getAttribute('src').catch(() => null);
-      if (!source || !/\.(mp4|webm)(\?|$)/i.test(source)) {
-        throw new Error('Video element has no MP4/WebM source: ' + (source || 'missing'));
+      // GitHub Pages may still be deploying when this push-triggered check starts.
+      // Reload for up to 90 seconds so we test the current live revision, not stale HTML.
+      const deadline = Date.now() + 90000;
+      let lastState = 'video element missing';
+      while (Date.now() < deadline) {
+        await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+        const videos = page.locator('video');
+        const count = await videos.count();
+        const html = await page.content();
+        const source = count
+          ? (await videos.first().getAttribute('src') ||
+             await videos.first().locator('source').first().getAttribute('src').catch(() => null))
+          : null;
+        const staleFeed = html.includes('Lloyd-Hansen/indian-festivals-api');
+        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && !staleFeed) {
+          // Ignore 404s from the old revision if the final deployed HTML no longer references it.
+          for (let i = failedResources.length - 1; i >= 0; i--) {
+            if (String(failedResources[i].url).includes('Lloyd-Hansen/indian-festivals-api')) {
+              failedResources.splice(i, 1);
+            }
+          }
+          return 'video source: ' + source + '; live page no longer references the retired 404 feed';
+        }
+        lastState = !count ? 'video element missing' : staleFeed
+          ? 'live HTML still references the retired festival feed'
+          : 'video source missing or invalid: ' + (source || 'missing');
+        await page.waitForTimeout(10000);
       }
-      return 'video source: ' + source;
+      throw new Error('Live deployment did not expose the current MP4/WebM and calendar fix within 90 seconds: ' + lastState);
+    });
+
+    await check('Privacy Policy and Terms page is live with approved contact details', async () => {
+      const legalResponse = await page.goto(new URL('legal.html', siteUrl).toString(), {
+        waitUntil: 'domcontentloaded', timeout: 60000
+      });
+      if (!legalResponse || legalResponse.status() !== 200) {
+        throw new Error('legal.html did not return HTTP 200');
+      }
+      const body = (await page.locator('body').innerText()).toLowerCase();
+      if (!body.includes('dtsboisar@gmail.com') || !body.includes('83909 09845')) {
+        throw new Error('Approved contact details missing from legal page');
+      }
+      if (body.includes('info@dtssolutions.in') || body.includes('99307 81093')) {
+        throw new Error('A contact detail the owner asked to remove is still present');
+      }
+      await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      return 'legal page HTTP 200; approved contact details present; removed details absent';
     });
 
     await page.setViewportSize({ width: 1365, height: 900 });
