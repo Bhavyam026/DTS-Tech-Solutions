@@ -6551,10 +6551,10 @@ Thank you.`;
                 return true;
             };
 
-            // First choice: public-holiday source. It is free and needs no API key.
+            // First choice: Nager.Date Community v4 public-holiday source; no API key is needed.
             // This can correctly override lunar-festival dates where it publishes them.
             try {
-                const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/IN', {
+                const response = await fetch('https://nagerholidays.com/api/v4/Holidays/IN/' + year, {
                     cache: 'no-store'
                 });
                 if (response.ok) {
