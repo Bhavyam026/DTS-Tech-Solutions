@@ -106,6 +106,9 @@ test('live festival feed can activate the festival animation and AI greeting', a
   await page.route(/https:\/\/nagerholidays\.com\/api\/v4\/Holidays\/IN\//, route =>
     route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   );
+  await page.route(/https:\/\/date\.nager\.at\/api\/v3\/PublicHolidays\//, route =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  );
   await page.route(/https:\/\/astrotathya\.com\/api\/festivals\?/, route =>
     route.fulfill({
       status: 200,
