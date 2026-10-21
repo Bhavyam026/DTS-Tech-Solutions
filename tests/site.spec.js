@@ -19,7 +19,7 @@ test('main catalogue and contact sections are present', async ({ page }) => {
 
 test('festival scene does not block navigation or the page', async ({ page }) => {
   await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-  const scene = page.locator('#dts-festival-scene');
+  const scene = page.locator('#dtsFestivalAnimation');
   if (await scene.count()) {
     const box = await scene.boundingBox();
     expect(box).not.toBeNull();
