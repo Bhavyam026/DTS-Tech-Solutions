@@ -995,10 +995,17 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # Product-specific discovery: when a customer expresses buying/enquiry intent,
     # ask the next relevant technical preference before collecting lead details.
     # Ask one useful question at a time; never invent stock or force quantity too early.
+    # "access control hai?", "fire alarm hai?" and similar short availability
+    # questions are product enquiries, not greetings. Do not let a trailing "hai"
+    # override an actual educational question such as "desktop mein kya hota hai?".
+    availability_question = bool(
+        re.search(r"\b(?:hai|hain|milega|milta|available|availability|stock|rakhte|provide|supply)\b", normalized)
+        and not asks_how_or_details
+    )
     wants_product = bool(re.search(
         r"\b(?:chahiye|chahie|lena\s+hai|lena\s+h|buy|purchase|need|require|mil\s*jayega|mil\s*jaega|milega|available|supply|quotation|quote)\b",
         normalized,
-    ))
+    )) or availability_question
     if wants_product:
         if aio_in_context:
             return (
