@@ -821,7 +821,13 @@ def _deterministic_quota_fallback(user_messages):
         r"ups|nvr|dvr|tvs?|televisions?|hard\s*disks?|hdds?|fire alarms?|meters?|metres?|mtr|merters?|chiye|chahiye|chahie)\b",
         re.IGNORECASE,
     )
-    if not quantity_parts:
+    if not quantity_parts and re.search(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?)\b", folded):
+        # In "HDD 1 TB chahiye 2", the final number is quantity, not capacity.
+        hdd_trailing_quantity = re.search(r"\b(?:chahiye|chiye|chahie|need|want)\s+(\d{1,3})\b", folded, re.IGNORECASE)
+        if hdd_trailing_quantity:
+            quantity = f"{hdd_trailing_quantity.group(1)} HDD"
+
+    if not quantity_parts and not quantity:
         for item in reversed(user_messages):
             item_text = str(item).strip()
             if re.fullmatch(r"\d{1,4}", item_text):
@@ -844,13 +850,23 @@ def _deterministic_quota_fallback(user_messages):
         "",
     )
 
+    hdd_capacity = re.search(r"\b(\d{1,4}(?:\.\d+)?)\s*(tb|terabytes?|gb|gigabytes?)\b", folded, re.IGNORECASE)
+    hdd_type = "internal" if re.search(r"\binternal\b", folded) else (
+        "external" if re.search(r"\bexternal\b", folded) else ""
+    )
+    note_parts = []
+    if hdd_capacity and re.search(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?)\b", folded, re.IGNORECASE):
+        note_parts.append(f"Capacity: {hdd_capacity.group(1)} {hdd_capacity.group(2).upper()}")
+    if hdd_type and re.search(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?)\b", folded, re.IGNORECASE):
+        note_parts.append(f"Type: {hdd_type}")
+
     details = {
         "product_service": ", ".join(requirements),
         "location": location,
         "quantity": quantity,
         "contact_name": "",
         "contact_number": phone,
-        "notes": "",
+        "notes": "; ".join(note_parts),
     }
 
     if _is_pricing_question(user_messages[-1] if user_messages else ""):
@@ -1008,10 +1024,18 @@ def _deterministic_product_education_reply(latest_message, user_messages):
                 return (
                     f"Ji, {drive_type} HDD, {capacity} note kar li. Kitne HDD chahiye?"
                 )
-            return (
-                f"Ji, {quantity} {drive_type} HDD, {capacity} note kar li. "
-                "Installation/delivery kis city ya area mein chahiye?"
-            )
+            if not _has_location_in_messages(user_messages):
+                return (
+                    f"Ji, {quantity} {drive_type} HDD, {capacity} note kar li. "
+                    "Installation/delivery kis city ya area mein chahiye?"
+                )
+            if not _has_valid_mobile_in_messages(user_messages):
+                return (
+                    f"Ji, {quantity} {drive_type} HDD, {capacity} note kar li. "
+                    "Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein."
+                )
+            # All required HDD facts are present; let the normal summary/confirmation flow run.
+            return None
         if not drive_type:
             return (
                 "Ji, HDD data store karne ke kaam aata hai. Internal HDD computer/server ke andar lagta hai, "
