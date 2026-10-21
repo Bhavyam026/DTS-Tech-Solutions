@@ -381,7 +381,7 @@ def _has_customer_requirement(messages):
     """Detect a DTS product/service request from the customer's accumulated messages."""
     text = " ".join(str(item) for item in messages).casefold()
     return bool(re.search(
-        r"\b(?:ptz|cctv|camera|pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|desktop|computer|laptop|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarms?|fire alarm systems?|smoke detectors?|smoke alarms?|fire extinguishers?|suppression systems?|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|(?:access|acess|acces)\s+(?:control|contol|contraol|controal)|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
+        r"\b(?:ptz|cctv|camera|hdd|hard[ -]?disk|pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|desktop|computer|laptop|ups|uninterruptible power supply|amc|electrical|electric|panels?|planes?|fire safety|fire alarms?|fire alarm systems?|smoke detectors?|smoke alarms?|fire extinguishers?|suppression systems?|networking|lan cable|cat\s*6|cat6|it infra|nvr|dvr|(?:access|acess|acces)\s+(?:control|contol|contraol|controal)|installation|maintenance|surveillance|power distribution|network\s*racks?|networkracks?|server\s*racks?|serverracks?|firewalls?|switches?|routers?|tvs?|televisions?|smart tv|led tv|4k uhd)\b",
         text,
     ))
 
@@ -1617,7 +1617,14 @@ def chat_api():
         education_reply = _deterministic_product_education_reply(
             latest_message, education_user_messages
         )
-        if education_reply:
+        # HDD buying/availability turns must reach the stateful HDD enquiry flow below,
+        # so a stated capacity such as "1 TB" is saved instead of being ignored.
+        hdd_latest = bool(re.search(r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?)\\b", latest_message, re.IGNORECASE))
+        hdd_buying_intent = bool(re.search(
+            r"\\b(?:chahiye|chiye|chahie|need|want|buy|purchase|available|availability|stock|hai|hain|pass|paas)\\b",
+            latest_message, re.IGNORECASE
+        ))
+        if education_reply and not (hdd_latest and hdd_buying_intent):
             session["history"].append({"role": "user", "content": latest_message})
             session["history"].append({"role": "assistant", "content": education_reply})
             session["history"] = session["history"][-MAX_STORED_TURNS:]
@@ -1637,6 +1644,87 @@ def chat_api():
             item["content"] for item in session["history"]
             if item["role"] == "user"
         ] + [latest_message]
+
+        # Stateful HDD enquiry: preserve capacity and quantity from natural Hinglish.
+        # "HDD 1 TB chahiye 2" means two 1-TB drives; never ask the same generic question again.
+        hdd_pattern = re.compile(r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\\b", re.IGNORECASE)
+        other_product_pattern = re.compile(r"\\b(?:pen\\s*drive?r?|pendrive|usb\\s*drive|flash\\s*drive|cctv|camera|nvr|dvr|network\\s*racks?|networkracks?|server\\s*racks?|serverracks?|smart\\s*tv|led\\s*tv|tvs?|televisions?|electrical\\s+panels?|ups|desktop|monitor|cat\\s*6|cat6|firewall)\\b", re.IGNORECASE)
+        latest_hdd = bool(hdd_pattern.search(latest_message))
+        hdd_indices = [i for i, item in enumerate(user_messages) if hdd_pattern.search(str(item))]
+        other_indices = [i for i, item in enumerate(user_messages) if other_product_pattern.search(str(item))]
+        hdd_context = bool(hdd_indices) and max(hdd_indices) > max(other_indices, default=-1)
+        hdd_followup = bool(re.fullmatch(r"\\s*\\d{1,3}\\s*", latest_message) or re.search(
+            r"\\b(?:internal|external|tb|gb|terabyte|gigabyte|location|boisar|palghar|mumbai|thane|midc)\\b",
+            latest_message, re.IGNORECASE
+        ))
+        if (latest_hdd and hdd_buying_intent) or (hdd_context and hdd_followup):
+            combined_hdd = " ".join(str(item) for item in user_messages)
+            capacity_matches = list(re.finditer(r"\\b(\\d+(?:\\.\\d+)?)\\s*(TB|GB|terabyte(?:s)?|gigabyte(?:s)?)\\b", combined_hdd, re.IGNORECASE))
+            capacity = ""
+            if capacity_matches:
+                cap = capacity_matches[-1]
+                unit = cap.group(2).upper()
+                capacity = f"{cap.group(1)} {'TB' if unit.startswith('T') else 'GB'}"
+            type_matches = list(re.finditer(r"\\b(internal|external)\\b", combined_hdd, re.IGNORECASE))
+            drive_type = type_matches[-1].group(1).capitalize() if type_matches else ""
+            quantity = ""
+            qty_patterns = [
+                r"\\b(\\d{1,3})\\s*(?:hdds?|hard[ -]?disks?|units?|pieces?|pcs|nos?)\\b",
+                r"\\b(?:chahiye|chiye|chahie|want|need)\\s+(?:hdd\\s*)?(\\d{1,3})\\b",
+                r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?)\\s+(?:of\\s+)?\\d+(?:\\.\\d+)?\\s*(?:tb|gb)\\s+(?:chahiye|chiye|chahie)\\s+(\\d{1,3})\\b",
+            ]
+            for pattern in qty_patterns:
+                found = list(re.finditer(pattern, combined_hdd, re.IGNORECASE))
+                if found:
+                    quantity = found[-1].group(1)
+                    break
+            if not quantity:
+                for item in reversed(user_messages):
+                    standalone = re.fullmatch(r"\\s*(\\d{1,3})\\s*", str(item))
+                    if standalone:
+                        quantity = standalone.group(1)
+                        break
+            location = _extract_customer_location(user_messages) or _extract_known_location(user_messages)
+            phone_pattern = re.compile(r"(?<!\\d)(?:\\+?91[\\s-]?)?0?\\d(?:[\\s-]?\\d){9}(?!\\d)")
+            phone_match = next((m for item in reversed(user_messages) for m in phone_pattern.finditer(str(item)) if _is_valid_indian_mobile(m.group(0))), None)
+            phone = phone_match.group(0) if phone_match else ""
+            product_name = "HDD / Hard Disk Drive" + (f" ({drive_type})" if drive_type else "") + (f" {capacity}" if capacity else "")
+            details = {
+                "product_service": product_name,
+                "location": location,
+                "quantity": f"{quantity} HDD" if quantity else "",
+                "contact_name": "",
+                "contact_number": phone,
+                "notes": "",
+            }
+            if not drive_type:
+                reply = f"Samajh gaya—{capacity + ' ' if capacity else ''}HDD ki enquiry note kar raha hoon. Aapko internal HDD chahiye (computer/server ke andar) ya external HDD (USB se connect hone wali)? Exact model aur live stock DTS team confirm karegi."
+            elif not capacity:
+                reply = f"Ji, {drive_type.lower()} HDD note kar li. Kitni capacity chahiye—500 GB, 1 TB, 2 TB ya koi aur?"
+            elif not quantity:
+                reply = f"Ji, {capacity} {drive_type.lower()} HDD note kar li. Aapko kitne HDD chahiye?"
+            elif not location:
+                reply = f"Ji, {quantity} × {capacity} {drive_type.lower()} HDD note kar liye. Delivery ya installation ke liye city/area bata dein."
+            elif not phone:
+                reply = f"Ji, {quantity} × {capacity} {drive_type.lower()} HDD ki requirement {location} ke liye note hai. Summary ke liye apna valid 10-digit Indian mobile number share karein (6, 7, 8 ya 9 se shuru ho)."
+            else:
+                session["details"] = details
+                session["summary"] = _format_summary(details)
+                session["state"] = "SUMMARY_READY"
+                reply = (
+                    "Ji, please apni enquiry summary check karein:\\n\\n" + session["summary"] +
+                    "\\n\\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                    "Confirmation se pehle WhatsApp draft link nahi banega."
+                )
+            session["details"] = details
+            session["state"] = "SUMMARY_READY" if quantity and capacity and drive_type and location and phone else "GATHERING"
+            if session["state"] != "SUMMARY_READY":
+                session["summary"] = None
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"], session["summary"])
 
         # Preserve an active enquiry when the customer confirms on-site service
         # but hasn't supplied a real city/area yet. Never treat "location pe
@@ -1698,7 +1786,10 @@ def chat_api():
 
         # Product education/availability questions must be answered before asking quantity.
         product_education_reply = _deterministic_product_education_reply(latest_message, user_messages)
-        if product_education_reply:
+        if product_education_reply and not (
+            re.search(r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?)\\b", latest_message, re.IGNORECASE)
+            and re.search(r"\\b(?:chahiye|chiye|chahie|need|want|buy|purchase|available|availability|stock|hai|hain|pass|paas)\\b", latest_message, re.IGNORECASE)
+        ):
             session["history"].append({"role": "user", "content": latest_message})
             session["history"].append({"role": "assistant", "content": product_education_reply})
             session["history"] = session["history"][-MAX_STORED_TURNS:]
