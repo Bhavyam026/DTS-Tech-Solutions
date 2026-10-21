@@ -9,6 +9,7 @@ on:
       - "legal.html"
       - "assets/dts-festival-backdrop.mp4"
       - "scripts/browserbase-site-check.js"
+      - "scripts/generate-festival-video.py"
       - ".github/workflows/dts-browserbase-check.yml"
 
 permissions:
