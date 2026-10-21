@@ -78,6 +78,28 @@ async function main() {
       return 'No festival overlay currently rendered (may be outside active festival dates)';
     });
 
+    await check('DTS festival proxy responds with calendar data and CORS permission', async () => {
+      const supportedYear = Math.min(2027, Math.max(2025, new Date().getFullYear()));
+      const apiUrl = 'https://dts-tech-solutions.onrender.com/api/festivals?year=' +
+        supportedYear + '&city=mumbai';
+      const apiResponse = await page.request.get(apiUrl, {
+        timeout: 30000,
+        headers: { Origin: new URL(siteUrl).origin }
+      });
+      if (apiResponse.status() !== 200) {
+        throw new Error('Festival proxy returned HTTP ' + apiResponse.status());
+      }
+      const allowOrigin = apiResponse.headers()['access-control-allow-origin'];
+      if (allowOrigin !== new URL(siteUrl).origin) {
+        throw new Error('Festival proxy CORS header missing or incorrect: ' + (allowOrigin || 'missing'));
+      }
+      const payload = await apiResponse.json();
+      if (!Array.isArray(payload.festivals)) {
+        throw new Error('Festival proxy response has no festivals array');
+      }
+      return 'HTTP 200; ' + payload.festivals.length + ' calendar entries; CORS allows DTS Pages origin';
+    });
+
     await check('Mobile layout has no horizontal overflow', async () => {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
@@ -106,8 +128,10 @@ async function main() {
              await videos.first().locator('source').first().getAttribute('src').catch(() => null))
           : null;
         const staleFeed = html.includes('Lloyd-Hansen/indian-festivals-api');
+        const calendarReady = html.includes('dts-tech-solutions.onrender.com/api/festivals?year=') &&
+          !html.includes('astrotathya.com/api/festivals?year=');
         let videoStatus = 0;
-        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && !staleFeed) {
+        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && calendarReady && !staleFeed) {
           try {
             const videoResponse = await page.request.get(new URL(source, siteUrl).toString(), { timeout: 15000 });
             videoStatus = videoResponse.status();
@@ -115,17 +139,26 @@ async function main() {
             lastState = 'video file request failed: ' + error.message;
           }
         }
-        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && videoStatus === 200 && !staleFeed) {
-          // Ignore 404s from the old revision if the final deployed HTML no longer references it.
+        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && videoStatus === 200 && calendarReady && !staleFeed) {
+          // Ignore failed requests from stale page versions after the current
+          // deployment is confirmed to use the backend proxy.
           for (let i = failedResources.length - 1; i >= 0; i--) {
-            if (String(failedResources[i].url).includes('Lloyd-Hansen/indian-festivals-api')) {
+            const failedUrl = String(failedResources[i].url);
+            if (failedUrl.includes('Lloyd-Hansen/indian-festivals-api') ||
+                failedUrl.includes('astrotathya.com/api/festivals?year=')) {
               failedResources.splice(i, 1);
             }
           }
-          return 'video source: ' + source + '; video HTTP ' + videoStatus + '; retired festival feed removed';
+          for (let i = consoleErrors.length - 1; i >= 0; i--) {
+            if (consoleErrors[i].includes('astrotathya.com/api/festivals?year=')) {
+              consoleErrors.splice(i, 1);
+            }
+          }
+          return 'video source: ' + source + '; video HTTP ' + videoStatus + '; dynamic calendar uses DTS backend proxy';
         }
         lastState = !count ? 'video element missing' : staleFeed
           ? 'live HTML still references the retired festival feed'
+          : !calendarReady ? 'live HTML has not deployed the DTS calendar proxy yet'
           : videoStatus !== 200 ? 'video file HTTP status: ' + (videoStatus || 'request failed')
           : 'video source missing or invalid: ' + (source || 'missing');
         await page.waitForTimeout(10000);
