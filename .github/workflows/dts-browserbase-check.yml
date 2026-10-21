@@ -2,6 +2,14 @@ name: DTS Browserbase Live Browser Test
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "legal.html"
+      - "assets/dts-festival-backdrop.mp4"
+      - "scripts/browserbase-site-check.js"
+      - ".github/workflows/dts-browserbase-check.yml"
 
 permissions:
   contents: read
