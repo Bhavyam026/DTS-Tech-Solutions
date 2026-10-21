@@ -1339,8 +1339,33 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             "Aapko firewall chahiye? Agar haan, kitne units chahiye?"
         )
 
+    # SSD availability/enquiry must be handled explicitly in deterministic fallback too.
+    # Otherwise an unavailable AI provider drops the customer into the generic greeting.
+    ssd_terms = r"\\b(?:ssd|solid[ -]?state[ -]?drive|nvme|m[.]?2[ -]?ssd)\\b"
+    if re.search(ssd_terms, folded):
+        capacity = re.search(r"\\b(\\d{2,4}(?:\\.\\d+)?)\\s*(tb|terabytes?|gb|gigabytes?)\\b", combined, re.IGNORECASE)
+        capacity_text = f"{capacity.group(1)} {capacity.group(2).upper()}" if capacity else ""
+        drive_type = "internal" if re.search(r"\\binternal\\b", combined) else ("external" if re.search(r"\\bexternal\\b", combined) else "")
+        if re.search(r"\\b(?:order|arrange|mangwa|mangwa|procure|source|special[ -]?order|nahi\\s*(?:hai|mila)|nahi\\s*mil|nhi\\s*(?:hai|mila)|not\\s+(?:listed|available|in\\s+stock)|out\\s+of\\s+stock)\\b", folded):
+            return ("Ji, agar required SSD catalogue mein listed na ho ya stock mein na mile, toh DTS team se sourcing/special order ki possibility check karwa sakte hain. Main abhi order ya availability confirm nahi kar sakta. Aapko SSD ki capacity (jaise 256 GB, 512 GB ya 1 TB) aur internal M.2/SATA ya external USB type pata hai?")
+        if capacity_text:
+            return (f"Ji, {capacity_text} SSD ki requirement samajh gaya. SSD computer/laptop ko fast boot aur files/apps jaldi open karne mein madad karta hai. Exact interface (SATA/M.2/NVMe), compatibility, model aur stock DTS team verify karegi. Aapko internal SSD chahiye ya external USB SSD?")
+        return ("Ji, SSD ke liye DTS team se enquiry kar sakte hain. SSD data store karta hai aur aam taur par HDD ke muqable mein system/apps ko zyada fast load kar sakta hai. Exact compatibility aur stock verify karna hoga. Aapko kitni capacity chahiye—256 GB, 512 GB, 1 TB ya koi aur?")
+
+    # If a customer asks whether an unlisted/missing item can be sourced, answer that
+    # question directly instead of repeating the catalogue menu.
+    asks_sourcing = bool(re.search(
+        r"(?:\\b(?:jo\\s+)?(?:mujhe|muze|mujhko|hame|hume)\\b.{0,70}\\b(?:nahi|nhi|nahin)\\b.{0,25}\\b(?:mila|milta|milega|listed|available|pass|paas)\\b|"
+        r"\\b(?:catalogue|catalog|list|stock|pass|paas)\\b.{0,50}\\b(?:nahi|nhi|nahin|not|missing|out\\s+of\\s+stock)\\b|"
+        r"\\b(?:order|arrange|mangwa|mangwa|procure|source|special[ -]?order)\\b.{0,45}\\b(?:sakte|sakta|karwa|karva|possible|can\\s+you|kya|hai)\\b|"
+        r"\\b(?:can\\s+you\\s+order|can\\s+you\\s+arrange|special\\s+order|source\\s+it)\\b)",
+        folded,
+    ))
+    if asks_sourcing:
+        return ("Ji, agar aapka required product DTS ke online catalogue mein listed nahi hai, toh bhi aap uski enquiry de sakte hain. DTS team supplier se source karne ya special order arrange karne ki possibility check karegi. Main bina team confirmation ke availability, price ya delivery date promise nahi kar sakta. Aapko kaunsa exact product, brand/model aur quantity chahiye?")
+
     catalog_question = bool(re.search(
-        r"(?:aapke paas|apke pass|tumhare paas|kya kya hai|ky ky hai|"
+        r"(?:aapke paas|apke pass|tumhare paas|kya kya hai|ky ky hai|ky ky apko|kya kya aapko|kya kya apke paas|ky ky apke paas|"
         r"what do you have|what products|which products|product list|catalog(?:ue)?|"
         r"available products|kya milta hai)",
         folded,
