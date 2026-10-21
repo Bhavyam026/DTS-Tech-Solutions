@@ -667,6 +667,81 @@ def _json_response(reply, state, summary=None, whatsapp_draft_url=None):
     })
 
 
+# Cache public festival calendar responses to avoid repeatedly calling the upstream
+# provider for every website visitor. This cache is process-local and non-sensitive.
+_FESTIVAL_CACHE_TTL_SECONDS = 6 * 60 * 60
+_festival_cache = {}
+_festival_cache_lock = threading.Lock()
+
+
+@app.route("/api/festivals", methods=["GET"])
+def festival_calendar():
+    """CORS-safe proxy for the free city-aware festival calendar."""
+    year = request.args.get("year", type=int)
+    if year is None or year < 2025 or year > 2027:
+        return jsonify({
+            "error": "The city-aware festival calendar currently supports 2025–2027.",
+            "error_code": "FESTIVAL_YEAR_UNSUPPORTED",
+        }), 400
+
+    # Mumbai is the nearest supported reference city for DTS Boisar. The API's
+    # sunrise-based dates can differ slightly by city; this is a calendar aid,
+    # not a guarantee for every regional tradition.
+    cache_key = f"{year}:mumbai"
+    now = time.time()
+    with _festival_cache_lock:
+        cached = _festival_cache.get(cache_key)
+        if cached and now - cached["stored_at"] < _FESTIVAL_CACHE_TTL_SECONDS:
+            return jsonify(cached["payload"])
+
+    url = f"https://astrotathya.com/api/festivals?year={year}&city=mumbai"
+    try:
+        upstream = requests.get(url, headers={"Accept": "application/json"}, timeout=(4, 18))
+    except requests.RequestException:
+        app.logger.warning("Festival calendar upstream request failed.")
+        return jsonify({
+            "error": "Festival calendar is temporarily unavailable.",
+            "error_code": "FESTIVAL_PROVIDER_UNAVAILABLE",
+        }), 502
+
+    if upstream.status_code == 202:
+        retry_after = upstream.headers.get("Retry-After", "5")
+        try:
+            retry_after = str(max(2, min(120, int(retry_after))))
+        except (TypeError, ValueError):
+            retry_after = "5"
+        return jsonify({
+            "error": "Festival dates are still being calculated. Please retry shortly.",
+            "error_code": "FESTIVAL_CALENDAR_COMPUTING",
+            "retry_after": int(retry_after),
+        }), 202, {"Retry-After": retry_after}
+
+    if not upstream.ok:
+        app.logger.warning("Festival calendar provider returned HTTP %s.", upstream.status_code)
+        return jsonify({
+            "error": "Festival calendar is temporarily unavailable.",
+            "error_code": "FESTIVAL_PROVIDER_UNAVAILABLE",
+        }), 502
+
+    try:
+        payload = upstream.json()
+    except ValueError:
+        return jsonify({
+            "error": "Festival calendar returned an invalid response.",
+            "error_code": "FESTIVAL_PROVIDER_INVALID_RESPONSE",
+        }), 502
+
+    if not isinstance(payload, dict) or not isinstance(payload.get("festivals"), list):
+        return jsonify({
+            "error": "Festival calendar returned an invalid response.",
+            "error_code": "FESTIVAL_PROVIDER_INVALID_RESPONSE",
+        }), 502
+
+    with _festival_cache_lock:
+        _festival_cache[cache_key] = {"stored_at": time.time(), "payload": payload}
+    return jsonify(payload)
+
+
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({
