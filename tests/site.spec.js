@@ -72,7 +72,7 @@ test('cinematic festival video is integrated', async ({ page }) => {
       ? (await videos.first().getAttribute('src') ||
          await videos.first().locator('source').first().getAttribute('src').catch(() => null))
       : null;
-    const calendarReady = html.includes('astrotathya.com/api/festivals?year=') &&
+    const calendarReady = html.includes('dts-tech-solutions.onrender.com/api/festivals?year=') && !html.includes('astrotathya.com/api/festivals?year=') &&
       html.includes('const DTS_FESTIVAL_CALENDAR = {}');
     let videoStatus = 0;
     if (count === 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) &&
