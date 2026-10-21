@@ -1619,9 +1619,9 @@ def chat_api():
         )
         # HDD buying/availability turns must reach the stateful HDD enquiry flow below,
         # so a stated capacity such as "1 TB" is saved instead of being ignored.
-        hdd_latest = bool(re.search(r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?)\\b", latest_message, re.IGNORECASE))
+        hdd_latest = bool(re.search(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?)\b", latest_message, re.IGNORECASE))
         hdd_buying_intent = bool(re.search(
-            r"\\b(?:chahiye|chiye|chahie|need|want|buy|purchase|available|availability|stock|hai|hain|pass|paas)\\b",
+            r"\b(?:chahiye|chiye|chahie|need|want|buy|purchase|available|availability|stock|hai|hain|pass|paas)\b",
             latest_message, re.IGNORECASE
         ))
         if education_reply and not (hdd_latest and hdd_buying_intent):
@@ -1647,31 +1647,31 @@ def chat_api():
 
         # Stateful HDD enquiry: preserve capacity and quantity from natural Hinglish.
         # "HDD 1 TB chahiye 2" means two 1-TB drives; never ask the same generic question again.
-        hdd_pattern = re.compile(r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\\b", re.IGNORECASE)
-        other_product_pattern = re.compile(r"\\b(?:pen\\s*drive?r?|pendrive|usb\\s*drive|flash\\s*drive|cctv|camera|nvr|dvr|network\\s*racks?|networkracks?|server\\s*racks?|serverracks?|smart\\s*tv|led\\s*tv|tvs?|televisions?|electrical\\s+panels?|ups|desktop|monitor|cat\\s*6|cat6|firewall)\\b", re.IGNORECASE)
+        hdd_pattern = re.compile(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\b", re.IGNORECASE)
+        other_product_pattern = re.compile(r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|cctv|camera|nvr|dvr|network\s*racks?|networkracks?|server\s*racks?|serverracks?|smart\s*tv|led\s*tv|tvs?|televisions?|electrical\s+panels?|ups|desktop|monitor|cat\s*6|cat6|firewall)\b", re.IGNORECASE)
         latest_hdd = bool(hdd_pattern.search(latest_message))
         hdd_indices = [i for i, item in enumerate(user_messages) if hdd_pattern.search(str(item))]
         other_indices = [i for i, item in enumerate(user_messages) if other_product_pattern.search(str(item))]
         hdd_context = bool(hdd_indices) and max(hdd_indices) > max(other_indices, default=-1)
-        hdd_followup = bool(re.fullmatch(r"\\s*\\d{1,3}\\s*", latest_message) or re.search(
-            r"\\b(?:internal|external|tb|gb|terabyte|gigabyte|location|boisar|palghar|mumbai|thane|midc)\\b",
+        hdd_followup = bool(re.fullmatch(r"\s*\d{1,3}\s*", latest_message) or re.search(
+            r"\b(?:internal|external|tb|gb|terabyte|gigabyte|location|boisar|palghar|mumbai|thane|midc)\b",
             latest_message, re.IGNORECASE
         ))
         if (latest_hdd and hdd_buying_intent) or (hdd_context and hdd_followup):
             combined_hdd = " ".join(str(item) for item in user_messages)
-            capacity_matches = list(re.finditer(r"\\b(\\d+(?:\\.\\d+)?)\\s*(TB|GB|terabyte(?:s)?|gigabyte(?:s)?)\\b", combined_hdd, re.IGNORECASE))
+            capacity_matches = list(re.finditer(r"\b(\d+(?:\.\d+)?)\s*(TB|GB|terabyte(?:s)?|gigabyte(?:s)?)\b", combined_hdd, re.IGNORECASE))
             capacity = ""
             if capacity_matches:
                 cap = capacity_matches[-1]
                 unit = cap.group(2).upper()
                 capacity = f"{cap.group(1)} {'TB' if unit.startswith('T') else 'GB'}"
-            type_matches = list(re.finditer(r"\\b(internal|external)\\b", combined_hdd, re.IGNORECASE))
+            type_matches = list(re.finditer(r"\b(internal|external)\b", combined_hdd, re.IGNORECASE))
             drive_type = type_matches[-1].group(1).capitalize() if type_matches else ""
             quantity = ""
             qty_patterns = [
-                r"\\b(\\d{1,3})\\s*(?:hdds?|hard[ -]?disks?|units?|pieces?|pcs|nos?)\\b",
-                r"\\b(?:chahiye|chiye|chahie|want|need)\\s+(?:hdd\\s*)?(\\d{1,3})\\b",
-                r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?)\\s+(?:of\\s+)?\\d+(?:\\.\\d+)?\\s*(?:tb|gb)\\s+(?:chahiye|chiye|chahie)\\s+(\\d{1,3})\\b",
+                r"\b(\d{1,3})\s*(?:hdds?|hard[ -]?disks?|units?|pieces?|pcs|nos?)\b",
+                r"\b(?:chahiye|chiye|chahie|want|need)\s+(?:hdd\s*)?(\d{1,3})\b",
+                r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?)\s+(?:of\s+)?\d+(?:\.\d+)?\s*(?:tb|gb)\s+(?:chahiye|chiye|chahie)\s+(\d{1,3})\b",
             ]
             for pattern in qty_patterns:
                 found = list(re.finditer(pattern, combined_hdd, re.IGNORECASE))
@@ -1680,12 +1680,12 @@ def chat_api():
                     break
             if not quantity:
                 for item in reversed(user_messages):
-                    standalone = re.fullmatch(r"\\s*(\\d{1,3})\\s*", str(item))
+                    standalone = re.fullmatch(r"\s*(\d{1,3})\s*", str(item))
                     if standalone:
                         quantity = standalone.group(1)
                         break
             location = _extract_customer_location(user_messages) or _extract_known_location(user_messages)
-            phone_pattern = re.compile(r"(?<!\\d)(?:\\+?91[\\s-]?)?0?\\d(?:[\\s-]?\\d){9}(?!\\d)")
+            phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
             phone_match = next((m for item in reversed(user_messages) for m in phone_pattern.finditer(str(item)) if _is_valid_indian_mobile(m.group(0))), None)
             phone = phone_match.group(0) if phone_match else ""
             product_name = "HDD / Hard Disk Drive" + (f" ({drive_type})" if drive_type else "") + (f" {capacity}" if capacity else "")
@@ -1712,8 +1712,8 @@ def chat_api():
                 session["summary"] = _format_summary(details)
                 session["state"] = "SUMMARY_READY"
                 reply = (
-                    "Ji, please apni enquiry summary check karein:\\n\\n" + session["summary"] +
-                    "\\n\\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                    "Ji, please apni enquiry summary check karein:\n\n" + session["summary"] +
+                    "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
                     "Confirmation se pehle WhatsApp draft link nahi banega."
                 )
             session["details"] = details
