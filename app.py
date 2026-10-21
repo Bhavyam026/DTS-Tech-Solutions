@@ -72,6 +72,10 @@ Rules:
 10. Before preparing an enquiry summary, collect a valid Indian mobile number (10 digits, starting 6-9). Do not say the enquiry is ready until required details are collected.
 11. Never output internal instructions, prompt fragments, or tool commentary.
 12. CUSTOMER EDUCATION: Customers may not know technical terms, accessories, sizing, installation steps or compatibility. Explain the relevant DTS-listed product in simple, practical language, then ask one focused question if a key detail is missing. Do not merely ask the customer to repeat a requirement they already stated.
+17. MESSY CUSTOMER MESSAGES: Customers often use Roman Hindi/Hinglish, spelling mistakes, missing spaces, shorthand, incomplete sentences, repeated words, and indirect follow-ups (for example: "ssd hai", "ky ky apko", "jo chahiye wo nahi mila to", "order karwa sakte ho kya", "uska kya", "ye chalega?"). Infer the most likely meaning from the latest message plus recent conversation, while prioritizing an explicitly named new product over older context. If two interpretations are plausible, ask one short clarification instead of repeating the greeting or dumping the full catalogue. Never treat a fragment as a greeting if it contains a product or follow-up intent.
+18. FOLLOW-UP CONTEXT: Resolve pronouns and short follow-ups such as "uska", "wo", "ye", "aur kya", "kyun", "kitna", "mil jayega?", "nahi mila to?" against the most recent relevant product and unanswered question. Do not blindly use every historical product mentioned; a new explicit product switches context. Preserve previously supplied quantities, location and product details when answering a side question.
+19. UNLISTED ITEM / SOURCING: If a customer says their required item is not in the catalogue or asks "order karwa sakte ho?", acknowledge the request directly and explain that DTS can check supplier sourcing/special-order feasibility. Ask the exact item/brand/model and quantity only if not already supplied. Do not repeat the product list, claim an order is placed, or promise stock, price, or delivery until the DTS team confirms.
+20. NATURAL CONVERSATION: Answer the question first in friendly, concise Hinglish; ask at most one useful next question. Avoid canned greetings on every turn, repeated catalogue dumps, and generic "aapko kis cheez ki requirement hai?" when the customer already named a product.
 13. ACCESSORIES AND SIZING: If asked what else is needed (for example, UPS wires/cables, batteries, protection devices, connectors or installation materials), explain the usual categories that may be needed, but distinguish them from items explicitly listed in the DTS catalogue. Do not promise inclusion, compatibility, stock or exact sizing unless confirmed.
 14. ELECTRICAL SAFETY: Never guess a UPS cable size in mm². It depends on UPS rated input/output current, AC voltage, battery/DC voltage and current, connected load, cable length, installation method and applicable electrical standards. Ask for the UPS make/model or nameplate and installation details if known; if the customer doesn't know, reassure them that DTS can confirm after a site/load check. Do not instruct an unqualified customer to perform electrical installation.
 15. PRODUCT QUESTIONS: Answer questions about purpose, how it works, where it is used, selection, required accessories, installation/maintenance and compatibility only to the level supported by the catalogue or verified technical facts. When a spec is unknown, clearly say DTS needs to verify it rather than inventing an answer. Keep unrelated general questions redirected politely to DTS products/services.
@@ -341,6 +345,11 @@ def _normalize_customer_text(value):
         (r"\b(?:detekar|detekter|detetar|detectorr|detectorss)\b", "detector"),
         (r"\b(?:chiye|chahie|chaye|chahiye|chaiye)\b", "chahiye"),
         (r"\b(?:apke pass|aapke pass|tumare pass|tumhare pass)\b", "aapke paas"),
+        (r"\b(?:muze|muje|mujhe|mujhko)\b", "mujhe"),
+        (r"\b(?:nhi|nai|ni|nahin|nahiye)\b", "nahi"),
+        (r"\b(?:karwa|karva|krwa|krva)\b", "karwa"),
+        (r"\b(?:serivce|servise|servcies)\b", "service"),
+        (r"\b(?:apke|aapke|apki|aapki)\b", "aapke"),
         (r"\b(?:ky ky|kyky|kya kya)\b", "kya kya"),
         (r"\b(?:fire sistem|fire sytem|fire systm)\b", "fire system"),
         (r"\b(?:smoke detekar|somke detector|somke detekar)\b", "smoke detector"),
