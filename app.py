@@ -27,11 +27,13 @@ CORS(
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini").strip()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip()
-AI_PROVIDER = os.environ.get("AI_PROVIDER", "openai").strip().lower()
-if AI_PROVIDER not in ("openai", "gemini"):
-    AI_PROVIDER = "openai"
-AI_MODEL = GEMINI_MODEL if AI_PROVIDER == "gemini" else OPENAI_MODEL
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "").strip()
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b").strip()
+AI_PROVIDER = os.environ.get("AI_PROVIDER", "gemini").strip().lower()
+if AI_PROVIDER not in ("openai", "gemini", "groq"):
+    AI_PROVIDER = "gemini"
+AI_MODEL = GEMINI_MODEL if AI_PROVIDER == "gemini" else (GROQ_MODEL if AI_PROVIDER == "groq" else OPENAI_MODEL)
 AI_PROVIDER_TIMEOUT_SECONDS = 12
 AI_REQUEST_BUDGET_SECONDS = 22
 
@@ -102,7 +104,7 @@ def _is_quota_exhausted_error(error):
         "429",
     ))
 
-def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
+def _call_ai_provider_single(messages, *, provider, json_mode=False, max_tokens=500):
     timeout = AI_PROVIDER_TIMEOUT_SECONDS
     deadline = getattr(g, "ai_deadline", None) if has_request_context() else None
     if deadline is not None:
@@ -111,7 +113,7 @@ def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
             raise TimeoutError("DTS AI request time budget exhausted.")
         timeout = max(1, min(timeout, remaining))
 
-    if AI_PROVIDER == "gemini":
+    if provider == "gemini":
         if not GEMINI_API_KEY:
             raise RuntimeError("GEMINI_API_KEY is not configured on the Render server.")
         system_text = "\n".join(
@@ -168,18 +170,27 @@ def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
             raise RuntimeError("Gemini API returned an empty response.")
         return result_text
 
-    if not OPENAI_API_KEY:
-        raise RuntimeError("Neither GEMINI_API_KEY nor a usable OPENAI_API_KEY is configured on the Render server.")
-    payload = {
-        "model": OPENAI_MODEL,
-        "messages": messages,
-        "max_completion_tokens": max_tokens,
-    }
-    if json_mode:
-        payload["response_format"] = {"type": "json_object"}
+    if provider == "groq":
+        if not GROQ_API_KEY:
+            raise RuntimeError("GROQ_API_KEY is not configured on the Render server.")
+        payload = {"model": GROQ_MODEL, "messages": messages, "max_tokens": max_tokens}
+        if json_mode:
+            payload["response_format"] = {"type": "json_object"}
+        api_url = "https://api.groq.com/openai/v1/chat/completions"
+        api_key = GROQ_API_KEY
+        provider_name = "Groq"
+    else:
+        if not OPENAI_API_KEY:
+            raise RuntimeError("Neither GEMINI_API_KEY nor a usable OPENAI_API_KEY is configured on the Render server.")
+        payload = {"model": OPENAI_MODEL, "messages": messages, "max_completion_tokens": max_tokens}
+        if json_mode:
+            payload["response_format"] = {"type": "json_object"}
+        api_url = "https://api.openai.com/v1/chat/completions"
+        api_key = OPENAI_API_KEY
+        provider_name = "OpenAI"
     response = requests.post(
-        "https://api.openai.com/v1/chat/completions",
-        headers={"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type": "application/json"},
+        api_url,
+        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
         json=payload,
         timeout=timeout,
     )
@@ -191,14 +202,40 @@ def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
         error_data = data.get("error", {}) if isinstance(data, dict) else {}
         message = error_data.get("message", "Provider request failed")
         code = error_data.get("code") or error_data.get("type") or response.status_code
-        raise RuntimeError(f"OpenAI API error {response.status_code} ({code}): {message}")
+        raise RuntimeError(f"{provider_name} API error {response.status_code} ({code}): {message}")
     choices = data.get("choices") or []
     if not choices:
-        raise RuntimeError("OpenAI API returned no response choices.")
+        raise RuntimeError(f"{provider_name} API returned no response choices.")
     result_text = (choices[0].get("message") or {}).get("content")
     if not isinstance(result_text, str) or not result_text.strip():
-        raise RuntimeError("OpenAI API returned an empty response.")
+        raise RuntimeError(f"{provider_name} API returned an empty response.")
     return result_text.strip()
+
+
+def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
+    """Try configured provider first, then any already-configured backup provider."""
+    available = {
+        "gemini": bool(GEMINI_API_KEY),
+        "groq": bool(GROQ_API_KEY),
+        "openai": bool(OPENAI_API_KEY),
+    }
+    order = [AI_PROVIDER] + [name for name in ("gemini", "groq", "openai") if name != AI_PROVIDER]
+    errors = []
+    for provider in order:
+        if not available.get(provider):
+            continue
+        try:
+            return _call_ai_provider_single(
+                messages, provider=provider, json_mode=json_mode, max_tokens=max_tokens
+            )
+        except Exception as error:
+            # Never log provider error text; it may contain request details.
+            app.logger.warning("DTS AI provider %s failed; trying next configured provider.", provider)
+            errors.append(f"{provider}: {error}")
+    if errors:
+        raise RuntimeError("All configured AI providers failed. " + " | ".join(errors))
+    raise RuntimeError("No usable AI provider key is configured on the Render server.")
+
 
 _UNSUPPORTED_BRAND_RE = re.compile(r"\b(?:CP\s*\+?\s*PLUS|HIKVISION|DAHUA)\b", re.IGNORECASE)
 _INTERNAL_FRAGMENT_RE = re.compile(
@@ -760,7 +797,7 @@ def health():
         "status": "ok",
         "service": "DTS AI Backend",
         "provider": AI_PROVIDER,
-        "ai_configured": bool(GEMINI_API_KEY) if AI_PROVIDER == "gemini" else bool(OPENAI_API_KEY),
+        "ai_configured": bool({"gemini": GEMINI_API_KEY, "groq": GROQ_API_KEY, "openai": OPENAI_API_KEY}.get(AI_PROVIDER, "")) or any((GEMINI_API_KEY, GROQ_API_KEY, OPENAI_API_KEY)),
         "model": AI_MODEL,
         "fallback_model": None,
         "note": (
