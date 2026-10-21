@@ -1001,6 +1001,12 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     availability_question = bool(
         re.search(r"\b(?:hai|hain|milega|milta|available|availability|stock|rakhte|provide|supply)\b", normalized)
         and not asks_how_or_details
+        and re.search(
+            r"\b(?:(?:access|acess|acces)\s+(?:control|controll|contol|contraol|controal)|"
+            r"biometric|attendance machine|door access|fire safety|fire alarm|smoke detector|"
+            r"smoke alarm|fire suppression|fire extinguisher)\b",
+            normalized,
+        )
     )
     wants_product = bool(re.search(
         r"\b(?:chahiye|chahie|lena\s+hai|lena\s+h|buy|purchase|need|require|mil\s*jayega|mil\s*jaega|milega|available|supply|quotation|quote)\b",
