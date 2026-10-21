@@ -6586,16 +6586,15 @@ Thank you.`;
                 // Continue to the Indian festival calendar below.
             }
 
-            // Secondary: city-aware Indian festival calendar. Mumbai is used as the
-            // closest supported Maharashtra reference city to avoid a first-run
-            // calculation delay for an unfeatured small town. Dates are evaluated
-            // for the current year at runtime; no API key is required for light use.
+            // Secondary: city-aware Indian festival calendar through the DTS backend.
+            // The backend caches the upstream response and avoids browser CORS blocks.
+            // Mumbai is used as the supported Maharashtra reference city.
             // This provider currently documents years 2025-2027, so Nager/fixed-date
             // fallbacks remain useful outside that range.
             if (year >= 2025 && year <= 2027) {
                 try {
                     let response = await fetch(
-                        'https://astrotathya.com/api/festivals?year=' + year + '&city=mumbai',
+                        'https://dts-tech-solutions.onrender.com/api/festivals?year=' + year + '&city=mumbai',
                         { cache: 'no-store' }
                     );
                     if (response.status === 202) {
