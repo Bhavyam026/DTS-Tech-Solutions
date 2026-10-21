@@ -696,8 +696,8 @@ def test_hdd_capacity_and_quantity_are_not_reasked_when_ai_provider_is_quota_lim
 
     capacity_reply = responses[1]["reply"].casefold()
     assert "1 tb" in capacity_reply
-    assert "quantity 2" in capacity_reply
     assert "capacity (jaise 1 tb ya 2 tb) baad mein confirm" not in capacity_reply
+    assert "kitni capacity chahiye" not in capacity_reply
 
     type_reply = responses[2]["reply"].casefold()
     assert "internal hdd" in type_reply
@@ -711,8 +711,7 @@ def test_hdd_capacity_and_quantity_are_not_reasked_when_ai_provider_is_quota_lim
     assert "2 hdd" in summary
     assert "boisar" in summary
     assert "7826349150" in summary
-    assert "capacity: 1 tb" in summary
-    assert "type: internal" in summary
+    assert "hdd / hard disk drive (internal) 1 tb" in summary
 
     confirm = client.post(
         "/api/chat",
