@@ -989,7 +989,9 @@ def _deterministic_product_education_reply(latest_message, user_messages):
         capacity = f"{capacity_match.group(1)} {capacity_match.group(2).upper()}" if capacity_match else ""
         quantity_match = re.search(r"\b(\d{1,3})\s*(?:x\s*)?(?:hdds?|hard[ -]?disks?)\b", combined, re.IGNORECASE)
         if not quantity_match:
-            quantity_match = re.search(r"\b(?:chahiye|chiye|chahie|need|want)\s+(\d{1,3})\s*$", normalized, re.IGNORECASE)
+            # Search all customer turns so a later clarification doesn't erase a previously
+            # supplied trailing quantity such as "1 TB chahiye 2".
+            quantity_match = re.search(r"\b(?:chahiye|chiye|chahie|need|want)\s+(\d{1,3})\b", combined, re.IGNORECASE)
         quantity = quantity_match.group(1) if quantity_match else ""
         drive_type = "internal" if re.search(r"\binternal\b", combined) else (
             "external" if re.search(r"\bexternal\b", combined) else ""
