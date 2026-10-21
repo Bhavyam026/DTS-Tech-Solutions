@@ -6501,10 +6501,15 @@ Thank you.`;
             const name = String((holiday && (holiday.localName || holiday.name)) || '');
             const lower = name.toLowerCase();
             const mappings = [
-                { match: /diwali|deepavali/, name: 'Diwali', greeting: 'Deepawali ki hardik shubhkamnayein! Aapke ghar aur business mein khushiyaan aur samriddhi aaye. 🪔', theme: 'diwali', symbols: ['🪔', '✨'] },
-                { match: /dussehra|vijaya dashami|vijayadashami/, name: 'Dussehra', greeting: 'Vijayadashami aur Dussehra ki hardik shubhkamnayein! 🙏', theme: 'dussehra', symbols: ['🌼', '✨'] },
-                { match: /holi/, name: 'Holi', greeting: 'Holi ki dher saari shubhkamnayein! 🌈', theme: 'holi', symbols: ['🌈', '🎨'] },
-                { match: /ganesh chaturthi|vinayaka chaturthi/, name: 'Ganesh Chaturthi', greeting: 'Ganesh Chaturthi ki hardik shubhkamnayein! 🙏', theme: 'ganesh', symbols: ['🙏', '🌼'] },
+                { match: /diwali|deepavali|deepawali/, name: 'Diwali', greeting: 'Deepawali ki hardik shubhkamnayein! Aapke ghar aur business mein khushiyaan aur samriddhi aaye. 🪔', theme: 'diwali', symbols: ['🪔', '✨'] },
+                { match: /dussehra|vijaya dashami|vijayadashami|dasara/, name: 'Dussehra', greeting: 'Vijayadashami aur Dussehra ki hardik shubhkamnayein! 🙏', theme: 'dussehra', symbols: ['🌼', '✨'] },
+                { match: /dhanteras|dhan trayodashi/, name: 'Dhanteras', greeting: 'Dhanteras ki hardik shubhkamnayein! 🪔', theme: 'diwali', symbols: ['🪔', '✨'] },
+                { match: /bhai dooj|bhau beej|bhai tika/, name: 'Bhai Dooj', greeting: 'Bhai Dooj ki hardik shubhkamnayein! 🌼', theme: 'generic', symbols: ['🌼', '✨'] },
+                { match: /holika dahan|holi/, name: 'Holi', greeting: 'Holi ki dher saari shubhkamnayein! 🌈', theme: 'holi', symbols: ['🌈', '🎨'] },
+                { match: /ganesh chaturthi|vinayaka chaturthi|ganeshotsav/, name: 'Ganesh Chaturthi', greeting: 'Ganesh Chaturthi ki hardik shubhkamnayein! 🙏', theme: 'ganesh', symbols: ['🙏', '🌼'] },
+                { match: /gudi padwa|ugadi|marathi new year/, name: name, greeting: name + ' ki hardik shubhkamnayein! 🌿', theme: 'generic', symbols: ['🌿', '✨'] },
+                { match: /chhath/, name: 'Chhath Puja', greeting: 'Chhath Puja ki hardik shubhkamnayein! 🙏', theme: 'generic', symbols: ['🌅', '✨'] },
+                { match: /guru nanak|gurpurab/, name: 'Guru Nanak Jayanti', greeting: 'Guru Nanak Jayanti ki hardik shubhkamnayein! 🙏', theme: 'generic', symbols: ['🙏', '✨'] },
                 { match: /christmas/, name: 'Christmas', greeting: 'Christmas ki hardik shubhkamnayein! 🎄', theme: 'christmas', symbols: ['🎄', '✨'] },
                 { match: /republic day|independence day/, name: name, greeting: name + ' ki hardik shubhkamnayein! 🇮🇳', theme: 'tricolor', symbols: ['🇮🇳', '✨'] },
                 { match: /makar sankranti|pongal/, name: name, greeting: name + ' ki hardik shubhkamnayein! 🌾', theme: 'generic', symbols: ['🌾', '✨'] },
