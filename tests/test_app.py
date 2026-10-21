@@ -111,6 +111,37 @@ def test_cctv_brand_question_answers_prizor_before_asking_quantity():
     assert data["whatsapp_sent"] is False
 
 
+
+def test_messy_hinglish_and_indirect_sourcing_questions_get_direct_answers():
+    # Realistic misspellings and indirect phrasing customers use on the DTS site.
+    cases = [
+        ("mu jo chiye wo apke pass nhi mila to", ("catalogue", "source", "special order")),
+        ("muze jo chiye woapke pass nhi mila to", ("catalogue", "source", "special order")),
+        ("muze SSD hai", ("SSD", "capacity", "256 GB")),
+        ("ssd chahiye 1 tb", ("1 TB", "internal", "external")),
+    ]
+    for message, expected in cases:
+        reply = dts_app._deterministic_catalog_reply(message, [message])
+        assert reply is not None, message
+        folded = reply.casefold()
+        assert all(term.casefold() in folded for term in expected), (message, reply)
+
+
+def test_sourcing_followup_after_catalogue_question_does_not_repeat_catalogue():
+    message = "order karwa sakte ho kya"
+    context = [
+        "ky ky apko",
+        "DTS catalogue mein CCTV, networking, IT, electrical aur fire safety items hain.",
+        "muze jo chiye wo apke pass nhi mila to",
+        message,
+    ]
+    reply = dts_app._deterministic_catalog_reply(message, context)
+    assert reply is not None
+    assert "special order" in reply.casefold() or "source" in reply.casefold()
+    assert "cctv & security" not in reply.casefold()
+    assert "availability" in reply.casefold() or "confirm" in reply.casefold()
+
+
 def test_general_greeting_and_value_questions_get_direct_answers():
     cases = [
         (
