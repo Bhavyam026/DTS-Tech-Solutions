@@ -550,6 +550,7 @@ def _extract_multi_item_quantities(user_messages):
     """Capture per-product quantities from explicit multi-item requests."""
     combined = " ".join(str(item) for item in user_messages)
     patterns = [
+        (r"\b(\d{1,4})\s*(?:hdds?|hard[ -]?disks?(?:\s+drives?)?)\b", "HDD"),
         (r"\b(\d{1,4})\s*(?:ups|u\.p\.s\.?|uninterruptible\s+power\s+supply)\b", "UPS"),
         (r"\b(\d{1,4})\s*(?:electrical\s+(?:panels?|planes?)|(?:electrical\s+)?panels?)\b", "Electrical Panel"),
         (r"\b(\d{1,4})\s*(?:(?:indoor|outdoor|ip|wi[ -]?fi|ptz|poe)\s+)*(?:cctv\s*)?cameras?\b|\b(\d{1,4})\s*(?:(?:indoor|outdoor|ip|wi[ -]?fi|ptz|poe)\s+)*cctv\b", "CCTV Camera"),
@@ -974,20 +975,50 @@ def _deterministic_product_education_reply(latest_message, user_messages):
             "DTS team se confirm karne honge. Abhi quantity batane ki zaroorat nahi hai."
         )
 
-    # A newly named HDD must switch product context instead of inheriting a previous pen-drive prompt.
+    # HDD enquiries must retain an explicitly supplied capacity and interpret a trailing number
+    # after "chahiye" as quantity (e.g. "HDD 1 TB chahiye 2"). Also resolve short
+    # follow-ups such as "internal" against the active HDD context without re-asking capacity.
     hdd_terms = r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\b"
     latest_names_hdd = bool(re.search(hdd_terms, normalized))
-    if latest_names_hdd:
-        if re.search(r"\b(?:hai|hain|chiye|chahiye|need|want|buy|purchase|bhi)\b", normalized):
+    hdd_in_context = latest_names_hdd or (
+        bool(re.search(hdd_terms, combined))
+        and not latest_names_other_product
+    )
+    if hdd_in_context:
+        capacity_match = re.search(r"\b(\d{1,4}(?:\.\d+)?)\s*(tb|terabytes?|gb|gigabytes?)\b", combined, re.IGNORECASE)
+        capacity = f"{capacity_match.group(1)} {capacity_match.group(2).upper()}" if capacity_match else ""
+        quantity_match = re.search(r"\b(\d{1,3})\s*(?:x\s*)?(?:hdds?|hard[ -]?disks?)\b", combined, re.IGNORECASE)
+        if not quantity_match:
+            quantity_match = re.search(r"\b(?:chahiye|chiye|chahie|need|want)\s+(\d{1,3})\s*$", normalized, re.IGNORECASE)
+        quantity = quantity_match.group(1) if quantity_match else ""
+        drive_type = "internal" if re.search(r"\binternal\b", combined) else (
+            "external" if re.search(r"\bexternal\b", combined) else ""
+        )
+        if capacity:
+            if not drive_type:
+                return (
+                    f"Ji, {capacity} HDD ki capacity note kar li."
+                    + (f" Quantity {quantity} bhi note kar li." if quantity else "")
+                    + " Aapko internal HDD (computer/server ke andar) chahiye ya external HDD (USB se connect hone wali)? "
+                    "Exact model, compatibility aur availability DTS team verify karegi."
+                )
+            if not quantity:
+                return (
+                    f"Ji, {drive_type} HDD, {capacity} note kar li. Kitne HDD chahiye?"
+                )
             return (
-                "Ji, HDD bhi aapki enquiry mein add kar sakte hain. HDD computer/server ke andar lagne wala internal drive "
-                "ya alag se connect hone wala external portable drive ho sakta hai. Aapko internal HDD chahiye ya external HDD? "
-                "Capacity (jaise 1 TB ya 2 TB) baad mein confirm kar sakte hain; exact model, compatibility aur availability DTS team verify karegi."
+                f"Ji, {quantity} {drive_type} HDD, {capacity} note kar li. "
+                "Installation/delivery kis city ya area mein chahiye?"
+            )
+        if not drive_type:
+            return (
+                "Ji, HDD data store karne ke kaam aata hai. Internal HDD computer/server ke andar lagta hai, "
+                "jabki external HDD USB se connect hota hai. Aapko internal HDD chahiye ya external HDD? "
+                "Capacity aap bata sakte hain, jaise 1 TB ya 2 TB."
             )
         return (
-            "HDD (Hard Disk Drive) data store karne ke liye hota hai. Internal HDD computer/server ke andar lagta hai, "
-            "jabki external HDD USB se connect hota hai. Exact capacity, compatibility aur availability model ke hisaab se DTS team confirm karegi. "
-            "Aapko internal HDD chahiye ya external HDD?"
+            f"Ji, {drive_type} HDD ke liye capacity bata dein (jaise 1 TB ya 2 TB). "
+            "Exact model, compatibility aur availability DTS team verify karegi."
         )
 
     # Resolve explicit product in the latest message before using older context.
