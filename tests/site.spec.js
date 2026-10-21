@@ -72,9 +72,11 @@ test('cinematic festival video is integrated', async ({ page }) => {
       ? (await videos.first().getAttribute('src') ||
          await videos.first().locator('source').first().getAttribute('src').catch(() => null))
       : null;
+    const calendarReady = html.includes('astrotathya.com/api/festivals?year=') &&
+      html.includes('const DTS_FESTIVAL_CALENDAR = {}');
     let videoStatus = 0;
     if (count === 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) &&
-        !html.includes('Lloyd-Hansen/indian-festivals-api')) {
+        calendarReady && !html.includes('Lloyd-Hansen/indian-festivals-api')) {
       try {
         const videoResponse = await page.request.get(new URL(source, siteUrl).toString(), { timeout: 15000 });
         videoStatus = videoResponse.status();
@@ -83,11 +85,12 @@ test('cinematic festival video is integrated', async ({ page }) => {
       }
     }
     if (count === 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) &&
-        videoStatus === 200 && !html.includes('Lloyd-Hansen/indian-festivals-api')) {
+        videoStatus === 200 && calendarReady && !html.includes('Lloyd-Hansen/indian-festivals-api')) {
       return;
     }
     lastState = !count ? 'video element missing' :
       html.includes('Lloyd-Hansen/indian-festivals-api') ? 'stale live HTML still references retired feed' :
+      !calendarReady ? 'live page has not deployed the new dynamic festival calendar yet' :
       videoStatus !== 200 ? 'video file HTTP status: ' + (videoStatus || 'request failed') :
       'video source missing or invalid: ' + (source || 'missing');
     await page.waitForTimeout(10000);
