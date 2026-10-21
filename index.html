@@ -7369,9 +7369,9 @@ Thank you.`;
             initializeCatalogue();
             updateAIGreeting();
 
-            // Automatically load the current year's India holiday calendar.
-            // The local DTS festival dates render immediately; the free calendar
-            // can refine today's greeting/theme when it includes the festival.
+            // Automatically load the current year's festival calendar.
+            // Fixed-date holidays render immediately; moving festival dates are
+            // applied only when a live calendar confirms today's date.
             loadDTSFestivalCalendar();
 
             // Keep the greeting and decorations current if the page stays open
@@ -7421,7 +7421,6 @@ Thank you.`;
                 observer.observe(element);
             });
         }
-        loadDTSFestivalCalendar();
 
     </script>
 
