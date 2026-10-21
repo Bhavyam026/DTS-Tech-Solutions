@@ -37,6 +37,11 @@ async function main() {
     const context = browser.contexts()[0] || await browser.newContext();
     const page = context.pages()[0] || await context.newPage();
     const consoleErrors = [];
+    const failedResources = [];
+    page.on('response', response => {
+      if (response.status() >= 400) failedResources.push({ status: response.status(), url: response.url() });
+    });
+    page.on('requestfailed', request => failedResources.push({ status: 'REQUEST_FAILED', url: request.url(), error: request.failure()?.errorText || '' }));
     page.on('pageerror', error => consoleErrors.push(error.message));
     page.on('console', message => {
       if (message.type() === 'error') consoleErrors.push(message.text());
@@ -108,11 +113,15 @@ async function main() {
       replayUrl: session.replayUrl || null,
       checkedAt: new Date().toISOString(),
       results,
-      browserConsoleErrors: consoleErrors
+      browserConsoleErrors: consoleErrors,
+      failedResources
     }, null, 2));
 
     if (consoleErrors.length) {
       console.warn('Browser console/page errors:', consoleErrors.join(' | '));
+    }
+    if (failedResources.length) {
+      console.warn('Failed resource URLs:', JSON.stringify(failedResources));
     }
     const failed = results.filter(result => result.status === 'FAIL');
     console.log('\nSummary:', results.length - failed.length, 'passed,', failed.length, 'failed.');
