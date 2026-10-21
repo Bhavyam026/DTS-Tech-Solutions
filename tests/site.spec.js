@@ -97,17 +97,19 @@ test('cinematic festival video is integrated', async ({ page }) => {
 
 test('live festival feed can activate the festival animation and AI greeting', async ({ page }) => {
   await page.emulateTimezone('Asia/Kolkata');
-  const today = new Intl.DateTimeFormat('en-CA', {
+  const parts = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Kolkata',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit'
-  }).format(new Date());
+  }).formatToParts(new Date());
+  const part = type => parts.find(item => item.type === type).value;
+  const today = part('year') + '-' + part('month') + '-' + part('day');
 
-  await page.route('https://date.nager.at/api/v3/PublicHolidays/**', route =>
+  await page.route(/https:\/\/date\.nager\.at\/api\/v3\/PublicHolidays\//, route =>
     route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   );
-  await page.route('https://astrotathya.com/api/festivals?**', route =>
+  await page.route(/https:\/\/astrotathya\.com\/api\/festivals\?/, route =>
     route.fulfill({
       status: 200,
       contentType: 'application/json',
