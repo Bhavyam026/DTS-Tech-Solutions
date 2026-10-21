@@ -6565,6 +6565,24 @@ Thank you.`;
                     if (addFestival(todayHoliday)) return;
                 }
             } catch (error) {
+                // Try the legacy public endpoint before moving to the Indian calendar.
+            }
+
+            // Temporary compatibility fallback while older Nager deployments remain
+            // available. Community v3 is scheduled to retire, so it is not the only
+            // source used by this page.
+            try {
+                const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/IN', {
+                    cache: 'no-store'
+                });
+                if (response.ok) {
+                    const holidays = await response.json();
+                    const todayHoliday = Array.isArray(holidays)
+                        ? holidays.find(item => item.date === localDate)
+                        : null;
+                    if (addFestival(todayHoliday)) return;
+                }
+            } catch (error) {
                 // Continue to the Indian festival calendar below.
             }
 
