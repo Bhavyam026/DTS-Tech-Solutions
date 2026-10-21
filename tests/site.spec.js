@@ -39,6 +39,20 @@ test('mobile layout renders without a wide horizontal overflow', async ({ page }
   expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport + 2);
 });
 
+test('privacy policy and terms are published with the approved contact details', async ({ page }) => {
+  const response = await page.goto(siteUrl + 'legal.html', { waitUntil: 'domcontentloaded', timeout: 45000 });
+  expect(response, 'The legal page should return a document response').not.toBeNull();
+  expect(response.status(), 'The legal page should return HTTP 200').toBe(200);
+  await expect(page).toHaveTitle(/Privacy Policy.*Terms of Service/i);
+  await expect(page.locator('#privacy')).toHaveCount(1);
+  await expect(page.locator('#terms')).toHaveCount(1);
+  const content = (await page.locator('body').innerText()).toLowerCase();
+  expect(content).toContain('dtsboisar@gmail.com');
+  expect(content).toContain('83909 09845');
+  expect(content).not.toContain('info@dtssolutions.in');
+  expect(content).not.toContain('99307 81093');
+});
+
 test('cinematic festival video is integrated', async ({ page }) => {
   await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
   const videos = page.locator('video');
