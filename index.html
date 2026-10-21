@@ -32,6 +32,42 @@
             box-sizing: border-box;
         }
 
+        .skip-link {
+            position: fixed;
+            top: 8px;
+            left: 8px;
+            z-index: 2000;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #0f172a;
+            font-weight: 700;
+            transform: translateY(-160%);
+        }
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .product-sku,
+        .product-spec-key {
+            color: #64748b;
+        }
+
+        .bg-white.text-slate-400,
+        .bg-slate-50.text-slate-400,
+        .bg-gray-50.text-slate-400,
+        .bg-white.text-gray-400,
+        .bg-slate-50.text-gray-400,
+        .bg-gray-50.text-gray-400,
+        .bg-white .text-slate-400,
+        .bg-slate-50 .text-slate-400,
+        .bg-gray-50 .text-slate-400,
+        .bg-white .text-gray-400,
+        .bg-slate-50 .text-gray-400,
+        .bg-gray-50 .text-gray-400 {
+            color: #64748b !important;
+        }
+
         /* Accessible keyboard focus without changing the existing layout. */
         :focus-visible {
             outline: 3px solid #0891b2;
@@ -1216,6 +1252,7 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <video id="dtsFestivalBackdrop" class="dts-festival-video-source" muted autoplay loop playsinline preload="none" aria-hidden="true">
         <source src="./assets/dts-festival-backdrop.mp4" type="video/mp4">
     </video>
