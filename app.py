@@ -1351,16 +1351,32 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
 
     # SSD availability/enquiry must be handled explicitly in deterministic fallback too.
-    # Otherwise an unavailable AI provider drops the customer into the generic greeting.
+    # Preserve a bare number after an SSD request as likely unit quantity, not capacity.
     ssd_terms = r"\b(?:ssd|solid[ -]?state[ -]?drive|nvme|m[.]?2[ -]?ssd)\b"
     if re.search(ssd_terms, folded):
         capacity = re.search(r"\b(\d{2,4}(?:\.\d+)?)\s*(tb|terabytes?|gb|gigabytes?)\b", combined, re.IGNORECASE)
         capacity_text = f"{capacity.group(1)} {capacity.group(2).upper()}" if capacity else ""
+        latest_bare_number = re.search(r"\b(\d{1,2})\b", folded)
         if re.search(r"\b(?:order|arrange|mangwa|procure|source|special[ -]?order|nahi\s*(?:hai|mila)|nahi\s*mil|nhi\s*(?:hai|mila)|not\s+(?:listed|available|in\s+stock)|out\s+of\s+stock)\b", folded):
             return ("Ji, agar required SSD catalogue mein listed na ho ya stock mein na mile, toh DTS team se sourcing/special order ki possibility check karwa sakte hain. Main abhi order ya availability confirm nahi kar sakta. Aapko SSD ki capacity (jaise 256 GB, 512 GB ya 1 TB) aur internal M.2/SATA ya external USB type pata hai?")
         if capacity_text:
             return (f"Ji, {capacity_text} SSD ki requirement samajh gaya. SSD computer/laptop ko fast boot aur files/apps jaldi open karne mein madad karta hai. Exact interface (SATA/M.2/NVMe), compatibility, model aur stock DTS team verify karegi. Aapko internal SSD chahiye ya external USB SSD?")
+        if latest_bare_number and re.search(r"\b(?:chahiye|chahie|need|want|chiye)\b", folded):
+            quantity = latest_bare_number.group(1)
+            return (f"Ji, {quantity} SSD note kar liye. Ab capacity bata dein—256 GB, 512 GB, 1 TB ya koi aur? Capacity aur internal SATA/M.2/NVMe ya external USB type ke hisaab se compatibility DTS team verify karegi.")
         return ("Ji, SSD ke liye DTS team se enquiry kar sakte hain. SSD data store karta hai aur aam taur par HDD ke muqable mein system/apps ko zyada fast load kar sakta hai. Exact compatibility aur stock verify karna hoga. Aapko kitni capacity chahiye—256 GB, 512 GB, 1 TB ya koi aur?")
+
+    # Explain server choices before asking for an enquiry quantity or generic IT checklist.
+    if re.search(r"\b(?:server|servers|serverr)\b", folded):
+        asks_which_server = bool(re.search(r"\b(?:konsa|kaunsa|kaun\s*sa|which|what\s+kind|options?|type|types|milega|milega|available|hai|chahiye|need|want)\b", folded))
+        if asks_which_server:
+            return (
+                "Server ke liye aam taur par 2 common form factors hote hain: **tower server** (chhote office ya standalone setup ke liye) aur **rack server** (server rack/data-room setup ke liye). "
+                "Kaunsa suitable hoga, ye users aur applications ki sankhya, storage/backup, workload aur existing network par depend karta hai. "
+                "DTS server/NAS aur networking requirement assess kar sakta hai, lekin exact model, stock aur compatibility team confirm karegi. "
+                "Aap server kis kaam ke liye chahte hain—file sharing/business apps, CCTV recording, ya virtualization/database?"
+            )
+
 
     # If a customer asks whether an unlisted/missing item can be sourced, answer that
     # question directly instead of repeating the catalogue menu.
