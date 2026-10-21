@@ -6600,7 +6600,7 @@ Thank you.`;
                     if (response.status === 202) {
                         await new Promise(resolve => setTimeout(resolve, 3500));
                         response = await fetch(
-                            'https://astrotathya.com/api/festivals?year=' + year + '&city=mumbai',
+                            'https://dts-tech-solutions.onrender.com/api/festivals?year=' + year + '&city=mumbai',
                             { cache: 'no-store' }
                         );
                     }
