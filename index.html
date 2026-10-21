@@ -6359,12 +6359,9 @@ Thank you.`;
         }
 
 
-        const DTS_FESTIVAL_CALENDAR = {
-            '2026-03-04': { name: 'Holi', greeting: 'Holi ki dher saari shubhkamnayein! 🌈', theme: 'holi', symbols: ['🌈', '🎨'] },
-            '2026-09-14': { name: 'Ganesh Chaturthi', greeting: 'Ganesh Chaturthi ki hardik shubhkamnayein! 🙏', theme: 'ganesh', symbols: ['🙏', '🌼'] },
-            '2026-10-20': { name: 'Vijayadashami / Dussehra', greeting: 'Vijayadashami aur Dussehra ki hardik shubhkamnayein! 🙏', theme: 'dussehra', symbols: ['🌼', '✨'] },
-            '2026-11-08': { name: 'Diwali', greeting: 'Deepawali ki hardik shubhkamnayein! Aapke ghar aur business mein khushiyaan aur samriddhi aaye. 🪔', theme: 'diwali', symbols: ['🪔', '✨'] }
-        };
+        // Moving/lunar festival dates are loaded from live calendar feeds below.
+        // Do not hard-code a single year's tithi dates: they become stale next year.
+        const DTS_FESTIVAL_CALENDAR = {};
 
         const DTS_FIXED_FESTIVALS = {
             '01-01': { name: 'New Year', greeting: 'Naye saal ki hardik shubhkamnayein! 🎉', theme: 'generic', symbols: ['🎉', '✨'] },
@@ -6525,30 +6522,86 @@ Thank you.`;
             const now = new Date();
             const year = now.getFullYear();
             const localDate = year + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+
             const addFestival = item => {
                 if (!item || item.date !== localDate) return false;
-                const mapped = festivalFromHolidayName({ localName: item.localName || item.name, name: item.name });
+                const mapped = festivalFromHolidayName({
+                    localName: item.localName || item.nameHi || item.name,
+                    name: item.name || item.nameEn || item.localName
+                });
                 if (!mapped) return false;
                 DTS_FESTIVAL_CALENDAR[localDate] = mapped;
                 updateAIGreeting();
                 return true;
             };
 
-            // Primary: free public-holiday feed (no API key); it automatically uses the current year.
+            // First choice: public-holiday source. It is free and needs no API key.
+            // This can correctly override lunar-festival dates where it publishes them.
             try {
-                const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/IN', { cache: 'no-store' });
+                const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/IN', {
+                    cache: 'no-store'
+                });
                 if (response.ok) {
                     const holidays = await response.json();
-                    const todayHoliday = holidays.find(item => item.date === localDate);
+                    const todayHoliday = Array.isArray(holidays)
+                        ? holidays.find(item => item.date === localDate)
+                        : null;
                     if (addFestival(todayHoliday)) return;
                 }
             } catch (error) {
-                // Try the broader festival calendar below.
+                // Continue to the Indian festival calendar below.
             }
 
-            // The former community-feed URL returned 404. Avoid repeatedly requesting it.
-            // The free Nager.Date feed above handles supported public holidays; the
-            // maintained local date table remains the offline fallback for known festivals.
+            // Secondary: city-aware Indian festival calendar. Mumbai is used as the
+            // closest supported Maharashtra reference city to avoid a first-run
+            // calculation delay for an unfeatured small town. Dates are evaluated
+            // for the current year at runtime; no API key is required for light use.
+            // This provider currently documents years 2025-2027, so Nager/fixed-date
+            // fallbacks remain useful outside that range.
+            if (year >= 2025 && year <= 2027) {
+                try {
+                    let response = await fetch(
+                        'https://astrotathya.com/api/festivals?year=' + year + '&city=mumbai',
+                        { cache: 'no-store' }
+                    );
+                    if (response.status === 202) {
+                        await new Promise(resolve => setTimeout(resolve, 3500));
+                        response = await fetch(
+                            'https://astrotathya.com/api/festivals?year=' + year + '&city=mumbai',
+                            { cache: 'no-store' }
+                        );
+                    }
+                    if (response.ok) {
+                        const payload = await response.json();
+                        const todayItems = (Array.isArray(payload.festivals) ? payload.festivals : [])
+                            .filter(item => item && item.date === localDate && item.rule)
+                            .filter(item => {
+                                const rule = item.rule;
+                                const category = String(rule.observanceCategory || '').toUpperCase();
+                                const regions = Array.isArray(rule.regions) ? rule.regions : [];
+                                const localToMaharashtra = regions.some(region =>
+                                    ['PAN_INDIA', 'MAHARASHTRA', 'WEST'].includes(String(region).toUpperCase())
+                                );
+                                return category === 'FESTIVAL' && localToMaharashtra;
+                            })
+                            .sort((a, b) => Number(Boolean(b.rule.isMajor)) - Number(Boolean(a.rule.isMajor)));
+
+                        for (const item of todayItems) {
+                            if (addFestival({
+                                date: item.date,
+                                name: item.rule.nameEn,
+                                localName: item.rule.nameHi
+                            })) return;
+                        }
+                    }
+                } catch (error) {
+                    // Network/API failure should never stop the rest of the website.
+                }
+            }
+
+            // Only fixed Gregorian holidays remain as offline fallback. Lunar dates
+            // are deliberately not guessed, so stale dates cannot trigger the wrong
+            // festival animation.
         }
 
         function updateAIGreeting() {
