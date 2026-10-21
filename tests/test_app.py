@@ -711,7 +711,8 @@ def test_hdd_capacity_and_quantity_are_not_reasked_when_ai_provider_is_quota_lim
     assert "2 hdd" in summary
     assert "boisar" in summary
     assert "7826349150" in summary
-    assert "hdd / hard disk drive (internal) 1 tb" in summary
+    assert "capacity: 1 tb" in summary
+    assert "type: internal" in summary
 
     confirm = client.post(
         "/api/chat",
