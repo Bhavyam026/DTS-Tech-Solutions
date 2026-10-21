@@ -51,7 +51,7 @@ test('privacy policy and terms are published with the approved contact details',
   await expect(page.locator('#privacy')).toContainText('How we use information');
   await expect(page.locator('#privacy')).toContainText('Website AI assistant and third-party services');
   await expect(page.locator('#terms')).toContainText('Warranty, repairs and AMC');
-  await expect(page.locator('#terms')).toContainText('Governing law and disputes');
+  await expect(page.locator('#terms')).toContainText('Changes, governing law and disputes');
   const content = (await page.locator('body').innerText()).toLowerCase();
   expect(content).toContain('dtsboisar@gmail.com');
   expect(content).toContain('83909 09845');
