@@ -1036,6 +1036,16 @@
             mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
         }
         .dts-festival-scene { position:absolute; inset:0; overflow:hidden; background:radial-gradient(ellipse at 50% 100%,rgba(255,167,56,.17),transparent 60%),linear-gradient(110deg,rgba(10,17,38,.2),transparent 40%,rgba(8,12,29,.22)); }
+        .dts-festival-video-source { display:none; }
+        .dts-festival-scene .dts-festival-video-source {
+            display:block; position:absolute; inset:0; width:100%; height:100%;
+            object-fit:cover; opacity:.30; mix-blend-mode:screen; pointer-events:none;
+            z-index:0;
+        }
+        .dts-festival-fireworks, .dts-festival-garland, .dts-festival-banner,
+        .dts-festival-petals, .dts-festival-dots, .dts-festival-corner {
+            z-index:1;
+        }
         .dts-festival-firework { position:absolute; left:var(--fw-x); top:var(--fw-y); width:5px; height:5px; border-radius:50%; color:var(--fw-color,#ffd166); opacity:0; animation:dtsFestivalFirework 3.4s ease-out var(--fw-delay,0s) infinite; }
         .dts-festival-firework::before { content:""; position:absolute; inset:-42px; border-radius:50%; background:repeating-conic-gradient(from 0deg,currentColor 0deg 1.5deg,transparent 2deg 15deg); -webkit-mask:radial-gradient(circle,transparent 0 10%,#000 12% 17%,transparent 20%); mask:radial-gradient(circle,transparent 0 10%,#000 12% 17%,transparent 20%); filter:drop-shadow(0 0 5px currentColor); transform:scale(.05); animation:dtsFestivalBurst 3.4s ease-out var(--fw-delay,0s) infinite; }
         .dts-festival-horizon { position:absolute; left:-5%; right:-5%; bottom:12%; height:17%; border-radius:50% 50% 0 0; background:linear-gradient(180deg,rgba(255,174,69,.18),rgba(4,10,24,.02)); border-top:1px solid rgba(255,204,123,.35); filter:blur(1px); }
@@ -1174,6 +1184,9 @@
 </head>
 
 <body>
+    <video id="dtsFestivalBackdrop" class="dts-festival-video-source" muted autoplay loop playsinline preload="none" aria-hidden="true">
+        <source src="./assets/dts-festival-backdrop.mp4" type="video/mp4">
+    </video>
 
     <!-- ============================================================
          TOP HEADER
@@ -6384,6 +6397,13 @@ Thank you.`;
 
             const scene = document.createElement('div');
             scene.className = 'dts-festival-scene';
+            const festivalVideo = document.getElementById('dtsFestivalBackdrop');
+            if (festivalVideo) {
+                scene.appendChild(festivalVideo);
+                festivalVideo.preload = 'auto';
+                const playAttempt = festivalVideo.play();
+                if (playAttempt && typeof playAttempt.catch === 'function') playAttempt.catch(() => {});
+            }
             const fireworks = document.createElement('div');
             fireworks.className = 'dts-festival-fireworks';
             const fireworkColors = festival.theme === 'holi' ? ['#f472b6', '#38bdf8', '#facc15', '#a78bfa'] : festival.theme === 'tricolor' ? ['#fb923c', '#f8fafc', '#4ade80'] : ['#ffd166', '#fb923c', '#f9a8d4', '#67e8f9'];
@@ -6505,10 +6525,6 @@ Thank you.`;
             const now = new Date();
             const year = now.getFullYear();
             const localDate = year + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-            const isMaharashtraOrAllIndia = item => {
-                const states = Array.isArray(item.states) ? item.states : [];
-                return !states.length || states.some(state => /all india|maharashtra|most states/i.test(String(state)));
-            };
             const addFestival = item => {
                 if (!item || item.date !== localDate) return false;
                 const mapped = festivalFromHolidayName({ localName: item.localName || item.name, name: item.name });
@@ -6530,21 +6546,9 @@ Thank you.`;
                 // Try the broader festival calendar below.
             }
 
-            // Fallback: open festival dataset includes lunar-date festivals and years 2025–2040.
-            // The feed is a community-maintained calendar, so official/local observance dates may vary.
-            try {
-                const response = await fetch('https://cdn.jsdelivr.net/gh/Lloyd-Hansen/indian-festivals-api@main/data/festivals.json', { cache: 'no-store' });
-                if (!response.ok) return;
-                const payload = await response.json();
-                const yearItems = payload && payload.data && payload.data[String(year)];
-                if (!Array.isArray(yearItems)) return;
-                const todaysFestivals = yearItems.filter(item => item.date === localDate && isMaharashtraOrAllIndia(item));
-                for (const item of todaysFestivals) {
-                    if (addFestival(item)) return;
-                }
-            } catch (error) {
-                // Static known-date entries remain the offline fallback.
-            }
+            // The former community-feed URL returned 404. Avoid repeatedly requesting it.
+            // The free Nager.Date feed above handles supported public holidays; the
+            // maintained local date table remains the offline fallback for known festivals.
         }
 
         function updateAIGreeting() {
