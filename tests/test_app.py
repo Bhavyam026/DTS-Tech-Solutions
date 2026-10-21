@@ -590,3 +590,69 @@ def test_hdd_switches_context_after_pen_drive_and_is_added_as_second_product():
     assert "USB Pen Drive" in details["product_service"]
     assert "HDD / Hard Disk Drive" in details["product_service"]
     assert "Har item/service ki quantity" in fallback
+
+def test_festival_calendar_proxy_caches_upstream_response_and_sets_cors(monkeypatch):
+    session_key = "2026:mumbai"
+    with dts_app._festival_cache_lock:
+        dts_app._festival_cache.pop(session_key, None)
+
+    class _FestivalResponse:
+        status_code = 200
+        ok = True
+        headers = {}
+
+        def json(self):
+            return {
+                "year": 2026,
+                "city": "mumbai",
+                "festivals": [{
+                    "date": "2026-10-21",
+                    "rule": {
+                        "nameEn": "Diwali",
+                        "nameHi": "दीपावली",
+                        "observanceCategory": "FESTIVAL",
+                        "regions": ["PAN_INDIA"],
+                        "isMajor": True,
+                    },
+                }],
+            }
+
+    calls = []
+
+    def fake_get(url, headers, timeout):
+        calls.append((url, headers, timeout))
+        return _FestivalResponse()
+
+    monkeypatch.setattr(dts_app.requests, "get", fake_get)
+    client = dts_app.app.test_client()
+
+    first = client.get(
+        "/api/festivals?year=2026&city=mumbai",
+        headers={"Origin": "https://bhavyam026.github.io"},
+    )
+    second = client.get(
+        "/api/festivals?year=2026&city=mumbai",
+        headers={"Origin": "https://bhavyam026.github.io"},
+    )
+
+    assert first.status_code == 200
+    assert first.get_json()["festivals"][0]["rule"]["nameEn"] == "Diwali"
+    assert first.headers["Access-Control-Allow-Origin"] == "https://bhavyam026.github.io"
+    assert second.status_code == 200
+    assert len(calls) == 1
+    assert calls[0][0] == "https://astrotathya.com/api/festivals?year=2026&city=mumbai"
+
+    with dts_app._festival_cache_lock:
+        dts_app._festival_cache.pop(session_key, None)
+
+
+def test_festival_calendar_proxy_rejects_unsupported_year_without_upstream_call(monkeypatch):
+    def unexpected_get(*args, **kwargs):
+        raise AssertionError("Unsupported years must not call the upstream provider.")
+
+    monkeypatch.setattr(dts_app.requests, "get", unexpected_get)
+    response = dts_app.app.test_client().get("/api/festivals?year=2028")
+
+    assert response.status_code == 400
+    assert response.get_json()["error_code"] == "FESTIVAL_YEAR_UNSUPPORTED"
+
