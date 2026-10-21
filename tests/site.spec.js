@@ -54,10 +54,26 @@ test('privacy policy and terms are published with the approved contact details',
 });
 
 test('cinematic festival video is integrated', async ({ page }) => {
-  await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-  const videos = page.locator('video');
-  await expect(videos, 'A real MP4/WebM video element has not been added to index.html yet').toHaveCount(1);
-  const source = await videos.locator('source').getAttribute('src').catch(() => null);
-  const directSource = await videos.getAttribute('src');
-  expect(source || directSource || '').toMatch(/\.(mp4|webm)(\?|$)/i);
+  test.setTimeout(150000);
+  const deadline = Date.now() + 90000;
+  let lastState = 'video element missing';
+  while (Date.now() < deadline) {
+    await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
+    const videos = page.locator('video');
+    const count = await videos.count();
+    const html = await page.content();
+    const source = count
+      ? (await videos.first().getAttribute('src') ||
+         await videos.first().locator('source').first().getAttribute('src').catch(() => null))
+      : null;
+    if (count === 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) &&
+        !html.includes('Lloyd-Hansen/indian-festivals-api')) {
+      return;
+    }
+    lastState = !count ? 'video element missing' :
+      html.includes('Lloyd-Hansen/indian-festivals-api') ? 'stale live HTML still references retired feed' :
+      'video source missing or invalid: ' + (source || 'missing');
+    await page.waitForTimeout(10000);
+  }
+  throw new Error('Current video/calendar changes were not visible on GitHub Pages within 90 seconds: ' + lastState);
 });
