@@ -4652,13 +4652,14 @@ Thank you.`;
          * DOMContentLoaded event from leaving the product grid blank.
          */
         try {
-            initializeCatalogue();
+            // Build product cards only as the catalogue approaches the viewport.
+            // This keeps the large catalogue render off the critical first paint.
+            scheduleCatalogueInitialization();
             updateAIGreeting();
 
-            // Automatically load the current year's festival calendar.
-            // Fixed-date holidays render immediately; moving festival dates are
-            // applied only when a live calendar confirms today's date.
-            loadDTSFestivalCalendar();
+            // Start external festival-calendar requests after the initial render.
+            // Fixed-date decorations remain available while live dates are fetched.
+            window.setTimeout(loadDTSFestivalCalendar, 1500);
 
             // Keep the greeting and decorations current if the page stays open
             // across midnight, and refresh the date on a visitor returning to the tab.
@@ -4679,6 +4680,47 @@ Thank you.`;
         }
 
     
+
+        function scheduleCatalogueInitialization() {
+            const catalogue = document.getElementById('catalogue') ||
+                document.getElementById('productGrid');
+
+            let initialized = false;
+            let observer = null;
+
+            function initializeOnce() {
+                if (initialized) return;
+                initialized = true;
+                if (observer) observer.disconnect();
+
+                const render = function () {
+                    try {
+                        initializeCatalogue();
+                    } catch (error) {
+                        console.error('Deferred catalogue initialization failed:', error);
+                    }
+                };
+
+                if (typeof window.requestIdleCallback === 'function') {
+                    window.requestIdleCallback(render, { timeout: 1200 });
+                } else {
+                    window.setTimeout(render, 200);
+                }
+            }
+
+            if (!catalogue || !('IntersectionObserver' in window)) {
+                window.setTimeout(initializeOnce, 250);
+                return;
+            }
+
+            observer = new IntersectionObserver(function (entries) {
+                if (entries.some(function (entry) { return entry.isIntersecting; })) {
+                    initializeOnce();
+                }
+            }, { rootMargin: '600px 0px' });
+
+            observer.observe(catalogue);
+        }
 
         /* Reveal content gently as the visitor scrolls; leave it visible if unsupported. */
         function initializeDTSScrollEffects() {
