@@ -1343,6 +1343,18 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
 
     # Availability questions for IT products should never fall through to a generic greeting.
+    # Give a direct, use-case-based answer when a customer asks which server to choose.
+    if re.search(r"\b(?:servers?|server machine|server system)\b", folded) and re.search(
+        r"\b(?:konsa|kaunsa|kaun\s+sa|which|what|kya|kaise|kis|chahiye|chiye|need|for|milega|milega)\b",
+        folded,
+    ):
+        return (
+            "Ji, DTS server solutions ke liye guide kar sakta hai. Sahi server aapke kaam, users, "
+            "RAM/CPU, storage aur backup needs par depend karega. Exact make/model, stock aur price "
+            "DTS team se confirm honge. Aap server kis kaam ke liye chahte hain—office applications, "
+            "file sharing/storage, CCTV recording ya virtualization?"
+        )
+
     if re.search(r"\bfirewalls?\b", folded):
         return (
             "Ji, DTS ke IT infrastructure catalogue mein firewall/network security solutions listed hain. "
@@ -1362,8 +1374,11 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         if capacity_text:
             return (f"Ji, {capacity_text} SSD ki requirement samajh gaya. SSD computer/laptop ko fast boot aur files/apps jaldi open karne mein madad karta hai. Exact interface (SATA/M.2/NVMe), compatibility, model aur stock DTS team verify karegi. Aapko internal SSD chahiye ya external USB SSD?")
         if latest_bare_number and re.search(r"\b(?:chahiye|chahie|need|want|chiye)\b", folded):
-            quantity = latest_bare_number.group(1)
-            return (f"Ji, {quantity} SSD note kar liye. Ab capacity bata dein—256 GB, 512 GB, 1 TB ya koi aur? Capacity aur internal SATA/M.2/NVMe ya external USB type ke hisaab se compatibility DTS team verify karegi.")
+            number = latest_bare_number.group(1)
+            return (
+                f"Aapne '{number}' bataya—kya aapko {number} SSD units chahiye, ya {number} TB capacity wala SSD? "
+                "Ek baar clear kar dein, phir main sahi details poochunga."
+            )
         return ("Ji, SSD ke liye DTS team se enquiry kar sakte hain. SSD data store karta hai aur aam taur par HDD ke muqable mein system/apps ko zyada fast load kar sakta hai. Exact compatibility aur stock verify karna hoga. Aapko kitni capacity chahiye—256 GB, 512 GB, 1 TB ya koi aur?")
 
     # Explain server choices before asking for an enquiry quantity or generic IT checklist.
