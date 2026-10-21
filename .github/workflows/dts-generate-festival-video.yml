@@ -1,0 +1,54 @@
+name: DTS Generate Festival Video Asset
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/generate-festival-video.py"
+      - ".github/workflows/dts-generate-festival-video.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dts-festival-video-asset
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install video generator dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+          python -m pip install --upgrade pip
+          python -m pip install pillow numpy
+      - name: Generate original DTS festival backdrop if missing
+        run: |
+          if [ ! -s assets/dts-festival-backdrop.mp4 ]; then
+            python scripts/generate-festival-video.py
+          else
+            echo "Festival backdrop already exists; no regeneration needed."
+          fi
+      - name: Commit generated video if needed
+        run: |
+          if git status --short -- assets/dts-festival-backdrop.mp4 | grep -q .; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/dts-festival-backdrop.mp4
+            git commit -m "Add original DTS festival background video"
+            git push
+          else
+            echo "No video asset changes to commit."
+          fi
