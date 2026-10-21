@@ -96,15 +96,9 @@ test('cinematic festival video is integrated', async ({ page }) => {
 });
 
 test('live festival feed can activate the festival animation and AI greeting', async ({ page }) => {
-  await page.emulateTimezone('Asia/Kolkata');
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Kolkata',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  }).formatToParts(new Date());
-  const part = type => parts.find(item => item.type === type).value;
-  const today = part('year') + '-' + part('month') + '-' + part('day');
+  // Playwright's default browser timezone on the CI runner is UTC, matching
+  // this ISO date used by the page's Date object in the same runner.
+  const today = new Date().toISOString().slice(0, 10);
 
   await page.route(/https:\/\/date\.nager\.at\/api\/v3\/PublicHolidays\//, route =>
     route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
