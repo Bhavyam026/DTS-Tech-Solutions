@@ -1365,7 +1365,8 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     # If a customer asks whether an unlisted/missing item can be sourced, answer that
     # question directly instead of repeating the catalogue menu.
     asks_sourcing = bool(re.search(
-        r"(?:\b(?:jo\s+)?(?:mujhe|muze|mujhko|hame|hume)\b.{0,70}\b(?:nahi|nhi|nahin)\b.{0,25}\b(?:mila|milta|milega|listed|available|pass|paas)\b|\bmu\s+jo\s+chahiye\b.{0,80}\b(?:nahi|nhi|nahin)\b.{0,30}\b(?:mila|pass|paas|available)\b|"
+        r"(?:\b(?:mujhe|muje|muze|mujhko|hame|hume)\b.{0,90}\b(?:jo\s+)?(?:chahiye|chiye|chahie)?\b.{0,55}\b(?:aapke\s+paas|apke\s+pass|paas|pass)\b.{0,35}\b(?:nahi|nhi|nahin)\b.{0,25}\b(?:mila|milta|milega|listed|available)?\b|"
+        r"\b(?:jo\s+)?(?:chahiye|chiye|chahie)\b.{0,65}\b(?:aapke\s+paas|apke\s+pass|paas|pass)\b.{0,35}\b(?:nahi|nhi|nahin)\b.{0,25}\b(?:mila|milta|milega)\b|"
         r"\b(?:catalogue|catalog|list|stock|pass|paas)\b.{0,50}\b(?:nahi|nhi|nahin|not|missing|out\s+of\s+stock)\b|"
         r"\b(?:order|arrange|mangwa|procure|source|special[ -]?order)\b.{0,45}\b(?:sakte|sakta|karwa|karva|possible|can\s+you|kya|hai)\b|"
         r"\b(?:can\s+you\s+order|can\s+you\s+arrange|special\s+order|source\s+it)\b)",
