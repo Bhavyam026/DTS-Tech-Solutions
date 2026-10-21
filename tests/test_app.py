@@ -656,3 +656,83 @@ def test_festival_calendar_proxy_rejects_unsupported_year_without_upstream_call(
     assert response.status_code == 400
     assert response.get_json()["error_code"] == "FESTIVAL_YEAR_UNSUPPORTED"
 
+
+
+
+def test_hdd_capacity_and_quantity_are_not_reasked_when_ai_provider_is_quota_limited(monkeypatch):
+    class _QuotaChat:
+        def start_chat(self, history=None):
+            return self
+
+        def send_message(self, message):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED: quota exceeded")
+
+    session_id = "dts-99999999-8888-7777-6666-555555555555"
+    dts_app._sessions.pop(session_id, None)
+    monkeypatch.setattr(dts_app, "model", _QuotaChat())
+    client = dts_app.app.test_client()
+
+    turns = [
+        "apke pass HDD hai",
+        "muze HDD 1 TB chiye 2",
+        "internal",
+        "Boisar",
+        "7826349150",
+    ]
+    responses = []
+    for message in turns:
+        response = client.post(
+            "/api/chat",
+            json={
+                "session_id": session_id,
+                "messages": [{"role": "user", "content": message}],
+            },
+        )
+        assert response.status_code == 200
+        data = response.get_json()
+        responses.append(data)
+        assert data["whatsapp_draft_url"] is None
+        assert data["whatsapp_sent"] is False
+
+    capacity_reply = responses[1]["reply"].casefold()
+    assert "1 tb" in capacity_reply
+    assert "quantity 2" in capacity_reply
+    assert "capacity (jaise 1 tb ya 2 tb) baad mein confirm" not in capacity_reply
+
+    type_reply = responses[2]["reply"].casefold()
+    assert "internal hdd" in type_reply
+    assert "1 tb" in type_reply
+    assert "kitne hdd chahiye" not in type_reply
+
+    final = responses[-1]
+    assert final["state"] == "SUMMARY_READY"
+    summary = final["pending_summary"].casefold()
+    assert "hdd / hard disk drive" in summary
+    assert "2 hdd" in summary
+    assert "boisar" in summary
+    assert "7826349150" in summary
+    assert "capacity: 1 tb" in summary
+    assert "type: internal" in summary
+
+    confirm = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "CONFIRM SUMMARY"}],
+        },
+    )
+    confirmed = confirm.get_json()
+    assert confirmed["state"] == "CONFIRMED"
+    assert confirmed["whatsapp_draft_url"].startswith("https://wa.me/")
+    assert confirmed["whatsapp_sent"] is False
+
+
+def test_hdd_one_terabyte_capacity_is_acknowledged_without_asking_for_capacity_again():
+    reply = dts_app._deterministic_product_education_reply(
+        "muze HDD 1 TB chiye",
+        ["apke pass HDD hai", "muze HDD 1 TB chiye"],
+    )
+    assert reply is not None
+    assert "1 TB" in reply
+    assert "internal HDD" in reply
+    assert "capacity (jaise 1 TB ya 2 TB) baad mein confirm" not in reply
