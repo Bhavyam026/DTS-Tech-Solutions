@@ -1025,14 +1025,26 @@
             }
         }
 
-        /* DTS festival layer: visible festive greeting plus lightweight falling decorations. */
+        /* DTS cinematic festival scene: compact, non-blocking and responsive. */
         .dts-festival-animation {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            overflow: hidden;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; right: 0;
+            height: min(410px, 48vh); min-height: 245px;
+            z-index: 49; overflow: hidden; pointer-events: none; isolation: isolate;
+            background: radial-gradient(ellipse at 50% 110%, rgba(255,177,54,.32), transparent 54%), linear-gradient(180deg, rgba(5,12,29,.96) 0%, rgba(12,20,42,.76) 58%, rgba(7,14,29,.08) 100%);
+            animation: dtsFestivalSceneIn 1s ease-out both;
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
         }
+        .dts-festival-scene { position:absolute; inset:0; overflow:hidden; background:radial-gradient(ellipse at 50% 100%,rgba(255,167,56,.17),transparent 60%),linear-gradient(110deg,rgba(10,17,38,.2),transparent 40%,rgba(8,12,29,.22)); }
+        .dts-festival-firework { position:absolute; left:var(--fw-x); top:var(--fw-y); width:5px; height:5px; border-radius:50%; color:var(--fw-color,#ffd166); opacity:0; animation:dtsFestivalFirework 3.4s ease-out var(--fw-delay,0s) infinite; }
+        .dts-festival-firework::before { content:""; position:absolute; inset:-42px; border-radius:50%; background:repeating-conic-gradient(from 0deg,currentColor 0deg 1.5deg,transparent 2deg 15deg); -webkit-mask:radial-gradient(circle,transparent 0 10%,#000 12% 17%,transparent 20%); mask:radial-gradient(circle,transparent 0 10%,#000 12% 17%,transparent 20%); filter:drop-shadow(0 0 5px currentColor); transform:scale(.05); animation:dtsFestivalBurst 3.4s ease-out var(--fw-delay,0s) infinite; }
+        .dts-festival-horizon { position:absolute; left:-5%; right:-5%; bottom:12%; height:17%; border-radius:50% 50% 0 0; background:linear-gradient(180deg,rgba(255,174,69,.18),rgba(4,10,24,.02)); border-top:1px solid rgba(255,204,123,.35); filter:blur(1px); }
+        .dts-festival-diya-row { position:absolute; left:0; right:0; bottom:12%; display:flex; justify-content:space-evenly; align-items:end; }
+        .dts-festival-diya { position:relative; width:clamp(23px,4vw,42px); height:clamp(10px,1.6vw,16px); border-radius:0 0 50% 50%; background:linear-gradient(180deg,#ffdc83,#e86a1c 45%,#6c251d); box-shadow:0 5px 18px rgba(255,145,30,.35); animation:dtsFestivalDiyaGlow 1.4s ease-in-out infinite alternate; }
+        .dts-festival-diya::before { content:""; position:absolute; width:9px; height:17px; left:50%; bottom:8px; transform:translateX(-50%); border-radius:80% 10% 80% 10%; background:linear-gradient(180deg,#fffbd0,#ffd34f 45%,#ff6a00); box-shadow:0 0 12px 4px rgba(255,176,50,.7); animation:dtsFestivalFlame .8s ease-in-out infinite alternate; }
+        .dts-festival-holi .dts-festival-scene { background:radial-gradient(ellipse at 18% 70%,rgba(244,63,94,.35),transparent 35%),radial-gradient(ellipse at 80% 68%,rgba(56,189,248,.34),transparent 35%),radial-gradient(ellipse at 55% 28%,rgba(192,132,252,.26),transparent 40%),linear-gradient(110deg,rgba(10,17,38,.2),transparent 40%,rgba(8,12,29,.22)); }
+        .dts-festival-dussehra .dts-festival-scene { background:radial-gradient(ellipse at 50% 100%,rgba(249,115,22,.36),transparent 50%),radial-gradient(ellipse at 75% 28%,rgba(255,195,85,.18),transparent 35%),linear-gradient(180deg,rgba(20,13,29,.88),rgba(75,27,19,.38),transparent); }
+        .dts-festival-christmas .dts-festival-scene { background:radial-gradient(ellipse at 50% 100%,rgba(34,197,94,.2),transparent 55%),linear-gradient(180deg,rgba(5,20,34,.8),transparent); }
         .dts-festival-garland {
             position: absolute;
             top: 0;
@@ -1115,6 +1127,11 @@
         .dts-festival-christmas { --dts-festival-light: #4ade80; --dts-festival-glow: rgba(74,222,128,.5); }
         .dts-festival-tricolor { --dts-festival-light: #fb923c; --dts-festival-glow: rgba(255,255,255,.45); }
         .dts-festival-generic { --dts-festival-light: #38bdf8; --dts-festival-glow: rgba(56,189,248,.45); }
+        @keyframes dtsFestivalSceneIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes dtsFestivalFirework { 0%,12%{opacity:0;transform:scale(.1)} 18%{opacity:1;transform:scale(1)} 62%{opacity:.85} 100%{opacity:0;transform:scale(1.12)} }
+        @keyframes dtsFestivalBurst { 0%,14%{opacity:0;transform:scale(.05) rotate(0)} 24%{opacity:1;transform:scale(1) rotate(22deg)} 70%{opacity:.8;transform:scale(1.15) rotate(48deg)} 100%{opacity:0;transform:scale(1.4) rotate(70deg)} }
+        @keyframes dtsFestivalDiyaGlow { from{filter:brightness(.88)} to{filter:brightness(1.25)} }
+        @keyframes dtsFestivalFlame { from{transform:translateX(-50%) rotate(-7deg) scale(.9)} to{transform:translateX(-50%) rotate(8deg) scale(1.12)} }
         @keyframes dtsFestivalTwinkle { from { opacity: .5; transform: scale(.78); } to { opacity: 1; transform: scale(1.2); } }
         @keyframes dtsFestivalFloat { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(8px) rotate(4deg); } }
         @keyframes dtsFestivalSparkle { 0%,100% { opacity: 0; transform: translateY(-5px) scale(.5); } 45%,60% { opacity: .9; transform: translateY(16px) scale(1.1); } }
@@ -1133,10 +1150,13 @@
             to { box-shadow: 0 12px 36px rgba(223,143,32,.45), inset 0 0 0 3px rgba(255,223,148,.25); }
         }
         @media (max-width: 560px) {
-            .dts-festival-banner { top: 52px; width: calc(100vw - 72px); padding: 11px 10px 12px; border-radius: 14px; }
+            .dts-festival-animation { height:min(330px,42vh); min-height:220px; }
+            .dts-festival-banner { top: 70px; width: calc(100vw - 36px); padding: 11px 10px 12px; border-radius: 14px; }
             .dts-festival-corner { top: 37px; font-size: 27px; }
             .dts-festival-corner-left { left: 4px; }
             .dts-festival-corner-right { right: 4px; }
+            .dts-festival-diya-row { bottom:18%; }
+            .dts-festival-firework::before { inset:-28px; }
         }
         @media (prefers-reduced-motion: reduce) {
             .dts-festival-bulb, .dts-festival-corner, .dts-festival-petal, .dts-festival-dot, .dts-festival-banner { animation: none !important; opacity: 1 !important; }
@@ -6357,6 +6377,37 @@ Thank you.`;
             overlay.className = 'dts-festival-animation dts-festival-' + (festival.theme || 'generic');
             overlay.dataset.festivalName = festival.name;
             overlay.setAttribute('aria-hidden', 'true');
+
+            const scene = document.createElement('div');
+            scene.className = 'dts-festival-scene';
+            const fireworks = document.createElement('div');
+            fireworks.className = 'dts-festival-fireworks';
+            const fireworkColors = festival.theme === 'holi' ? ['#f472b6', '#38bdf8', '#facc15', '#a78bfa'] : festival.theme === 'tricolor' ? ['#fb923c', '#f8fafc', '#4ade80'] : ['#ffd166', '#fb923c', '#f9a8d4', '#67e8f9'];
+            for (let i = 0; i < 7; i++) {
+                const burst = document.createElement('span');
+                burst.className = 'dts-festival-firework';
+                burst.style.setProperty('--fw-x', (12 + ((i * 29) % 78)) + '%');
+                burst.style.setProperty('--fw-y', (13 + ((i * 17) % 37)) + '%');
+                burst.style.setProperty('--fw-color', fireworkColors[i % fireworkColors.length]);
+                burst.style.setProperty('--fw-delay', (-i * 0.53) + 's');
+                fireworks.appendChild(burst);
+            }
+            const horizon = document.createElement('div');
+            horizon.className = 'dts-festival-horizon';
+            const diyaRow = document.createElement('div');
+            diyaRow.className = 'dts-festival-diya-row';
+            if (['diwali', 'ganesh', 'generic', 'dussehra'].includes(festival.theme)) {
+                for (let i = 0; i < 9; i++) {
+                    const diya = document.createElement('span');
+                    diya.className = 'dts-festival-diya';
+                    diya.style.animationDelay = (-i * 0.16) + 's';
+                    diyaRow.appendChild(diya);
+                }
+            }
+            scene.appendChild(fireworks);
+            scene.appendChild(horizon);
+            scene.appendChild(diyaRow);
+            overlay.appendChild(scene);
 
             const garland = document.createElement('div');
             garland.className = 'dts-festival-garland';
