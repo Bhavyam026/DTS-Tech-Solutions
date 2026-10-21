@@ -106,17 +106,27 @@ async function main() {
              await videos.first().locator('source').first().getAttribute('src').catch(() => null))
           : null;
         const staleFeed = html.includes('Lloyd-Hansen/indian-festivals-api');
+        let videoStatus = 0;
         if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && !staleFeed) {
+          try {
+            const videoResponse = await page.request.get(new URL(source, siteUrl).toString(), { timeout: 15000 });
+            videoStatus = videoResponse.status();
+          } catch (error) {
+            lastState = 'video file request failed: ' + error.message;
+          }
+        }
+        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && videoStatus === 200 && !staleFeed) {
           // Ignore 404s from the old revision if the final deployed HTML no longer references it.
           for (let i = failedResources.length - 1; i >= 0; i--) {
             if (String(failedResources[i].url).includes('Lloyd-Hansen/indian-festivals-api')) {
               failedResources.splice(i, 1);
             }
           }
-          return 'video source: ' + source + '; live page no longer references the retired 404 feed';
+          return 'video source: ' + source + '; video HTTP ' + videoStatus + '; retired festival feed removed';
         }
         lastState = !count ? 'video element missing' : staleFeed
           ? 'live HTML still references the retired festival feed'
+          : videoStatus !== 200 ? 'video file HTTP status: ' + (videoStatus || 'request failed')
           : 'video source missing or invalid: ' + (source || 'missing');
         await page.waitForTimeout(10000);
       }
