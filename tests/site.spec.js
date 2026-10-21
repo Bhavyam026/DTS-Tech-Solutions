@@ -103,7 +103,7 @@ test('live festival feed can activate the festival animation and AI greeting', a
   // this ISO date used by the page's Date object in the same runner.
   const today = new Date().toISOString().slice(0, 10);
 
-  await page.route(/https:\/\/date\.nager\.at\/api\/v3\/PublicHolidays\//, route =>
+  await page.route(/https:\/\/nagerholidays\.com\/api\/v4\/Holidays\/IN\//, route =>
     route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   );
   await page.route(/https:\/\/astrotathya\.com\/api\/festivals\?/, route =>
