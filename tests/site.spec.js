@@ -44,8 +44,14 @@ test('privacy policy and terms are published with the approved contact details',
   expect(response, 'The legal page should return a document response').not.toBeNull();
   expect(response.status(), 'The legal page should return HTTP 200').toBe(200);
   await expect(page).toHaveTitle(/Privacy Policy.*Terms of Service/i);
-  await expect(page.locator('#privacy')).toHaveCount(1);
-  await expect(page.locator('#terms')).toHaveCount(1);
+  await expect(page.locator('#privacy')).toBeVisible();
+  await expect(page.locator('#terms')).toBeVisible();
+  await expect(page.locator('#privacy h2')).toHaveText('Privacy Policy');
+  await expect(page.locator('#terms h2')).toHaveText('Terms of Service');
+  await expect(page.locator('#privacy')).toContainText('How we use information');
+  await expect(page.locator('#privacy')).toContainText('Website AI assistant and third-party services');
+  await expect(page.locator('#terms')).toContainText('Warranty, repairs and AMC');
+  await expect(page.locator('#terms')).toContainText('Governing law and disputes');
   const content = (await page.locator('body').innerText()).toLowerCase();
   expect(content).toContain('dtsboisar@gmail.com');
   expect(content).toContain('83909 09845');
@@ -87,4 +93,42 @@ test('cinematic festival video is integrated', async ({ page }) => {
     await page.waitForTimeout(10000);
   }
   throw new Error('Current video/calendar changes were not visible on GitHub Pages within 90 seconds: ' + lastState);
+});
+
+test('live festival feed can activate the festival animation and AI greeting', async ({ page }) => {
+  await page.emulateTimezone('Asia/Kolkata');
+  const today = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date());
+
+  await page.route('https://date.nager.at/api/v3/PublicHolidays/**', route =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  );
+  await page.route('https://astrotathya.com/api/festivals?**', route =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        year: Number(today.slice(0, 4)),
+        city: 'mumbai',
+        festivals: [{
+          date: today,
+          rule: {
+            nameEn: 'Diwali',
+            nameHi: 'दीपावली',
+            observanceCategory: 'FESTIVAL',
+            regions: ['PAN_INDIA'],
+            isMajor: true
+          }
+        }]
+      })
+    })
+  );
+
+  await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
+  await expect(page.locator('#dtsFestivalAnimation')).toHaveAttribute('data-festival-name', 'Diwali', { timeout: 15000 });
+  await expect(page.locator('#aiGreeting')).toContainText('Deepawali', { timeout: 15000 });
 });
