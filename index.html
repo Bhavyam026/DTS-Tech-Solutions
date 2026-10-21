@@ -6379,11 +6379,20 @@ Thank you.`;
 
         function applyDTSFestivalAnimation(festival) {
             const existing = document.getElementById('dtsFestivalAnimation');
+            const festivalVideo = document.getElementById('dtsFestivalBackdrop');
+            if (existing && existing.dataset.festivalName === (festival && festival.name)) return;
+
+            // Keep the video element alive when a festival ends or changes so it
+            // can be reused for the next festival instead of being deleted with
+            // the old overlay.
+            if (existing && festivalVideo && existing.contains(festivalVideo)) {
+                document.body.appendChild(festivalVideo);
+                festivalVideo.pause();
+            }
             if (!festival) {
                 if (existing) existing.remove();
                 return;
             }
-            if (existing && existing.dataset.festivalName === festival.name) return;
             if (existing) existing.remove();
 
             const overlay = document.createElement('div');
@@ -6394,7 +6403,6 @@ Thank you.`;
 
             const scene = document.createElement('div');
             scene.className = 'dts-festival-scene';
-            const festivalVideo = document.getElementById('dtsFestivalBackdrop');
             if (festivalVideo) {
                 scene.appendChild(festivalVideo);
                 festivalVideo.preload = 'auto';
