@@ -1,0 +1,38 @@
+name: DTS Browserbase Live Browser Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browserbase-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Browserbase and Playwright
+        run: npm install --no-save @browserbasehq/sdk playwright-core
+
+      - name: Run live DTS website checks in Browserbase
+        env:
+          BROWSERBASE_API_KEY: ${{ secrets.BROWSERBASE_API_KEY }}
+          DTS_SITE_URL: https://bhavyam026.github.io/DTS-Tech-Solutions/
+        run: node scripts/browserbase-site-check.js
+
+      - name: Upload screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dts-browserbase-results
+          path: browserbase-results/
+          if-no-files-found: warn
+          retention-days: 14
