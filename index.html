@@ -6498,8 +6498,11 @@ Thank you.`;
         }
 
         function festivalFromHolidayName(holiday) {
-            const name = String((holiday && (holiday.localName || holiday.name)) || '');
-            const lower = name.toLowerCase();
+            const name = String((holiday && (holiday.name || holiday.localName)) || '');
+            const lower = holiday
+                ? [holiday.name, holiday.localName, holiday.nameEn, holiday.nameHi]
+                    .filter(Boolean).join(' ').toLowerCase()
+                : '';
             const mappings = [
                 { match: /diwali|deepavali|deepawali/, name: 'Diwali', greeting: 'Deepawali ki hardik shubhkamnayein! Aapke ghar aur business mein khushiyaan aur samriddhi aaye. 🪔', theme: 'diwali', symbols: ['🪔', '✨'] },
                 { match: /dussehra|vijaya dashami|vijayadashami|dasara/, name: 'Dussehra', greeting: 'Vijayadashami aur Dussehra ki hardik shubhkamnayein! 🙏', theme: 'dussehra', symbols: ['🌼', '✨'] },
