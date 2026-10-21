@@ -127,6 +127,31 @@ def test_messy_hinglish_and_indirect_sourcing_questions_get_direct_answers():
         assert all(term.casefold() in folded for term in expected), (message, reply)
 
 
+def test_ssd_quantity_number_is_not_repeated_as_capacity_question():
+    reply = dts_app._deterministic_catalog_reply(
+        "SSD chiye muze 3",
+        ["SSD chiye muze 3"],
+    )
+    assert reply is not None
+    assert "3 SSD" in reply
+    assert "capacity" in reply.casefold()
+    assert "256 GB" in reply
+    assert "kitni capacity chahiye" not in reply.casefold()
+
+
+def test_server_question_explains_options_before_followup():
+    reply = dts_app._deterministic_catalog_reply(
+        "server konsa milega",
+        ["server konsa milega"],
+    )
+    assert reply is not None
+    assert "tower server" in reply.casefold()
+    assert "rack server" in reply.casefold()
+    assert "file sharing" in reply.casefold()
+    assert "exact model" in reply.casefold()
+    assert "Namaste! Main DTS AI Assistant hoon" not in reply
+
+
 def test_sourcing_followup_after_catalogue_question_does_not_repeat_catalogue():
     message = "order karwa sakte ho kya"
     context = [
