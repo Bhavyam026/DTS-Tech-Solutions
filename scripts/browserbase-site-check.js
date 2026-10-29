@@ -66,6 +66,48 @@ async function main() {
       return 'home, catalogue, contact, product grid found';
     });
 
+    await check('Catalogue, brand, search, and AI controls respond to clicks', async () => {
+      await page.waitForTimeout(1500);
+      const runtime = await page.evaluate(() => ({
+        readyState: document.readyState,
+        scriptLoaded: Array.from(document.scripts).some(script => script.src.includes('dts-site.js')),
+        openAIType: typeof window.openAIAssistant,
+        brandType: typeof window.setBrandFilter,
+        searchType: typeof window.handleSearchInput,
+        productCards: document.querySelectorAll('#productGrid .product-card').length,
+        aiInitiallyHidden: !!document.getElementById('aiModal')?.classList.contains('hidden')
+      }));
+      if (!runtime.scriptLoaded || runtime.openAIType !== 'function' || runtime.brandType !== 'function') {
+        throw new Error('Site JS/global handlers unavailable: ' + JSON.stringify(runtime));
+      }
+      const brand = page.locator('#brandMetrac');
+      await brand.scrollIntoViewIfNeeded();
+      await brand.click({ timeout: 10000 });
+      const brandActive = await brand.evaluate(el => el.classList.contains('active'));
+      if (!brandActive) throw new Error('METRAC brand click did not activate the filter');
+      const search = page.locator('#productSearch');
+      await search.fill('Metrac');
+      const searchValue = await search.inputValue();
+      if (searchValue !== 'Metrac') throw new Error('Search input did not accept text');
+      const aiButton = page.locator('button[onclick*="openAIAssistant"]').first();
+      await aiButton.scrollIntoViewIfNeeded();
+      await aiButton.click({ timeout: 10000, force: true });
+      const aiOpened = await page.locator('#aiModal').evaluate(el => !el.classList.contains('hidden'));
+      if (!aiOpened) {
+        const overlay = await page.evaluate(() => {
+          const b = document.querySelector('button[onclick*="openAIAssistant"]');
+          const r = b.getBoundingClientRect();
+          const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+          return { button: b.outerHTML.slice(0, 160), topElement: top?.outerHTML?.slice(0, 240), modalClass: document.getElementById('aiModal')?.className };
+        });
+        throw new Error('AI button did not open modal; runtime=' + JSON.stringify(runtime) + '; overlay=' + JSON.stringify(overlay));
+      }
+      await page.locator('#aiModal button[onclick*="closeAIAssistant"]').first().click().catch(async () => {
+        await page.keyboard.press('Escape');
+      });
+      return 'JS handlers available; METRAC filter activated; search accepts text; AI modal opens';
+    });
+
     await check('Festival animation does not cover the full page', async () => {
       const scene = page.locator('#dtsFestivalAnimation');
       if (await scene.count()) {
