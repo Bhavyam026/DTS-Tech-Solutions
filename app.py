@@ -1813,6 +1813,28 @@ def chat_api():
             if item["role"] == "user"
         ] + [latest_message]
 
+        # A customer may pause an unfinished enquiry to ask something else.
+        # Answer this conversational turn without repeating or reprinting the pending summary.
+        normalized_latest = _normalize_customer_text(latest_message)
+        if re.search(
+            r"\b(?:mujhe|muje|muze)\s+(?:aur|or)\s+ek\s+(?:sawaal|sawal|question)\s+(?:puchna|poochna|puchana|poochana)\s+tha\b",
+            normalized_latest, re.IGNORECASE
+        ):
+            reply = "Bilkul, puchhiye! 😊 Aap apna agla sawaal pooch sakte hain."
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"])
+
+        if re.fullmatch(r"(?:ji\s+ha|ji\s+haan|haan|ha|yes|sure|okay|ok)", normalized_latest, re.IGNORECASE):
+            reply = "Ji, zaroor. Aap apni requirement ya sawaal bataiye—main usi ke hisaab se help karta hoon."
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"])
+
         # Stateful HDD enquiry: preserve capacity and quantity from natural Hinglish.
         # "HDD 1 TB chahiye 2" means two 1-TB drives; never ask the same generic question again.
         hdd_pattern = re.compile(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\b", re.IGNORECASE)
