@@ -26,7 +26,12 @@
                 }).join('');
             }
 
-            throw new Error('Secure session ID generation is unavailable in this browser.');
+            // Last-resort compatibility fallback: a session identifier is not an
+            // authentication secret, so older/restricted browsers must not stop
+            // the entire site from initializing just because Web Crypto is absent.
+            return 'dts-' + Date.now().toString(36) + '-' +
+                Math.random().toString(36).slice(2) +
+                Math.random().toString(36).slice(2);
         }
 
         let aiConversation = [];
