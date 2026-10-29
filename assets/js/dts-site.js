@@ -2075,83 +2075,47 @@
            BRAND FILTER
            ========================================================= */
 
-        function setBrandFilter(brand) {
+                function setBrandFilter(brand) {
 
-            currentBrandFilter =
-                brand || 'all';
+            currentBrandFilter = brand || 'all';
 
+            // A brand selection should not be hidden by an old search/category filter.
+            currentCategoryFilter = 'all';
+            searchQuery = '';
 
-            document.querySelectorAll(
-                '.brand-button'
-            ).forEach(function(button) {
+            const searchInput = document.getElementById('productSearch');
+            if (searchInput) searchInput.value = '';
 
+            const searchClear = document.getElementById('searchClear');
+            if (searchClear) searchClear.style.display = 'none';
+
+            const searchResults = document.getElementById('searchResults');
+            if (searchResults) {
+                searchResults.style.display = 'none';
+                searchResults.innerHTML = '';
+            }
+
+            document.querySelectorAll('.brand-button').forEach(function(button) {
                 button.classList.remove('active');
-
             });
 
+            document.querySelectorAll('.category-button').forEach(function(button) {
+                button.classList.remove('active');
+            });
 
-            if (
-                currentBrandFilter === 'all'
-            ) {
+            const categoryAll = document.getElementById('categoryAll');
+            if (categoryAll) categoryAll.classList.add('active');
 
-                const button =
-                    document.getElementById(
-                        'brandAll'
-                    );
+            const brandIds = {
+                all: 'brandAll',
+                Prizor: 'brandPrizor',
+                HOC: 'brandHOC',
+                Metrac: 'brandMetrac'
+            };
+            const selectedButton = document.getElementById(brandIds[currentBrandFilter] || '');
+            if (selectedButton) selectedButton.classList.add('active');
 
-                if (button) {
-                    button.classList.add('active');
-                }
-
-            }
-            else if (
-                currentBrandFilter === 'Prizor'
-            ) {
-
-                const button =
-                    document.getElementById(
-                        'brandPrizor'
-                    );
-
-                if (button) {
-                    button.classList.add('active');
-                }
-
-            }
-            else if (
-                currentBrandFilter === 'HOC'
-            ) {
-
-                const button =
-                    document.getElementById(
-                        'brandHOC'
-                    );
-
-                if (button) {
-                    button.classList.add('active');
-                }
-
-            }
-            else if (
-                currentBrandFilter.toLowerCase() === 'metrac'
-            ) {
-
-                const button =
-                    document.getElementById(
-                        'brandMetrac'
-                    );
-
-                if (button) {
-                    button.classList.add('active');
-                }
-
-            }
-
-
-            renderProducts(
-                getFilteredProducts()
-            );
-
+            renderProducts(getFilteredProducts());
         }
 
         /* =========================================================
