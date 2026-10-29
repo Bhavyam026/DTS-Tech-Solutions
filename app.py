@@ -1381,19 +1381,6 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             "Ye DTS service/product category hai, Prizor-branded nahi. Aapko fire alarm system chahiye ya sirf detectors?"
         )
 
-    # Availability questions for IT products should never fall through to a generic greeting.
-    # Give a direct, use-case-based answer when a customer asks which server to choose.
-    if re.search(r"\b(?:servers?|server machine|server system)\b", folded) and re.search(
-        r"\b(?:konsa|kaunsa|kaun\s+sa|which|what|kya|kaise|kis|chahiye|chiye|need|for|milega|milega)\b",
-        folded,
-    ):
-        return (
-            "Ji, DTS server solutions ke liye guide kar sakta hai. Sahi server aapke kaam, users, "
-            "RAM/CPU, storage aur backup needs par depend karega. Exact make/model, stock aur price "
-            "DTS team se confirm honge. Aap server kis kaam ke liye chahte hain—office applications, "
-            "file sharing/storage, CCTV recording ya virtualization?"
-        )
-
     if re.search(r"\bfirewalls?\b", folded):
         return (
             "Ji, DTS ke IT infrastructure catalogue mein firewall/network security solutions listed hain. "
@@ -1405,7 +1392,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
     # Preserve a bare number after an SSD request as likely unit quantity, not capacity.
     ssd_terms = r"\b(?:ssd|solid[ -]?state[ -]?drive|nvme|m[.]?2[ -]?ssd)\b"
     if re.search(ssd_terms, folded):
-        capacity = re.search(r"\b(\d{2,4}(?:\.\d+)?)\s*(tb|terabytes?|gb|gigabytes?)\b", combined, re.IGNORECASE)
+        capacity = re.search(r"\b(\d{1,4}(?:\.\d+)?)\s*(tb|terabytes?|gb|gigabytes?)\b", combined, re.IGNORECASE)
         capacity_text = f"{capacity.group(1)} {capacity.group(2).upper()}" if capacity else ""
         latest_bare_number = re.search(r"\b(\d{1,2})\b", folded)
         if re.search(r"\b(?:order|arrange|mangwa|procure|source|special[ -]?order|nahi\s*(?:hai|mila)|nahi\s*mil|nhi\s*(?:hai|mila)|not\s+(?:listed|available|in\s+stock)|out\s+of\s+stock)\b", folded):
@@ -1415,8 +1402,7 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         if latest_bare_number and re.search(r"\b(?:chahiye|chahie|need|want|chiye)\b", folded):
             number = latest_bare_number.group(1)
             return (
-                f"Aapne '{number}' bataya—kya aapko {number} SSD units chahiye, ya {number} TB capacity wala SSD? "
-                "Ek baar clear kar dein, phir main sahi details poochunga."
+                f"Ji, {number} SSD note kar li. Capacity bhi bata dein, jaise 256 GB, 512 GB ya 1 TB."
             )
         return ("Ji, SSD ke liye DTS team se enquiry kar sakte hain. SSD data store karta hai aur aam taur par HDD ke muqable mein system/apps ko zyada fast load kar sakta hai. Exact compatibility aur stock verify karna hoga. Aapko kitni capacity chahiye—256 GB, 512 GB, 1 TB ya koi aur?")
 
@@ -2007,9 +1993,25 @@ def chat_api():
                     "DTS catalogue mein Prizor 4MP Outdoor PoE IP Camera listed hai, "
                     "lekin live stock aur exact price confirm karni hogi."
                 )
-            elif latest_has_cctv and re.search(
-                r"\b(?:milega|milta|available|stock|hai|hain|chahiye|outdoor|indoor)\b",
-                latest_message, re.IGNORECASE
+            elif (
+                latest_has_cctv
+                # A quantity number (e.g. "5 indoor cctv mumbai") means the customer is
+                # already giving enquiry details — let the stateful quantity/location
+                # collector below handle it instead of answering with this generic blurb.
+                and not re.search(r"\d", latest_message)
+                # A brand/model question ("cctv konsi company ka hai") must get the
+                # specific Prizor brand answer from _deterministic_product_education_reply,
+                # not this generic availability blurb.
+                and not re.search(
+                    r"(?:konsi|kon si|kaunsi|kaun si|kis|which|what|company|campoy|compny|kampani|brand|make).{0,55}"
+                    r"(?:company|campoy|compny|kampani|brand|make|cctv|camera|ka|ki|ke|hai|hain)|"
+                    r"(?:company|campoy|compny|kampani|brand|make).{0,55}(?:cctv|camera|ka|ki|ke)",
+                    latest_message, re.IGNORECASE
+                )
+                and re.search(
+                    r"\b(?:milega|milta|available|stock|hai|hain|chahiye|outdoor|indoor)\b",
+                    latest_message, re.IGNORECASE
+                )
             ):
                 cctv_reply = (
                     "Ji, DTS catalogue mein **Prizor 4MP Outdoor PoE IP Security Camera** listed hai. "
