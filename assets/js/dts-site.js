@@ -1186,7 +1186,7 @@
                     "https://metrac.in/wp-content/uploads/2025/12/4U-654x494.jpeg",
                     "https://metrac.in/wp-content/uploads/2019/02/METRAC-1-654x494.jpg"
                 ],
-                officialUrl: "",
+                officialUrl: "https://metrac.in/service/4u-networ-rack/",
                 description: "METRAC wall-mount network rack for CCTV and networking equipment. Product image and reference information are from the manufacturer's website; confirm exact model, stock, price and delivery with DTS.",
                 specs: { "Brand": "METRAC", "Model": "MR-WNR-5545-4U", "Size": "W 550 × D 450 × H 250 mm", "Source": "metrac.in" }
             },
@@ -1204,7 +1204,7 @@
                     "https://metrac.in/wp-content/uploads/2025/12/6U-512x494.jpeg",
                     "https://metrac.in/wp-content/uploads/2025/12/WhatsApp-Image-2025-09-22-at-2.33.04-PM-512x494.jpeg"
                 ],
-                officialUrl: "",
+                officialUrl: "https://metrac.in/service/6u-networ-rack/",
                 description: "METRAC 6U wall-mount rack designed for CCTV and network equipment. Confirm exact dimensions, stock, price and delivery with DTS before ordering.",
                 specs: { "Brand": "METRAC", "Model": "MR-WNR-5545-6U", "Type": "Wall Mount", "Source": "metrac.in" }
             },
@@ -1222,7 +1222,7 @@
                     "https://metrac.in/wp-content/uploads/2025/12/22U-294x494.jpeg",
                     "https://metrac.in/wp-content/uploads/2019/02/METRAC-03-654x494.jpg"
                 ],
-                officialUrl: "",
+                officialUrl: "https://metrac.in/service/22-u/",
                 description: "METRAC floor-standing network rack for networking and server-room installations. Exact dimensions, accessories, stock and quotation need confirmation from DTS.",
                 specs: { "Brand": "METRAC", "Model": "22U Network Rack", "Type": "Floor Standing", "Source": "metrac.in" }
             },
@@ -1240,7 +1240,7 @@
                     "https://metrac.in/wp-content/uploads/2019/02/METRAC-02-654x494.jpg",
                     "https://metrac.in/wp-content/uploads/2019/02/METRAC-1-654x494.jpg"
                 ],
-                officialUrl: "",
+                officialUrl: "https://metrac.in/service/outdoor-rack/",
                 description: "METRAC outdoor network enclosure for CCTV and networking installations. The manufacturer's website lists IP63 weather protection for its outdoor rack range; confirm the exact model and suitability with DTS.",
                 specs: { "Brand": "METRAC", "Type": "Outdoor Network Rack", "Protection": "IP63 listed for outdoor rack range", "Source": "metrac.in" }
             }
@@ -3033,9 +3033,17 @@
 
             if (description) {
 
-                description.textContent =
+                const descriptionText =
                     product.description ||
                     'Technical solution supplied and supported by Dynamic Technology Solutions.';
+
+                description.innerHTML =
+                    escapeHtml(descriptionText) +
+                    (product.officialUrl
+                        ? ' <a href="' + escapeHtml(product.officialUrl) +
+                          '" target="_blank" rel="noopener noreferrer" ' +
+                          'class="inline-flex items-center gap-1 mt-2 font-bold text-sky-700 underline underline-offset-2">View manufacturer details <i class="fa-solid fa-arrow-up-right-from-square"></i></a>'
+                        : '');
 
             }
             /* ABOUT THIS ITEM */
