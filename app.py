@@ -2092,9 +2092,9 @@ def chat_api():
                 "notes": "",
             }
             brand_question = bool(re.search(
-                r"\\b(?:which\\s+brand|what\\s+brand|brand\\s+(?:kaunsa|kaunsi|kya|name)|"
-                r"kaun\\s*sa\\s+brand|kaunsi?\\s+company|kis\\s+brand|konsa\\s+brand|"
-                r"kon\\s*sa\\s+brand|which\\s+company|what\\s+company)\\b|\\bbrand\\s*\\?",
+                r"\b(?:which\s+brand|what\s+brand|brand\s+(?:kaunsa|kaunsi|kya|name)|"
+                r"kaun\s*sa\s+brand|kaunsi?\s+company|kis\s+brand|konsa\s+brand|"
+                r"kon\s*sa\s+brand|which\s+company|what\s+company)\b|\bbrand\s*\?",
                 latest_message, re.IGNORECASE
             ))
             if brand_question:
