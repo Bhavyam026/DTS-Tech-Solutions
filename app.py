@@ -454,7 +454,7 @@ def _extract_customer_location(messages):
         if match:
             candidate = (match.group(1) or match.group(2) or "").strip(" .,-")
             if candidate and not re.search(
-                r"\b(?:cctv|cameras?|ups|panel|electrical|networking|cat\s*6|cat6|nvr|dvr|fire|smoke|detectors?|detekar|detekter|detetar|alarm|suppression|amc|price|cost|help|services?|pe|par|chahiye|chiye|chahie|please|installation|install|location|site|quantity|qty|yes|no|okay|ok)\b",
+                r"\b(?:cctv|cameras?|ups|panel|electrical|networking|cat\s*6|cat6|nvr|dvr|fire|smoke|detectors?|detekar|detekter|detetar|alarm|suppression|amc|price|cost|help|services?|pe|par|chahiye|chiye|chahie|please|installation|install|location|site|quantity|qty|yes|no|okay|ok|network|rack|racks|server|room|serverroom|security)\b",
                 candidate,
                 re.IGNORECASE,
             ):
@@ -464,7 +464,7 @@ def _extract_customer_location(messages):
         if (1 <= len(message.split()) <= 3 and len(message) <= 45
                 and re.fullmatch(r"[A-Za-z][A-Za-z .'-]*", message)
                 and not re.search(
-                    r"\b(?:cctv|cameras?|ups|panel|electrical|networking|cat\s*6|cat6|nvr|dvr|fire|smoke|detectors?|detekar|detekter|detetar|alarm|suppression|amc|yes|no|thanks|hello|hi|ok|okay|price|cost|chahiye|chiye|chahie|pe|par|site|location|installation|install|quantity|qty|need|want|please)\b",
+                    r"\b(?:cctv|cameras?|ups|panel|electrical|networking|cat\s*6|cat6|nvr|dvr|fire|smoke|detectors?|detekar|detekter|detetar|alarm|suppression|amc|yes|no|thanks|hello|hi|ok|okay|price|cost|chahiye|chiye|chahie|pe|par|site|location|installation|install|quantity|qty|need|want|please|network|rack|racks|server|room|serverroom|security)\b",
                     message,
                     re.IGNORECASE,
                 )):
@@ -1609,6 +1609,11 @@ def _deterministic_general_reply(latest_message):
     normalized = re.sub(r"[^a-z0-9\s]", " ", folded)
     normalized = " ".join(normalized.split())
 
+    if re.search(r"\b(?:mujhe|muje|muze)\s+(?:aur|or)\s+ek\s+(?:sawaal|sawal|question)\s+(?:puchna|poochna|puchana|poochana)\s+tha\b", normalized):
+        return "Bilkul, puchhiye! 😊 Aap apna agla sawaal pooch sakte hain."
+    if re.fullmatch(r"(?:ji\s+ha|ji\s+haan|haan|ha|yes|sure|okay|ok)", normalized):
+        return "Ji, zaroor. Aap apni requirement ya sawaal bataiye—main usi ke hisaab se help karta hoon."
+
     if re.fullmatch(r"(?:hi+|hey+|hello+|hlo+|namaste|namaskar|good morning|good afternoon|good evening)", normalized):
         return (
             "Namaste! 😊 Main DTS AI Assistant hoon. Aap yahan CCTV, networking, IT infrastructure, "
@@ -1947,6 +1952,57 @@ def chat_api():
             session["updated_at"] = time.time()
             return _json_response(mobile_error, session["state"])
 
+        # CCTV context follows the latest CCTV mention, even when the customer uses a pronoun
+        # ("unka number") or says "camera ki price" without repeating the product name.
+        cctv_terms = re.compile(r"\b(?:cctv|cameras?|ptz|nvr|dvr|security\s+cameras?)\b", re.IGNORECASE)
+        rack_terms_for_context = re.compile(r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", re.IGNORECASE)
+        other_terms_for_context = re.compile(
+            r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive|ssd|hdd|hard[ -]?disk|"
+            r"servers?|server\s+room|nas|ups|firewall|smart\s+tv|led\s+tv|televisions?)\b",
+            re.IGNORECASE
+        )
+        last_cctv_turn = max((i for i, item in enumerate(user_messages) if cctv_terms.search(str(item))), default=-1)
+        last_rack_turn = max((i for i, item in enumerate(user_messages) if rack_terms_for_context.search(str(item))), default=-1)
+        last_other_turn = max((i for i, item in enumerate(user_messages) if other_terms_for_context.search(str(item))), default=-1)
+        latest_has_cctv = bool(cctv_terms.search(latest_message))
+        cctv_is_active = last_cctv_turn >= 0 and last_cctv_turn > max(last_rack_turn, last_other_turn)
+        asks_contact = bool(re.search(
+            r"\b(?:number|contact|phone|mobile|call|sampark)\b|"
+            r"(?:number|no\.?|contact).{0,35}(?:mil|de|bata)|"
+            r"(?:mil|de|bata).{0,35}(?:number|contact|phone)",
+            latest_message, re.IGNORECASE
+        ))
+        if latest_has_cctv or cctv_is_active:
+            if asks_contact:
+                cctv_reply = (
+                    "Ji bilkul! Aap DTS team se **+91 83909 09845** par contact kar sakte hain. "
+                    "Outdoor CCTV ka exact model, price aur availability team confirm karegi."
+                )
+            elif _is_pricing_question(latest_message):
+                cctv_reply = (
+                    PRICING_REPLY + " Outdoor CCTV ke exact model aur price ke liye "
+                    "DTS team ko **+91 83909 09845** par contact karein. "
+                    "DTS catalogue mein Prizor 4MP Outdoor PoE IP Camera listed hai, "
+                    "lekin live stock aur exact price confirm karni hogi."
+                )
+            elif latest_has_cctv and re.search(
+                r"\b(?:milega|milta|available|stock|hai|hain|chahiye|outdoor|indoor)\b",
+                latest_message, re.IGNORECASE
+            ):
+                cctv_reply = (
+                    "Ji, DTS catalogue mein **Prizor 4MP Outdoor PoE IP Security Camera** listed hai. "
+                    "Live stock, exact model aur price DTS team se confirm karni hogi. "
+                    "Aapko sirf camera chahiye ya camera ke saath NVR/recording setup bhi?"
+                )
+            else:
+                cctv_reply = None
+            if cctv_reply:
+                session["history"].append({"role": "user", "content": latest_message})
+                session["history"].append({"role": "assistant", "content": cctv_reply})
+                session["history"] = session["history"][-MAX_STORED_TURNS:]
+                session["updated_at"] = time.time()
+                return _json_response(cctv_reply, session["state"])
+
         # Product education/availability questions must be answered before asking quantity.
         product_education_reply = _deterministic_product_education_reply(latest_message, user_messages)
         if product_education_reply and not (
@@ -1959,15 +2015,29 @@ def chat_api():
             session["updated_at"] = time.time()
             return _json_response(product_education_reply, session["state"], session.get("summary"))
 
-        # Keep Network Rack enquiries deterministic across category jumps and follow-ups.
-        # A later specific product request takes precedence over an earlier unrelated question.
+        # Resolve the latest explicit product before continuing a stateful rack flow.
+        # A newer CCTV/camera request must override an older rack enquiry.
         rack_terms = re.compile(r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", re.IGNORECASE)
         firewall_terms = re.compile(r"\bfirewalls?\b", re.IGNORECASE)
         tv_terms = re.compile(r"\b(?:smart\s+tv|led\s+tv|tvs?|televisions?|4k\s+uhd)\b", re.IGNORECASE)
+        cctv_terms = re.compile(r"\b(?:cctv|cameras?|ptz|nvr|dvr|security\s+cameras?)\b", re.IGNORECASE)
+        pen_terms = re.compile(r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b", re.IGNORECASE)
+        ssd_terms = re.compile(r"\b(?:ssd|solid[ -]?state[ -]?drive|nvme|m[.]?2[ -]?ssd)\b", re.IGNORECASE)
+        hdd_terms = re.compile(r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?)\b", re.IGNORECASE)
+        server_terms = re.compile(r"\b(?:servers?|server\s+room|nas)\b", re.IGNORECASE)
+        ups_terms = re.compile(r"\b(?:ups|uninterruptible\s+power\s+supply)\b", re.IGNORECASE)
         last_rack_index = max((i for i, item in enumerate(user_messages) if rack_terms.search(str(item))), default=-1)
         last_firewall_index = max((i for i, item in enumerate(user_messages) if firewall_terms.search(str(item))), default=-1)
         last_tv_index = max((i for i, item in enumerate(user_messages) if tv_terms.search(str(item))), default=-1)
-        rack_context = last_rack_index >= 0 and last_rack_index > max(last_firewall_index, last_tv_index)
+        last_cctv_index = max((i for i, item in enumerate(user_messages) if cctv_terms.search(str(item))), default=-1)
+        last_pen_index = max((i for i, item in enumerate(user_messages) if pen_terms.search(str(item))), default=-1)
+        last_ssd_index = max((i for i, item in enumerate(user_messages) if ssd_terms.search(str(item))), default=-1)
+        last_hdd_index = max((i for i, item in enumerate(user_messages) if hdd_terms.search(str(item))), default=-1)
+        last_server_index = max((i for i, item in enumerate(user_messages) if server_terms.search(str(item))), default=-1)
+        last_ups_index = max((i for i, item in enumerate(user_messages) if ups_terms.search(str(item))), default=-1)
+        last_other_product_index = max(last_firewall_index, last_tv_index, last_cctv_index, last_pen_index,
+                                       last_ssd_index, last_hdd_index, last_server_index, last_ups_index)
+        rack_context = last_rack_index >= 0 and last_rack_index > last_other_product_index
         latest_has_rack = bool(rack_terms.search(latest_message))
         if latest_has_rack or rack_context:
             combined_rack_text = " ".join(str(item) for item in user_messages)
