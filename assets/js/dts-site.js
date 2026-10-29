@@ -1243,8 +1243,8 @@
                 price: "Get Quote",
                 priceValue: 0,
                 stock: "Check Availability",
-                image: "https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/",
-                thumbnails: ["https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/"],
+                image: "https://m.media-amazon.com/images/I/81GAYQT8jlL.jpg",
+                thumbnails: ["https://m.media-amazon.com/images/I/81GAYQT8jlL.jpg"],
                 officialUrl: "https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/",
                 description: "HOC USB 3.0 four-port hub for HDD, SSD, pen drive, keyboard, mouse and other USB peripherals.",
                 specs: {"Brand":"HOC","Model":"ATRI","Ports":"4 × USB 3.0","Transfer":"Up to 5 Gbps","Use":"USB peripheral expansion"}
@@ -1258,8 +1258,8 @@
                 price: "Get Quote",
                 priceValue: 0,
                 stock: "Check Availability",
-                image: "https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/",
-                thumbnails: ["https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/"],
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOlMrbs8IAb7fcA9mX08ePX3Gp-kdkBsh9q0n-R5dkxg&s=10",
+                thumbnails: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOlMrbs8IAb7fcA9mX08ePX3Gp-kdkBsh9q0n-R5dkxg&s=10"],
                 officialUrl: "https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/",
                 description: "HOC USB audio adapter for computers, meetings, headsets and multimedia use.",
                 specs: {"Brand":"HOC","Model":"HUS7","Audio":"7.1CH USB Sound","Ports":"3.5mm audio + mic","Compatibility":"Windows / macOS / Linux"}
