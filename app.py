@@ -2091,7 +2091,20 @@ def chat_api():
                 "contact_number": phone,
                 "notes": "",
             }
-            if not u_size:
+            brand_question = bool(re.search(
+                r"\\b(?:which\\s+brand|what\\s+brand|brand\\s+(?:kaunsa|kaunsi|kya|name)|"
+                r"kaun\\s*sa\\s+brand|kaunsi?\\s+company|kis\\s+brand|konsa\\s+brand|"
+                r"kon\\s*sa\\s+brand|which\\s+company|what\\s+company)\\b|\\bbrand\\s*\\?",
+                latest_message, re.IGNORECASE
+            ))
+            if brand_question:
+                reply = (
+                    "DTS catalogue mein Network Rack ke liye METRAC brand listed hai. "
+                    "Catalogue mein wall-mount aur floor-standing rack options hain; exact model, "
+                    "availability aur quotation DTS team se confirm honge. "
+                    "Aapko wall-mount rack chahiye ya floor-standing?"
+                )
+            elif not u_size:
                 reply = "Ji, Network Rack ki requirement note kar li. Kaunsa U size chahiye—jaise 6U, 9U, 12U, 18U ya koi aur?"
             elif not rack_quantity:
                 reply = f"Ji, {u_size} Network Rack. Aapko kitne racks chahiye?"
