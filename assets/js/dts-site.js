@@ -386,17 +386,17 @@
             },
             {
                 id: 1003,
-                name: "Server & Network Rack Solution",
-                brand: "",
+                name: "METRAC Server & Network Rack Solutions",
+                brand: "Metrac",
                 category: "IT Infrastructure",
-                sku: "DTS-RACK-SYS",
+                sku: "METRAC-RACK-SOLUTIONS",
                 price: "Get Quote",
                 priceValue: 0,
                 stock: "On Request",
-                image: "https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1200&q=85",
-                thumbnails: ["https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1200&q=85"],
-                description: "Server and network rack planning with patch panels, cable management, PDU and equipment mounting.",
-                specs: { "Application": "Server Room / Network Room", "Includes": "Rack & Accessories", "Service": "Installation Available" }
+                image: "https://metrac.in/wp-content/uploads/2019/02/METRAC-1-654x494.jpg",
+                thumbnails: ["https://metrac.in/wp-content/uploads/2019/02/METRAC-1-654x494.jpg", "https://metrac.in/wp-content/uploads/2019/02/METRAC-03-654x494.jpg"],
+                description: "METRAC server and network rack solutions. Choose from the METRAC rack products listed in this catalogue; confirm exact configuration, dimensions, availability and quotation with DTS.",
+                specs: { "Brand": "METRAC", "Application": "Server Room / Network Room", "Solution": "Server & Network Rack Systems", "Quotation": "Requirement Based" }
             },
             {
                 id: 1004,
@@ -613,21 +613,6 @@
                 officialUrl: "",
                 description: "DTS-supplied server, NAS and storage infrastructure solution.",
                 specs: {"Solution":"Server / NAS / Storage","Capacity":"Requirement Based","Brand":"DTS Solution","Supply":"DTS"}
-            },
-            {
-                id: 3007,
-                name: "DTS Server Rack & IT Accessories",
-                brand: "DTS",
-                category: "IT Asset",
-                sku: "DTS-IT-RACK",
-                price: "Get Quote",
-                priceValue: 0,
-                stock: "Available on Request",
-                image: "https://www.racksolutions.com/news/app/uploads/AdobeStock_103754730-cables-4-scaled.jpeg",
-                thumbnails: ["https://www.racksolutions.com/news/app/uploads/AdobeStock_103754730-cables-4-scaled.jpeg","https://iis.vn/%40dmin/js/ckfinder/userfiles/images/DuAn/FWD/z1560594231406_a0a59c0d49a71719d733650ce6a76806.jpg"],
-                officialUrl: "",
-                description: "DTS-supplied server rack, patching, cable management and IT rack accessories.",
-                specs: {"Solution":"Server Rack / Accessories","Rack Size":"Requirement Based","Brand":"DTS Solution","Supply":"DTS"}
             },
             {
                 id: 3008,
@@ -3008,11 +2993,7 @@
 
                 description.innerHTML =
                     escapeHtml(descriptionText) +
-                    (product.officialUrl
-                        ? ' <a href="' + escapeHtml(product.officialUrl) +
-                          '" target="_blank" rel="noopener noreferrer" ' +
-                          'class="inline-flex items-center gap-1 mt-2 font-bold text-sky-700 underline underline-offset-2">View manufacturer details <i class="fa-solid fa-arrow-up-right-from-square"></i></a>'
-                        : '');
+                    '';
 
             }
             /* ABOUT THIS ITEM */
