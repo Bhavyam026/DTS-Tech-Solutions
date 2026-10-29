@@ -1243,6 +1243,58 @@
                 officialUrl: "https://metrac.in/service/outdoor-rack/",
                 description: "METRAC outdoor network enclosure for CCTV and networking installations. The manufacturer's website lists IP63 weather protection for its outdoor rack range; confirm the exact model and suitability with DTS.",
                 specs: { "Brand": "METRAC", "Type": "Outdoor Network Rack", "Protection": "IP63 listed for outdoor rack range", "Source": "metrac.in" }
+            },
+            {
+                id: 2035,
+                name: "HOC USB 3.0 Hub 4 Port – ATRI",
+                brand: "HOC",
+                category: "IT Asset",
+                sku: "ATRI",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "Check Availability",
+                image: "https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/",
+                thumbnails: ["https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/"],
+                officialUrl: "https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/",
+                description: "HOC USB 3.0 four-port hub for HDD, SSD, pen drive, keyboard, mouse and other USB peripherals.",
+                specs: {"Brand":"HOC","Model":"ATRI","Ports":"4 × USB 3.0","Transfer":"Up to 5 Gbps","Use":"USB peripheral expansion"}
+            },
+            {
+                id: 2036,
+                name: "HOC USB 7.1CH Sound Adapter – HUS7",
+                brand: "HOC",
+                category: "IT Asset",
+                sku: "HUS7",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "Check Availability",
+                image: "https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/",
+                thumbnails: ["https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/"],
+                officialUrl: "https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/",
+                description: "HOC USB audio adapter for computers, meetings, headsets and multimedia use.",
+                specs: {"Brand":"HOC","Model":"HUS7","Audio":"7.1CH USB Sound","Ports":"3.5mm audio + mic","Compatibility":"Windows / macOS / Linux"}
+            },
+            {
+                id: 2037,
+                name: "HOC HDMI Extender 200M KVM IP – HHE-200LKVM",
+                brand: "HOC",
+                category: "IT Infrastructure",
+                sku: "HHE-200LKVM",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "Check Availability",
+                image: "https://m.media-amazon.com/images/I/61ciWkNor0L._SX679_.jpg",
+                thumbnails: [
+                    "https://m.media-amazon.com/images/I/61ciWkNor0L._SX679_.jpg",
+                    "https://m.media-amazon.com/images/I/61K+Kv998lL._SX569_.jpg",
+                    "https://m.media-amazon.com/images/I/81ph346OB1L._SL1500_.jpg",
+                    "https://m.media-amazon.com/images/I/81qaOeA2sbL._SL1500_.jpg",
+                    "https://m.media-amazon.com/images/I/81ECgWmuQqL._SL1500_.jpg",
+                    "https://m.media-amazon.com/images/I/81mD-iKOlTL._SL1500_.jpg"
+                ],
+                officialUrl: "https://hoc-technologies.com/product/hdmi-extender-200m-kvm-ip-hdmiusbir-hhe-200lkvm/",
+                description: "HOC HDMI-over-Cat5e/6 extender for long-distance display, audio, IR and KVM control.",
+                specs: {"Brand":"HOC","Model":"HHE-200LKVM","Distance":"Up to 200m","Transport":"Single Cat5e/Cat6 cable","KVM":"USB mouse/keyboard support"}
             }
         ];
 
@@ -1540,59 +1592,7 @@
                 product.price,
                 product.stock
 
-        ,
-            {
-                id: 2035,
-                name: "HOC USB 3.0 Hub 4 Port – ATRI",
-                brand: "HOC",
-                category: "IT Asset",
-                sku: "ATRI",
-                price: "Get Quote",
-                priceValue: 0,
-                stock: "Check Availability",
-                image: "https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/",
-                thumbnails: ["https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/"],
-                officialUrl: "https://hoc-technologies.com/product/usb-3-0-hub-4-port-atri/",
-                description: "HOC USB 3.0 four-port hub for HDD, SSD, pen drive, keyboard, mouse and other USB peripherals.",
-                specs: {"Brand":"HOC","Model":"ATRI","Ports":"4 × USB 3.0","Transfer":"Up to 5 Gbps","Use":"USB peripheral expansion"}
-            },
-            {
-                id: 2036,
-                name: "HOC USB 7.1CH Sound Adapter – HUS7",
-                brand: "HOC",
-                category: "IT Asset",
-                sku: "HUS7",
-                price: "Get Quote",
-                priceValue: 0,
-                stock: "Check Availability",
-                image: "https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/",
-                thumbnails: ["https://image.thum.io/get/width/1200/crop/900/https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/"],
-                officialUrl: "https://hoc-technologies.com/product/usb-to-sound-7-1ch-adapter-hus7/",
-                description: "HOC USB audio adapter for computers, meetings, headsets and multimedia use.",
-                specs: {"Brand":"HOC","Model":"HUS7","Audio":"7.1CH USB Sound","Ports":"3.5mm audio + mic","Compatibility":"Windows / macOS / Linux"}
-            },
-            {
-                id: 2037,
-                name: "HOC HDMI Extender 200M KVM IP – HHE-200LKVM",
-                brand: "HOC",
-                category: "IT Infrastructure",
-                sku: "HHE-200LKVM",
-                price: "Get Quote",
-                priceValue: 0,
-                stock: "Check Availability",
-                image: "https://m.media-amazon.com/images/I/61ciWkNor0L._SX679_.jpg",
-                thumbnails: [
-                    "https://m.media-amazon.com/images/I/61ciWkNor0L._SX679_.jpg",
-                    "https://m.media-amazon.com/images/I/61K+Kv998lL._SX569_.jpg",
-                    "https://m.media-amazon.com/images/I/81ph346OB1L._SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/81qaOeA2sbL._SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/81ECgWmuQqL._SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/81mD-iKOlTL._SL1500_.jpg"
-                ],
-                officialUrl: "https://hoc-technologies.com/product/hdmi-extender-200m-kvm-ip-hdmiusbir-hhe-200lkvm/",
-                description: "HOC HDMI-over-Cat5e/6 extender for long-distance display, audio, IR and KVM control.",
-                specs: {"Brand":"HOC","Model":"HHE-200LKVM","Distance":"Up to 200m","Transport":"Single Cat5e/Cat6 cable","KVM":"USB mouse/keyboard support"}
-            }
+            
         ];
 
 
