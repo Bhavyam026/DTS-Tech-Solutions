@@ -1,0 +1,47 @@
+name: Generate Optimized DTS About Data Video
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/generate-about-data-video.py"
+      - ".github/workflows/dts-generate-about-video.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dts-about-data-video
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install video tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install pillow
+      - name: Generate compact looping video and poster
+        run: python scripts/generate-about-data-video.py
+      - name: Commit generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/dts-about-data-flow.mp4 assets/dts-about-data-poster.jpg
+          if git diff --cached --quiet; then
+            echo "Generated assets are already current."
+            exit 0
+          fi
+          git commit -m "Add optimized DTS About data-flow video"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
