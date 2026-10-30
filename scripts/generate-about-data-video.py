@@ -29,13 +29,15 @@ def curve_points(t, phase, lane):
 def make_frame(frame):
     phase = 2 * math.pi * frame / FRAMES
     base = Image.new("RGB", (W, H))
-    px = base.load()
+    draw_bg = ImageDraw.Draw(base)
     for y in range(H):
         k = y / H
-        c = (5 + int(2*k), 12 + int(10*k), 29 + int(20*k))
-        for x in range(W):
-            glow = max(0.0, 1 - math.sqrt(((x-W*0.53)/(W*0.85))**2 + ((y-H*0.48)/(H*0.9))**2))
-            px[x, y] = (c[0] + int(3*glow), c[1] + int(13*glow), c[2] + int(24*glow))
+        draw_bg.line((0, y, W, y), fill=(5 + int(2*k), 12 + int(10*k), 29 + int(20*k)))
+    radial = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    rd = ImageDraw.Draw(radial)
+    rd.ellipse((W*0.18, H*0.05, W*0.88, H*0.95), fill=(0, 92, 155, 48))
+    radial = radial.filter(ImageFilter.GaussianBlur(100))
+    base = Image.alpha_composite(base.convert("RGBA"), radial)
 
     grid = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     gd = ImageDraw.Draw(grid)
