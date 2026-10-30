@@ -1568,9 +1568,49 @@
 
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
     <script src="./assets/js/dts-site.js?v=20261030-cinematic-catalogue" defer></script>
+
+<style id="dts-premium-splash">
+#dtsSplash{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#102e49 0%,#071525 43%,#020711 100%);color:#effaff;opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
+#dtsSplash.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+#dtsSplash .splash-stars{position:absolute;inset:0;opacity:.42;background-image:radial-gradient(1px 1px at 12% 22%,#b9f5ff 99%,transparent),radial-gradient(1px 1px at 78% 18%,#b9f5ff 99%,transparent),radial-gradient(2px 2px at 86% 72%,#fff 99%,transparent),radial-gradient(1px 1px at 24% 81%,#b9f5ff 99%,transparent),radial-gradient(1px 1px at 58% 12%,#fff 99%,transparent);background-size:280px 240px}
+#dtsSplash .splash-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(103,232,249,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(103,232,249,.055) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,#000 10%,transparent 78%)}
+#dtsSplash .splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px}
+#dtsSplash .splash-earth-wrap{position:relative;width:clamp(150px,30vw,220px);aspect-ratio:1;margin-bottom:30px;display:grid;place-items:center}
+#dtsSplash .splash-earth{position:relative;width:78%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 32% 27%,rgba(166,243,255,.95),transparent 7%),radial-gradient(ellipse at 35% 38%,#36c6d8 0 9%,transparent 10%),radial-gradient(ellipse at 64% 60%,#1685a7 0 15%,transparent 16%),radial-gradient(ellipse at 40% 72%,#0c789b 0 12%,transparent 13%),radial-gradient(circle at 35% 30%,#2b9ebc,#075078 54%,#031a35 78%);box-shadow:inset -18px -12px 30px #020b20,inset 9px 8px 20px rgba(180,250,255,.35),0 0 38px rgba(34,211,238,.4),0 0 95px rgba(14,165,233,.2);animation:dtsEarthFloat 4s ease-in-out infinite}
+#dtsSplash .splash-earth:before{content:"";position:absolute;inset:-15%;border-radius:50%;background:repeating-linear-gradient(0deg,transparent 0 17px,rgba(164,243,255,.22) 18px,transparent 19px 35px),repeating-linear-gradient(90deg,transparent 0 22px,rgba(164,243,255,.17) 23px,transparent 24px 44px);transform:rotate(-18deg);mask-image:radial-gradient(circle,transparent 0 35%,#000 36% 70%,transparent 72%);animation:dtsEarthGrid 18s linear infinite}
+#dtsSplash .splash-earth:after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 35%,rgba(190,250,255,.3) 48%,transparent 59%)}
+#dtsSplash .splash-orbit{position:absolute;inset:4%;border:1px solid rgba(103,232,249,.5);border-radius:50%;transform:rotate(-24deg) scaleY(.38);box-shadow:0 0 16px rgba(34,211,238,.18);animation:dtsOrbit 7s linear infinite}
+#dtsSplash .splash-orbit:after{content:"";position:absolute;width:9px;height:9px;top:15%;right:12%;border-radius:50%;background:#a5f3fc;box-shadow:0 0 15px 4px #22d3ee}
+#dtsSplash .splash-logo{font-size:clamp(38px,8vw,58px);line-height:1;font-weight:900;letter-spacing:.16em;padding-left:.16em;background:linear-gradient(100deg,#fff 10%,#a5f3fc 48%,#38bdf8 85%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 35px rgba(34,211,238,.12)}
+#dtsSplash .splash-name{margin-top:13px;font-size:clamp(11px,2.5vw,14px);font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#e0f7ff}
+#dtsSplash .splash-tag{margin-top:9px;font-size:11px;letter-spacing:.12em;color:#8db7ca}
+#dtsSplash .splash-loader{width:118px;height:2px;margin-top:30px;border-radius:9px;background:rgba(148,213,230,.18);overflow:hidden}
+#dtsSplash .splash-loader:after{content:"";display:block;width:42%;height:100%;border-radius:9px;background:linear-gradient(90deg,#22d3ee,#fff);box-shadow:0 0 12px #22d3ee;animation:dtsSplashLoad 1.65s ease-in-out forwards}
+#dtsSplash .splash-foot{margin-top:14px;font-size:9px;font-weight:800;letter-spacing:.24em;color:#5f91a8;text-transform:uppercase}
+@keyframes dtsEarthFloat{50%{transform:translateY(-7px) rotate(3deg)}}
+@keyframes dtsEarthGrid{to{transform:rotate(342deg)}}
+@keyframes dtsOrbit{to{transform:rotate(336deg) scaleY(.38)}}
+@keyframes dtsSplashLoad{from{transform:translateX(-110%)}to{transform:translateX(250%)}}
+@media(max-width:480px){#dtsSplash .splash-earth-wrap{margin-bottom:24px}#dtsSplash .splash-tag{font-size:10px;letter-spacing:.06em}}
+@media(prefers-reduced-motion:reduce){#dtsSplash .splash-earth,#dtsSplash .splash-orbit,#dtsSplash .splash-earth:before,#dtsSplash .splash-loader:after{animation:none!important}}
+</style>
+
 </head>
 
 <body>
+
+    <div id="dtsSplash" role="status" aria-label="Dynamic Technology Solutions loading">
+        <div class="splash-stars" aria-hidden="true"></div><div class="splash-grid" aria-hidden="true"></div>
+        <div class="splash-content">
+            <div class="splash-earth-wrap" aria-hidden="true"><div class="splash-orbit"></div><div class="splash-earth"></div></div>
+            <div class="splash-logo">DTS</div>
+            <div class="splash-name">Dynamic Technology Solutions</div>
+            <div class="splash-tag">Connecting Technology. Securing Tomorrow.</div>
+            <div class="splash-loader" aria-hidden="true"></div>
+            <div class="splash-foot">SECURITY · NETWORKING · IT SOLUTIONS</div>
+        </div>
+    </div>
+
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <video id="dtsFestivalBackdrop" class="dts-festival-video-source" muted autoplay loop playsinline preload="none" aria-hidden="true">
         <source src="./assets/dts-festival-backdrop.mp4" type="video/mp4">
@@ -3180,6 +3220,26 @@
          ============================================================ -->
 
     <!-- Site logic is loaded as a deferred, cacheable asset. -->
+
+
+    <script>
+    (function () {
+        var splash = document.getElementById('dtsSplash');
+        if (!splash) return;
+        try {
+            if (sessionStorage.getItem('dtsSplashSeen') === '1') {
+                splash.remove();
+                return;
+            }
+            sessionStorage.setItem('dtsSplashSeen', '1');
+        } catch (e) {}
+        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.setTimeout(function () {
+            splash.classList.add('is-leaving');
+            window.setTimeout(function () { splash.remove(); }, 700);
+        }, reduced ? 350 : 1850);
+    })();
+    </script>
 
 </body>
 </html>
