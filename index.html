@@ -1607,6 +1607,7 @@
       function sendDTSContactForm(event) {
         event.preventDefault();
         const form = event.currentTarget;
+        document.getElementById("dts-enquiry-mobile").setCustomValidity("");
         if (!form.reportValidity()) return false;
         const data = new FormData(form);
         const mobile = String(data.get("mobile") || "").replace(/\D/g, "");
