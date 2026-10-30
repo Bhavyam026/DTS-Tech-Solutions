@@ -4701,21 +4701,26 @@ Thank you.`;
             scheduleCatalogueInitialization();
             updateAIGreeting();
 
-            // Start external festival-calendar requests after the initial render.
-            // Fixed-date decorations remain available while live dates are fetched.
-            window.setTimeout(loadDTSFestivalCalendar, 1500);
-
-            // Keep the greeting and decorations current if the page stays open
-            // across midnight, and refresh the date on a visitor returning to the tab.
-            window.setInterval(function () {
-                updateAIGreeting();
-                loadDTSFestivalCalendar();
-            }, 6 * 60 * 60 * 1000);
-            document.addEventListener('visibilitychange', function () {
-                if (!document.hidden) {
-                    updateAIGreeting();
-                    loadDTSFestivalCalendar();
+            // Fetch the optional live festival calendar only after the page has loaded
+            // and the browser is idle. The offline calendar keeps greetings available meanwhile.
+            const scheduleFestivalCalendarRefresh = function () {
+                const run = function () { loadDTSFestivalCalendar(); };
+                if (typeof window.requestIdleCallback === 'function') {
+                    window.requestIdleCallback(run, { timeout: 10000 });
+                } else {
+                    window.setTimeout(run, 8000);
                 }
+            };
+            if (document.readyState === 'complete') {
+                scheduleFestivalCalendarRefresh();
+            } else {
+                window.addEventListener('load', scheduleFestivalCalendarRefresh, { once: true });
+            }
+
+            // Update only the local greeting on a long-open tab; avoid repeated API requests.
+            window.setInterval(updateAIGreeting, 6 * 60 * 60 * 1000);
+            document.addEventListener('visibilitychange', function () {
+                if (!document.hidden) updateAIGreeting();
             });
 
             initializeDTSScrollEffects();
@@ -4768,6 +4773,10 @@ Thank you.`;
 
         /* Reveal content gently as the visitor scrolls; leave it visible if unsupported. */
         function initializeDTSScrollEffects() {
+            // On phones, avoid creating an observer for every catalogue card.
+            if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+                return;
+            }
             if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 return;
             }
