@@ -1566,43 +1566,35 @@
            PRODUCT SEARCH TEXT
            ========================================================= */
 
+        function normalizeSearchText(value) {
+            return String(value || '')
+                .normalize('NFD')
+                .replace(/[\\u0300-\\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim()
+                .replace(/\\s+/g, ' ');
+        }
+
         function getProductSearchText(product) {
+            if (!product) return '';
 
-            if (!product) {
-                return '';
+            const parts = [
+                product.name, product.brand, product.category, product.sku,
+                product.description, product.price, product.stock,
+                product.model, product.type, product.application
+            ];
+
+            if (product.specs && typeof product.specs === 'object') {
+                Object.keys(product.specs).forEach(function(key) {
+                    const value = product.specs[key];
+                    // Do not expose manufacturer source URLs as searchable catalogue content.
+                    if (/^source$/i.test(key) && /metrac\\.in/i.test(String(value || ''))) return;
+                    parts.push(key, value);
+                });
             }
 
-            let text = [
-
-                product.name,
-                product.brand,
-                product.category,
-                product.sku,
-                product.description,
-                product.price,
-                product.stock
-
-            
-        ];
-
-
-            if (product.specs) {
-
-                Object.keys(product.specs)
-                    .forEach(function(key) {
-
-                        text.push(key);
-                        text.push(product.specs[key]);
-
-                    });
-
-            }
-
-            return text
-                .filter(Boolean)
-                .join(' ')
-                .toLowerCase();
-
+            return normalizeSearchText(parts.filter(Boolean).join(' '));
         }
 
 
@@ -1611,14 +1603,14 @@
            ========================================================= */
 
         function productMatchesSearch(product, query) {
+            const normalizedQuery = normalizeSearchText(query);
+            if (!normalizedQuery) return true;
 
-            if (!query) {
-                return true;
-            }
-
-            return getProductSearchText(product)
-                .includes(query.toLowerCase().trim());
-
+            const haystack = getProductSearchText(product);
+            // Match every typed word independently, so "4mp outdoor camera"
+            // works even when those words are separated in the product data.
+            return normalizedQuery.split(' ').filter(Boolean)
+                .every(function(token) { return haystack.includes(token); });
         }
 
 
@@ -3095,9 +3087,11 @@
         function createModalSpecs(product) {
 
             const specEntries =
-                Object.entries(
-                    product.specs || {}
-                );
+                Object.entries(product.specs || {}).filter(function(entry) {
+                    // Hide the unwanted "Source: metrac.in" attribution in product details.
+                    return !(/^source$/i.test(String(entry[0])) &&
+                        /metrac\\.in/i.test(String(entry[1] || '')));
+                });
 
 
             if (specEntries.length === 0) {
