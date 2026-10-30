@@ -1602,7 +1602,7 @@
 </style>
 
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
-    <script src="./assets/js/dts-site.js?v=20261030-cinematic-catalogue" defer></script>
+    <script src="./assets/js/dts-site.js?v=20261030-enquiry-visibility-fix" defer></script>
 
     <script>
       function sendDTSContactForm(event) {
@@ -1792,6 +1792,14 @@
       }
     </style>
 
+
+<style id="dts-quick-enquiry-visibility-fix">
+/* Ensure typed enquiry text remains visible across browsers and if utility CSS is unavailable. */
+#dts-enquiry-name,#dts-enquiry-mobile,#dts-enquiry-location,#dts-enquiry-category,#dts-enquiry-message{color:#0f172a!important;-webkit-text-fill-color:#0f172a!important;caret-color:#0891b2!important;background-color:#fff!important;opacity:1!important;font-size:16px!important;line-height:1.5!important;text-shadow:none!important}
+#dts-enquiry-name::placeholder,#dts-enquiry-mobile::placeholder,#dts-enquiry-location::placeholder,#dts-enquiry-message::placeholder{color:#64748b!important;-webkit-text-fill-color:#64748b!important;opacity:1!important}
+#dts-enquiry-name:focus,#dts-enquiry-mobile:focus,#dts-enquiry-location:focus,#dts-enquiry-category:focus,#dts-enquiry-message:focus{outline:2px solid rgba(8,145,178,.35)!important;outline-offset:1px;border-color:#0891b2!important}
+#dts-enquiry-category option{color:#0f172a;background:#fff}
+</style>
 </head>
 
 <body>
