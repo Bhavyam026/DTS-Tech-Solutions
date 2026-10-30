@@ -742,7 +742,9 @@ def _json_response(reply, state, summary=None, whatsapp_draft_url=None):
 # Cache public festival calendar responses to avoid repeatedly calling the upstream
 # provider for every website visitor. This cache is process-local and non-sensitive.
 _FESTIVAL_CACHE_TTL_SECONDS = 6 * 60 * 60
+_FESTIVAL_FAILURE_CACHE_TTL_SECONDS = 6 * 60 * 60
 _festival_cache = {}
+_festival_failure_cache = {}
 _festival_cache_lock = threading.Lock()
 
 
@@ -765,6 +767,9 @@ def festival_calendar():
         cached = _festival_cache.get(cache_key)
         if cached and now - cached["stored_at"] < _FESTIVAL_CACHE_TTL_SECONDS:
             return jsonify(cached["payload"])
+        failed = _festival_failure_cache.get(cache_key)
+        if failed and now - failed["stored_at"] < _FESTIVAL_FAILURE_CACHE_TTL_SECONDS:
+            return jsonify(failed["payload"]), failed["status"]
 
     url = f"https://astrotathya.com/api/festivals?year={year}&city=mumbai"
     try:
@@ -790,10 +795,20 @@ def festival_calendar():
 
     if not upstream.ok:
         app.logger.warning("Festival calendar provider returned HTTP %s.", upstream.status_code)
-        return jsonify({
+        error_payload = {
             "error": "Festival calendar is temporarily unavailable.",
             "error_code": "FESTIVAL_PROVIDER_UNAVAILABLE",
-        }), 502
+        }
+        # Cache upstream failures too: a blocked provider must not be called again
+        # for every visitor/page refresh. The six-hour cooldown matches the
+        # successful-response cache and automatically retries later.
+        with _festival_cache_lock:
+            _festival_failure_cache[cache_key] = {
+                "stored_at": time.time(),
+                "payload": error_payload,
+                "status": 503,
+            }
+        return jsonify(error_payload), 503
 
     try:
         payload = upstream.json()
