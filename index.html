@@ -1609,8 +1609,8 @@
         const form = event.currentTarget;
         if (!form.reportValidity()) return false;
         const data = new FormData(form);
-        const mobile = String(data.get("mobile") || "").replace(/\\D/g, "");
-        if (!/^[6-9]\\d{9}$/.test(mobile)) {
+        const mobile = String(data.get("mobile") || "").replace(/\D/g, "");
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
           document.getElementById("dts-enquiry-mobile").setCustomValidity("Enter a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9.");
           document.getElementById("dts-enquiry-mobile").reportValidity();
           return false;
@@ -1623,7 +1623,7 @@
           "Location: " + data.get("location"),
           "Requirement: " + data.get("category"),
           "Details: " + data.get("message")
-        ].join("\\n");
+        ].join("\n");
         window.open("https://wa.me/918390909845?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
         return false;
       }
