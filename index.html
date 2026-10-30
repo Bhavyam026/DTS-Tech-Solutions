@@ -1517,6 +1517,55 @@
 @media(prefers-reduced-motion:reduce){.dts-data-flow *,.dts-data-flow:before,.dts-data-flow:after{animation:none!important;transition:none!important}}
 </style>
 
+
+<style id="dts-cinematic-catalogue">
+/* Premium product discovery experience */
+.dts-catalogue-shell{position:relative;isolation:isolate;overflow:hidden;color:#e7f2ff;background:radial-gradient(ellipse at 12% 8%,rgba(14,165,233,.16),transparent 34%),radial-gradient(ellipse at 88% 42%,rgba(6,182,212,.11),transparent 32%),linear-gradient(145deg,#07101f 0%,#0b1729 48%,#07111f 100%)}
+.dts-catalogue-shell:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.16;background-image:linear-gradient(rgba(125,211,252,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(125,211,252,.13) 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(180deg,#000,transparent 86%)}
+.dts-catalogue-shell:after{content:"";position:absolute;z-index:-1;top:5%;left:-12%;width:44vw;height:44vw;max-width:520px;max-height:520px;border:1px solid rgba(56,189,248,.12);border-radius:50%;box-shadow:0 0 0 42px rgba(56,189,248,.025),0 0 0 90px rgba(56,189,248,.018);pointer-events:none}
+.dts-catalogue-shell .text-slate-900{color:#f0f9ff!important}
+.dts-catalogue-shell .text-slate-600,.dts-catalogue-shell .text-slate-500{color:#9fb3c9!important}
+.dts-catalogue-shell .text-sky-700{color:#67e8f9!important}
+.dts-catalogue-shell #productCount{background:rgba(8,47,73,.75);border:1px solid rgba(103,232,249,.25);color:#cffafe}
+.dts-catalogue-shell .category-button{background:rgba(15,31,52,.82)!important;border-color:rgba(148,163,184,.22)!important;color:#cbd5e1!important}
+.dts-catalogue-shell .category-button:hover{border-color:rgba(103,232,249,.6)!important;color:#ecfeff!important}
+.dts-catalogue-shell .category-button.active{background:linear-gradient(110deg,#0891b2,#2563eb)!important;border-color:#67e8f9!important;color:#fff!important;box-shadow:0 7px 22px rgba(8,145,178,.24)}
+.dts-catalogue-shell .product-card{background:linear-gradient(155deg,rgba(18,37,61,.98),rgba(9,22,39,.98));border:1px solid rgba(125,211,252,.16);box-shadow:0 12px 34px rgba(0,0,0,.22);color:#eaf6ff;cursor:pointer;transform:translateZ(0)}
+.dts-catalogue-shell .product-card:before{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;background:linear-gradient(115deg,transparent 25%,rgba(125,211,252,.10) 48%,transparent 70%);transform:translateX(-130%);transition:transform .75s ease}
+.dts-catalogue-shell .product-card:hover:before{transform:translateX(130%)}
+.dts-catalogue-shell .product-card:hover{transform:translateY(-8px);border-color:rgba(103,232,249,.58);box-shadow:0 24px 55px rgba(0,0,0,.38),0 0 0 1px rgba(34,211,238,.08)}
+.dts-catalogue-shell .product-image-area{height:245px;background:radial-gradient(ellipse at 50% 58%,rgba(14,165,233,.20),transparent 56%),linear-gradient(145deg,#132b45,#091526)!important;border-bottom:1px solid rgba(125,211,252,.13)}
+.dts-catalogue-shell .product-image-area:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(2,8,23,.08),transparent 45%,rgba(2,8,23,.22))}
+.dts-catalogue-shell .product-image-area img{position:relative;z-index:1;object-fit:contain!important;padding:18px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.3));transition:transform .55s cubic-bezier(.2,.75,.25,1),filter .4s ease}
+.dts-catalogue-shell .product-card:hover .product-image-area img{transform:scale(1.075) translateY(-3px);filter:drop-shadow(0 18px 22px rgba(0,0,0,.42))}
+.dts-catalogue-shell .product-badge{background:rgba(3,15,30,.82);border:1px solid rgba(125,211,252,.18);color:#dff8ff;backdrop-filter:blur(8px)}
+.dts-catalogue-shell .product-category-badge{backdrop-filter:blur(8px)}
+.dts-catalogue-shell .product-content{padding:19px}
+.dts-catalogue-shell .product-title{color:#f0f9ff}
+.dts-catalogue-shell .product-title:hover{color:#67e8f9}
+.dts-catalogue-shell .product-description{color:#a9bdd1}
+.dts-catalogue-shell .product-sku{color:#7f9bb5}
+.dts-catalogue-shell .product-spec-item{border-color:rgba(148,163,184,.13)}
+.dts-catalogue-shell .product-spec-key{color:#8fa9c1}
+.dts-catalogue-shell .product-spec-value{color:#d9f5ff}
+.dts-catalogue-shell .amazon-price{color:#f0fdff}
+.dts-catalogue-shell .amazon-subtext{color:#8fa9c1}
+.dts-catalogue-shell .product-content .border-slate-100{border-color:rgba(148,163,184,.17)!important}
+.dts-catalogue-shell .amazon-button{background:linear-gradient(110deg,#0891b2,#2563eb);box-shadow:0 6px 18px rgba(8,145,178,.2)}
+.dts-catalogue-shell .amazon-button:hover{background:linear-gradient(110deg,#06b6d4,#3b82f6);box-shadow:0 8px 22px rgba(8,145,178,.32)}
+.dts-catalogue-shell .product-image-overlay{background:linear-gradient(180deg,rgba(2,8,23,.04),rgba(2,8,23,.64))}
+.dts-catalogue-shell .product-view-button{background:rgba(8,47,73,.9);border:1px solid rgba(103,232,249,.48);color:#ecfeff;backdrop-filter:blur(10px);transform:translateY(12px);transition:transform .3s ease}
+.dts-catalogue-shell .product-card:hover .product-view-button{transform:translateY(0)}
+.dts-catalogue-shell #noProducts{background:rgba(15,31,52,.7);border-color:rgba(148,163,184,.2)}
+.dts-catalogue-shell #noProducts h3{color:#f0f9ff}
+.dts-catalogue-shell #noProducts p{color:#9fb3c9}
+#productModal .modal-container{animation:dtsProductModalIn .38s cubic-bezier(.2,.8,.2,1) both}
+#productModal .modal-main-image-wrap,#productModal .modal-main-image{background:radial-gradient(ellipse at 50% 50%,#e8f8ff 0%,#dbeafe 50%,#f1f5f9 100%)}
+@keyframes dtsProductModalIn{from{opacity:0;transform:translateY(24px) scale(.975)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:640px){.dts-catalogue-shell{padding-top:38px;padding-bottom:38px}.dts-catalogue-shell .product-image-area{height:220px}.dts-catalogue-shell .product-content{padding:16px}}
+@media(prefers-reduced-motion:reduce){.dts-catalogue-shell .product-card,.dts-catalogue-shell .product-card:before,.dts-catalogue-shell .product-image-area img,#productModal .modal-container{animation:none!important;transition:none!important}}
+</style>
+
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
     <script src="./assets/js/dts-site.js?v=20261029-hoc-images" defer></script>
 </head>
@@ -2165,7 +2214,7 @@
          CATALOGUE SECTION START
          ============================================================ -->
 
-    <section id="catalogue" class="py-14 sm:py-16 bg-white">
+    <section id="catalogue" class="dts-catalogue-shell py-14 sm:py-16">
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
