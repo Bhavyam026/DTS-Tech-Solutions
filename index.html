@@ -1621,6 +1621,24 @@
 @keyframes dtsAboutPulse{0%,100%{box-shadow:0 0 0 9px rgba(34,211,238,.04),0 0 25px rgba(34,211,238,.3)}50%{box-shadow:0 0 0 17px rgba(34,211,238,.08),0 0 46px rgba(34,211,238,.6)}}
 @media(max-width:760px){.dts-about-scene{opacity:.5}.dts-about-data-node{font-size:8px;padding:7px 8px}.dts-about-data-node.node-a{left:3%;top:8%}.dts-about-data-node.node-b{right:3%;top:9%}.dts-about-data-node.node-c{left:3%;bottom:8%}.dts-about-data-node.node-d{right:3%;bottom:8%}.dts-about-core{width:42px;height:42px;font-size:16px}}
 @media(prefers-reduced-motion:reduce){.dts-about-scene:after,.dts-about-beam,.dts-about-packet,.dts-about-data-node,.dts-about-core{animation:none!important}}
+
+/* Make the orbiting About category nodes interactive product shortcuts. */
+.dts-about-scene{pointer-events:none}
+.dts-about-data-node{
+  pointer-events:auto;cursor:pointer;font:inherit;text-align:left;
+  appearance:none;-webkit-appearance:none;z-index:4;
+  transition:border-color .22s ease,box-shadow .22s ease,background .22s ease,scale .22s ease;
+}
+.dts-about-data-node:hover,.dts-about-data-node:focus-visible{
+  border-color:rgba(103,232,249,.9);background:rgba(7,35,59,.96);
+  box-shadow:0 0 0 3px rgba(34,211,238,.12),0 0 32px rgba(34,211,238,.3);
+  scale:1.06;
+}
+.dts-node-hint{font-size:7px;font-weight:900;letter-spacing:.12em;color:#67e8f9;opacity:0;max-width:0;overflow:hidden;white-space:nowrap;transition:opacity .2s ease,max-width .2s ease}
+.dts-about-data-node:hover .dts-node-hint,.dts-about-data-node:focus-visible .dts-node-hint{opacity:1;max-width:90px}
+@media(max-width:760px){.dts-node-hint{display:none}.dts-about-data-node{min-height:34px}}
+@media(prefers-reduced-motion:reduce){.dts-about-data-node{transition:none!important}}
+
 </style>
 
 
@@ -2964,15 +2982,15 @@
          ============================================================ -->
 
     <section id="about" class="dts-about-cinematic py-14 sm:py-16">
-        <div class="dts-about-scene" aria-hidden="true">
-            <span class="dts-about-beam beam-a"></span><span class="dts-about-beam beam-b"></span>
-            <span class="dts-about-beam beam-c"></span><span class="dts-about-packet packet-a"></span>
-            <span class="dts-about-packet packet-b"></span><span class="dts-about-packet packet-c"></span>
-            <span class="dts-about-data-node node-a"><i class="fa-solid fa-video"></i><b>CCTV</b></span>
-            <span class="dts-about-data-node node-b"><i class="fa-solid fa-server"></i><b>NETWORK</b></span>
-            <span class="dts-about-data-node node-c"><i class="fa-solid fa-bolt"></i><b>POWER</b></span>
-            <span class="dts-about-data-node node-d"><i class="fa-solid fa-shield-halved"></i><b>SAFETY</b></span>
-            <span class="dts-about-core"><i class="fa-solid fa-network-wired"></i></span>
+        <div class="dts-about-scene" aria-label="Explore DTS product categories">
+            <span class="dts-about-beam beam-a" aria-hidden="true"></span><span class="dts-about-beam beam-b" aria-hidden="true"></span>
+            <span class="dts-about-beam beam-c" aria-hidden="true"></span><span class="dts-about-packet packet-a" aria-hidden="true"></span>
+            <span class="dts-about-packet packet-b" aria-hidden="true"></span><span class="dts-about-packet packet-c" aria-hidden="true"></span>
+            <button type="button" class="dts-about-data-node node-a" aria-label="View CCTV products" onclick="setCategoryFilter('CCTV &amp; Surveillance'); document.getElementById('catalogue').scrollIntoView({behavior:'smooth'});"><i class="fa-solid fa-video" aria-hidden="true"></i><b>CCTV</b><span class="dts-node-hint">VIEW PRODUCTS</span></button>
+            <button type="button" class="dts-about-data-node node-b" aria-label="View networking products" onclick="setCategoryFilter('Networking'); document.getElementById('catalogue').scrollIntoView({behavior:'smooth'});"><i class="fa-solid fa-server" aria-hidden="true"></i><b>NETWORK</b><span class="dts-node-hint">VIEW PRODUCTS</span></button>
+            <button type="button" class="dts-about-data-node node-c" aria-label="View electrical products" onclick="setCategoryFilter('Electrical'); document.getElementById('catalogue').scrollIntoView({behavior:'smooth'});"><i class="fa-solid fa-bolt" aria-hidden="true"></i><b>POWER</b><span class="dts-node-hint">VIEW PRODUCTS</span></button>
+            <button type="button" class="dts-about-data-node node-d" aria-label="View fire safety products" onclick="setCategoryFilter('Fire Safety'); document.getElementById('catalogue').scrollIntoView({behavior:'smooth'});"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><b>SAFETY</b><span class="dts-node-hint">VIEW PRODUCTS</span></button>
+            <span class="dts-about-core" aria-hidden="true"><i class="fa-solid fa-network-wired"></i></span>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 dts-about-content">
 
