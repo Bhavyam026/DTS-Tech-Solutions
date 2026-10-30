@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bhavyam026.github.io/DTS-Tech-Solutions/sitemap.xml
