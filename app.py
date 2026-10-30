@@ -12,7 +12,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
 
-ALLOWED_BROWSER_ORIGINS = {"https://bhavyam026.github.io"}
+ALLOWED_BROWSER_ORIGINS = {"https://bhavyam026.github.io", "https://dtsboisar.pages.dev"}
 
 @app.after_request
 def add_security_headers(response):
@@ -26,7 +26,7 @@ def add_security_headers(response):
         response.headers["Pragma"] = "no-cache"
     return response
 
-# Only the published DTS GitHub Pages origin may call the JSON API from a browser.
+# Only the published DTS website origins may call the JSON API from a browser.
 CORS(
     app,
     resources={
