@@ -1840,7 +1840,11 @@
                 <article
                     class="product-card fade-in"
                     data-product-id="${escapeHtml(product.id)}"
-                    onclick="openProductModal(${Number(product.id)})">
+                    role="button"
+                    tabindex="0"
+                    aria-label="View details for ${escapeHtml(product.name)}"
+                    onclick="openProductModal(${Number(product.id)})"
+                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProductModal(${Number(product.id)})}">
 
 
                     <!-- IMAGE -->
