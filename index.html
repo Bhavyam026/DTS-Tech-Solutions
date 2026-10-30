@@ -1623,6 +1623,98 @@
 @media(prefers-reduced-motion:reduce){.dts-about-scene:after,.dts-about-beam,.dts-about-packet,.dts-about-data-node,.dts-about-core{animation:none!important}}
 </style>
 
+
+    <style id="dts-cinematic-light-sections-v1">
+      /* Animated navy/cyan treatment for the remaining light sections. */
+      #solutions, #contact {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        color: #eaf7ff;
+        background:
+          radial-gradient(ellipse at 12% 18%, rgba(8,145,178,.19), transparent 38%),
+          radial-gradient(ellipse at 88% 82%, rgba(37,99,235,.18), transparent 40%),
+          linear-gradient(125deg,#030916 0%,#0a1b30 52%,#061326 100%) !important;
+      }
+      #solutions::before, #contact::before {
+        content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+        opacity:.24;
+        background-image:linear-gradient(rgba(103,232,249,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(103,232,249,.18) 1px,transparent 1px);
+        background-size:46px 46px;
+        mask-image:radial-gradient(ellipse at center,#000 8%,transparent 85%);
+      }
+      #solutions::after, #contact::after {
+        content:""; position:absolute; z-index:-1; pointer-events:none;
+        top:-30%; bottom:-30%; left:-65%; width:55%;
+        background:linear-gradient(105deg,transparent,rgba(34,211,238,.10),rgba(103,232,249,.28),transparent);
+        transform:skewX(-18deg); animation:dtsSectionLightSweep 10s ease-in-out infinite;
+      }
+      #solutions > div, #contact > div { position:relative; z-index:1; }
+      #solutions h2, #contact h2, #solutions .text-slate-900, #contact .text-slate-900 { color:#f0f9ff !important; }
+      #solutions p, #solutions .text-slate-600, #solutions .text-slate-500,
+      #contact .text-slate-500, #contact .text-slate-600 { color:#b6c9dc !important; }
+      #solutions .text-sky-700, #contact .text-sky-700 { color:#67e8f9 !important; }
+      #solutions .category-card {
+        color:#eaf7ff !important;
+        background:linear-gradient(145deg,rgba(10,31,52,.94),rgba(7,19,36,.96)) !important;
+        border:1px solid rgba(103,232,249,.22) !important;
+        box-shadow:0 14px 34px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.045);
+        transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease;
+      }
+      #solutions .category-card:hover {
+        transform:translateY(-6px);
+        border-color:rgba(103,232,249,.7) !important;
+        box-shadow:0 18px 42px rgba(8,145,178,.18),0 0 24px rgba(34,211,238,.10);
+      }
+      #solutions .category-card .text-slate-500 { color:#a9bfd2 !important; }
+      #solutions .category-icon {
+        background:linear-gradient(145deg,rgba(8,145,178,.30),rgba(30,64,175,.22)) !important;
+        color:#67e8f9 !important;
+        border:1px solid rgba(103,232,249,.24);
+        box-shadow:0 0 22px rgba(34,211,238,.12);
+      }
+      #contact a, #contact > div > div > div {
+        background:linear-gradient(145deg,rgba(10,31,52,.92),rgba(7,19,36,.96)) !important;
+        border-color:rgba(103,232,249,.20) !important;
+        box-shadow:0 12px 30px rgba(0,0,0,.20);
+        transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+      }
+      #contact a:hover {
+        transform:translateY(-5px);
+        border-color:rgba(103,232,249,.65) !important;
+        box-shadow:0 18px 38px rgba(8,145,178,.16);
+      }
+      #contact .bg-green-50 { background:rgba(22,163,74,.15) !important; }
+      #contact .bg-sky-50 { background:rgba(14,165,233,.15) !important; }
+      #contact .bg-slate-100 { background:rgba(148,163,184,.13) !important; }
+      /* Catalogue brand filter strip: keep its controls visible on the dark surface. */
+      .category-scroll .brand-button {
+        color:#dff7ff !important;
+        background:rgba(8,25,44,.94) !important;
+        border-color:rgba(103,232,249,.25) !important;
+      }
+      .category-scroll .brand-button.active,
+      .category-scroll .brand-button:hover {
+        color:#041321 !important;
+        background:linear-gradient(110deg,#67e8f9,#38bdf8) !important;
+        border-color:#67e8f9 !important;
+        box-shadow:0 0 20px rgba(34,211,238,.20);
+      }
+      @keyframes dtsSectionLightSweep {
+        0%,12% { transform:translateX(0) skewX(-18deg); opacity:0; }
+        35% { opacity:1; }
+        70%,100% { transform:translateX(340%) skewX(-18deg); opacity:0; }
+      }
+      @media(max-width:640px) {
+        #solutions, #contact { background-position:center; }
+        #solutions::after, #contact::after { width:85%; }
+      }
+      @media(prefers-reduced-motion:reduce) {
+        #solutions::after, #contact::after { animation:none !important; }
+        #solutions .category-card, #contact a { transition:none !important; }
+      }
+    </style>
+
 </head>
 
 <body>
