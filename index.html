@@ -22,6 +22,37 @@
 
     <meta name="author" content="Dynamic Technology Solutions">
 
+    <link rel="canonical" href="https://bhavyam026.github.io/DTS-Tech-Solutions/">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Dynamic Technology Solutions">
+    <meta property="og:title" content="Dynamic Technology Solutions | CCTV, Networking & IT Solutions">
+    <meta property="og:description" content="CCTV, networking, IT infrastructure, electrical, fire safety and maintenance solutions in Boisar and Palghar.">
+    <meta property="og:url" content="https://bhavyam026.github.io/DTS-Tech-Solutions/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Dynamic Technology Solutions | DTS">
+    <meta name="twitter:description" content="Security, networking and technical solutions in Boisar, Maharashtra.">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Dynamic Technology Solutions",
+      "alternateName": "DTS",
+      "url": "https://bhavyam026.github.io/DTS-Tech-Solutions/",
+      "email": "dtsboisar@gmail.com",
+      "telephone": "+91 83909 09845",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Boisar",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "areaServed": ["Boisar", "Palghar", "Mumbai", "Thane", "Navi Mumbai"],
+      "sameAs": ["https://www.instagram.com/dts.techsolutions/"]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet"
@@ -1571,6 +1602,32 @@
 
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
     <script src="./assets/js/dts-site.js?v=20261030-cinematic-catalogue" defer></script>
+
+    <script>
+      function sendDTSContactForm(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+        if (!form.reportValidity()) return false;
+        const data = new FormData(form);
+        const mobile = String(data.get("mobile") || "").replace(/\\D/g, "");
+        if (!/^[6-9]\\d{9}$/.test(mobile)) {
+          document.getElementById("dts-enquiry-mobile").setCustomValidity("Enter a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9.");
+          document.getElementById("dts-enquiry-mobile").reportValidity();
+          return false;
+        }
+        document.getElementById("dts-enquiry-mobile").setCustomValidity("");
+        const message = [
+          "Hello DTS, I would like to make an enquiry.",
+          "Name: " + data.get("name"),
+          "Mobile: " + mobile,
+          "Location: " + data.get("location"),
+          "Requirement: " + data.get("category"),
+          "Details: " + data.get("message")
+        ].join("\\n");
+        window.open("https://wa.me/918390909845?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
+        return false;
+      }
+    </script>
 
 
 <style id="dts-data-flow-cinematic-v2">
@@ -3222,6 +3279,46 @@ ipt>
 
                 </div>
 
+            </div>
+
+            <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-7">
+                <div class="max-w-2xl">
+                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-cyan-700">Quick enquiry</p>
+                    <h2 class="mt-2 text-xl sm:text-2xl font-extrabold text-slate-900">Tell us what you need</h2>
+                    <p class="mt-2 text-sm text-slate-600">Share your requirement. Your enquiry will open as a pre-filled WhatsApp message to DTS.</p>
+                </div>
+                <form class="mt-5 grid sm:grid-cols-2 gap-4" onsubmit="return sendDTSContactForm(event)">
+                    <div>
+                        <label for="dts-enquiry-name" class="block text-sm font-semibold text-slate-700 mb-1">Your name</label>
+                        <input id="dts-enquiry-name" name="name" required maxlength="80" autocomplete="name" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900" placeholder="Enter your name">
+                    </div>
+                    <div>
+                        <label for="dts-enquiry-mobile" class="block text-sm font-semibold text-slate-700 mb-1">Mobile number</label>
+                        <input id="dts-enquiry-mobile" name="mobile" type="tel" inputmode="numeric" pattern="[6-9][0-9]{9}" minlength="10" maxlength="10" required autocomplete="tel-national" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900" placeholder="10-digit Indian mobile">
+                    </div>
+                    <div>
+                        <label for="dts-enquiry-location" class="block text-sm font-semibold text-slate-700 mb-1">Site location</label>
+                        <input id="dts-enquiry-location" name="location" required maxlength="120" autocomplete="address-level2" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900" placeholder="Area / city">
+                    </div>
+                    <div>
+                        <label for="dts-enquiry-category" class="block text-sm font-semibold text-slate-700 mb-1">Requirement</label>
+                        <select id="dts-enquiry-category" name="category" required class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900">
+                            <option value="">Select a service</option>
+                            <option>CCTV & Surveillance</option><option>Networking</option><option>IT Infrastructure</option>
+                            <option>Electrical</option><option>Fire Safety & Services</option><option>Access Control</option><option>AMC & Maintenance</option><option>Other / Custom Requirement</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="dts-enquiry-message" class="block text-sm font-semibold text-slate-700 mb-1">Requirement details</label>
+                        <textarea id="dts-enquiry-message" name="message" rows="3" maxlength="1000" required class="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900" placeholder="Tell us about the product, quantity or work required"></textarea>
+                    </div>
+                    <div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center gap-3">
+                        <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3 font-bold text-white hover:bg-green-700 transition">
+                            <i class="fa-brands fa-whatsapp"></i> Send Enquiry on WhatsApp
+                        </button>
+                        <p class="text-xs text-slate-500">WhatsApp opens with your message. You can review it before sending.</p>
+                    </div>
+                </form>
             </div>
 
         </div>
