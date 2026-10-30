@@ -333,6 +333,7 @@ extractor_model = _OpenAIExtractorModel()
 SESSION_TTL_SECONDS = 30 * 60
 SESSION_RATE_LIMIT = 30
 SESSION_RATE_WINDOW_SECONDS = 60
+MAX_ACTIVE_SESSIONS = 2000
 MAX_STORED_TURNS = 40
 MAX_MESSAGE_CHARS = 2000
 WHATSAPP_NUMBER = "918390909845"
@@ -370,6 +371,12 @@ def _get_session(session_id):
 
         session = _sessions.get(session_id)
         if session is None:
+            # A public endpoint must not let unlimited client-generated session IDs
+            # grow the process-local store without bound. Expired entries were
+            # removed above; when capacity is reached, reject new sessions rather
+            # than evicting an active customer's enquiry unexpectedly.
+            if len(_sessions) >= MAX_ACTIVE_SESSIONS:
+                return None
             session = _new_session()
             _sessions[session_id] = session
         return session
@@ -1704,6 +1711,14 @@ def chat_api():
     latest_message = _normalize_customer_text(latest_message)
 
     session = _get_session(session_id)
+    if session is None:
+        response = jsonify({
+            "error": "DTS chat is temporarily busy. Please retry in a minute.",
+            "error_code": "SESSION_CAPACITY_REACHED",
+        })
+        response.headers["Retry-After"] = "60"
+        return response, 503
+
     g.ai_deadline = time.monotonic() + AI_REQUEST_BUDGET_SECONDS
 
     with session["lock"]:
