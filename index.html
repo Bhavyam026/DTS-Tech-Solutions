@@ -1593,6 +1593,36 @@
 @media(prefers-reduced-motion:reduce){.dts-flow-visual:before,.dts-flow-visual:after,.dts-flow-hub,.dts-flow-node{animation:none!important}}
 </style>
 
+
+<style id="dts-about-cinematic-data-v1">
+.dts-about-cinematic{position:relative;isolation:isolate;overflow:hidden;background:#030b19;color:#eaf7ff}
+.dts-about-cinematic:before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 18% 50%,rgba(8,145,178,.18),transparent 42%),radial-gradient(ellipse at 82% 45%,rgba(37,99,235,.17),transparent 40%),linear-gradient(115deg,#030916,#0a1830 52%,#030916)}
+.dts-about-cinematic:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.17;background-image:linear-gradient(rgba(103,232,249,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(103,232,249,.22) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,#000 8%,transparent 82%)}
+.dts-about-content{position:relative;z-index:2}
+#about .text-sky-700{color:#67e8f9!important}
+#about h2,#about .text-slate-900{color:#f0f9ff!important}
+#about p,#about .text-slate-600{color:#b6c9dc!important}
+#about .bg-white.border{background:rgba(10,27,49,.78)!important;border-color:rgba(103,232,249,.2)!important;backdrop-filter:blur(12px)}
+#about .text-slate-500{color:#9bb3c9!important}
+.dts-about-scene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.95}
+.dts-about-scene:before{content:"";position:absolute;width:min(72vw,850px);height:min(72vw,850px);border:1px solid rgba(56,189,248,.14);border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:0 0 90px rgba(14,165,233,.09),inset 0 0 90px rgba(14,165,233,.07)}
+.dts-about-scene:after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.65),rgba(96,165,250,.25),transparent);filter:blur(2px);animation:dtsAboutBeam 7s ease-in-out infinite}
+.dts-about-beam{position:absolute;left:-15%;width:130%;height:1px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.1),rgba(103,232,249,.85),rgba(59,130,246,.15),transparent);box-shadow:0 0 12px rgba(34,211,238,.5);transform:rotate(-13deg);animation:dtsAboutBeam 8s ease-in-out infinite}
+.dts-about-beam.beam-a{top:27%}.dts-about-beam.beam-b{top:70%;transform:rotate(11deg);animation-delay:-2.5s}.dts-about-beam.beam-c{top:48%;transform:rotate(-4deg);animation-delay:-5s;opacity:.5}
+.dts-about-packet{position:absolute;width:7px;height:7px;border-radius:50%;background:#a5f3fc;box-shadow:0 0 9px 3px rgba(34,211,238,.8),0 0 24px rgba(34,211,238,.6);animation:dtsAboutPacket 6s linear infinite}
+.dts-about-packet.packet-a{top:26%;left:8%}.dts-about-packet.packet-b{top:68%;left:72%;animation-delay:-2s}.dts-about-packet.packet-c{top:48%;left:40%;animation-delay:-4s}
+.dts-about-data-node{position:absolute;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(103,232,249,.3);border-radius:12px;background:rgba(4,18,36,.72);color:#a5f3fc;font-size:10px;letter-spacing:.08em;box-shadow:0 0 25px rgba(14,165,233,.12);backdrop-filter:blur(8px);animation:dtsAboutFloat 5s ease-in-out infinite}
+.dts-about-data-node i{font-size:14px}.dts-about-data-node b{font-weight:800}
+.dts-about-data-node.node-a{top:14%;left:8%}.dts-about-data-node.node-b{top:18%;right:9%;animation-delay:-1s}.dts-about-data-node.node-c{bottom:16%;left:13%;animation-delay:-2s}.dts-about-data-node.node-d{bottom:14%;right:11%;animation-delay:-3s}
+.dts-about-core{position:absolute;left:50%;top:50%;width:54px;height:54px;display:grid;place-items:center;border:1px solid rgba(103,232,249,.7);border-radius:17px;background:linear-gradient(135deg,rgba(8,145,178,.7),rgba(30,64,175,.75));color:white;font-size:21px;box-shadow:0 0 0 12px rgba(34,211,238,.05),0 0 34px rgba(34,211,238,.45);transform:translate(-50%,-50%);animation:dtsAboutPulse 3.5s ease-in-out infinite}
+@keyframes dtsAboutBeam{0%,100%{opacity:.25;transform:translateX(-4%) scaleX(.85)}50%{opacity:.9;transform:translateX(4%) scaleX(1.04)}}
+@keyframes dtsAboutPacket{0%{transform:translate(0,0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(78vw,20px);opacity:0}}
+@keyframes dtsAboutFloat{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes dtsAboutPulse{0%,100%{box-shadow:0 0 0 9px rgba(34,211,238,.04),0 0 25px rgba(34,211,238,.3)}50%{box-shadow:0 0 0 17px rgba(34,211,238,.08),0 0 46px rgba(34,211,238,.6)}}
+@media(max-width:760px){.dts-about-scene{opacity:.5}.dts-about-data-node{font-size:8px;padding:7px 8px}.dts-about-data-node.node-a{left:3%;top:8%}.dts-about-data-node.node-b{right:3%;top:9%}.dts-about-data-node.node-c{left:3%;bottom:8%}.dts-about-data-node.node-d{right:3%;bottom:8%}.dts-about-core{width:42px;height:42px;font-size:16px}}
+@media(prefers-reduced-motion:reduce){.dts-about-scene:after,.dts-about-beam,.dts-about-packet,.dts-about-data-node,.dts-about-core{animation:none!important}}
+</style>
+
 </head>
 
 <body>
@@ -2841,9 +2871,18 @@
          ABOUT SECTION
          ============================================================ -->
 
-    <section id="about" class="py-14 sm:py-16 bg-slate-50">
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" class="dts-about-cinematic py-14 sm:py-16">
+        <div class="dts-about-scene" aria-hidden="true">
+            <span class="dts-about-beam beam-a"></span><span class="dts-about-beam beam-b"></span>
+            <span class="dts-about-beam beam-c"></span><span class="dts-about-packet packet-a"></span>
+            <span class="dts-about-packet packet-b"></span><span class="dts-about-packet packet-c"></span>
+            <span class="dts-about-data-node node-a"><i class="fa-solid fa-video"></i><b>CCTV</b></span>
+            <span class="dts-about-data-node node-b"><i class="fa-solid fa-server"></i><b>NETWORK</b></span>
+            <span class="dts-about-data-node node-c"><i class="fa-solid fa-bolt"></i><b>POWER</b></span>
+            <span class="dts-about-data-node node-d"><i class="fa-solid fa-shield-halved"></i><b>SAFETY</b></span>
+            <span class="dts-about-core"><i class="fa-solid fa-network-wired"></i></span>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 dts-about-content"> mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="grid lg:grid-cols-2 gap-10 items-center">
 
