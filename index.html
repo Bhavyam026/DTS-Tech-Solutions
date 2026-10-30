@@ -54,13 +54,13 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet">
+          rel="stylesheet" media="print" onload="this.media='all'">
 
     <style>
         * {
@@ -1508,6 +1508,41 @@
         @media (prefers-reduced-motion: reduce) {
             .dts-festival-bulb, .dts-festival-corner, .dts-festival-petal, .dts-festival-dot, .dts-festival-banner { animation: none !important; opacity: 1 !important; }
         }
+
+        /* Performance: keep non-essential motion and blur inexpensive on phones. */
+        @media (max-width: 768px) {
+            .glass,
+            .dts-float-chip {
+                -webkit-backdrop-filter: none !important;
+                backdrop-filter: none !important;
+            }
+            .dts-motion-stage::after,
+            .dts-beam,
+            .dts-orbit,
+            .dts-orbit::before,
+            .dts-orbit::after,
+            .dts-hero-core,
+            .dts-hero-core::after,
+            .dts-float-chip,
+            .dts-live-dot,
+            .dts-flow-visual::before,
+            .dts-flow-visual::after,
+            .dts-flow-hub,
+            .dts-flow-ring,
+            .dts-flow-line,
+            .dts-flow-packet,
+            .dts-about-scene::after,
+            .dts-about-beam,
+            .dts-about-packet,
+            .dts-about-data-node,
+            .dts-about-core {
+                animation: none !important;
+                transition: none !important;
+            }
+            .dts-hero-core i { animation: none !important; opacity: 0 !important; }
+            .dts-hero-core i:first-child { opacity: 1 !important; }
+        }
+
 </style>
 
 <style id="dts-catalogue-integrity">
@@ -1602,7 +1637,7 @@
 </style>
 
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
-    <script src="./assets/js/dts-site.js?v=20261030-search-enquiry-fix-3" defer></script>
+    <script src="./assets/js/dts-site.js?v=20261030-performance-pass-1" defer></script>
 
     <script>
       function sendDTSContactForm(event) {
