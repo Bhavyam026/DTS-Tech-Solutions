@@ -263,6 +263,126 @@
             .dts-hero-core::after, .dts-float-chip { animation: none !important; }
         }
 
+        /* Premium cinematic motion layer for the DTS hero showcase. */
+        .dts-motion-stage {
+            min-height: 390px;
+            background:
+                radial-gradient(ellipse at 50% 48%, rgba(34,211,238,.23), transparent 38%),
+                radial-gradient(ellipse at 12% 12%, rgba(37,99,235,.17), transparent 35%),
+                linear-gradient(145deg, #050d19 0%, #0a1d30 52%, #102f43 100%);
+        }
+        .dts-motion-stage::before {
+            opacity: .28;
+            background-size: 36px 36px;
+        }
+        .dts-motion-stage::after {
+            content: "";
+            position: absolute;
+            inset: -20% -60%;
+            z-index: 0;
+            background: linear-gradient(110deg, transparent 42%, rgba(103,232,249,.055) 49%, rgba(103,232,249,.14) 50%, transparent 58%);
+            transform: translateX(-45%);
+            animation: dts-light-sweep 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .dts-stage-topline {
+            position: absolute;
+            top: 16px;
+            left: 18px;
+            right: 18px;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            color: rgba(224,242,254,.8);
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+        .dts-live-dot { display:inline-block; width:7px; height:7px; margin-right:6px; border-radius:50%; background:#4ade80; box-shadow:0 0 12px #4ade80; animation:dts-live-pulse 1.8s infinite; }
+        .dts-hero-core {
+            width: 150px;
+            height: 150px;
+            border-radius: 42px;
+            background: linear-gradient(145deg, rgba(8,145,178,.30), rgba(7,18,34,.96));
+            box-shadow: 0 0 70px rgba(34,211,238,.28), inset 0 0 30px rgba(34,211,238,.14), 0 24px 55px rgba(0,0,0,.35);
+        }
+        .dts-hero-core::before {
+            content: "";
+            position: absolute;
+            inset: 7px;
+            border: 1px solid rgba(165,243,252,.15);
+            border-radius: 35px;
+        }
+        .dts-hero-core i {
+            position: absolute;
+            opacity: 0;
+            animation: dts-service-cycle 16s infinite;
+            filter: drop-shadow(0 0 12px rgba(103,232,249,.7));
+        }
+        .dts-hero-core i:nth-child(1) { animation-delay: 0s; }
+        .dts-hero-core i:nth-child(2) { animation-delay: 4s; }
+        .dts-hero-core i:nth-child(3) { animation-delay: 8s; }
+        .dts-hero-core i:nth-child(4) { animation-delay: 12s; }
+        .dts-core-caption {
+            position: absolute;
+            z-index: 4;
+            top: calc(50% + 105px);
+            left: 50%;
+            transform: translateX(-50%);
+            color: #cffafe;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: .22em;
+            white-space: nowrap;
+            text-shadow: 0 0 14px rgba(34,211,238,.55);
+        }
+        .dts-beam {
+            position: absolute;
+            z-index: 1;
+            width: 270px;
+            height: 270px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 0 78%, rgba(34,211,238,.13) 88%, transparent 100%);
+            animation: dts-orbit-spin 8s linear infinite;
+            mask-image: radial-gradient(circle, transparent 0 43%, #000 44% 100%);
+        }
+        .dts-orbit { width: 260px; height: 260px; border-color: rgba(103,232,249,.3); }
+        .dts-orbit::before { border-color: rgba(103,232,249,.28); }
+        .dts-orbit::after { border-color: rgba(103,232,249,.2); }
+        .dts-float-chip {
+            background: linear-gradient(135deg, rgba(9,25,43,.94), rgba(12,43,60,.84));
+            border-color: rgba(103,232,249,.32);
+            box-shadow: 0 14px 34px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.06);
+        }
+        .dts-chip-cctv { top: 22%; left: 5%; }
+        .dts-chip-network { top: 22%; right: 5%; }
+        .dts-chip-power { bottom: 19%; left: 5%; }
+        .dts-chip-safety { bottom: 19%; right: 5%; }
+        .dts-motion-status { bottom: 13px; letter-spacing: .24em; }
+        @keyframes dts-service-cycle { 0%, 18% { opacity: 1; transform: scale(1); } 23%, 100% { opacity: 0; transform: scale(.72); } }
+        @keyframes dts-light-sweep { 0%, 15% { transform: translateX(-45%); opacity: 0; } 35% { opacity: 1; } 65%, 100% { transform: translateX(45%); opacity: 0; } }
+        @keyframes dts-live-pulse { 50% { opacity: .45; box-shadow: 0 0 3px #4ade80; } }
+        @media (max-width: 520px) {
+            .dts-motion-stage { min-height: 310px; }
+            .dts-orbit { width: 205px; height: 205px; }
+            .dts-beam { width: 215px; height: 215px; }
+            .dts-hero-core { width: 116px; height: 116px; border-radius: 32px; }
+            .dts-hero-core::before { border-radius: 26px; }
+            .dts-core-caption { top: calc(50% + 83px); font-size: 8px; }
+            .dts-chip-cctv { top: 23%; left: 3%; }
+            .dts-chip-network { top: 23%; right: 3%; }
+            .dts-chip-power { bottom: 19%; left: 3%; }
+            .dts-chip-safety { bottom: 19%; right: 3%; }
+            .dts-stage-topline { top: 12px; left: 12px; right: 12px; font-size: 8px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .dts-motion-stage::after, .dts-beam, .dts-hero-core i, .dts-live-dot { animation: none !important; }
+            .dts-hero-core i:first-child { opacity: 1; }
+        }
+
         .brand-gradient {
             background:
                 linear-gradient(
@@ -1649,9 +1769,17 @@
 
                         <div class="rounded-2xl overflow-hidden border border-white/10">
 
-                            <div class="dts-motion-stage" role="img" aria-label="Animated illustration of DTS CCTV, networking, electrical and fire safety solutions">
+                            <div class="dts-motion-stage" role="img" aria-label="Animated DTS showcase featuring CCTV security, networking, electrical systems and fire safety">
+                                <div class="dts-stage-topline"><span><span class="dts-live-dot"></span>Integrated Technology</span><span>Boisar · Maharashtra</span></div>
                                 <div class="dts-orbit" aria-hidden="true"></div>
-                                <div class="dts-hero-core" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div class="dts-beam" aria-hidden="true"></div>
+                                <div class="dts-hero-core" aria-hidden="true">
+                                    <i class="fa-solid fa-video"></i>
+                                    <i class="fa-solid fa-server"></i>
+                                    <i class="fa-solid fa-bolt"></i>
+                                    <i class="fa-solid fa-fire-extinguisher"></i>
+                                </div>
+                                <div class="dts-core-caption">SMART SYSTEMS · ONE PARTNER</div>
                                 <div class="dts-float-chip dts-chip-cctv"><i class="fa-solid fa-video"></i><span>CCTV SECURITY</span></div>
                                 <div class="dts-float-chip dts-chip-network"><i class="fa-solid fa-server"></i><span>NETWORK & IT</span></div>
                                 <div class="dts-float-chip dts-chip-power"><i class="fa-solid fa-bolt"></i><span>ELECTRICAL</span></div>
