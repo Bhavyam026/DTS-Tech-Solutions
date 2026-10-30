@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /health
-
-Sitemap: https://bhavyam026.github.io/DTS-Tech-Solutions/sitemap.xml
