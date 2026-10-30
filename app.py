@@ -12,12 +12,26 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
 
+ALLOWED_BROWSER_ORIGINS = {"https://bhavyam026.github.io"}
+
+@app.after_request
+def add_security_headers(response):
+    """Set safe defaults for API and backend-served pages without breaking the static site's assets."""
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    if request.path.startswith("/api/") or request.path == "/health":
+        response.headers["Cache-Control"] = "no-store"
+        response.headers["Pragma"] = "no-cache"
+    return response
+
 # Only the published DTS GitHub Pages origin may call the JSON API from a browser.
 CORS(
     app,
     resources={
         r"/api/*": {
-            "origins": ["https://bhavyam026.github.io"],
+            "origins": sorted(ALLOWED_BROWSER_ORIGINS),
             "methods": ["GET", "POST", "OPTIONS"],
             "allow_headers": ["Content-Type"],
         }
@@ -798,10 +812,6 @@ def health():
     return jsonify({
         "status": "ok",
         "service": "DTS AI Backend",
-        "provider": AI_PROVIDER,
-        "ai_configured": bool({"gemini": GEMINI_API_KEY, "groq": GROQ_API_KEY, "openai": OPENAI_API_KEY}.get(AI_PROVIDER, "")) or any((GEMINI_API_KEY, GROQ_API_KEY, OPENAI_API_KEY)),
-        "model": AI_MODEL,
-        "fallback_model": None,
         "note": (
             "Health confirms configuration only, not a live provider response or WhatsApp delivery. "
             "WhatsApp handoff opens a prefilled link; it does not send automatically."
@@ -1668,6 +1678,15 @@ def _deterministic_general_reply(latest_message):
 
 @app.route("/api/chat", methods=["POST"])
 def chat_api():
+    # CORS is not an access-control mechanism by itself. Reject cross-site browser
+    # submissions explicitly; non-browser clients without an Origin header remain
+    # supported for monitoring and controlled integrations.
+    origin = request.headers.get("Origin")
+    if origin and origin not in ALLOWED_BROWSER_ORIGINS:
+        return jsonify({"error": "Request origin is not allowed."}), 403
+    if not request.is_json:
+        return jsonify({"error": "Content-Type must be application/json."}), 415
+
     payload = request.get_json(silent=True)
     if not isinstance(payload, dict):
         return jsonify({"error": "Invalid request payload."}), 400
