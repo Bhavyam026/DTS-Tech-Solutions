@@ -1569,11 +1569,11 @@
         function normalizeSearchText(value) {
             return String(value || '')
                 .normalize('NFD')
-                .replace(/[\\u0300-\\u036f]/g, '')
+                .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, ' ')
                 .trim()
-                .replace(/\\s+/g, ' ');
+                .replace(/\s+/g, ' ');
         }
 
         function getProductSearchText(product) {
@@ -1589,7 +1589,7 @@
                 Object.keys(product.specs).forEach(function(key) {
                     const value = product.specs[key];
                     // Do not expose manufacturer source URLs as searchable catalogue content.
-                    if (/^source$/i.test(key) && /metrac\\.in/i.test(String(value || ''))) return;
+                    if (/^source$/i.test(key) && /metrac\.in/i.test(String(value || ''))) return;
                     parts.push(key, value);
                 });
             }
@@ -3008,7 +3008,9 @@
                         if (
                             entry[0] &&
                             entry[1] &&
-                            String(entry[0]).toLowerCase() !== 'brand'
+                            String(entry[0]).toLowerCase() !== 'brand' &&
+                            !(/^source$/i.test(String(entry[0])) &&
+                              /metrac\.in/i.test(String(entry[1])))
                         ) {
                             aboutItems.push(
                                 String(entry[0]) + ': ' + String(entry[1])
