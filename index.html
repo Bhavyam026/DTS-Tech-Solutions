@@ -1602,7 +1602,7 @@
 </style>
 
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
-    <script src="./assets/js/dts-site.js?v=20261030-source-clean-enquiry-fix-2" defer></script>
+    <script src="./assets/js/dts-site.js?v=20261030-search-enquiry-fix-3" defer></script>
 
     <script>
       function sendDTSContactForm(event) {
@@ -1832,6 +1832,26 @@
     caret-color:#0891b2 !important;
 }
 #dts-enquiry-category option { color:#0f172a; background:#fff; }
+#contact form input:not([type="checkbox"]),
+#contact form textarea,
+#contact form select {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #0891b2 !important;
+    background: #ffffff !important;
+    color-scheme: light;
+    opacity: 1 !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    font-weight: 500 !important;
+    user-select: text !important;
+}
+#contact form input::selection,
+#contact form textarea::selection {
+    color: #ffffff !important;
+    background: #0891b2 !important;
+}
+
 </style>
 </head>
 
