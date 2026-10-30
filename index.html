@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
+    <link rel="icon" type="image/svg+xml" href="./assets/dts-favicon.svg?v=20261030">
+    <meta name="theme-color" content="#071426">
+
     <title>Dynamic Technology Solutions - Security, Networking & IT Solutions</title>
 
     <meta name="description"
@@ -1569,47 +1572,30 @@
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
     <script src="./assets/js/dts-site.js?v=20261030-cinematic-catalogue" defer></script>
 
-<style id="dts-premium-splash">
-#dtsSplash{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#102e49 0%,#071525 43%,#020711 100%);color:#effaff;opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
-#dtsSplash.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
-#dtsSplash .splash-stars{position:absolute;inset:0;opacity:.42;background-image:radial-gradient(1px 1px at 12% 22%,#b9f5ff 99%,transparent),radial-gradient(1px 1px at 78% 18%,#b9f5ff 99%,transparent),radial-gradient(2px 2px at 86% 72%,#fff 99%,transparent),radial-gradient(1px 1px at 24% 81%,#b9f5ff 99%,transparent),radial-gradient(1px 1px at 58% 12%,#fff 99%,transparent);background-size:280px 240px}
-#dtsSplash .splash-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(103,232,249,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(103,232,249,.055) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,#000 10%,transparent 78%)}
-#dtsSplash .splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px}
-#dtsSplash .splash-earth-wrap{position:relative;width:clamp(150px,30vw,220px);aspect-ratio:1;margin-bottom:30px;display:grid;place-items:center}
-#dtsSplash .splash-earth{position:relative;width:78%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 32% 27%,rgba(166,243,255,.95),transparent 7%),radial-gradient(ellipse at 35% 38%,#36c6d8 0 9%,transparent 10%),radial-gradient(ellipse at 64% 60%,#1685a7 0 15%,transparent 16%),radial-gradient(ellipse at 40% 72%,#0c789b 0 12%,transparent 13%),radial-gradient(circle at 35% 30%,#2b9ebc,#075078 54%,#031a35 78%);box-shadow:inset -18px -12px 30px #020b20,inset 9px 8px 20px rgba(180,250,255,.35),0 0 38px rgba(34,211,238,.4),0 0 95px rgba(14,165,233,.2);animation:dtsEarthFloat 4s ease-in-out infinite}
-#dtsSplash .splash-earth:before{content:"";position:absolute;inset:-15%;border-radius:50%;background:repeating-linear-gradient(0deg,transparent 0 17px,rgba(164,243,255,.22) 18px,transparent 19px 35px),repeating-linear-gradient(90deg,transparent 0 22px,rgba(164,243,255,.17) 23px,transparent 24px 44px);transform:rotate(-18deg);mask-image:radial-gradient(circle,transparent 0 35%,#000 36% 70%,transparent 72%);animation:dtsEarthGrid 18s linear infinite}
-#dtsSplash .splash-earth:after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 35%,rgba(190,250,255,.3) 48%,transparent 59%)}
-#dtsSplash .splash-orbit{position:absolute;inset:4%;border:1px solid rgba(103,232,249,.5);border-radius:50%;transform:rotate(-24deg) scaleY(.38);box-shadow:0 0 16px rgba(34,211,238,.18);animation:dtsOrbit 7s linear infinite}
-#dtsSplash .splash-orbit:after{content:"";position:absolute;width:9px;height:9px;top:15%;right:12%;border-radius:50%;background:#a5f3fc;box-shadow:0 0 15px 4px #22d3ee}
-#dtsSplash .splash-logo{font-size:clamp(38px,8vw,58px);line-height:1;font-weight:900;letter-spacing:.16em;padding-left:.16em;background:linear-gradient(100deg,#fff 10%,#a5f3fc 48%,#38bdf8 85%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 35px rgba(34,211,238,.12)}
-#dtsSplash .splash-name{margin-top:13px;font-size:clamp(11px,2.5vw,14px);font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#e0f7ff}
-#dtsSplash .splash-tag{margin-top:9px;font-size:11px;letter-spacing:.12em;color:#8db7ca}
-#dtsSplash .splash-loader{width:118px;height:2px;margin-top:30px;border-radius:9px;background:rgba(148,213,230,.18);overflow:hidden}
-#dtsSplash .splash-loader:after{content:"";display:block;width:42%;height:100%;border-radius:9px;background:linear-gradient(90deg,#22d3ee,#fff);box-shadow:0 0 12px #22d3ee;animation:dtsSplashLoad 1.65s ease-in-out forwards}
-#dtsSplash .splash-foot{margin-top:14px;font-size:9px;font-weight:800;letter-spacing:.24em;color:#5f91a8;text-transform:uppercase}
-@keyframes dtsEarthFloat{50%{transform:translateY(-7px) rotate(3deg)}}
-@keyframes dtsEarthGrid{to{transform:rotate(342deg)}}
-@keyframes dtsOrbit{to{transform:rotate(336deg) scaleY(.38)}}
-@keyframes dtsSplashLoad{from{transform:translateX(-110%)}to{transform:translateX(250%)}}
-@media(max-width:480px){#dtsSplash .splash-earth-wrap{margin-bottom:24px}#dtsSplash .splash-tag{font-size:10px;letter-spacing:.06em}}
-@media(prefers-reduced-motion:reduce){#dtsSplash .splash-earth,#dtsSplash .splash-orbit,#dtsSplash .splash-earth:before,#dtsSplash .splash-loader:after{animation:none!important}}
+
+<style id="dts-data-flow-cinematic-v2">
+.dts-data-flow{min-height:390px;background:#030916}
+.dts-flow-inner{min-height:390px;grid-template-columns:minmax(280px,.9fr) minmax(360px,1.1fr);gap:clamp(24px,5vw,76px);padding:64px 28px}
+.dts-flow-visual{height:270px;border-radius:26px;border:1px solid rgba(103,232,249,.15);background:radial-gradient(ellipse at 50% 50%,rgba(14,116,144,.18),transparent 58%),linear-gradient(135deg,rgba(15,23,42,.72),rgba(3,12,28,.5));box-shadow:inset 0 0 55px rgba(14,165,233,.08),0 20px 70px rgba(0,0,0,.22)}
+.dts-flow-visual:before{height:2px;opacity:.9;filter:blur(.2px);box-shadow:0 0 12px #22d3ee,0 0 30px rgba(34,211,238,.7);animation:dtsBeamSweep 4s ease-in-out infinite}
+.dts-flow-visual:after{height:2px;opacity:.65;filter:blur(.2px);box-shadow:0 0 12px #38bdf8;animation:dtsBeamSweep 5.5s ease-in-out infinite reverse}
+.dts-flow-line{height:2px;box-shadow:0 0 12px rgba(34,211,238,.8),0 0 26px rgba(34,211,238,.38)}
+.dts-flow-ring{box-shadow:0 0 28px rgba(34,211,238,.2),inset 0 0 26px rgba(34,211,238,.12);border-color:rgba(103,232,249,.5)}
+.dts-flow-hub{box-shadow:0 0 0 10px rgba(34,211,238,.06),0 0 28px rgba(34,211,238,.55),0 0 70px rgba(14,165,233,.24);animation:dtsHubPulse 3s ease-in-out infinite}
+.dts-flow-node{box-shadow:0 0 22px rgba(34,211,238,.2);animation:dtsNodeFloat 4s ease-in-out infinite}
+.dts-flow-node.n2{animation-delay:-1s}.dts-flow-node.n3{animation-delay:-2s}.dts-flow-node.n4{animation-delay:-3s}
+.dts-flow-packet{box-shadow:0 0 10px 3px rgba(103,232,249,.7),0 0 24px rgba(34,211,238,.8)}
+.dts-flow-title{max-width:560px}
+@keyframes dtsBeamSweep{0%,100%{transform:translateX(-8%) scaleX(.72);opacity:.35}50%{transform:translateX(8%) scaleX(1.08);opacity:1}}
+@keyframes dtsHubPulse{0%,100%{transform:scale(.96);filter:brightness(.9)}50%{transform:scale(1.06);filter:brightness(1.3)}}
+@keyframes dtsNodeFloat{0%,100%{translate:0 0}50%{translate:0 -7px}}
+@media(max-width:760px){.dts-flow-inner{grid-template-columns:1fr;min-height:0;padding:44px 20px;gap:18px}.dts-flow-visual{height:230px;min-width:0}.dts-data-flow{min-height:0}}
+@media(prefers-reduced-motion:reduce){.dts-flow-visual:before,.dts-flow-visual:after,.dts-flow-hub,.dts-flow-node{animation:none!important}}
 </style>
 
 </head>
 
 <body>
-
-    <div id="dtsSplash" role="status" aria-label="Dynamic Technology Solutions loading">
-        <div class="splash-stars" aria-hidden="true"></div><div class="splash-grid" aria-hidden="true"></div>
-        <div class="splash-content">
-            <div class="splash-earth-wrap" aria-hidden="true"><div class="splash-orbit"></div><div class="splash-earth"></div></div>
-            <div class="splash-logo">DTS</div>
-            <div class="splash-name">Dynamic Technology Solutions</div>
-            <div class="splash-tag">Connecting Technology. Securing Tomorrow.</div>
-            <div class="splash-loader" aria-hidden="true"></div>
-            <div class="splash-foot">SECURITY · NETWORKING · IT SOLUTIONS</div>
-        </div>
-    </div>
 
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <video id="dtsFestivalBackdrop" class="dts-festival-video-source" muted autoplay loop playsinline preload="none" aria-hidden="true">
@@ -3220,27 +3206,6 @@
          ============================================================ -->
 
     <!-- Site logic is loaded as a deferred, cacheable asset. -->
-
-
-    <script>
-    (function () {
-        var splash = document.getElementById('dtsSplash');
-        if (!splash) return;
-        try {
-            if (sessionStorage.getItem('dtsSplashSeen') === '1') {
-                splash.remove();
-                return;
-            }
-            sessionStorage.setItem('dtsSplashSeen', '1');
-        } catch (e) {}
-        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        window.setTimeout(function () {
-            splash.classList.add('is-leaving');
-            window.setTimeout(function () { splash.remove(); }, 700);
-        }, reduced ? 350 : 1850);
-    })();
-    </script>
-
 </body>
 </html>
 
