@@ -1930,6 +1930,79 @@
 .dts-diwali-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
 @media(prefers-reduced-motion:reduce){#dts-diwali-combos:before,#dts-diwali-combos:after,.dts-diwali-lamp{animation:none!important}.dts-diwali-cta{transition:none!important}}
 </style>
+
+    <!-- DTS Phase 1: critical hero layout, stable dimensions and low-cost mobile rendering -->
+    <style id="dts-phase1-critical-rendering">
+        /* Render the first viewport predictably before deferred Tailwind utilities arrive. */
+        #home { min-height: 620px; background-color: #07141c; }
+        #home > .max-w-7xl {
+            width: 100%;
+            max-width: 80rem;
+            margin-inline: auto;
+            padding-inline: 1rem;
+        }
+        #home > .max-w-7xl > .grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            align-items: center;
+            gap: 3rem;
+            padding-block: 4rem;
+        }
+        #home .fade-in { opacity: 1; transform: none; animation: none; }
+        #home h1 { line-height: 1.08; }
+        #home .dts-motion-stage {
+            width: 100%;
+            height: 390px;
+            min-height: 390px;
+            contain: layout paint;
+            background-color: #050d19;
+        }
+        #home .dts-float-chip {
+            min-height: 40px;
+            white-space: nowrap;
+        }
+        #home .hero-gradient-cta,
+        #home a[href="#catalogue"],
+        #home button[onclick="openAIAssistant()"] {
+            min-height: 48px;
+        }
+        @media (min-width: 640px) {
+            #home > .max-w-7xl { padding-inline: 1.5rem; }
+            #home > .max-w-7xl > .grid { padding-block: 5rem; }
+        }
+        @media (min-width: 1024px) {
+            #home { min-height: 650px; }
+            #home > .max-w-7xl { padding-inline: 2rem; }
+            #home > .max-w-7xl > .grid {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                padding-block: 6rem;
+            }
+        }
+        @media (max-width: 767px) {
+            /* Avoid expensive continuous paint effects on mobile GPUs. */
+            #home .dts-motion-stage { height: 310px; min-height: 310px; }
+            #home .dts-motion-stage::after,
+            #home .dts-beam,
+            #home .dts-live-dot,
+            #home .dts-orbit,
+            #home .dts-orbit::before,
+            #home .dts-orbit::after,
+            #home .dts-hero-core,
+            #home .dts-hero-core::after,
+            #home .dts-float-chip {
+                animation: none !important;
+            }
+            #home .dts-hero-core i { animation: none !important; opacity: 0 !important; }
+            #home .dts-hero-core i:first-child { opacity: 1 !important; }
+            #home .dts-float-chip { backdrop-filter: none; -webkit-backdrop-filter: none; }
+        }
+        @media (max-width: 420px) {
+            #home { min-height: 0; }
+            #home > .max-w-7xl > .grid { gap: 2rem; padding-block: 3rem; }
+            #home .dts-motion-stage { height: 290px; min-height: 290px; }
+        }
+    </style>
+
 </head>
 
 <body>
