@@ -897,23 +897,23 @@ def _deterministic_quota_fallback(user_messages):
     latest_folded = _normalize_customer_text(user_messages[-1] if user_messages else "")
     latest_category = ""
     latest_category_rules = (
-        ("Network Rack", r"\\b(?:network\\s*racks?|networkracks?|server\\s*racks?|serverracks?)\\b"),
-        ("Firewall (IT Networking)", r"\\bfirewalls?\\b"),
-        ("USB Pen Drive", r"\\b(?:pen\\s*drive?r?|pendrive|usb\\s*drive|flash\\s*drive)\\b"),
-        ("HDD / Hard Disk Drive", r"\\b(?:hdd|hard[ -]?disk(?:\\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\\b"),
-        ("UPS (Uninterruptible Power Supply)", r"\\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\\b"),
-        ("Electrical Panel / Electrical Work", r"\\b(?:electrical|electric|panels?|planes?|power distribution)\\b"),
-        ("Fire Safety / Smoke Detector", r"\\b(?:smoke\\s*(?:detectors?|alarms?)|fire\\s*(?:safety|alarms?|extinguishers?)|suppression)\\b"),
-        ("Networking / LAN / CAT6", r"\\b(?:networking|lan cable|cat\\s*6|cat6|structured cabling)\\b"),
-        ("TV / Smart TV", r"\\b(?:smart\\s+tv|led\\s+tv|tvs?|televisions?|4k\\s+uhd)\\b"),
-        ("CCTV / Security Cameras", r"\\b(?:cctv|cameras?|ptz|nvr|dvr)\\b"),
+        ("Network Rack", r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b"),
+        ("Firewall (IT Networking)", r"\bfirewalls?\b"),
+        ("USB Pen Drive", r"\b(?:pen\s*drive?r?|pendrive|usb\s*drive|flash\s*drive)\b"),
+        ("HDD / Hard Disk Drive", r"\b(?:hdd|hard[ -]?disk(?:\s+drive)?|external[ -]?hard[ -]?drive|storage[ -]?drive)\b"),
+        ("UPS (Uninterruptible Power Supply)", r"\b(?:ups|u\\.?p\\.?s\\.?|uninterruptible power supply)\b"),
+        ("Electrical Panel / Electrical Work", r"\b(?:electrical|electric|panels?|planes?|power distribution)\b"),
+        ("Fire Safety / Smoke Detector", r"\b(?:smoke\s*(?:detectors?|alarms?)|fire\s*(?:safety|alarms?|extinguishers?)|suppression)\b"),
+        ("Networking / LAN / CAT6", r"\b(?:networking|lan cable|cat\s*6|cat6|structured cabling)\b"),
+        ("TV / Smart TV", r"\b(?:smart\s+tv|led\s+tv|tvs?|televisions?|4k\s+uhd)\b"),
+        ("CCTV / Security Cameras", r"\b(?:cctv|cameras?|ptz|nvr|dvr)\b"),
     )
     for category, pattern in latest_category_rules:
         if re.search(pattern, latest_folded):
             latest_category = category
             break
     if latest_category:
-        if latest_category == "TV / Smart TV" and re.search(r"\\b43\\s*(?:-?\\s*inch(?:es)?|in|ich(?:h)?)\\b", folded):
+        if latest_category == "TV / Smart TV" and re.search(r"\b43\s*(?:-?\s*inch(?:es)?|in|ich(?:h)?)\b", folded):
             requirements = ["Prizor 43-inch Smart 4K UHD TV"]
         elif latest_category == "TV / Smart TV":
             requirements = ["TV / Smart TV"]
@@ -1847,8 +1847,8 @@ def chat_api():
         # A direct Network Rack request should start with rack height, not a generic
         # IT equipment questionnaire. This remains available even if the AI provider
         # returns a broad networking response.
-        if re.search(r"\\b(?:network\\s*racks?|networkracks?|server\\s*racks?|serverracks?)\\b", latest_message, re.IGNORECASE) and re.search(
-            r"\\b(?:chahiye|chiye|chahie|need|want|available|availability|hai|pass|paas)\\b",
+        if re.search(r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", latest_message, re.IGNORECASE) and re.search(
+            r"\b(?:chahiye|chiye|chahie|need|want|available|availability|hai|pass|paas)\b",
             latest_message, re.IGNORECASE
         ):
             rack_reply = (
