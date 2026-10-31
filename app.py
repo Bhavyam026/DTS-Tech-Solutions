@@ -912,15 +912,8 @@ def _deterministic_quota_fallback(user_messages):
         if re.search(pattern, latest_folded):
             latest_category = category
             break
-    if latest_category:
-        if latest_category == "TV / Smart TV" and re.search(r"\b43\s*(?:-?\s*inch(?:es)?|in|ich(?:h)?)\b", folded):
-            requirements = ["Prizor 43-inch Smart 4K UHD TV"]
-        elif latest_category == "TV / Smart TV":
-            requirements = ["TV / Smart TV"]
-        else:
-            requirements = [item for item in requirements if item == latest_category]
-            if not requirements:
-                requirements = [latest_category]
+    # Keep all products mentioned in the conversation for multi-item enquiries.
+    # latest_category is used below only to choose the active follow-up flow.
 
     locations = (
         "Navi Mumbai", "Boisar", "Palghar", "Mumbai", "Thane", "Tarapur",
@@ -1856,6 +1849,7 @@ def chat_api():
                 "6U, 9U, 12U, 15U, 22U ya 27U? Agar size confirm nahi hai, toh rack mein lagne wale "
                 "network devices aur available space bata dein; DTS team suitable size suggest karegi."
             )
+            session["active_product"] = "Network Rack"
             session["history"].append({"role": "user", "content": latest_message})
             session["history"].append({"role": "assistant", "content": rack_reply})
             session["history"] = session["history"][-MAX_STORED_TURNS:]
@@ -2161,9 +2155,13 @@ def chat_api():
         last_ups_index = max((i for i, item in enumerate(user_messages) if ups_terms.search(str(item))), default=-1)
         last_other_product_index = max(last_firewall_index, last_tv_index, last_cctv_index, last_pen_index,
                                        last_ssd_index, last_hdd_index, last_server_index, last_ups_index)
-        rack_context = last_rack_index >= 0 and last_rack_index > last_other_product_index
+        rack_context = (
+            session.get("active_product") == "Network Rack"
+            or (last_rack_index >= 0 and last_rack_index > last_other_product_index)
+        )
         latest_has_rack = bool(rack_terms.search(latest_message))
         if latest_has_rack or rack_context:
+            session["active_product"] = "Network Rack"
             combined_rack_text = " ".join(str(item) for item in user_messages)
             u_matches = list(re.finditer(r"\b(\d{1,2})\s*U\b", combined_rack_text, re.IGNORECASE))
             u_size = f"{u_matches[-1].group(1)}U" if u_matches else ""
