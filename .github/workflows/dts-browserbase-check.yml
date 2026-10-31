@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "index.html"
+      - "assets/js/dts-site.js"
       - "legal.html"
       - "assets/dts-festival-backdrop.mp4"
       - "scripts/browserbase-site-check.js"
@@ -34,7 +35,7 @@ jobs:
       - name: Run live DTS website checks in Browserbase
         env:
           BROWSERBASE_API_KEY: ${{ secrets.BROWSERBASE_API_KEY }}
-          DTS_SITE_URL: https://bhavyam026.github.io/DTS-Tech-Solutions/
+          DTS_SITE_URL: https://dtsboisar.pages.dev/
         run: node scripts/browserbase-site-check.js
 
       - name: Upload screenshots and report
