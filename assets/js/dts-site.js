@@ -1971,20 +1971,14 @@
 
                                 <div class="amazon-price">
 
-                                    ${escapeHtml(
-                                        product.price ||
-                                        'Get Quote'
-                                    )}
+                                    Price on Request
 
                                 </div>
 
                                 <div class="amazon-subtext">
 
                                     ${
-                                        product.priceValue &&
-                                        Number(product.priceValue) > 0
-                                            ? 'Product price'
-                                            : 'Contact us for pricing'
+                                        'Contact DTS for current pricing'
                                     }
 
                                 </div>
@@ -3048,8 +3042,7 @@
             if (price) {
 
                 price.textContent =
-                    product.price ||
-                    'Get Quote';
+                    'Price on Request';
 
             }
 
@@ -3636,7 +3629,7 @@ Thank you.`;
                             <div class="product-title">${name}</div>
                             <div class="product-description">${category}</div>
                             <div class="mt-5 pt-4 border-t border-slate-100 flex items-end justify-between gap-3">
-                                <div class="amazon-price">${price}</div>
+                                <div class="amazon-price">Price on Request</div>
                                 <button type="button" class="amazon-button">Details <i class="fa-solid fa-arrow-right"></i></button>
                             </div>
                         </div>
