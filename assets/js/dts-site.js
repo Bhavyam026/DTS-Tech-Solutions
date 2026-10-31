@@ -3677,6 +3677,19 @@ Thank you.`;
         };
 
         function getDTSFestival(now) {
+            // Special DTS Diwali celebration window: 1 Nov 2026 00:00
+            // through 11 Nov 2026, ending exactly at 12 Nov 2026 00:00 IST.
+            const diwaliStart = new Date('2026-11-01T00:00:00+05:30').getTime();
+            const diwaliEnd = new Date('2026-11-12T00:00:00+05:30').getTime();
+            const currentTime = now.getTime();
+            if (currentTime >= diwaliStart && currentTime < diwaliEnd) {
+                return {
+                    name: 'Diwali',
+                    greeting: 'Diwali ki hardik shubhkamnayein! 🪔✨',
+                    theme: 'diwali',
+                    symbols: ['🪔', '✨']
+                };
+            }
             const monthDay = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
             const yearMonthDay = now.getFullYear() + '-' + monthDay;
             return DTS_FESTIVAL_CALENDAR[yearMonthDay] || DTS_FIXED_FESTIVALS[monthDay] || null;
@@ -3942,11 +3955,22 @@ Thank you.`;
             // festival animation.
         }
 
+        let dtsFestivalWindowTimer = null;
         function updateAIGreeting() {
             const greeting = document.getElementById('aiGreeting');
             const now = new Date();
             const festival = getDTSFestival(now);
             applyDTSFestivalAnimation(festival);
+
+            // Refresh at the exact Diwali window boundaries, even if the page stays open.
+            if (dtsFestivalWindowTimer) window.clearTimeout(dtsFestivalWindowTimer);
+            const diwaliStart = new Date('2026-11-01T00:00:00+05:30').getTime();
+            const diwaliEnd = new Date('2026-11-12T00:00:00+05:30').getTime();
+            const nextBoundary = now.getTime() < diwaliStart ? diwaliStart :
+                (now.getTime() < diwaliEnd ? diwaliEnd : 0);
+            if (nextBoundary) {
+                dtsFestivalWindowTimer = window.setTimeout(updateAIGreeting, nextBoundary - now.getTime() + 50);
+            }
             if (!greeting) return;
 
             if (festival) {
