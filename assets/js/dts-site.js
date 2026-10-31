@@ -4686,21 +4686,8 @@ Thank you.`;
             scheduleCatalogueInitialization();
             updateAIGreeting();
 
-            // Fetch the optional live festival calendar only after the page has loaded
-            // and the browser is idle. The offline calendar keeps greetings available meanwhile.
-            const scheduleFestivalCalendarRefresh = function () {
-                const run = function () { loadDTSFestivalCalendar(); };
-                if (typeof window.requestIdleCallback === 'function') {
-                    window.requestIdleCallback(run, { timeout: 10000 });
-                } else {
-                    window.setTimeout(run, 8000);
-                }
-            };
-            if (document.readyState === 'complete') {
-                scheduleFestivalCalendarRefresh();
-            } else {
-                window.addEventListener('load', scheduleFestivalCalendarRefresh, { once: true });
-            }
+            // Festival greetings and the scheduled Diwali animation run locally.
+            // No third-party calendar request is needed during or after page load.
 
             // Update only the local greeting on a long-open tab; avoid repeated API requests.
             window.setInterval(updateAIGreeting, 6 * 60 * 60 * 1000);
