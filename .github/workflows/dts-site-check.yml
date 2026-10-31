@@ -27,7 +27,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Test live DTS website
         env:
-          DTS_SITE_URL: https://bhavyam026.github.io/DTS-Tech-Solutions/
+          DTS_SITE_URL: https://dtsboisar.pages.dev/
         run: npx playwright test
       - name: Upload browser report and screenshots
         if: always()
