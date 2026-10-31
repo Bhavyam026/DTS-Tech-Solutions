@@ -74,3 +74,22 @@ test('local festival background video is served successfully without calendar AP
   expect(html).not.toContain('date.nager.at/api/');
 });
 
+
+test('electrical catalogue shows all six systems with symbols and image references', async ({ page }) => {
+  await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
+  await page.waitForFunction(() => typeof window.setCategoryFilter === 'function');
+  await page.evaluate(() => window.setCategoryFilter('Electrical'));
+  const grid = page.locator('#productGrid');
+  await expect(grid).toContainText('DTS Earthing & Grounding System');
+  await expect(grid).toContainText('Electrical Power & Control Cables');
+  await expect(grid).toContainText('Industrial Electrical Automation');
+  await expect(grid).toContainText('PLC Control Systems');
+  await expect(grid).toContainText('SCADA Monitoring & Control Systems');
+  await expect(grid).toContainText('PLCC Power Line Carrier Communication');
+  await expect(grid).toContainText('⏚ Earth Ground');
+  await expect(grid).toContainText('▣ PLC');
+  await expect(grid).toContainText('▤ SCADA');
+  const electricalCards = grid.locator('.product-card');
+  await expect(electricalCards).toHaveCount(7);
+  await expect(grid.locator('.product-card img')).toHaveCount(7);
+});
