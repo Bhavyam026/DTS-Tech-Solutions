@@ -33,7 +33,7 @@ jobs:
       - name: Check multi-product enquiry and safe UPS wiring answer
         run: |
           python - <<'PY'
-          import json, urllib.request, uuid
+          import json, urllib.request, urllib.error, uuid
 
           base = "https://dts-tech-solutions.onrender.com"
           session_id = "dts-" + str(uuid.uuid4())
@@ -49,15 +49,15 @@ jobs:
                   method="POST"
               )
               for attempt in range(6):
-        try:
-            response_context = urllib.request.urlopen(req, timeout=30)
-            break
-        except urllib.error.HTTPError as error:
-            if error.code not in (502, 503, 504) or attempt == 5:
-                raise
-            import time
-            time.sleep(10)
-    with response_context as response:
+                  try:
+                      response_context = urllib.request.urlopen(req, timeout=30)
+                      break
+                  except urllib.error.HTTPError as error:
+                      if error.code not in (502, 503, 504) or attempt == 5:
+                          raise
+                      import time
+                      time.sleep(10)
+              with response_context as response:
                   assert response.status == 200, f"chat status={response.status}"
                   return json.loads(response.read().decode())
 
@@ -101,15 +101,15 @@ jobs:
                   method="POST"
               )
               for attempt in range(6):
-        try:
-            response_context = urllib.request.urlopen(req, timeout=30)
-            break
-        except urllib.error.HTTPError as error:
-            if error.code not in (502, 503, 504) or attempt == 5:
-                raise
-            import time
-            time.sleep(10)
-    with response_context as response:
+                  try:
+                      response_context = urllib.request.urlopen(req, timeout=30)
+                      break
+                  except urllib.error.HTTPError as error:
+                      if error.code not in (502, 503, 504) or attempt == 5:
+                          raise
+                      import time
+                      time.sleep(10)
+              with response_context as response:
                   assert response.status == 200
                   data = json.loads(response.read().decode())
                   assert data.get("whatsapp_sent") is False, "WhatsApp must never be marked sent"
@@ -169,15 +169,15 @@ jobs:
                   method="POST"
               )
               for attempt in range(6):
-        try:
-            response_context = urllib.request.urlopen(req, timeout=30)
-            break
-        except urllib.error.HTTPError as error:
-            if error.code not in (502, 503, 504) or attempt == 5:
-                raise
-            import time
-            time.sleep(10)
-    with response_context as response:
+                  try:
+                      response_context = urllib.request.urlopen(req, timeout=30)
+                      break
+                  except urllib.error.HTTPError as error:
+                      if error.code not in (502, 503, 504) or attempt == 5:
+                          raise
+                      import time
+                      time.sleep(10)
+              with response_context as response:
                   assert response.status == 200
                   data = json.loads(response.read().decode())
                   assert data.get("whatsapp_sent") is False
@@ -233,15 +233,15 @@ jobs:
               payload = json.dumps({"session_id": sid, "messages": [{"role": "user", "content": message}]}).encode()
               req = urllib.request.Request(base + "/api/chat", data=payload, headers={"Content-Type": "application/json"}, method="POST")
               for attempt in range(6):
-        try:
-            response_context = urllib.request.urlopen(req, timeout=30)
-            break
-        except urllib.error.HTTPError as error:
-            if error.code not in (502, 503, 504) or attempt == 5:
-                raise
-            import time
-            time.sleep(10)
-    with response_context as response:
+                  try:
+                      response_context = urllib.request.urlopen(req, timeout=30)
+                      break
+                  except urllib.error.HTTPError as error:
+                      if error.code not in (502, 503, 504) or attempt == 5:
+                          raise
+                      import time
+                      time.sleep(10)
+              with response_context as response:
                   assert response.status == 200
                   return json.loads(response.read().decode())
           pen = post("pen drive hai")
