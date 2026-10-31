@@ -51,6 +51,30 @@ AI_MODEL = GEMINI_MODEL if AI_PROVIDER == "gemini" else (GROQ_MODEL if AI_PROVID
 AI_PROVIDER_TIMEOUT_SECONDS = 12
 AI_REQUEST_BUDGET_SECONDS = 22
 
+# Per-process protection for outbound AI requests (chat, extraction, image analysis).
+# Each Render instance has its own cap; use a shared limiter for multi-instance global caps.
+AI_MAX_CONCURRENT_REQUESTS = 5
+active_ai_requests = 0
+ai_requests_lock = threading.Lock()
+
+
+class AIConcurrencyLimitError(RuntimeError):
+    """Raised when this Render instance is already handling its AI request limit."""
+
+
+def _limited_ai_post(*args, **kwargs):
+    global active_ai_requests
+    with ai_requests_lock:
+        if active_ai_requests >= AI_MAX_CONCURRENT_REQUESTS:
+            raise AIConcurrencyLimitError("DTS AI is busy; retry in 10 seconds.")
+        active_ai_requests += 1
+    try:
+        return requests.post(*args, **kwargs)
+    finally:
+        with ai_requests_lock:
+            active_ai_requests = max(0, active_ai_requests - 1)
+
+
 SYSTEM_INSTRUCTION = """
 You are the friendly AI assistant for DTS (Dynamic Technology Solutions), Boisar.
 For general knowledge questions (science, technology, language, maths, coding, everyday questions and explanations), answer helpfully like a general-purpose assistant in the customer's language. Be honest about uncertainty and do not pretend to have live internet access.
@@ -159,7 +183,7 @@ def _call_ai_provider_single(messages, *, provider, json_mode=False, max_tokens=
         if json_mode:
             payload["generationConfig"]["responseMimeType"] = "application/json"
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
-        response = requests.post(
+        response = _limited_ai_post(
             url,
             headers={"x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"},
             json=payload,
@@ -204,7 +228,7 @@ def _call_ai_provider_single(messages, *, provider, json_mode=False, max_tokens=
         api_url = "https://api.openai.com/v1/chat/completions"
         api_key = OPENAI_API_KEY
         provider_name = "OpenAI"
-    response = requests.post(
+    response = _limited_ai_post(
         api_url,
         headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
         json=payload,
@@ -244,6 +268,8 @@ def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
             return _call_ai_provider_single(
                 messages, provider=provider, json_mode=json_mode, max_tokens=max_tokens
             )
+        except AIConcurrencyLimitError:
+            raise
         except Exception as error:
             # Never log provider error text; it may contain request details.
             app.logger.warning("DTS AI provider %s failed; trying next configured provider.", provider)
@@ -1774,7 +1800,7 @@ def image_analysis():
     }
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
     try:
-        upstream = requests.post(url, headers={
+        upstream = _limited_ai_post(url, headers={
             "x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"
         }, json=payload, timeout=(5, 35))
         data = upstream.json()
@@ -1786,6 +1812,13 @@ def image_analysis():
         analysis = "\n".join(part.get("text", "") for part in parts if isinstance(part, dict)).strip()
         if not analysis:
             return jsonify({"error": "Image analysis returned no result. Please try another image."}), 502
+    except AIConcurrencyLimitError:
+        response = jsonify({
+            "status": "busy",
+            "message": "High traffic. Please retry in 10 seconds.",
+        })
+        response.headers["Retry-After"] = "10"
+        return response, 503
     except (requests.RequestException, ValueError, KeyError, TypeError):
         app.logger.exception("DTS image analysis request failed.")
         return jsonify({"error": "Image analysis is temporarily unavailable. Please try again."}), 502
@@ -2645,6 +2678,13 @@ def chat_api():
             session["updated_at"] = time.time()
             return _json_response(bot_reply, session["state"], session["summary"])
 
+        except AIConcurrencyLimitError:
+            response = jsonify({
+                "status": "busy",
+                "message": "High traffic. Please retry in 10 seconds.",
+            })
+            response.headers["Retry-After"] = "10"
+            return response, 503
         except Exception as error:
             if _is_quota_exhausted_error(error):
                 app.logger.warning("DTS AI provider quota/rate limit reached; using deterministic enquiry fallback.")
