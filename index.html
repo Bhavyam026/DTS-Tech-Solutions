@@ -2627,17 +2627,19 @@
 (function () {
   var offer = document.getElementById('dts-diwali-combos');
   if (!offer) return;
-  // Offer runs through Bhai Dooj; hide automatically from 12 Nov 2026 (India time).
+  // Offer is active from 1 Nov 2026 00:00 through 11 Nov 2026;
+  // it ends at 12 Nov 2026 00:00 IST.
+  var startTime = new Date('2026-11-01T00:00:00+05:30').getTime();
   var expiryTime = new Date('2026-11-12T00:00:00+05:30').getTime();
   function updateOfferVisibility() {
-    if (Date.now() >= expiryTime) {
-      offer.hidden = true;
-      offer.setAttribute('aria-hidden', 'true');
-    }
+    var now = Date.now();
+    var active = now >= startTime && now < expiryTime;
+    offer.hidden = !active;
+    offer.setAttribute('aria-hidden', active ? 'false' : 'true');
+    var nextBoundary = now < startTime ? startTime : (now < expiryTime ? expiryTime : 0);
+    if (nextBoundary) window.setTimeout(updateOfferVisibility, Math.max(0, nextBoundary - now));
   }
   updateOfferVisibility();
-  var remaining = expiryTime - Date.now();
-  if (remaining > 0) window.setTimeout(updateOfferVisibility, remaining);
 })();
 </script>
 
