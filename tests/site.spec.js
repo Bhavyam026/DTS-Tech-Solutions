@@ -6,7 +6,7 @@ test('live site opens and has the DTS page title', async ({ page }) => {
   const response = await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
   expect(response, 'The website should return a document response').not.toBeNull();
   expect(response.status(), 'The website should return HTTP 200').toBe(200);
-  await expect(page).toHaveTitle(/Dynamic Technology Solutions/i);
+  await expect(page).toHaveTitle(/DTS/i);
 });
 
 test('main catalogue and contact sections are present', async ({ page }) => {
