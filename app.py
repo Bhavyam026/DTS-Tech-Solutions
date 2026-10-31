@@ -6,6 +6,11 @@ import threading
 import time
 import urllib.parse
 
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - Windows development fallback
+    fcntl = None
+
 from flask import Flask, g, has_request_context, jsonify, request, send_from_directory
 from flask_cors import CORS
 
@@ -385,7 +390,127 @@ def _new_session():
     }
 
 
+_shared_session_last_cleanup = 0
+
+
+def _shared_session_store_enabled():
+    return (
+        fcntl is not None
+        and os.environ.get("DTS_SHARED_SESSION_STORE", "").strip().casefold()
+        in {"1", "true", "yes", "on"}
+    )
+
+
+def _shared_session_paths(session_id):
+    store_dir = os.environ.get("DTS_SESSION_STORE_DIR", "/tmp/dts_sessions")
+    os.makedirs(store_dir, mode=0o700, exist_ok=True)
+    return (
+        os.path.join(store_dir, session_id + ".json"),
+        os.path.join(store_dir, session_id + ".lock"),
+        store_dir,
+    )
+
+
+def _get_shared_file_session(session_id):
+    global _shared_session_last_cleanup
+    now = time.time()
+    session_path, lock_path, store_dir = _shared_session_paths(session_id)
+    lock_handle = open(lock_path, "a+")
+    fcntl.flock(lock_handle.fileno(), fcntl.LOCK_EX)
+    try:
+        # Expire abandoned sessions periodically. Active sessions are protected
+        # by their per-session lock file while another worker is processing them.
+        if now - _shared_session_last_cleanup > 60:
+            with _sessions_lock:
+                if now - _shared_session_last_cleanup > 60:
+                    for entry in os.scandir(store_dir):
+                        if not entry.name.endswith(".json"):
+                            continue
+                        related_lock_path = entry.path[:-5] + ".lock"
+                        try:
+                            cleanup_lock = open(related_lock_path, "a+")
+                            try:
+                                fcntl.flock(
+                                    cleanup_lock.fileno(),
+                                    fcntl.LOCK_EX | fcntl.LOCK_NB,
+                                )
+                            except BlockingIOError:
+                                cleanup_lock.close()
+                                continue
+                            try:
+                                with open(entry.path, "r", encoding="utf-8") as stored_file:
+                                    stored = json.load(stored_file)
+                                if now - float(stored.get("updated_at", 0)) > SESSION_TTL_SECONDS:
+                                    os.remove(entry.path)
+                            except (OSError, ValueError, TypeError):
+                                pass
+                            finally:
+                                fcntl.flock(cleanup_lock.fileno(), fcntl.LOCK_UN)
+                                cleanup_lock.close()
+                        except OSError:
+                            continue
+                    _shared_session_last_cleanup = now
+
+        session = None
+        if os.path.isfile(session_path):
+            try:
+                with open(session_path, "r", encoding="utf-8") as stored_file:
+                    stored = json.load(stored_file)
+                if now - float(stored.get("updated_at", 0)) <= SESSION_TTL_SECONDS:
+                    session = stored
+                else:
+                    os.remove(session_path)
+            except (OSError, ValueError, TypeError):
+                session = None
+
+        if session is None:
+            active_sessions = sum(
+                1 for entry in os.scandir(store_dir)
+                if entry.name.endswith(".json")
+            )
+            if active_sessions >= MAX_ACTIVE_SESSIONS:
+                fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
+                lock_handle.close()
+                return None
+            session = _new_session()
+
+        session["lock"] = threading.Lock()
+        g.dts_shared_session = session
+        g.dts_shared_session_path = session_path
+        g.dts_shared_session_lock_handle = lock_handle
+        return session
+    except Exception:
+        fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
+        lock_handle.close()
+        raise
+
+
+@app.after_request
+def persist_dts_shared_session(response):
+    session = getattr(g, "dts_shared_session", None)
+    lock_handle = getattr(g, "dts_shared_session_lock_handle", None)
+    session_path = getattr(g, "dts_shared_session_path", None)
+    if session is not None and lock_handle is not None and session_path:
+        try:
+            stored = {key: value for key, value in session.items() if key != "lock"}
+            temp_path = session_path + f".{os.getpid()}.{threading.get_ident()}.tmp"
+            with open(temp_path, "w", encoding="utf-8") as stored_file:
+                json.dump(stored, stored_file, ensure_ascii=False, separators=(",", ":"))
+            os.replace(temp_path, session_path)
+        except Exception:
+            app.logger.exception("Could not persist shared DTS chat session")
+        finally:
+            try:
+                fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
+            finally:
+                lock_handle.close()
+    return response
+
+
 def _get_session(session_id):
+    if _shared_session_store_enabled() and has_request_context():
+        return _get_shared_file_session(session_id)
+
     now = time.time()
     with _sessions_lock:
         expired = [
@@ -397,10 +522,7 @@ def _get_session(session_id):
 
         session = _sessions.get(session_id)
         if session is None:
-            # A public endpoint must not let unlimited client-generated session IDs
-            # grow the process-local store without bound. Expired entries were
-            # removed above; when capacity is reached, reject new sessions rather
-            # than evicting an active customer's enquiry unexpectedly.
+            # The in-process fallback is retained for local development and tests.
             if len(_sessions) >= MAX_ACTIVE_SESSIONS:
                 return None
             session = _new_session()
