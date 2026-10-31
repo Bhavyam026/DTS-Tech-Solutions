@@ -13,7 +13,7 @@ async function main() {
   let session;
   let browser;
   const results = [];
-  const siteUrl = process.env.DTS_SITE_URL || 'https://bhavyam026.github.io/DTS-Tech-Solutions/';
+  const siteUrl = process.env.DTS_SITE_URL || 'https://dtsboisar.pages.dev/';
   const outputDir = path.join(process.cwd(), 'browserbase-results');
   fs.mkdirSync(outputDir, { recursive: true });
 
@@ -120,28 +120,6 @@ async function main() {
       return 'No festival overlay currently rendered (may be outside active festival dates)';
     });
 
-    await check('DTS festival proxy responds with calendar data and CORS permission', async () => {
-      const supportedYear = Math.min(2027, Math.max(2025, new Date().getFullYear()));
-      const apiUrl = 'https://dts-tech-solutions.onrender.com/api/festivals?year=' +
-        supportedYear + '&city=mumbai';
-      const apiResponse = await page.request.get(apiUrl, {
-        timeout: 30000,
-        headers: { Origin: new URL(siteUrl).origin }
-      });
-      if (apiResponse.status() !== 200) {
-        throw new Error('Festival proxy returned HTTP ' + apiResponse.status());
-      }
-      const allowOrigin = apiResponse.headers()['access-control-allow-origin'];
-      if (allowOrigin !== new URL(siteUrl).origin) {
-        throw new Error('Festival proxy CORS header missing or incorrect: ' + (allowOrigin || 'missing'));
-      }
-      const payload = await apiResponse.json();
-      if (!Array.isArray(payload.festivals)) {
-        throw new Error('Festival proxy response has no festivals array');
-      }
-      return 'HTTP 200; ' + payload.festivals.length + ' calendar entries; CORS allows DTS Pages origin';
-    });
-
     await check('Mobile layout has no horizontal overflow', async () => {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
@@ -155,57 +133,18 @@ async function main() {
       return 'viewport ' + dimensions.viewport + 'px; document ' + dimensions.document + 'px';
     });
 
-    await check('Cinematic festival MP4/WebM is integrated', async () => {
-      // GitHub Pages may still be deploying when this push-triggered check starts.
-      // Reload for up to 90 seconds so we test the current live revision, not stale HTML.
-      const deadline = Date.now() + 90000;
-      let lastState = 'video element missing';
-      while (Date.now() < deadline) {
-        await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
-        const videos = page.locator('video');
-        const count = await videos.count();
-        const html = await page.content();
-        const source = count
-          ? (await videos.first().getAttribute('src') ||
-             await videos.first().locator('source').first().getAttribute('src').catch(() => null))
-          : null;
-        const staleFeed = html.includes('Lloyd-Hansen/indian-festivals-api');
-        const calendarReady = html.includes('dts-tech-solutions.onrender.com/api/festivals?year=') &&
-          !html.includes('astrotathya.com/api/festivals?year=');
-        let videoStatus = 0;
-        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && calendarReady && !staleFeed) {
-          try {
-            const videoResponse = await page.request.get(new URL(source, siteUrl).toString(), { timeout: 15000 });
-            videoStatus = videoResponse.status();
-          } catch (error) {
-            lastState = 'video file request failed: ' + error.message;
-          }
-        }
-        if (count >= 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) && videoStatus === 200 && calendarReady && !staleFeed) {
-          // Ignore failed requests from stale page versions after the current
-          // deployment is confirmed to use the backend proxy.
-          for (let i = failedResources.length - 1; i >= 0; i--) {
-            const failedUrl = String(failedResources[i].url);
-            if (failedUrl.includes('Lloyd-Hansen/indian-festivals-api') ||
-                failedUrl.includes('astrotathya.com/api/festivals?year=')) {
-              failedResources.splice(i, 1);
-            }
-          }
-          for (let i = consoleErrors.length - 1; i >= 0; i--) {
-            if (consoleErrors[i].includes('astrotathya.com/api/festivals?year=')) {
-              consoleErrors.splice(i, 1);
-            }
-          }
-          return 'video source: ' + source + '; video HTTP ' + videoStatus + '; dynamic calendar uses DTS backend proxy';
-        }
-        lastState = !count ? 'video element missing' : staleFeed
-          ? 'live HTML still references the retired festival feed'
-          : !calendarReady ? 'live HTML has not deployed the DTS calendar proxy yet'
-          : videoStatus !== 200 ? 'video file HTTP status: ' + (videoStatus || 'request failed')
-          : 'video source missing or invalid: ' + (source || 'missing');
-        await page.waitForTimeout(10000);
+    await check('Local festival MP4 is available without a third-party calendar API', async () => {
+      const video = page.locator('#dtsFestivalBackdrop');
+      if (await video.count() !== 1) throw new Error('Expected one local festival background video');
+      const source = await video.locator('source').first().getAttribute('src');
+      if (!source || !source.startsWith('./assets/')) throw new Error('Festival video is not served locally: ' + source);
+      const videoResponse = await page.request.get(new URL(source, siteUrl).toString(), { timeout: 30000 });
+      if (videoResponse.status() !== 200) throw new Error('Local festival video returned HTTP ' + videoResponse.status());
+      const html = await page.content();
+      if (html.includes('api/festivals?year=') || html.includes('nagerholidays.com/api/') || html.includes('date.nager.at/api/')) {
+        throw new Error('Page still contains an optional live festival API dependency');
       }
-      throw new Error('Live deployment did not expose the current MP4/WebM and calendar fix within 90 seconds: ' + lastState);
+      return 'local video HTTP 200; no festival API dependency in page HTML';
     });
 
     await check('Privacy Policy and Terms page is live with approved contact details', async () => {
