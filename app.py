@@ -396,6 +396,8 @@ def _normalize_customer_text(value):
         (r"\b(?:acess|acces|access)\s+(?:control|controll|contol|contraol|controal|contral)\b", "access control"),
         (r"\b(?:pen\s+driver|pen\s*draiver|pen\s*drivr|pen-drive|pendriver)\b", "pen drive"),
         (r"\b(?:desk\s*top|desktp|desktopp)\b", "desktop"),
+        (r"\bnetwork\s*rack\b|\bnetworkrack\b", "network rack"),
+        (r"\bserver\s*rack\b|\bserverrack\b", "server rack"),
         (r"\b(?:fire\s+alaram|fire\s+alram|fire\s+alrm)\b", "fire alarm"),
         (r"\b(?:smok\s+detector|somke\s+detector|smoke\s+detekar|somke\s+detekar)\b", "smoke detector"),
         (r"\bkyky\b", "kya kya"),
