@@ -1862,6 +1862,66 @@ def chat_api():
             item["content"] for item in session["history"]
             if item["role"] == "user"
         ] + [latest_message]
+        # Process active Network Rack follow-ups before the AI education router.
+        previous_user_turns = [item["content"] for item in session["history"] if item["role"] == "user"]
+        rack_words = re.compile(r"\b(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?)\b", re.I)
+        other_words = re.compile(r"\b(?:pen\s*drive?r?|pendrive|ssd|hdd|hard[ -]?disk|servers?|nas|ups|firewall|smart\s*tv|tvs?|cctv|cameras?|nvr|dvr|electrical\s+panels?)\b", re.I)
+        rack_positions = [i for i, value in enumerate(previous_user_turns) if rack_words.search(str(value))]
+        other_positions = [i for i, value in enumerate(previous_user_turns) if other_words.search(str(value))]
+        rack_active = session.get("active_product") == "Network Rack" or (
+            rack_positions and max(rack_positions) > max(other_positions, default=-1)
+        )
+        if rack_active:
+            rack_text = " ".join(education_user_messages)
+            sizes = list(re.finditer(r"(?<![A-Za-z0-9])(\d{1,2})\s*[-]?\s*U(?![A-Za-z])", rack_text, re.I))
+            size = f"{sizes[-1].group(1)}U" if sizes else ""
+            quantity = ""
+            qty_re = re.compile(r"\b(\d{1,3})\s*(?:network\s*racks?|networkracks?|server\s*racks?|serverracks?|racks?|units?|pcs?|pieces?|nos?)\b", re.I)
+            for value in reversed(education_user_messages):
+                found = list(qty_re.finditer(str(value)))
+                if found:
+                    quantity = found[-1].group(1)
+                    break
+            if not quantity:
+                for value in reversed(education_user_messages):
+                    found = re.fullmatch(r"\s*(\d{1,3})\s*", str(value))
+                    if found:
+                        quantity = found.group(1)
+                        break
+            location = _extract_customer_location(education_user_messages) or _extract_known_location(education_user_messages)
+            phone = next((m.group(0) for value in reversed(education_user_messages)
+                          for m in re.finditer(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)", str(value))
+                          if _is_valid_indian_mobile(m.group(0))), "")
+            details = {
+                "product_service": f"Network Rack ({size})" if size else "Network Rack",
+                "location": location,
+                "quantity": f"{quantity} Network Rack" if quantity else "",
+                "contact_name": "",
+                "contact_number": phone,
+                "notes": "",
+            }
+            if not size:
+                reply = "Ji, Network Rack ke liye U size bata dein—6U, 9U, 12U, 15U, 18U ya 22U?"
+            elif not quantity:
+                reply = f"Ji, {size} Network Rack. Aapko kitne racks chahiye?"
+            elif not location:
+                reply = f"Ji, {quantity} {size} Network Rack note kar liye. Installation kis city/area mein chahiye?"
+            elif not phone:
+                reply = f"Ji, {quantity} {size} Network Rack ki requirement {location} ke liye note hai. Summary ke liye valid 10-digit Indian mobile number dein."
+            else:
+                session["summary"] = _format_summary(details)
+                session["state"] = "SUMMARY_READY"
+                reply = "Ji, please apni enquiry summary check karein:\n\n" + session["summary"] + "\n\nAgar sab sahi hai, exactly CONFIRM SUMMARY likhein."
+            session["details"] = details
+            if not (size and quantity and location and phone):
+                session["summary"] = None
+                session["state"] = "GATHERING"
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"], session.get("summary"))
+
         education_reply = _deterministic_product_education_reply(
             latest_message, education_user_messages
         )
