@@ -850,3 +850,26 @@ def test_network_rack_followups_still_work_after_firewall_question():
     assert "Network Rack (12U)" in final[3], replies
     assert "2 Network Rack" in final[3], replies
     assert "Palghar MIDC" in final[3], replies
+
+
+def test_shared_session_store_keeps_multiturn_context_across_worker_resets(tmp_path, monkeypatch):
+    monkeypatch.setenv("DTS_SHARED_SESSION_STORE", "1")
+    monkeypatch.setenv("DTS_SESSION_STORE_DIR", str(tmp_path))
+    session_id = "dts-11111111-2222-3333-4444-555555555555"
+    client = dts_app.app.test_client()
+    replies = []
+    for message in ["firewall hai apke pass", "networkrack chiye", "12U", "2 racks", "Palghar MIDC", "7826349150"]:
+        response = client.post(
+            "/api/chat",
+            json={"session_id": session_id, "messages": [{"role": "user", "content": message}]},
+        )
+        assert response.status_code == 200
+        replies.append(response.get_json())
+        # Simulate a request landing on another Gunicorn worker with a fresh process cache.
+        dts_app._sessions.pop(session_id, None)
+    final = replies[-1]
+    assert final["state"] == "SUMMARY_READY", replies
+    assert "Network Rack (12U)" in final["pending_summary"]
+    assert "2 Network Rack" in final["pending_summary"]
+    assert "Palghar MIDC" in final["pending_summary"]
+    assert "7826349150" in final["pending_summary"]
