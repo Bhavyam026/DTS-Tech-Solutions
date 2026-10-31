@@ -1844,6 +1844,24 @@ def chat_api():
             )
             return _json_response(reply, "CONFIRMED", summary, whatsapp_draft_url)
 
+        # A direct Network Rack request should start with rack height, not a generic
+        # IT equipment questionnaire. This remains available even if the AI provider
+        # returns a broad networking response.
+        if re.search(r"\\b(?:network\\s*racks?|networkracks?|server\\s*racks?|serverracks?)\\b", latest_message, re.IGNORECASE) and re.search(
+            r"\\b(?:chahiye|chiye|chahie|need|want|available|availability|hai|pass|paas)\\b",
+            latest_message, re.IGNORECASE
+        ):
+            rack_reply = (
+                "Ji, Network Rack ke options mein help karte hain. Aapko kitne U size ka rack chahiye—"
+                "6U, 9U, 12U, 15U, 22U ya 27U? Agar size confirm nahi hai, toh rack mein lagne wale "
+                "network devices aur available space bata dein; DTS team suitable size suggest karegi."
+            )
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": rack_reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(rack_reply, session.get("state", "GATHERING"), session.get("summary"))
+
         # Educational/product-information intent has priority over the enquiry state
         # machine. Answer it without clearing or advancing an existing lead state.
         education_user_messages = [
