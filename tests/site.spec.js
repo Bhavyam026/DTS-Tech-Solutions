@@ -77,7 +77,8 @@ test('local festival background video is served successfully without calendar AP
 
 test('electrical catalogue shows all six systems with symbols and image references', async ({ page }) => {
   await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-  await page.waitForFunction(() => typeof window.setCategoryFilter === 'function');
+  await page.locator('#catalogue').scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => typeof window.setCategoryFilter === 'function' && document.querySelectorAll('#productGrid .product-card').length >= 80);
   await page.evaluate(() => window.setCategoryFilter('Electrical'));
   const grid = page.locator('#productGrid');
   await expect(grid).toContainText('DTS Earthing & Grounding System');
