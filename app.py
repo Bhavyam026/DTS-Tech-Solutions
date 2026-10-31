@@ -1426,10 +1426,10 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
 
     # Match English customers with English deterministic fallback replies too.
-    english_query = bool(re.search(
-        r"\b(?:what|which|how|why|where|when|does|do|is|are|can|could|please|explain|difference|meaning|purpose|work|working|need|want|looking)\b",
+    english_query = bool(re.search(r"[a-z]", folded)) and not bool(re.search(
+        r"\b(?:hai|hain|kya|kaise|chahiye|chahie|mujhe|muje|aap|apko|ka|ki|ke|mein|mera|meri|karta|karte|karna|karwana|nahi|nhi|mala|tumhala|kasa|kase|ahe|pahije|kay)\b",
         folded,
-    )) and not bool(re.search(r"\b(?:hai|hain|kya|kaise|chahiye|mujhe|aap|apko|ka|ki|ke|mein|mera|meri)\b", folded))
+    ))
 
     # Answer basic CCTV-definition questions directly before product/enquiry routing.
     if re.search(r"\b(?:what\s+is\s+cctv|cctv\s+meaning|meaning\s+of\s+cctv|what\s+cctv)\b", folded):
