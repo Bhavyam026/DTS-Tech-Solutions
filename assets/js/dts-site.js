@@ -1286,6 +1286,91 @@
                 description: "HOC HDMI-over-Cat5e/6 extender for long-distance display, audio, IR and KVM control.",
                 specs: {"Brand":"HOC","Model":"HHE-200LKVM","Distance":"Up to 200m","Transport":"Single Cat5e/Cat6 cable","KVM":"USB mouse/keyboard support"}
             }
+            ,
+            {
+                id: 1101,
+                name: "DTS Earthing & Grounding System",
+                brand: "",
+                category: "Electrical",
+                sku: "DTS-ELE-EARTH",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=80"],
+                description: "Earthing and grounding system solutions for electrical safety. Electrode type, conductor sizing, bonding and testing are determined after site assessment and applicable standards review.",
+                specs: { "Symbol": "⏚ Earth Ground", "System": "Earthing & Bonding", "Application": "Electrical Safety" }
+            },
+            {
+                id: 1102,
+                name: "Electrical Power & Control Cables",
+                brand: "",
+                category: "Electrical",
+                sku: "DTS-ELE-CABLE",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1000&q=80"],
+                description: "Electrical power and control cable requirements for industrial and commercial installations. Cable type, conductor size, insulation and rating must be selected for the actual load and installation conditions.",
+                specs: { "Symbol": "〰 Cable", "Types": "Power & Control", "Selection": "Load / Site Based" }
+            },
+            {
+                id: 1103,
+                name: "Industrial Electrical Automation",
+                brand: "",
+                category: "Electrical",
+                sku: "DTS-ELE-AUTO",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1000&q=80"],
+                description: "Industrial automation solutions for process monitoring and equipment control. Scope, control architecture, sensors, drives and integration depend on the application.",
+                specs: { "Symbol": "⚙ Automation", "System": "Industrial Control", "Application": "Process & Equipment" }
+            },
+            {
+                id: 1104,
+                name: "PLC Control Systems",
+                brand: "",
+                category: "Electrical",
+                sku: "DTS-ELE-PLC",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1000&q=80"],
+                description: "Programmable Logic Controller (PLC) solutions for machine sequencing, logic control and industrial automation. I/O count, communication protocol and panel design require application details.",
+                specs: { "Symbol": "▣ PLC", "System": "Programmable Logic Controller", "Application": "Machine & Process Control" }
+            },
+            {
+                id: 1105,
+                name: "SCADA Monitoring & Control Systems",
+                brand: "",
+                category: "Electrical",
+                sku: "DTS-ELE-SCADA",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=1000&q=80"],
+                description: "Supervisory Control and Data Acquisition (SCADA) solutions for centralized process visualization, alarms and monitoring. Software, licenses, tags and integration scope require project assessment.",
+                specs: { "Symbol": "▤ SCADA", "System": "Supervisory Monitoring", "Application": "Centralized Control" }
+            },
+            {
+                id: 1106,
+                name: "PLCC Power Line Carrier Communication",
+                brand: "",
+                category: "Electrical",
+                sku: "DTS-ELE-PLCC",
+                price: "Get Quote",
+                priceValue: 0,
+                stock: "On Request",
+                image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80"],
+                description: "Power Line Carrier Communication (PLCC) system enquiry for communication over power-line infrastructure. Coupling equipment, protection, bandwidth and utility requirements must be engineered for the project.",
+                specs: { "Symbol": "⌁ PLCC", "System": "Power Line Carrier", "Application": "Utility Communication" }
+            }
         ];
 
         const DTS_AI_API = "https://dts-tech-solutions.onrender.com/api/chat";
