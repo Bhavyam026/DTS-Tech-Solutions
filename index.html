@@ -3218,6 +3218,10 @@
                         onkeydown="handleAIKeydown(event)"
                         oninput="autoResizeAIInput(this)"></textarea>
 
+                    <input id="aiImageInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="analyzeDTSImage(this)">
+                    <button type="button" onclick="document.getElementById('aiImageInput').click()" class="ai-send" aria-label="Upload site photo" title="Upload site photo">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
                     <button
                         id="aiSendButton"
                         onclick="sendAIMessage()"
