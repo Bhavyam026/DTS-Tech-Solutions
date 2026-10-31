@@ -10,7 +10,7 @@ from flask import Flask, g, has_request_context, jsonify, request, send_from_dir
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 ALLOWED_BROWSER_ORIGINS = {"https://bhavyam026.github.io", "https://dtsboisar.pages.dev"}
 
@@ -33,7 +33,7 @@ CORS(
         r"/api/*": {
             "origins": sorted(ALLOWED_BROWSER_ORIGINS),
             "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type"],
+            "allow_headers": ["Content-Type", "X-Session-ID"],
         }
     },
 )
@@ -1723,6 +1723,80 @@ def _deterministic_general_reply(latest_message):
         return "Aapka swagat hai! 😊 DTS ke kisi product ya service ke baare mein sawaal ho toh pooch sakte hain."
 
     return None
+
+@app.route("/api/image-analysis", methods=["POST"])
+def image_analysis():
+    """Analyze a customer site image using the existing Gemini REST configuration."""
+    origin = request.headers.get("Origin")
+    if origin and origin not in ALLOWED_BROWSER_ORIGINS:
+        return jsonify({"error": "Request origin is not allowed."}), 403
+    if not GEMINI_API_KEY:
+        return jsonify({"error": "Image analysis is temporarily unavailable. Please contact DTS."}), 503
+    session_id = request.headers.get("X-Session-ID", "")
+    if not isinstance(session_id, str) or not SESSION_ID_PATTERN.fullmatch(session_id):
+        return jsonify({"error": "Invalid chat session. Please refresh the page and try again."}), 400
+    if "file" not in request.files or not request.files["file"].filename:
+        return jsonify({"error": "Please select an image to upload."}), 400
+    image_data = request.files["file"].read(4 * 1024 * 1024 + 1)
+    if not image_data or len(image_data) > 4 * 1024 * 1024:
+        return jsonify({"error": "Image must be smaller than 4 MB."}), 413
+    image_types = [
+        (b"\xff\xd8\xff", "image/jpeg"),
+        (b"\x89PNG\r\n\x1a\n", "image/png"),
+        (b"RIFF", "image/webp"),
+    ]
+    mime_type = ""
+    for signature, candidate in image_types:
+        if image_data.startswith(signature) and (candidate != "image/webp" or image_data[8:12] == b"WEBP"):
+            mime_type = candidate
+            break
+    if not mime_type:
+        return jsonify({"error": "Supported image formats are JPG, PNG and WEBP."}), 415
+    session = _get_session(session_id)
+    if session is None:
+        return jsonify({"error": "DTS chat is temporarily busy. Please retry shortly."}), 503
+
+    import base64
+    payload = {
+        "systemInstruction": {"parts": [{"text":
+            "You are DTS site-assessment assistant. Analyze only visible details. "
+            "Give preliminary CCTV coverage considerations and questions for a professional site survey. "
+            "Do not claim exact dimensions, final camera counts, guaranteed blind-spot elimination, wiring routes "
+            "or safety compliance from a photo. State that final placement requires a DTS site survey."
+        }]},
+        "contents": [{"role": "user", "parts": [
+            {"text": "Review this site image for a preliminary CCTV assessment. Describe visible areas, "
+                     "possible camera coverage considerations and what DTS should verify on site. "
+                     "Reply in concise, customer-friendly Hinglish."},
+            {"inline_data": {"mime_type": mime_type, "data": base64.b64encode(image_data).decode("ascii")}}
+        ]}],
+        "generationConfig": {"maxOutputTokens": 700}
+    }
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+    try:
+        upstream = requests.post(url, headers={
+            "x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"
+        }, json=payload, timeout=(5, 35))
+        data = upstream.json()
+        if not upstream.ok:
+            app.logger.warning("Gemini image analysis returned HTTP %s.", upstream.status_code)
+            return jsonify({"error": "Image analysis service could not process this image. Please try again."}), 502
+        candidates = data.get("candidates") or []
+        parts = ((candidates[0].get("content") or {}).get("parts") or []) if candidates else []
+        analysis = "\n".join(part.get("text", "") for part in parts if isinstance(part, dict)).strip()
+        if not analysis:
+            return jsonify({"error": "Image analysis returned no result. Please try another image."}), 502
+    except (requests.RequestException, ValueError, KeyError, TypeError):
+        app.logger.exception("DTS image analysis request failed.")
+        return jsonify({"error": "Image analysis is temporarily unavailable. Please try again."}), 502
+
+    with session["lock"]:
+        session["history"].append({"role": "user", "content": "[Customer uploaded a site image for preliminary CCTV assessment.]"})
+        session["history"].append({"role": "assistant", "content": analysis})
+        session["history"] = session["history"][-MAX_STORED_TURNS:]
+        session["updated_at"] = time.time()
+    return jsonify({"status": "success", "analysis": analysis})
+
 
 @app.route("/api/chat", methods=["POST"])
 def chat_api():
