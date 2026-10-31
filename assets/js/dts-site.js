@@ -4499,6 +4499,38 @@ Thank you.`;
            AI SEND MESSAGE
            ========================================================= */
 
+        async function analyzeDTSImage(fileInput) {
+            const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+            if (!file) return;
+            if (file.size > 4 * 1024 * 1024) {
+                addAIMessage("Photo 4 MB se chhoti honi chahiye.", "bot");
+                fileInput.value = "";
+                return;
+            }
+            addAIMessage("Photo mil gayi. Site image ka preliminary analysis kar raha hoon…", "bot");
+            const form = new FormData();
+            form.append("file", file);
+            try {
+                const response = await fetch("https://dts-tech-solutions.onrender.com/api/image-analysis", {
+                    method: "POST",
+                    headers: { "X-Session-ID": aiSessionId },
+                    body: form
+                });
+                const data = await response.json().catch(function() { return {}; });
+                if (!response.ok || !data.analysis) {
+                    throw new Error(data.error || "Image analysis abhi available nahi hai.");
+                }
+                addAIMessage(data.analysis, "bot");
+                aiConversation.push({role: "user", content: "[Uploaded a site image for CCTV assessment]"});
+                aiConversation.push({role: "assistant", content: data.analysis});
+            } catch (error) {
+                addAIMessage(error.message || "Photo analyze nahi ho payi. Dobara try karein.", "bot");
+            } finally {
+                fileInput.value = "";
+            }
+        }
+
+
         async function sendAIMessage() {
 
             const input = document.getElementById('aiInput');
