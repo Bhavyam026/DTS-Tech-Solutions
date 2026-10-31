@@ -816,3 +816,17 @@ def test_hinglish_technical_question_keeps_roman_hindi():
     assert reply is not None
     assert "Router alag-alag networks" in reply
     assert "Aapko" in reply
+
+
+def test_english_technical_education_fallback_matches_customer_language():
+    cases = [
+        ("how does CCTV work", ("video-surveillance system", "NVR", "DVR")),
+        ("how does a firewall work", ("firewall", "network traffic", "security rules")),
+        ("how does a router work", ("router", "separate networks", "internet")),
+        ("what does a network switch do", ("network switch", "LAN", "VLAN")),
+    ]
+    for message, expected in cases:
+        reply = dts_app._deterministic_product_education_reply(message, [message])
+        assert reply is not None, message
+        assert all(term.casefold() in reply.casefold() for term in expected), (message, reply)
+        assert not any(term in reply.casefold() for term in ("ji,", "aapko", "chahiye"))
