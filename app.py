@@ -1048,6 +1048,10 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     folded = _normalize_customer_text(latest_message)
     combined = _normalize_customer_text(" ".join(str(item) for item in user_messages))
     normalized = " ".join(re.sub(r"[^a-z0-9\s]", " ", folded).split())
+    english_query = bool(re.search(r"[a-z]", folded)) and not bool(re.search(
+        r"\b(?:hai|hain|kya|kaise|chahiye|chahie|mujhe|muje|aap|apko|ka|ki|ke|mein|mera|meri|karta|karte|karna|karwana|nahi|nhi|mala|tumhala|kasa|kase|ahe|pahije|kay)\b",
+        folded,
+    ))
 
     # Prefer the product explicitly named in the latest message. Old conversation
     # context may resolve pronouns/follow-ups, but must never override a new product.
@@ -1338,6 +1342,45 @@ def _deterministic_product_education_reply(latest_message, user_messages):
 
     # Product education should work across the full DTS catalogue, not only UPS,
     # pen drives and desktops. Prefer the product explicitly named in the latest turn.
+    if asks_how_or_details and english_query:
+        if re.search(r"\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\b", normalized):
+            return (
+                "CCTV (Closed-Circuit Television) is a video-surveillance system. Cameras capture footage for live "
+                "monitoring and, when connected to a compatible recorder, video storage. An NVR is generally used with "
+                "compatible IP cameras; a DVR is used with compatible analogue or hybrid camera systems. DTS lists "
+                "Prizor outdoor PoE and Smart Wi-Fi PTZ camera options, plus NVR/DVR enquiries. Exact model compatibility "
+                "and availability must be confirmed. Are you planning CCTV for a home, shop, office or factory?"
+            )
+        if re.search(r"\bfirewalls?\b", normalized):
+            return (
+                "A firewall monitors and filters network traffic according to security rules. It can restrict unwanted "
+                "connections and control access between network zones; advanced models may also offer VPN, intrusion "
+                "prevention and application controls. Features depend on the model and configuration. DTS accepts "
+                "firewall/network-security enquiries, but the exact model, licensing and availability need confirmation. "
+                "Is this for a small office or an industrial network?"
+            )
+        if re.search(r"\brouters?\b", normalized):
+            return (
+                "A router connects separate networks and forwards traffic between them, such as an office LAN and the "
+                "internet. Depending on the model, it may provide NAT, DHCP, VPN and routing policies. A switch mainly "
+                "connects devices within one LAN. Exact features and capacity depend on the model. Is this for a home, "
+                "office or industrial network?"
+            )
+        if re.search(r"\bswitch(?:es)?\b", normalized):
+            return (
+                "A network switch connects devices such as PCs, printers, access points and IP cameras within the same "
+                "LAN. Unmanaged switches are simple plug-and-play; managed switches can support VLANs, monitoring and "
+                "access controls. PoE switches can power compatible devices over Ethernet, subject to the PoE standard "
+                "and available power budget. How many devices and ports do you need?"
+            )
+        if re.search(r"\b(?:electrical panel|power distribution panel|distribution panel|electrical work|earthing|grounding|plc|scada|plcc|electrical cable|automation)\b", normalized):
+            return (
+                "DTS takes enquiries for electrical distribution panels, earthing/grounding, power and control cables, "
+                "industrial automation, PLC, SCADA and PLCC systems. These are project-based requirements: ratings, "
+                "design, protection, compatibility and applicable standards must be confirmed by a qualified engineer "
+                "after reviewing the load and site. What type of electrical system or application are you working on?"
+            )
+
     if asks_how_or_details:
         product_checks = [
             (r"\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\b",
