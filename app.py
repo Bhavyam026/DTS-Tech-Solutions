@@ -84,7 +84,7 @@ For DTS product, stock, price, delivery, compatibility and service claims, use o
 - IT assets: UPS (Uninterruptible Power Supply), DTS Business Monitor & Display, and customer-referenced Prizor 43-inch Smart 4K UHD TV. Recognize TV/television/LED TV/Smart TV requests as valid product enquiries; never redirect a TV customer to the CCTV-only list or repeat the default greeting. The 43-inch Smart 4K UHD TV name is customer-provided catalogue context; exact model number, smart platform, ports, warranty, stock, price and delivery must be confirmed by DTS before promising them. The DTS owner confirms the monitor they have has 1 HDMI port and physical control buttons. Do not assume this applies to every Prizor model.
 - Public Prizor monitor listings found during research include PRIZ-19FHD-M (19-inch), PRIZ-22FHD-M (22-inch), PRIZ-24FHD-FL (24-inch), and PRIZ-32FHD-FL (32-inch). Some reseller listings describe Full HD 1920x1080 and HDMI/VGA/USB/CVBS interfaces, but these must NOT be attributed to the DTS owner's particular monitor unless its model matches. No 45-inch Prizor monitor was verified in the researched listings; treat 45-inch supply as needing DTS team confirmation, not as unavailable.
 - Networking/cabling research: HOC public catalogue lists NIRBHAY CAT6 indoor pure-copper cable (24 AWG, 250 MHz, up to 1 Gbps), PRITHVI CAT6 outdoor pure-copper cable (24 AWG, 250 MHz, UV/moisture-resistant jacket, up to 1 Gbps), and BRAHMOS armoured CAT6 cable (23 AWG, 250 MHz, up to 1 Gbps). These are public product-family specifications, not proof of DTS stock. Ask/check exact HOC model before applying specs or promising availability.
-- Electrical: Industrial Electrical Power Distribution Panel, electrical work. For UPS installations, explain that cable/wire size depends on the UPS model and rated input/output current, AC voltage, battery/DC voltage, connected load, cable length, installation method and applicable electrical code. Never guess a cable cross-section in mm². If customer doesn't know, explain simply that DTS/electrician can confirm after checking the UPS nameplate, load and cable run.
+- Electrical: Industrial Electrical Power Distribution Panel, Earthing & Grounding Systems, Electrical Power/Control Cables, Industrial Electrical Automation, PLC Control Systems, SCADA Monitoring & Control Systems, and PLCC (Power Line Carrier Communication) systems. These are enquiry categories, not confirmed stocked models; exact design, ratings, standards, brands, availability and project scope must be verified by DTS after requirement/site assessment. For UPS installations, explain that cable/wire size depends on the UPS model and rated input/output current, AC voltage, battery/DC voltage, connected load, cable length, installation method and applicable electrical code. Never guess a cable cross-section in mm². If customer doesn't know, explain simply that DTS/electrician can confirm after checking the UPS nameplate, load and cable run.
 - Fire safety: fire alarm and safety/suppression systems; these are DTS services/products, not Prizor-branded.
 - Services: Engineering Contracting, installation, maintenance and AMC, including access control where listed.
 Product education for customer questions (general purpose only; exact model specs must still be verified):
@@ -101,7 +101,7 @@ Product education for customer questions (general purpose only; exact model spec
 If a detail/specification is not explicitly in this catalogue context, say it needs confirmation from the DTS team. Never invent resolution, ports, refresh rate, box contents, stock, delivery dates or product capabilities.
 Rules:
 1. Never quote, estimate, or invent a price. Say: "Pricing aur exact cost ke liye kripya hamare owner/expert se direct baat karein."
-2. Reply naturally in the customer's language (Hindi, Roman Hindi/Hinglish, or English). Understand short and misspelled Roman Hindi such as "CCTV chiye", "5 cctv chahiye", "PTZ chiye", "cat 6 100 merter", and "MIDC boisar".
+2. LANGUAGE MATCHING IS MANDATORY: Detect the language of the customer's latest message and reply in that same language and script/style: English question → natural English; Hindi in Devanagari → Hindi in Devanagari; Roman Hindi/Hinglish → natural Roman Hindi/Hinglish; Marathi → Marathi. If the customer changes language mid-chat, switch immediately. Do not default to Hindi or Hinglish for an English-speaking customer. Preserve technical product names and acronyms (CCTV, NVR, DVR, PLC, SCADA, PLCC, LAN, WAN, VLAN, PoE, VPN, etc.) as written. Understand short and misspelled Roman Hindi such as "CCTV chiye", "5 cctv chahiye", "PTZ chiye", "cat 6 100 merter", and "MIDC boisar".
 2a. TYPO TOLERANCE: Treat "electrical plane" / "electrical planes" as a common typo for "electrical panel" / "electrical panels"; preserve the quantity attached to it. Do not interpret it as an aircraft.
 3. Be concise. Answer the customer's actual question first, then ask only one relevant follow-up question. Never repeat a greeting instead of answering.
 3a. GENERAL CONVERSATION: If the customer says hi/hello, respond warmly once and explain briefly what help is available; do not send the same default greeting for every message. If they ask "mujhe yahan kya milega", "why should I use your services", or similar general/value questions, answer directly with grounded DTS benefits and listed service categories before asking one useful follow-up. Do not invent guarantees, prices, stock, or response times.
@@ -117,7 +117,7 @@ Rules:
 17. MESSY CUSTOMER MESSAGES: Customers often use Roman Hindi/Hinglish, spelling mistakes, missing spaces, shorthand, incomplete sentences, repeated words, and indirect follow-ups (for example: "ssd hai", "ky ky apko", "jo chahiye wo nahi mila to", "order karwa sakte ho kya", "uska kya", "ye chalega?"). Infer the most likely meaning from the latest message plus recent conversation, while prioritizing an explicitly named new product over older context. If two interpretations are plausible, ask one short clarification instead of repeating the greeting or dumping the full catalogue. Never treat a fragment as a greeting if it contains a product or follow-up intent.
 18. FOLLOW-UP CONTEXT: Resolve pronouns and short follow-ups such as "uska", "wo", "ye", "aur kya", "kyun", "kitna", "mil jayega?", "nahi mila to?" against the most recent relevant product and unanswered question. Do not blindly use every historical product mentioned; a new explicit product switches context. Preserve previously supplied quantities, location and product details when answering a side question.
 19. UNLISTED ITEM / SOURCING: If a customer says their required item is not in the catalogue or asks "order karwa sakte ho?", acknowledge the request directly and explain that DTS can check supplier sourcing/special-order feasibility. Ask the exact item/brand/model and quantity only if not already supplied. Do not repeat the product list, claim an order is placed, or promise stock, price, or delivery until the DTS team confirms.
-20. NATURAL CONVERSATION: Answer the question first in friendly, concise Hinglish; ask at most one useful next question. Avoid canned greetings on every turn, repeated catalogue dumps, and generic "aapko kis cheez ki requirement hai?" when the customer already named a product.
+20. NATURAL CONVERSATION: Answer the customer's actual question first in the language selected under rule 2; ask at most one useful next question. Avoid canned greetings on every turn, repeated catalogue dumps, and generic requirement questions when the customer already named a product. For technical topics such as CCTV, IP cameras, NVR/DVR, firewall, router, switch, LAN/WAN, VLAN, Wi-Fi, fiber, access control, PLC, SCADA and PLCC, explain the concept, purpose and practical differences clearly at an appropriate depth. Separate general technical education from DTS stock/service claims. DTS lists firewall/network-security solutions and networking services, but do not claim a specific router/switch/firewall brand or model is stocked unless the catalogue explicitly names it. For “what is CCTV” or “what CCTV do you offer?”, explain CCTV first and then distinguish the listed Prizor outdoor PoE and Wi-Fi PTZ camera options, plus NVR/DVR recording; do not answer with an unrelated service.
 13. ACCESSORIES AND SIZING: If asked what else is needed (for example, UPS wires/cables, batteries, protection devices, connectors or installation materials), explain the usual categories that may be needed, but distinguish them from items explicitly listed in the DTS catalogue. Do not promise inclusion, compatibility, stock or exact sizing unless confirmed.
 14. ELECTRICAL SAFETY: Never guess a UPS cable size in mm². It depends on UPS rated input/output current, AC voltage, battery/DC voltage and current, connected load, cable length, installation method and applicable electrical standards. Ask for the UPS make/model or nameplate and installation details if known; if the customer doesn't know, reassure them that DTS can confirm after a site/load check. Do not instruct an unqualified customer to perform electrical installation.
 15. PRODUCT QUESTIONS: Answer questions about purpose, how it works, where it is used, selection, required accessories, installation/maintenance and compatibility only to the level supported by the catalogue or verified technical facts. When a spec is unknown, clearly say DTS needs to verify it rather than inventing an answer. For unrelated general questions, answer them helpfully as a general-purpose AI; do not confuse general answers with confirmed DTS stock, prices, or services.
@@ -1425,6 +1425,60 @@ def _deterministic_catalog_reply(latest_message, user_messages):
             "Aapke UPS par model ya VA/kVA/W rating likhi hai?"
         )
 
+    # Match English customers with English deterministic fallback replies too.
+    english_query = bool(re.search(
+        r"\b(?:what|which|how|why|where|when|does|do|is|are|can|could|please|explain|difference|meaning|purpose|work|working|need|want|looking)\b",
+        folded,
+    )) and not bool(re.search(r"\b(?:hai|hain|kya|kaise|chahiye|mujhe|aap|apko|ka|ki|ke|mein|mera|meri)\b", folded))
+
+    # Answer basic CCTV-definition questions directly before product/enquiry routing.
+    if re.search(r"\b(?:what\s+is\s+cctv|cctv\s+meaning|meaning\s+of\s+cctv|what\s+cctv)\b", folded):
+        if english_query:
+            return (
+                "CCTV stands for Closed-Circuit Television. It is a video-surveillance system that uses cameras "
+                "to capture live footage for monitoring and, when connected to a recorder, storing video. "
+                "A typical setup may include cameras, suitable cabling/network equipment, and an NVR (for compatible "
+                "IP cameras) or DVR (for compatible analogue/hybrid cameras). DTS lists Prizor outdoor PoE and "
+                "Wi-Fi PTZ camera options, along with NVR/DVR enquiries. Are you planning CCTV for a home, shop, "
+                "office or factory?"
+            )
+        return (
+            "CCTV ka full form Closed-Circuit Television hai. Is system mein cameras live video capture karte hain; "
+            "monitoring aur recording ke liye compatible NVR/DVR use hota hai. DTS catalogue mein Prizor outdoor "
+            "PoE aur Wi-Fi PTZ camera options ke saath NVR/DVR enquiries bhi hain. Aapko home, shop, office ya factory ke liye chahiye?"
+        )
+
+    if re.search(r"\brouters?\b", folded) and re.search(r"\b(?:what|how|work|working|purpose|difference|meaning|use|explain|kya|kaise|kyu|kyun)\b", folded):
+        if english_query:
+            return (
+                "A router connects different networks and forwards data between them—for example, between an office LAN "
+                "and the internet. Depending on the model, it may provide routing, NAT, DHCP, VPN and firewall features. "
+                "A router is different from a switch: the router connects networks, while a switch mainly connects devices "
+                "within the same local network. The exact features and capacity depend on the model. Is this for a home, "
+                "office or industrial network?"
+            )
+        return (
+            "Router alag-alag networks ko connect karta hai—jaise office LAN ko internet se. Model ke hisaab se routing, "
+            "NAT, DHCP, VPN jaise features mil sakte hain. Switch mainly ek local network ke devices ko connect karta hai. "
+            "Exact features model par depend karte hain. Aapko home, office ya industrial network ke liye samajhna hai?"
+        )
+
+    if re.search(r"\bswitch(?:es)?\b", folded) and re.search(r"\b(?:what|how|work|working|purpose|difference|meaning|use|explain|kya|kaise|kyu|kyun)\b", folded):
+        if english_query:
+            return (
+                "A network switch connects devices—such as PCs, printers, access points and IP cameras—inside the same LAN "
+                "and forwards traffic to the correct port. An unmanaged switch is simple plug-and-play; a managed switch "
+                "can support configuration such as VLANs, monitoring and access policies. PoE switches can power compatible "
+                "devices over Ethernet, subject to the switch's PoE standard and power budget. Which devices and how many "
+                "ports do you need to connect?"
+            )
+        return (
+            "Network switch ek hi LAN ke devices—PC, printer, access point ya IP camera—ko connect karta hai. Unmanaged "
+            "switch simple plug-and-play hota hai; managed switch mein VLAN, monitoring aur network controls configure "
+            "kar sakte hain. PoE switch compatible devices ko Ethernet cable se power bhi de sakta hai, lekin standard aur "
+            "power budget check karna hota hai. Aapko kitne devices/ports connect karne hain?"
+        )
+
     asks_cctv_brand = bool(
         re.search(r"\b(?:cctv|camera|cameras|ptz|nvr|dvr)\b", folded)
         and re.search(
@@ -1435,6 +1489,12 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
     )
     if asks_cctv_brand:
+        if english_query:
+            return (
+                "DTS lists Prizor CCTV camera options, including an outdoor 4MP PoE IP camera and a Smart Wi-Fi PTZ camera. "
+                "NVR and DVR recording systems are also listed. Exact model compatibility, stock and specifications must "
+                "be confirmed by the DTS team. Are you looking for an outdoor PoE camera or a Wi-Fi PTZ camera?"
+            )
         return (
             "Ji, hamare catalogue mein Prizor brand ke CCTV cameras listed hain. "
             "Options mein Prizor 4MP Outdoor PoE IP Camera aur Prizor Smart Wi-Fi PTZ Camera "
@@ -1466,6 +1526,20 @@ def _deterministic_catalog_reply(latest_message, user_messages):
         )
 
     if re.search(r"\bfirewalls?\b", folded):
+        if english_query and re.search(r"\b(?:what|how|work|working|purpose|difference|meaning|use|explain)\b", folded):
+            return (
+                "A firewall is a network-security control that monitors and filters incoming and outgoing traffic using "
+                "defined rules. It can help restrict unwanted connections and segment access; advanced models may add "
+                "VPN, intrusion prevention and application controls. Features vary by model and configuration. DTS lists "
+                "firewall/network-security solution enquiries, but the exact brand, model, licensing and availability must "
+                "be confirmed by the DTS team. Is this for a small office or an industrial network?"
+            )
+        if english_query:
+            return (
+                "DTS can take an enquiry for firewall and network-security solutions. The exact brand/model, licensing, "
+                "features, compatibility and availability need confirmation by the DTS team. Is this for a small office "
+                "or an industrial network?"
+            )
         return (
             "Ji, DTS ke IT infrastructure catalogue mein firewall/network security solutions listed hain. "
             "Exact model, stock, price aur compatibility DTS team se confirm karni hogi. "
