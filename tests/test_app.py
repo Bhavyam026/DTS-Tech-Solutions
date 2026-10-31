@@ -54,7 +54,7 @@ def test_new_requirement_after_confirmation_starts_fresh_enquiry(monkeypatch):
     assert data["whatsapp_sent"] is False
     assert session["summary"] is None
     assert session["details"] is None
-    assert session["history"][0]["content"] == "muze electrical panel bhi chahiye"
+    assert session["history"][0]["content"] == "mujhe electrical panel bhi chahiye"
 
 
 def test_unknown_location_is_accepted_instead_of_reprompted():
