@@ -2623,6 +2623,23 @@
     <p class="mt-6 text-center text-xs text-amber-100/65">Final camera model, included accessories, installation scope and availability to be confirmed at enquiry. HDD is not included.</p>
   </div>
 </section>
+<script id="dts-diwali-offer-expiry">
+(function () {
+  var offer = document.getElementById('dts-diwali-combos');
+  if (!offer) return;
+  // Offer runs through Bhai Dooj; hide automatically from 12 Nov 2026 (India time).
+  var expiryTime = new Date('2026-11-12T00:00:00+05:30').getTime();
+  function updateOfferVisibility() {
+    if (Date.now() >= expiryTime) {
+      offer.hidden = true;
+      offer.setAttribute('aria-hidden', 'true');
+    }
+  }
+  updateOfferVisibility();
+  var remaining = expiryTime - Date.now();
+  if (remaining > 0) window.setTimeout(updateOfferVisibility, remaining);
+})();
+</script>
 
 <section id="catalogue" class="dts-catalogue-shell py-14 sm:py-16">
 
