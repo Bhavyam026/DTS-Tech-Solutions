@@ -830,3 +830,23 @@ def test_english_technical_education_fallback_matches_customer_language():
         assert reply is not None, message
         assert all(term.casefold() in reply.casefold() for term in expected), (message, reply)
         assert not any(term in reply.casefold() for term in ("ji,", "aapko", "chahiye"))
+
+
+def test_network_rack_followups_still_work_after_firewall_question():
+    session_id = "dts-99999999-8888-7777-6666-555555555555"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+    replies = []
+    for message in ["firewall hai apke pass", "networkrack chiye", "12U", "2 racks", "Palghar MIDC", "7826349150"]:
+        response = client.post(
+            "/api/chat",
+            json={"session_id": session_id, "messages": [{"role": "user", "content": message}]},
+        )
+        assert response.status_code == 200
+        data = response.get_json()
+        replies.append((message, data["reply"], data["state"], data.get("pending_summary")))
+    final = replies[-1]
+    assert final[2] == "SUMMARY_READY", replies
+    assert "Network Rack (12U)" in final[3], replies
+    assert "2 Network Rack" in final[3], replies
+    assert "Palghar MIDC" in final[3], replies
