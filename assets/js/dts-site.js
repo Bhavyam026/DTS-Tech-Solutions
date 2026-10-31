@@ -3873,7 +3873,8 @@ Thank you.`;
             // This can correctly override lunar-festival dates where it publishes them.
             try {
                 const response = await fetch('https://nagerholidays.com/api/v4/Holidays/IN/' + year, {
-                    cache: 'no-store'
+                    cache: 'force-cache',
+                    signal: AbortSignal.timeout(2500)
                 });
                 if (response.ok) {
                     const holidays = await response.json();
@@ -3891,7 +3892,8 @@ Thank you.`;
             // source used by this page.
             try {
                 const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/IN', {
-                    cache: 'no-store'
+                    cache: 'force-cache',
+                    signal: AbortSignal.timeout(2500)
                 });
                 if (response.ok) {
                     const holidays = await response.json();
@@ -3904,51 +3906,10 @@ Thank you.`;
                 // Continue to the Indian festival calendar below.
             }
 
-            // Secondary: city-aware Indian festival calendar through the DTS backend.
-            // The backend caches the upstream response and avoids browser CORS blocks.
-            // Mumbai is used as the supported Maharashtra reference city.
-            // This provider currently documents years 2025-2027, so Nager/fixed-date
-            // fallbacks remain useful outside that range.
-            if (year >= 2025 && year <= 2027) {
-                try {
-                    let response = await fetch(
-                        'https://dts-tech-solutions.onrender.com/api/festivals?year=' + year + '&city=mumbai',
-                        { cache: 'no-store' }
-                    );
-                    if (response.status === 202) {
-                        await new Promise(resolve => setTimeout(resolve, 3500));
-                        response = await fetch(
-                            'https://dts-tech-solutions.onrender.com/api/festivals?year=' + year + '&city=mumbai',
-                            { cache: 'no-store' }
-                        );
-                    }
-                    if (response.ok) {
-                        const payload = await response.json();
-                        const todayItems = (Array.isArray(payload.festivals) ? payload.festivals : [])
-                            .filter(item => item && item.date === localDate && item.rule)
-                            .filter(item => {
-                                const rule = item.rule;
-                                const category = String(rule.observanceCategory || '').toUpperCase();
-                                const regions = Array.isArray(rule.regions) ? rule.regions : [];
-                                const localToMaharashtra = regions.some(region =>
-                                    ['PAN_INDIA', 'MAHARASHTRA', 'WEST'].includes(String(region).toUpperCase())
-                                );
-                                return category === 'FESTIVAL' && localToMaharashtra;
-                            })
-                            .sort((a, b) => Number(Boolean(b.rule.isMajor)) - Number(Boolean(a.rule.isMajor)));
-
-                        for (const item of todayItems) {
-                            if (addFestival({
-                                date: item.date,
-                                name: item.rule.nameEn,
-                                localName: item.rule.nameHi
-                            })) return;
-                        }
-                    }
-                } catch (error) {
-                    // Network/API failure should never stop the rest of the website.
-                }
-            }
+            // Do not call the Render backend for optional festival decoration.
+            // A third-party calendar outage must never add latency or repeated 503s
+            // to the customer-facing website. The fixed-date and Diwali schedule
+            // remain fully local; Nager feeds above are best-effort only.
 
             // Only fixed Gregorian holidays remain as offline fallback. Lunar dates
             // are deliberately not guessed, so stale dates cannot trigger the wrong
