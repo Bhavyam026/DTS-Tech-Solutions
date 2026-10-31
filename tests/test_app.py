@@ -792,3 +792,27 @@ def test_hdd_one_terabyte_capacity_is_acknowledged_without_asking_for_capacity_a
     assert "1 TB" in reply
     assert "internal HDD" in reply
     assert "capacity (jaise 1 TB ya 2 TB) baad mein confirm" not in reply
+
+
+def test_english_technical_questions_receive_english_direct_answers():
+    cases = [
+        ("what is cctv", ("Closed-Circuit Television", "Prizor", "NVR")),
+        ("what is a firewall", ("firewall", "network-security", "DTS")),
+        ("how does a router work", ("router", "networks", "internet")),
+        ("what does a network switch do", ("switch", "LAN", "VLAN")),
+    ]
+    for message, expected in cases:
+        reply = dts_app._deterministic_catalog_reply(message, [message])
+        assert reply is not None, message
+        assert all(term.casefold() in reply.casefold() for term in expected), (message, reply)
+        assert not any(term in reply.casefold() for term in ("ji,", "aapko", "chahiye"))
+
+
+def test_hinglish_technical_question_keeps_roman_hindi():
+    reply = dts_app._deterministic_catalog_reply(
+        "router kaise kaam karta hai",
+        ["router kaise kaam karta hai"],
+    )
+    assert reply is not None
+    assert "Router alag-alag networks" in reply
+    assert "Aapko" in reply
