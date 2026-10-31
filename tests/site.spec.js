@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-const siteUrl = process.env.DTS_SITE_URL || 'https://bhavyam026.github.io/DTS-Tech-Solutions/';
+const siteUrl = process.env.DTS_SITE_URL || 'https://dtsboisar.pages.dev/';
 
 test('live site opens and has the DTS page title', async ({ page }) => {
   const response = await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
@@ -59,78 +59,18 @@ test('privacy policy and terms are published with the approved contact details',
   expect(content).not.toContain('99307 81093');
 });
 
-test('cinematic festival video is integrated', async ({ page }) => {
-  test.setTimeout(150000);
-  const deadline = Date.now() + 90000;
-  let lastState = 'video element missing';
-  while (Date.now() < deadline) {
-    await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-    const videos = page.locator('video');
-    const count = await videos.count();
-    const html = await page.content();
-    const source = count
-      ? (await videos.first().getAttribute('src') ||
-         await videos.first().locator('source').first().getAttribute('src').catch(() => null))
-      : null;
-    const calendarReady = html.includes('dts-tech-solutions.onrender.com/api/festivals?year=') && !html.includes('astrotathya.com/api/festivals?year=') &&
-      html.includes('const DTS_FESTIVAL_CALENDAR = {}');
-    let videoStatus = 0;
-    if (count === 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) &&
-        calendarReady && !html.includes('Lloyd-Hansen/indian-festivals-api')) {
-      try {
-        const videoResponse = await page.request.get(new URL(source, siteUrl).toString(), { timeout: 15000 });
-        videoStatus = videoResponse.status();
-      } catch (error) {
-        lastState = 'video file request failed: ' + error.message;
-      }
-    }
-    if (count === 1 && source && /\.(mp4|webm)(\?|$)/i.test(source) &&
-        videoStatus === 200 && calendarReady && !html.includes('Lloyd-Hansen/indian-festivals-api')) {
-      return;
-    }
-    lastState = !count ? 'video element missing' :
-      html.includes('Lloyd-Hansen/indian-festivals-api') ? 'stale live HTML still references retired feed' :
-      !calendarReady ? 'live page has not deployed the new dynamic festival calendar yet' :
-      videoStatus !== 200 ? 'video file HTTP status: ' + (videoStatus || 'request failed') :
-      'video source missing or invalid: ' + (source || 'missing');
-    await page.waitForTimeout(10000);
-  }
-  throw new Error('Current video/calendar changes were not visible on GitHub Pages within 90 seconds: ' + lastState);
+test('local festival background video is served successfully without calendar API calls', async ({ page }) => {
+  const response = await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
+  expect(response.status()).toBe(200);
+  const video = page.locator('#dtsFestivalBackdrop');
+  await expect(video).toHaveCount(1);
+  const source = await video.locator('source').getAttribute('src');
+  expect(source).toMatch(/^\.\/assets\/.*\.mp4$/);
+  const videoResponse = await page.request.get(new URL(source, siteUrl).toString(), { timeout: 30000 });
+  expect(videoResponse.status()).toBe(200);
+  const html = await page.content();
+  expect(html).not.toContain('/api/festivals?year=');
+  expect(html).not.toContain('nagerholidays.com/api/');
+  expect(html).not.toContain('date.nager.at/api/');
 });
 
-test('live festival feed can activate the festival animation and AI greeting', async ({ page }) => {
-  // Playwright's default browser timezone on the CI runner is UTC, matching
-  // this ISO date used by the page's Date object in the same runner.
-  const today = new Date().toISOString().slice(0, 10);
-
-  await page.route(/https:\/\/nagerholidays\.com\/api\/v4\/Holidays\/IN\//, route =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
-  );
-  await page.route(/https:\/\/date\.nager\.at\/api\/v3\/PublicHolidays\//, route =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
-  );
-  await page.route(/https:\/\/dts-tech-solutions\.onrender\.com\/api\/festivals\?/, route =>
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        year: Number(today.slice(0, 4)),
-        city: 'mumbai',
-        festivals: [{
-          date: today,
-          rule: {
-            nameEn: 'Diwali',
-            nameHi: 'दीपावली',
-            observanceCategory: 'FESTIVAL',
-            regions: ['PAN_INDIA'],
-            isMajor: true
-          }
-        }]
-      })
-    })
-  );
-
-  await page.goto(siteUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-  await expect(page.locator('#dtsFestivalAnimation')).toHaveAttribute('data-festival-name', 'Diwali', { timeout: 15000 });
-  await expect(page.locator('#aiGreeting')).toContainText('Deepawali', { timeout: 15000 });
-});
