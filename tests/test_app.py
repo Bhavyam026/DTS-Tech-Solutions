@@ -936,3 +936,49 @@ def test_provider_unavailable_errors_use_safe_fallback():
     )
 
 # Regression coverage for NVR language continuity and enquiry completion.
+
+
+
+def test_provider_failover_uses_backup_and_cools_down_failed_provider(monkeypatch):
+    dts_app._PROVIDER_COOLDOWNS.clear()
+    monkeypatch.setattr(dts_app, "AI_PROVIDER", "gemini")
+    monkeypatch.setattr(dts_app, "GEMINI_API_KEY", "configured")
+    monkeypatch.setattr(dts_app, "GROQ_API_KEY", "configured")
+    monkeypatch.setattr(dts_app, "OPENAI_API_KEY", "")
+    calls = []
+
+    def fake_provider(messages, *, provider, json_mode=False, max_tokens=500):
+        calls.append(provider)
+        if provider == "gemini":
+            raise RuntimeError("Gemini API error 503 (UNAVAILABLE): high demand")
+        return "backup response"
+
+    monkeypatch.setattr(dts_app, "_call_ai_provider_single", fake_provider)
+    assert dts_app._call_ai_provider([{"role": "user", "content": "hello"}]) == "backup response"
+    assert calls == ["gemini", "groq"]
+    calls.clear()
+    assert dts_app._call_ai_provider([{"role": "user", "content": "hello again"}]) == "backup response"
+    assert calls == ["groq"]
+    dts_app._PROVIDER_COOLDOWNS.clear()
+
+
+def test_all_provider_failures_are_routed_to_deterministic_fallback():
+    assert dts_app._is_quota_exhausted_error(
+        "All configured AI providers failed. gemini: 503 unavailable; openai: 429 credit_balance_exhausted"
+    )
+    assert dts_app._is_quota_exhausted_error(
+        "No usable AI provider key is configured on the Render server."
+    )
+
+
+def test_deterministic_quota_fallback_keeps_english_language():
+    reply, details = dts_app._deterministic_quota_fallback([
+        "I need 3 NVR units in Mumbai",
+        "9736213273",
+    ])
+    assert "temporarily unavailable" in reply.casefold()
+    assert "Please review" in reply
+    assert "Prizor 8-Channel" not in details["product_service"]
+    assert details["quantity"]
+    assert details["location"] == "Mumbai"
+    assert details["contact_number"] == "9736213273"

@@ -138,8 +138,32 @@ EXTRACTOR_INSTRUCTION = (
     "the customer messages or null. Do not paraphrase."
 )
 
+_PROVIDER_COOLDOWNS = {}
+_PROVIDER_COOLDOWNS_LOCK = threading.Lock()
+
+
+def _provider_cooldown_seconds(error):
+    """Back off briefly after transient failures and longer after exhausted credentials."""
+    message = str(error).upper()
+    if any(marker in message for marker in (
+        "CREDIT_BALANCE_EXHAUSTED",
+        "INSUFFICIENT_QUOTA",
+        "API KEY NOT VALID",
+        "INVALID_API_KEY",
+        "UNAUTHENTICATED",
+        "PERMISSION_DENIED",
+    )):
+        return 300
+    if any(marker in message for marker in (
+        "HIGH DEMAND", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "RATE_LIMIT",
+        "429", "503", "TIMEOUT", "TIMED OUT", "CONNECTION",
+    )):
+        return 45
+    return 20
+
+
 def _is_quota_exhausted_error(error):
-    """Identify provider quota/rate-limit errors where deterministic enquiry fallback is safer."""
+    """Identify provider outages where deterministic fallback is safer than a broken chat."""
     message = str(error).upper()
     return any(marker in message for marker in (
         "INSUFFICIENT_QUOTA",
@@ -151,9 +175,16 @@ def _is_quota_exhausted_error(error):
         "INVALID_ARGUMENT",
         "HIGH DEMAND",
         "UNAVAILABLE",
+        "PROVIDER COOLDOWN",
+        "ALL CONFIGURED AI PROVIDERS FAILED",
+        "NO USABLE AI PROVIDER KEY",
         "503",
         "429",
+        "TIMED OUT",
+        "TIMEOUT",
+        "CONNECTION ERROR",
     ))
+
 
 def _call_ai_provider_single(messages, *, provider, json_mode=False, max_tokens=500):
     timeout = AI_PROVIDER_TIMEOUT_SECONDS
@@ -264,7 +295,7 @@ def _call_ai_provider_single(messages, *, provider, json_mode=False, max_tokens=
 
 
 def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
-    """Try configured provider first, then any already-configured backup provider."""
+    """Try configured providers with short per-process cooldowns after failures."""
     available = {
         "gemini": bool(GEMINI_API_KEY),
         "groq": bool(GROQ_API_KEY),
@@ -272,22 +303,38 @@ def _call_ai_provider(messages, *, json_mode=False, max_tokens=500):
     }
     order = [AI_PROVIDER] + [name for name in ("gemini", "groq", "openai") if name != AI_PROVIDER]
     errors = []
+    attempted = False
     for provider in order:
         if not available.get(provider):
             continue
+        with _PROVIDER_COOLDOWNS_LOCK:
+            cooldown_until = _PROVIDER_COOLDOWNS.get(provider, 0)
+        if cooldown_until > time.monotonic():
+            errors.append(f"{provider}: provider cooldown active")
+            continue
+        attempted = True
         try:
-            return _call_ai_provider_single(
+            result = _call_ai_provider_single(
                 messages, provider=provider, json_mode=json_mode, max_tokens=max_tokens
             )
+            with _PROVIDER_COOLDOWNS_LOCK:
+                _PROVIDER_COOLDOWNS.pop(provider, None)
+            return result
         except AIConcurrencyLimitError:
             raise
         except Exception as error:
+            with _PROVIDER_COOLDOWNS_LOCK:
+                _PROVIDER_COOLDOWNS[provider] = (
+                    time.monotonic() + _provider_cooldown_seconds(error)
+                )
             # Never log provider error text; it may contain request details.
             app.logger.warning("DTS AI provider %s failed; trying next configured provider.", provider)
             errors.append(f"{provider}: {error}")
     if errors:
         raise RuntimeError("All configured AI providers failed. " + " | ".join(errors))
-    raise RuntimeError("No usable AI provider key is configured on the Render server.")
+    if not attempted:
+        raise RuntimeError("No usable AI provider key is configured on the Render server.")
+    raise RuntimeError("All configured AI providers failed.")
 
 
 _UNSUPPORTED_BRAND_RE = re.compile(r"\b(?:CP\s*\+?\s*PLUS|HIKVISION|DAHUA)\b", re.IGNORECASE)
@@ -1136,35 +1183,82 @@ def _deterministic_quota_fallback(user_messages):
     else:
         pricing = ""
 
-    if not requirements:
-        question = (
-            "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai—"
-            "CCTV, electrical panel, fire safety, networking ya IT infrastructure?"
+    latest_message = user_messages[-1] if user_messages else ""
+    language_probe = next(
+        (
+            str(item) for item in reversed(user_messages)
+            if re.search(r"[a-z]", str(item), re.IGNORECASE)
+            and not re.fullmatch(r"[\W\d_]+", str(item).strip())
+        ),
+        latest_message,
+    )
+    english_reply = bool(re.search(r"[a-z]", language_probe, re.IGNORECASE)) and not bool(re.search(
+        r"\b(?:hai|hain|bhi|kya|kaise|chahiye|chahie|chiye|mujhe|muje|aap|apko|ka|ki|ke|mein|mera|meri|nahi|nhi|haan|mala|pahije|kay)\b",
+        language_probe,
+        re.IGNORECASE,
+    ))
+    if english_reply:
+        pricing = (
+            "For pricing and an exact quotation, please contact the DTS team directly."
+            if pricing else ""
         )
-    elif not quantity or (len(requirements) > 1 and len(quantity_parts) < len(requirements)):
-        question = (
-            "Ji, requirement note kar li. Har item/service ki quantity bata dein "
-            "(jaise CCTV cameras aur electrical panel ki alag-alag quantity)."
-            if len(requirements) > 1
-            else f"Ji, {requirements[0]} ke liye kitni quantity chahiye?"
-        )
-    elif not location:
-        question = _location_prompt(user_messages)
-    elif not phone:
-        question = (
-            "Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein "
-            "(number 6, 7, 8 ya 9 se shuru ho)."
-        )
+        if not requirements:
+            question = (
+                "Hello! I'm the DTS AI Assistant. What do you need help with—"
+                "CCTV, electrical panels, fire safety, networking or IT infrastructure?"
+            )
+        elif not quantity or (len(requirements) > 1 and len(quantity_parts) < len(requirements)):
+            question = (
+                "Please share the quantity for each item separately."
+                if len(requirements) > 1
+                else f"What quantity of {requirements[0]} do you need?"
+            )
+        elif not location:
+            question = "Which city or area is required for delivery or installation?"
+        elif not phone:
+            question = (
+                "Please share a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9 "
+                "to prepare your enquiry summary."
+            )
+        else:
+            summary = _format_summary(details)
+            question = (
+                "The AI provider is temporarily unavailable, so I prepared this summary from "
+                "the details you supplied. Please review it:\n\n"
+                + summary
+                + "\n\nIf everything is correct, reply exactly CONFIRM SUMMARY. "
+                "No WhatsApp draft will open before your confirmation."
+            )
     else:
-        summary = _format_summary(details)
-        question = (
-            "AI quota abhi available nahi hai, isliye main aapki di hui details se summary "
-            "tayyar kar raha hoon. Please details check karein:\n\n"
-            + summary
-            + "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
-            "Correction chahiye toh pehle correction bhejein. Confirmation se pehle "
-            "WhatsApp draft link nahi banega."
-        )
+        if not requirements:
+            question = (
+                "Namaste! Main DTS AI Assistant hoon. Aapko kis cheez ki requirement hai—"
+                "CCTV, electrical panel, fire safety, networking ya IT infrastructure?"
+            )
+        elif not quantity or (len(requirements) > 1 and len(quantity_parts) < len(requirements)):
+            question = (
+                "Ji, requirement note kar li. Har item/service ki quantity bata dein "
+                "(jaise CCTV cameras aur electrical panel ki alag-alag quantity)."
+                if len(requirements) > 1
+                else f"Ji, {requirements[0]} ke liye kitni quantity chahiye?"
+            )
+        elif not location:
+            question = _location_prompt(user_messages)
+        elif not phone:
+            question = (
+                "Enquiry summary ke liye apna valid 10-digit Indian mobile number share karein "
+                "(number 6, 7, 8 ya 9 se shuru ho)."
+            )
+        else:
+            summary = _format_summary(details)
+            question = (
+                "AI service abhi temporarily unavailable hai, isliye aapki di hui details se "
+                "summary tayyar ki hai. Please details check karein:\n\n"
+                + summary
+                + "\n\nAgar sab sahi hai, agle message mein exactly CONFIRM SUMMARY likhein. "
+                "Correction chahiye toh pehle correction bhejein. Confirmation se pehle "
+                "WhatsApp draft link nahi banega."
+            )
 
     reply = (pricing + "\n\n" + question).strip() if pricing else question
     return reply, details
