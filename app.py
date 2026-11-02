@@ -1184,9 +1184,17 @@ def _deterministic_quota_fallback(user_messages):
         pricing = ""
 
     latest_message = user_messages[-1] if user_messages else ""
-    english_reply = bool(re.search(r"[a-z]", latest_message, re.IGNORECASE)) and not bool(re.search(
-        r"\b(?:hai|hain|kya|kaise|chahiye|chahie|mujhe|muje|aap|apko|ka|ki|ke|mein|mera|meri|nahi|nhi|haan|mala|pahije|kay)\b",
+    language_probe = next(
+        (
+            str(item) for item in reversed(user_messages)
+            if re.search(r"[a-z]", str(item), re.IGNORECASE)
+            and not re.fullmatch(r"[\W\d_]+", str(item).strip())
+        ),
         latest_message,
+    )
+    english_reply = bool(re.search(r"[a-z]", language_probe, re.IGNORECASE)) and not bool(re.search(
+        r"\b(?:hai|hain|bhi|kya|kaise|chahiye|chahie|chiye|mujhe|muje|aap|apko|ka|ki|ke|mein|mera|meri|nahi|nhi|haan|mala|pahije|kay)\b",
+        language_probe,
         re.IGNORECASE,
     ))
     if english_reply:
@@ -1203,7 +1211,7 @@ def _deterministic_quota_fallback(user_messages):
             question = (
                 "Please share the quantity for each item separately."
                 if len(requirements) > 1
-                else f"How many units of {requirements[0]} do you need?"
+                else f"What quantity of {requirements[0]} do you need?"
             )
         elif not location:
             question = "Which city or area is required for delivery or installation?"
