@@ -147,6 +147,8 @@ def _is_quota_exhausted_error(error):
         "QUOTA EXCEEDED",
         "RESOURCE_EXHAUSTED",
         "CREDIT_BALANCE_EXHAUSTED",
+        "API KEY NOT VALID",
+        "INVALID_ARGUMENT",
         "HIGH DEMAND",
         "UNAVAILABLE",
         "503",
@@ -1469,6 +1471,22 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # Product education should work across the full DTS catalogue, not only UPS,
     # pen drives and desktops. Prefer the product explicitly named in the latest turn.
     if asks_how_or_details and english_query:
+        if re.search(r"\bnvr\b", normalized):
+            return (
+                "An NVR (Network Video Recorder) records and manages footage from compatible IP security cameras. "
+                "The cameras send digital video over an Ethernet network; they can connect through a PoE switch or "
+                "a PoE-capable NVR. The NVR stores recordings on a compatible hard drive, but drive inclusion and "
+                "retention time depend on the exact model and configuration. DTS lists the Prizor 8-Channel NVR. "
+                "How many IP cameras are you planning to connect to it?"
+            )
+        if re.search(r"\bdvr\b", normalized):
+            return (
+                "A DVR (Digital Video Recorder) records footage from compatible analogue or hybrid CCTV cameras. "
+                "It commonly receives camera video over coaxial cabling, while an NVR is designed for IP cameras "
+                "connected over a network. Camera compatibility, storage-drive inclusion and recording time depend "
+                "on the exact model. DTS lists a Prizor 8-Channel DVR. Are you replacing an existing recorder or "
+                "planning a new CCTV installation?"
+            )
         if re.search(r"\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\b", normalized):
             return (
                 "CCTV (Closed-Circuit Television) is a video-surveillance system. Cameras capture footage for live "
