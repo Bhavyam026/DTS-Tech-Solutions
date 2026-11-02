@@ -1390,15 +1390,13 @@
 
         /* DTS festival overlay: sits below the sticky header and above page content. */
         .dts-festival-animation {
-            position: fixed; top: 72px; left: 0; right: 0;
-            height: min(390px, 46vh); min-height: 245px;
+            position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+            height: auto; min-height: 0;
             z-index: 49; overflow: hidden; pointer-events: none; isolation: isolate;
-            background: radial-gradient(ellipse at 50% 100%, rgba(255,174,66,.2), transparent 58%), linear-gradient(180deg, #050b20 0%, #111b3c 62%, rgba(8,14,31,.94) 100%);
+            background: transparent;
             animation: dtsFestivalSceneIn .8s ease-out both;
-            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 82%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 82%, transparent 100%);
         }
-        .dts-festival-scene { position:absolute; inset:0; overflow:hidden; background:radial-gradient(ellipse at 50% 100%,rgba(255,167,56,.15),transparent 60%); }
+        .dts-festival-scene { position:absolute; inset:0; overflow:hidden; background:transparent; }
         .dts-festival-video-source { display:none; }
         .dts-festival-scene .dts-festival-video-source { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.12; mix-blend-mode:screen; pointer-events:none; z-index:0; }
         .dts-festival-fireworks, .dts-festival-garland, .dts-festival-banner, .dts-festival-petals, .dts-festival-dots, .dts-festival-corner, .dts-festival-rocket-layer { position:absolute; inset:0; z-index:1; }
@@ -1420,8 +1418,8 @@
         .dts-festival-dots { position:absolute; inset:108px 0 auto; height:1px; }
         .dts-festival-dot { position:absolute; top:0; width:7px; height:7px; border-radius:50%; background:var(--dts-festival-light,#fbbf24); opacity:0; animation:dtsFestivalSparkle 2.8s ease-in-out infinite; }
         .dts-festival-rocket { position:absolute; left:var(--rx); top:var(--ry); width:5px; height:13px; border-radius:50% 50% 2px 2px; opacity:0; background:linear-gradient(180deg,#fff 0%,var(--rocket-color) 45%,transparent 100%); box-shadow:0 0 9px 2px var(--rocket-color); transform-origin:center; animation:dtsRocketLaunch var(--rocket-duration) cubic-bezier(.2,.7,.25,1) var(--rocket-delay) infinite; }
-        .dts-festival-rocket::before { content:""; position:absolute; width:2px; height:34px; left:1px; top:9px; background:linear-gradient(180deg,var(--rocket-color),transparent); filter:blur(1px); }
-        .dts-festival-rocket::after { content:""; position:absolute; width:58px; height:58px; left:50%; top:50%; border-radius:50%; opacity:0; transform:translate(-50%,-50%) scale(.08); background:repeating-conic-gradient(var(--rocket-color) 0deg 2deg,transparent 3deg 17deg); -webkit-mask:radial-gradient(circle,transparent 0 12%,#000 16% 23%,transparent 28%); mask:radial-gradient(circle,transparent 0 12%,#000 16% 23%,transparent 28%); filter:drop-shadow(0 0 5px var(--rocket-color)); animation:dtsRocketBurst var(--rocket-duration) ease-out var(--rocket-delay) infinite; }
+        .dts-festival-rocket::before { content:""; position:absolute; width:2px; height:44px; left:1px; top:9px; background:linear-gradient(180deg,var(--rocket-color),transparent); filter:blur(1px); }
+        .dts-festival-rocket::after { content:""; position:absolute; width:clamp(130px,19vw,230px); height:clamp(130px,19vw,230px); left:50%; top:50%; border-radius:50%; opacity:0; transform:translate(-50%,-50%) scale(.08); background:repeating-conic-gradient(var(--rocket-color) 0deg 1.4deg,transparent 2deg 8deg); -webkit-mask:radial-gradient(circle,transparent 0 8%,#000 10% 18%,transparent 23%); mask:radial-gradient(circle,transparent 0 8%,#000 10% 18%,transparent 23%); filter:drop-shadow(0 0 8px var(--rocket-color)); animation:dtsRocketBurst var(--rocket-duration) ease-out var(--rocket-delay) infinite; }
         .dts-festival-diwali { --dts-festival-light:#ffd166; --dts-festival-glow:rgba(255,209,102,.62); }
         .dts-festival-diwali .dts-festival-scene { background:radial-gradient(ellipse at 50% 70%,rgba(108,57,132,.25),transparent 55%),radial-gradient(ellipse at 12% 20%,rgba(255,173,65,.13),transparent 30%),linear-gradient(135deg,#05091b,#101a3a 55%,#080d20); }
         .dts-festival-diwali .dts-festival-garland, .dts-festival-diwali .dts-festival-corner, .dts-festival-diwali .dts-festival-petals, .dts-festival-diwali .dts-festival-dots { display:none; }
@@ -1447,7 +1445,7 @@
         @keyframes dtsFestivalBannerIn { from{opacity:0;margin-top:-20px} to{opacity:1;margin-top:0} }
         @keyframes dtsFestivalBannerGlow { from{box-shadow:0 10px 26px rgba(93,30,11,.25),inset 0 0 0 3px rgba(255,223,148,.1)} to{box-shadow:0 12px 36px rgba(223,143,32,.45),inset 0 0 0 3px rgba(255,223,148,.25)} }
         @media (max-width: 560px) {
-            .dts-festival-animation { top:64px; height:min(350px,45vh); min-height:235px; }
+            .dts-festival-animation { top:64px; height:auto; min-height:0; }
             .dts-festival-banner { top:65px; width:calc(100vw - 28px); padding:11px 10px 12px; border-radius:15px; }
             .dts-festival-diwali .dts-festival-banner { top:64px; width:calc(100vw - 28px); }
             .dts-festival-corner { top:37px; font-size:27px; }
@@ -1588,7 +1586,7 @@
 </style>
 
 <meta name="dts-catalogue-version" content="catalogue-v3-metrac-search-fixed">
-    <script src="./assets/js/dts-site.js?v=20261102-diwali-rocket-show" defer></script>
+    <script src="./assets/js/dts-site.js?v=20261102-diwali-fullsky-burst" defer></script>
 
     <script>
       function sendDTSContactForm(event) {
