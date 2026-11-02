@@ -909,7 +909,8 @@ def test_nvr_enquiry_stays_in_english_and_completes_without_extractor_service():
     assert "Mumbai" in summary
     assert "9736213273" in summary
     assert replies[5]["state"] == "SUMMARY_READY"
-    assert "no additional cameras" in replies[5]["reply"].casefold()
+    assert "additional cameras" in replies[5]["reply"].casefold()
+    assert "zaroorat nahi" in replies[5]["reply"].casefold()
     assert "AI service limit" not in replies[5]["reply"].casefold()
 
     confirmed = client.post(
