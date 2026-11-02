@@ -46,7 +46,7 @@ CORS(
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini").strip()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite").strip()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "").strip()
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b").strip()
 AI_PROVIDER = os.environ.get("AI_PROVIDER", "gemini").strip().lower()
@@ -225,12 +225,33 @@ def _call_ai_provider_single(messages, *, provider, json_mode=False, max_tokens=
         if json_mode:
             payload["generationConfig"]["responseMimeType"] = "application/json"
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
-        response = _limited_ai_post(
-            url,
-            headers={"x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"},
-            json=payload,
-            timeout=timeout,
-        )
+        # Retry only transient capacity/rate-limit/server responses. Keep retries
+        # short so the chat request can still reach its deterministic fallback.
+        response = None
+        retryable_statuses = {429, 500, 502, 503, 504}
+        for attempt in range(3):
+            attempt_timeout = timeout
+            if deadline is not None:
+                remaining = deadline - time.monotonic()
+                if remaining < 1:
+                    break
+                attempt_timeout = max(1, min(AI_PROVIDER_TIMEOUT_SECONDS, remaining))
+            response = _limited_ai_post(
+                url,
+                headers={"x-goog-api-key": GEMINI_API_KEY, "Content-Type": "application/json"},
+                json=payload,
+                timeout=attempt_timeout,
+            )
+            if response.status_code not in retryable_statuses or attempt == 2:
+                break
+            delay = 0.25 * (attempt + 1)
+            if deadline is not None:
+                remaining = deadline - time.monotonic()
+                if remaining <= delay + 0.5:
+                    break
+            time.sleep(delay)
+        if response is None:
+            raise TimeoutError("DTS Gemini retry budget exhausted.")
         try:
             data = response.json()
         except ValueError:
