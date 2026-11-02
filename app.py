@@ -1218,7 +1218,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
         r"kaise\s*kaam|kaam\s*karta|kis\s*kaam|kya\s*milega|ky\s*milega|"
         r"kya\s*kya\s*milega|features?|details?|what\s+does|how\s+does|"
         r"what\s+is\s+inside|what\s+does\s+it\s+contain|what\s+is\s+included|what\s+comes\s+with|"
-        r"purpose|function|use\s+of|components?|parts?)",
+        r"what\s+is|purpose|function|use\s+of|components?|parts?)",
         normalized,
     ))
 
