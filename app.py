@@ -146,6 +146,12 @@ def _is_quota_exhausted_error(error):
         "RATE_LIMIT_EXCEEDED",
         "QUOTA EXCEEDED",
         "RESOURCE_EXHAUSTED",
+        "CREDIT_BALANCE_EXHAUSTED",
+        "API KEY NOT VALID",
+        "INVALID_ARGUMENT",
+        "HIGH DEMAND",
+        "UNAVAILABLE",
+        "503",
         "429",
     ))
 
@@ -1212,7 +1218,7 @@ def _deterministic_product_education_reply(latest_message, user_messages):
         r"kaise\s*kaam|kaam\s*karta|kis\s*kaam|kya\s*milega|ky\s*milega|"
         r"kya\s*kya\s*milega|features?|details?|what\s+does|how\s+does|"
         r"what\s+is\s+inside|what\s+does\s+it\s+contain|what\s+is\s+included|what\s+comes\s+with|"
-        r"purpose|function|use\s+of|components?|parts?)",
+        r"what\s+is|purpose|function|use\s+of|components?|parts?)",
         normalized,
     ))
 
@@ -1465,6 +1471,22 @@ def _deterministic_product_education_reply(latest_message, user_messages):
     # Product education should work across the full DTS catalogue, not only UPS,
     # pen drives and desktops. Prefer the product explicitly named in the latest turn.
     if asks_how_or_details and english_query:
+        if re.search(r"\bnvr\b", normalized):
+            return (
+                "An NVR (Network Video Recorder) records and manages footage from compatible IP security cameras. "
+                "The cameras send digital video over an Ethernet network; they can connect through a PoE switch or "
+                "a PoE-capable NVR. The NVR stores recordings on a compatible hard drive, but drive inclusion and "
+                "retention time depend on the exact model and configuration. DTS lists the Prizor 8-Channel NVR. "
+                "How many IP cameras are you planning to connect to it?"
+            )
+        if re.search(r"\bdvr\b", normalized):
+            return (
+                "A DVR (Digital Video Recorder) records footage from compatible analogue or hybrid CCTV cameras. "
+                "It commonly receives camera video over coaxial cabling, while an NVR is designed for IP cameras "
+                "connected over a network. Camera compatibility, storage-drive inclusion and recording time depend "
+                "on the exact model. DTS lists a Prizor 8-Channel DVR. Are you replacing an existing recorder or "
+                "planning a new CCTV installation?"
+            )
         if re.search(r"\b(?:cctv|security camera|ip camera|ptz camera|camera|nvr|dvr)\b", normalized):
             return (
                 "CCTV (Closed-Circuit Television) is a video-surveillance system. Cameras capture footage for live "
@@ -2268,6 +2290,168 @@ def chat_api():
             session["updated_at"] = time.time()
             return _json_response(reply, session["state"], session.get("summary"))
 
+        # Stateful NVR/DVR enquiry: preserve the exact recorder type, quantity,
+        # city and phone without depending on a second AI extraction request.
+        prior_user_turns = [
+            item["content"] for item in session["history"]
+            if item["role"] == "user"
+        ]
+        prior_assistant_turns = [
+            item["content"] for item in session["history"]
+            if item["role"] == "assistant"
+        ]
+        nvr_context_text = " ".join(prior_user_turns + [latest_message])
+        nvr_terms = list(re.finditer(r"\b(nvr|dvr)\b", nvr_context_text, re.IGNORECASE))
+        other_product_re = re.compile(
+            r"\b(?:pen\s*drive?r?|pendrive|ssd|hdd|hard[ -]?disk|network\s*racks?|"
+            r"server\s*racks?|firewall|router|switch|ups|smart\s*tv|tvs?|cctv|cameras?|"
+            r"electrical\s+panels?|fire\s+alarms?)\b",
+            re.IGNORECASE,
+        )
+        other_product_positions = [
+            match.start() for match in other_product_re.finditer(nvr_context_text)
+        ]
+        nvr_is_latest_product = bool(nvr_terms) and (
+            not other_product_positions or nvr_terms[-1].start() > other_product_positions[-1]
+        )
+        short_yes_no = bool(re.fullmatch(
+            r"\s*(?:yes|yeah|yep|sure|okay|ok|no|nope|nahi|nahin|nai|haan|ha|ji|ji ha|ji haan)\s*[.!]?\s*",
+            latest_message,
+            re.IGNORECASE,
+        ))
+        last_assistant = prior_assistant_turns[-1] if prior_assistant_turns else ""
+        assistant_was_asking_nvr_followup = bool(
+            re.search(r"\b(?:how many|planning to install|planning to connect)\b", last_assistant, re.I)
+            and re.search(r"\b(?:ip cameras?|nvr|dvr)\b", last_assistant, re.I)
+        )
+        nvr_active = (
+            session.get("active_product") in ("NVR", "DVR")
+            or (nvr_is_latest_product and bool(re.search(r"\b(?:want|need|require|buy|purchase|chahiye|available|availability)\b", latest_message, re.I)))
+            or (nvr_is_latest_product and short_yes_no and assistant_was_asking_nvr_followup)
+        )
+        if nvr_active:
+            latest_recorder = nvr_terms[-1].group(1).upper() if nvr_terms else session.get("active_product", "NVR")
+            recorder = "DVR" if latest_recorder == "DVR" else "NVR"
+            session["active_product"] = recorder
+            all_nvr_messages = prior_user_turns + [latest_message]
+            all_nvr_text = " ".join(all_nvr_messages)
+
+            quantity = ""
+            quantity_patterns = (
+                r"\b(?:nvr|dvr)\s*(?:x\s*)?(\d{1,3})\b",
+                r"\b(\d{1,3})\s*(?:units?|pieces?|pcs?|nos?)?\s*(?:of\s+)?(?:nvr|dvr)\b",
+                r"\b(?:quantity|qty)\s*[:=-]?\s*(\d{1,3})\b",
+            )
+            for pattern in quantity_patterns:
+                found = list(re.finditer(pattern, all_nvr_text, re.IGNORECASE))
+                if found:
+                    quantity = found[-1].group(1)
+                    break
+            if not quantity:
+                for item in reversed(all_nvr_messages):
+                    standalone = re.fullmatch(r"\s*(\d{1,3})\s*", str(item))
+                    if standalone:
+                        quantity = standalone.group(1)
+                        break
+
+            location = _extract_customer_location(all_nvr_messages) or _extract_known_location(all_nvr_messages)
+            phone_pattern = re.compile(r"(?<!\d)(?:\+?91[\s-]?)?0?\d(?:[\s-]?\d){9}(?!\d)")
+            phone_match = next(
+                (match for item in reversed(all_nvr_messages)
+                 for match in phone_pattern.finditer(str(item))
+                 if _is_valid_indian_mobile(match.group(0))),
+                None,
+            )
+            phone = phone_match.group(0) if phone_match else ""
+            invalid_phone_entered = bool(re.search(r"(?<!\d)\d{11,12}(?!\d)", latest_message))
+            product_name = "Prizor 8-Channel DVR" if recorder == "DVR" else "Prizor 8-Channel NVR"
+            details = {
+                "product_service": product_name,
+                "location": location,
+                "quantity": f"{quantity} {recorder}" if quantity else "",
+                "contact_name": "",
+                "contact_number": phone,
+                "notes": "Recorder/camera compatibility and storage-drive inclusion require model confirmation.",
+            }
+
+            language_probe = latest_message
+            if not re.search(r"[a-z]", language_probe):
+                language_probe = next(
+                    (item for item in reversed(all_nvr_messages) if re.search(r"[a-z]", item)),
+                    latest_message,
+                )
+            english_reply = bool(re.search(r"[a-z]", language_probe)) and not bool(re.search(
+                r"\b(?:hai|hain|kya|kaise|chahiye|mujhe|aap|aapko|mein|nahi|nhi|haan|mala|pahije|kay)\b",
+                language_probe,
+                re.IGNORECASE,
+            ))
+            if not quantity:
+                if short_yes_no and assistant_was_asking_nvr_followup:
+                    reply = (
+                        "Understood. How many IP cameras are you planning to connect to the NVR?"
+                        if english_reply else
+                        "Samajh gaya. NVR ke saath kitne IP cameras connect karne hain?"
+                    )
+                else:
+                    reply = (
+                        f"How many {recorder} units do you need?"
+                        if english_reply else f"Aapko kitne {recorder} chahiye?"
+                    )
+            elif not location:
+                reply = (
+                    "What is the delivery or installation city for these NVRs?"
+                    if english_reply else "In NVR ki delivery ya installation kis city mein chahiye?"
+                )
+            elif not phone:
+                if invalid_phone_entered:
+                    reply = (
+                        "That number has 11 or more digits. Please share an exact 10-digit Indian mobile number starting with 6, 7, 8 or 9."
+                        if english_reply else
+                        "Yeh number 10 digits ka nahi hai. Kripya 6, 7, 8 ya 9 se shuru hone wala exact 10-digit mobile number dein."
+                    )
+                else:
+                    reply = (
+                        "Please share a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9 to prepare your enquiry summary."
+                        if english_reply else
+                        "Enquiry summary ke liye 6, 7, 8 ya 9 se shuru hone wala valid 10-digit Indian mobile number share karein."
+                    )
+            else:
+                session["details"] = details
+                session["summary"] = _format_summary(details)
+                session["state"] = "SUMMARY_READY"
+                if re.search(r"\b(?:nahi|nahin|nai|no|nope)\b", latest_message, re.I):
+                    lead = (
+                        "Understood—no additional cameras or networking accessories are needed. "
+                        "Your NVR enquiry summary is ready for review:"
+                        if english_reply else
+                        "Theek hai, additional cameras ya networking equipment ki zaroorat nahi hai. "
+                        "Aapki NVR enquiry summary review ke liye ready hai:"
+                    )
+                else:
+                    lead = (
+                        "Your NVR enquiry summary is ready. Please review the details:"
+                        if english_reply else "Aapki NVR enquiry summary ready hai. Kripya details check karein:"
+                    )
+                reply = (
+                    lead + "\n\n" + session["summary"]
+                    + "\n\nIf everything is correct, reply exactly CONFIRM SUMMARY. "
+                    "No WhatsApp draft will be opened before your confirmation."
+                    if english_reply else
+                    lead + "\n\n" + session["summary"]
+                    + "\n\nAgar sab sahi hai, exactly CONFIRM SUMMARY likhein. "
+                    "Confirmation se pehle WhatsApp draft link nahi banega."
+                )
+
+            session["details"] = details
+            if not (quantity and location and phone):
+                session["state"] = "GATHERING"
+                session["summary"] = None
+            session["history"].append({"role": "user", "content": latest_message})
+            session["history"].append({"role": "assistant", "content": reply})
+            session["history"] = session["history"][-MAX_STORED_TURNS:]
+            session["updated_at"] = time.time()
+            return _json_response(reply, session["state"], session.get("summary"))
+
         education_reply = _deterministic_product_education_reply(
             latest_message, education_user_messages
         )
@@ -2873,23 +3057,35 @@ def chat_api():
                 _is_valid_indian_mobile(candidate) for candidate in phone_candidates
             )
             has_invalid_mobile = bool(phone_candidates) and not has_valid_mobile
-            try:
-                details = _extract_details(user_messages) if has_valid_mobile else None
-            except Exception as extraction_error:
-                app.logger.warning("Enquiry summary extraction failed: %s", extraction_error)
-                details = None
-                if isinstance(extraction_error, TimeoutError) or "time budget exhausted" in str(extraction_error).casefold():
-                    bot_reply += (
-                        "\n\nAI response mil gaya, lekin enquiry summary time limit mein prepare nahi ho paayi. "
-                        "Kripya thodi der baad apna mobile number dobara bhejein. Enquiry abhi confirm ya send nahi hui hai."
+            details = None
+            if has_valid_mobile:
+                try:
+                    details = _extract_details(user_messages)
+                except Exception as extraction_error:
+                    # The enquiry extractor is optional. If a provider is down or out
+                    # of credits, use the deterministic parser rather than exposing a
+                    # provider error or losing a complete customer lead.
+                    app.logger.warning(
+                        "Enquiry summary AI extraction unavailable; using local parser (%s).",
+                        type(extraction_error).__name__,
                     )
-                if _is_quota_exhausted_error(extraction_error):
-                    bot_reply += (
-                        "\n\nMaaf kijiye, AI service limit ki wajah se abhi enquiry summary "
-                        "prepare nahi ho paayi. Enquiry send nahi hui hai; kripya thodi der baad dobara try karein."
-                    )
+                if not details:
+                    _, fallback_details = _deterministic_quota_fallback(user_messages)
+                    if (
+                        fallback_details.get("product_service")
+                        and fallback_details.get("quantity")
+                        and fallback_details.get("location")
+                        and _is_valid_indian_mobile(fallback_details.get("contact_number", ""))
+                    ):
+                        details = fallback_details
 
-            if details and _is_valid_indian_mobile(details.get("contact_number", "")):
+            if (
+                details
+                and details.get("product_service")
+                and details.get("quantity")
+                and details.get("location")
+                and _is_valid_indian_mobile(details.get("contact_number", ""))
+            ):
                 summary = _format_summary(details)
                 session["details"] = details
                 session["summary"] = summary

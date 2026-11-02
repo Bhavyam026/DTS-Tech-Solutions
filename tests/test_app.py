@@ -873,3 +873,66 @@ def test_shared_session_store_keeps_multiturn_context_across_worker_resets(tmp_p
     assert "2 Network Rack" in final["pending_summary"]
     assert "Palghar MIDC" in final["pending_summary"]
     assert "7826349150" in final["pending_summary"]
+
+
+
+def test_nvr_enquiry_stays_in_english_and_completes_without_extractor_service():
+    session_id = "dts-abcdefab-cdef-abcd-efab-cdefabcdefab"
+    dts_app._sessions.pop(session_id, None)
+    client = dts_app.app.test_client()
+
+    messages = [
+        "what is NVR",
+        "yes",
+        "i want NVR 3 mumbai location",
+        "97362132737",
+        "9736213273",
+        "nahi",
+    ]
+    replies = []
+    for message in messages:
+        response = client.post(
+            "/api/chat",
+            json={"session_id": session_id, "messages": [{"role": "user", "content": message}]},
+        )
+        assert response.status_code == 200
+        replies.append(response.get_json())
+
+    assert "Network Video Recorder" in replies[0]["reply"]
+    assert "How many IP cameras" in replies[1]["reply"]
+    assert "valid 10-digit" in replies[2]["reply"]
+    assert "exact 10-digit" in replies[3]["reply"]
+    assert replies[4]["state"] == "SUMMARY_READY"
+    summary = replies[4]["pending_summary"]
+    assert "Prizor 8-Channel NVR" in summary
+    assert "3 NVR" in summary
+    assert "Mumbai" in summary
+    assert "9736213273" in summary
+    assert replies[5]["state"] == "SUMMARY_READY"
+    assert "additional cameras" in replies[5]["reply"].casefold()
+    assert "zaroorat nahi" in replies[5]["reply"].casefold()
+    assert "AI service limit" not in replies[5]["reply"].casefold()
+
+    confirmed = client.post(
+        "/api/chat",
+        json={
+            "session_id": session_id,
+            "messages": [{"role": "user", "content": "CONFIRM SUMMARY"}],
+        },
+    )
+    assert confirmed.status_code == 200
+    confirmed_data = confirmed.get_json()
+    assert confirmed_data["state"] == "CONFIRMED"
+    assert confirmed_data["whatsapp_draft_url"].startswith("https://wa.me/")
+    assert confirmed_data["whatsapp_sent"] is False
+
+
+def test_provider_unavailable_errors_use_safe_fallback():
+    assert dts_app._is_quota_exhausted_error(
+        "Gemini API error 503 (UNAVAILABLE): model high demand"
+    )
+    assert dts_app._is_quota_exhausted_error(
+        "OpenAI API error 429 (credit_balance_exhausted)"
+    )
+
+# Regression coverage for NVR language continuity and enquiry completion.
