@@ -3830,6 +3830,38 @@ Thank you.`;
                 }
             }
             scene.appendChild(fireworks);
+
+            // Diwali-only cinematic rockets: launch from all four edges and burst
+            // near the skyline. CSS transforms keep the motion lightweight.
+            if (festival.theme === 'diwali') {
+                const rocketLayer = document.createElement('div');
+                rocketLayer.className = 'dts-festival-rocket-layer';
+                const launches = [
+                    { x:'5%', y:'91%', dx:'245px', dy:'-235px', angle:'42deg', color:'#ffb347', delay:'-0.2s', duration:'4.2s' },
+                    { x:'95%', y:'91%', dx:'-245px', dy:'-235px', angle:'-42deg', color:'#7dd3fc', delay:'-1.5s', duration:'4.5s' },
+                    { x:'0%', y:'69%', dx:'285px', dy:'-190px', angle:'56deg', color:'#f9a8d4', delay:'-2.7s', duration:'4.1s' },
+                    { x:'100%', y:'67%', dx:'-285px', dy:'-185px', angle:'-56deg', color:'#fde047', delay:'-0.8s', duration:'4.4s' },
+                    { x:'23%', y:'100%', dx:'125px', dy:'-285px', angle:'24deg', color:'#a7f3d0', delay:'-3.1s', duration:'4.7s' },
+                    { x:'77%', y:'100%', dx:'-125px', dy:'-285px', angle:'-24deg', color:'#c4b5fd', delay:'-2.0s', duration:'4.3s' },
+                    { x:'0%', y:'38%', dx:'335px', dy:'-105px', angle:'72deg', color:'#fb923c', delay:'-3.8s', duration:'4.6s' },
+                    { x:'100%', y:'40%', dx:'-335px', dy:'-110px', angle:'-72deg', color:'#67e8f9', delay:'-1.1s', duration:'4.8s' }
+                ];
+                launches.forEach(function (launch) {
+                    const rocket = document.createElement('span');
+                    rocket.className = 'dts-festival-rocket';
+                    rocket.style.setProperty('--rx', launch.x);
+                    rocket.style.setProperty('--ry', launch.y);
+                    rocket.style.setProperty('--rocket-dx', launch.dx);
+                    rocket.style.setProperty('--rocket-dy', launch.dy);
+                    rocket.style.setProperty('--rocket-angle', launch.angle);
+                    rocket.style.setProperty('--rocket-color', launch.color);
+                    rocket.style.setProperty('--rocket-delay', launch.delay);
+                    rocket.style.setProperty('--rocket-duration', launch.duration);
+                    rocketLayer.appendChild(rocket);
+                });
+                scene.appendChild(rocketLayer);
+            }
+
             scene.appendChild(horizon);
             scene.appendChild(diyaRow);
             overlay.appendChild(scene);
