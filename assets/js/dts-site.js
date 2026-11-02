@@ -3844,7 +3844,14 @@ Thank you.`;
                     { x:'23%', y:'100%', dx:'125px', dy:'-285px', angle:'24deg', color:'#a7f3d0', delay:'-3.1s', duration:'4.7s' },
                     { x:'77%', y:'100%', dx:'-125px', dy:'-285px', angle:'-24deg', color:'#c4b5fd', delay:'-2.0s', duration:'4.3s' },
                     { x:'0%', y:'38%', dx:'335px', dy:'-105px', angle:'72deg', color:'#fb923c', delay:'-3.8s', duration:'4.6s' },
-                    { x:'100%', y:'40%', dx:'-335px', dy:'-110px', angle:'-72deg', color:'#67e8f9', delay:'-1.1s', duration:'4.8s' }
+                    { x:'100%', y:'40%', dx:'-335px', dy:'-110px', angle:'-72deg', color:'#67e8f9', delay:'-1.1s', duration:'4.8s' },
+                    { x:'12%', y:'82%', dx:'190px', dy:'-155px', angle:'48deg', color:'#f472b6', delay:'-0.6s', duration:'4.4s' },
+                    { x:'88%', y:'82%', dx:'-190px', dy:'-155px', angle:'-48deg', color:'#facc15', delay:'-2.4s', duration:'4.6s' },
+                    { x:'30%', y:'94%', dx:'90px', dy:'-310px', angle:'18deg', color:'#38bdf8', delay:'-1.8s', duration:'4.3s' },
+                    { x:'70%', y:'94%', dx:'-90px', dy:'-310px', angle:'-18deg', color:'#c4b5fd', delay:'-3.4s', duration:'4.7s' },
+                    { x:'8%', y:'24%', dx:'260px', dy:'130px', angle:'112deg', color:'#fb923c', delay:'-2.9s', duration:'4.5s' },
+                    { x:'92%', y:'22%', dx:'-260px', dy:'140px', angle:'-112deg', color:'#4ade80', delay:'-0.9s', duration:'4.2s' },
+                    { x:'50%', y:'4%', dx:'0px', dy:'230px', angle:'180deg', color:'#fde047', delay:'-3.7s', duration:'4.8s' }
                 ];
                 launches.forEach(function (launch) {
                     const rocket = document.createElement('span');
