@@ -982,3 +982,29 @@ def test_deterministic_quota_fallback_keeps_english_language():
     assert details["quantity"]
     assert details["location"] == "Mumbai"
     assert details["contact_number"] == "9736213273"
+
+
+
+def test_gemini_retries_transient_503_before_success(monkeypatch):
+    monkeypatch.setattr(dts_app, "GEMINI_API_KEY", "test-key")
+    monkeypatch.setattr(dts_app, "GEMINI_MODEL", "gemini-3.1-flash-lite")
+    monkeypatch.setattr(dts_app.time, "sleep", lambda _seconds: None)
+    responses = [
+        type("Response", (), {"status_code": 503, "ok": False, "json": lambda self: {"error": {"message": "high demand", "status": "UNAVAILABLE"}}})(),
+        type("Response", (), {"status_code": 503, "ok": False, "json": lambda self: {"error": {"message": "high demand", "status": "UNAVAILABLE"}}})(),
+        type("Response", (), {"status_code": 200, "ok": True, "json": lambda self: {"candidates": [{"content": {"parts": [{"text": "DTS AI response"}]}}]}})(),
+    ]
+    calls = []
+
+    def fake_post(*args, **kwargs):
+        calls.append(kwargs)
+        return responses.pop(0)
+
+    monkeypatch.setattr(dts_app, "_limited_ai_post", fake_post)
+    result = dts_app._call_ai_provider_single(
+        [{"role": "user", "content": "Tell me about CCTV"}],
+        provider="gemini",
+    )
+    assert result == "DTS AI response"
+    assert len(calls) == 3
+    assert all(call["timeout"] <= dts_app.AI_PROVIDER_TIMEOUT_SECONDS for call in calls)
