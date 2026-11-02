@@ -2356,9 +2356,15 @@ def chat_api():
                 "notes": "Recorder/camera compatibility and storage-drive inclusion require model confirmation.",
             }
 
-            english_reply = bool(re.search(r"[a-z]", latest_message)) and not bool(re.search(
+            language_probe = latest_message
+            if not re.search(r"[a-z]", language_probe):
+                language_probe = next(
+                    (item for item in reversed(all_nvr_messages) if re.search(r"[a-z]", item)),
+                    latest_message,
+                )
+            english_reply = bool(re.search(r"[a-z]", language_probe)) and not bool(re.search(
                 r"\b(?:hai|hain|kya|kaise|chahiye|mujhe|aap|aapko|mein|nahi|nhi|haan|mala|pahije|kay)\b",
-                latest_message,
+                language_probe,
                 re.IGNORECASE,
             ))
             if not quantity:
