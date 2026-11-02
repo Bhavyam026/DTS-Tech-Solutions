@@ -933,3 +933,5 @@ def test_provider_unavailable_errors_use_safe_fallback():
     assert dts_app._is_quota_exhausted_error(
         "OpenAI API error 429 (credit_balance_exhausted)"
     )
+
+# Regression coverage for NVR language continuity and enquiry completion.
