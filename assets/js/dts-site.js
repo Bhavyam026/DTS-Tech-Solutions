@@ -3755,11 +3755,23 @@ Thank you.`;
         };
 
         function getDTSFestival(now) {
-            // Special DTS Diwali celebration window: 1 Nov 2026 00:00
-            // through 11 Nov 2026, ending exactly at 12 Nov 2026 00:00 IST.
+            const currentTime = now.getTime();
+            // Dhanteras 2026 is a distinct greeting within the wider DTS Diwali
+            // celebration window. Use India time so the banner changes at midnight IST.
+            const dhanterasStart = new Date('2026-11-06T00:00:00+05:30').getTime();
+            const dhanterasEnd = new Date('2026-11-07T00:00:00+05:30').getTime();
+            if (currentTime >= dhanterasStart && currentTime < dhanterasEnd) {
+                return {
+                    name: 'Dhanteras',
+                    greeting: 'धनतेरस की हार्दिक शुभकामनाएँ! आपके जीवन में सुख, समृद्धि और उत्तम स्वास्थ्य आए। 🪔',
+                    theme: 'diwali',
+                    symbols: ['🪔', '✨']
+                };
+            }
+
+            // DTS Diwali celebration window: 1 Nov 2026 through 11 Nov 2026 (IST).
             const diwaliStart = new Date('2026-11-01T00:00:00+05:30').getTime();
             const diwaliEnd = new Date('2026-11-12T00:00:00+05:30').getTime();
-            const currentTime = now.getTime();
             if (currentTime >= diwaliStart && currentTime < diwaliEnd) {
                 return {
                     name: 'Diwali',
@@ -3899,7 +3911,7 @@ Thank you.`;
                 : (festival.greeting || (festival.name + ' ki hardik shubhkamnayein!'));
             const bannerSubtitle = document.createElement('div');
             bannerSubtitle.className = 'dts-festival-banner-subtitle';
-            bannerSubtitle.textContent = 'Dynamic Technology Solutions • Khushiyon aur tarakki ka tyohar';
+            bannerSubtitle.textContent = 'Dynamic Technology Solutions (DTS) • Security | Networking | IT | Electrical';
             banner.appendChild(bannerTitle);
             banner.appendChild(bannerSubtitle);
 
@@ -3949,7 +3961,7 @@ Thank you.`;
             const mappings = [
                 { match: /diwali|deepavali|deepawali/, name: 'Diwali', greeting: 'Deepawali ki hardik shubhkamnayein! Aapke ghar aur business mein khushiyaan aur samriddhi aaye. 🪔', theme: 'diwali', symbols: ['🪔', '✨'] },
                 { match: /dussehra|vijaya dashami|vijayadashami|dasara/, name: 'Dussehra', greeting: 'Vijayadashami aur Dussehra ki hardik shubhkamnayein! 🙏', theme: 'dussehra', symbols: ['🌼', '✨'] },
-                { match: /dhanteras|dhan trayodashi/, name: 'Dhanteras', greeting: 'Dhanteras ki hardik shubhkamnayein! 🪔', theme: 'diwali', symbols: ['🪔', '✨'] },
+                { match: /dhanteras|dhan trayodashi/, name: 'Dhanteras', greeting: 'धनतेरस की हार्दिक शुभकामनाएँ! आपके जीवन में सुख, समृद्धि और उत्तम स्वास्थ्य आए। 🪔', theme: 'diwali', symbols: ['🪔', '✨'] },
                 { match: /bhai dooj|bhau beej|bhai tika/, name: 'Bhai Dooj', greeting: 'Bhai Dooj ki hardik shubhkamnayein! 🌼', theme: 'generic', symbols: ['🌼', '✨'] },
                 { match: /holika dahan|holi/, name: 'Holi', greeting: 'Holi ki dher saari shubhkamnayein! 🌈', theme: 'holi', symbols: ['🌈', '🎨'] },
                 { match: /ganesh chaturthi|vinayaka chaturthi|ganeshotsav/, name: 'Ganesh Chaturthi', greeting: 'Ganesh Chaturthi ki hardik shubhkamnayein! 🙏', theme: 'ganesh', symbols: ['🙏', '🌼'] },
