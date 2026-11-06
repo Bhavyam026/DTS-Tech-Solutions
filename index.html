@@ -1497,9 +1497,36 @@
 </style>
 
 <style id="dts-catalogue-integrity">
-.product-image-wrap img, .product-main-image, #modalProductImage { object-fit: contain !important; background:#f7f8fa; }
-.product-card .product-image-wrap { background:#f7f8fa; }
-.product-card .product-image-wrap img { padding:14px; }
+/* DTS brand palette replaces the flat white product-image panels. */
+.product-image-area,
+.product-card .product-image-wrap,
+.product-modal .modal-main-image-wrap {
+    background:
+        radial-gradient(ellipse at 50% 42%, rgba(34,211,238,.20), transparent 58%),
+        linear-gradient(145deg, #e9f7fb 0%, #d9edf2 52%, #c9e5ec 100%) !important;
+}
+.product-image-area img,
+.product-image-wrap img,
+.product-main-image,
+#modalProductImage {
+    object-fit: contain !important;
+    background: transparent !important;
+    mix-blend-mode: multiply;
+}
+.product-image-area img,
+.product-card .product-image-wrap img { padding: 14px; box-sizing: border-box; }
+.product-category-badge {
+    background: linear-gradient(120deg, #082b45, #075b70) !important;
+    color: #e8fbff !important;
+    border: 1px solid rgba(34,211,238,.42);
+    letter-spacing: .035em;
+}
+.product-brand {
+    color: #073b55 !important;
+    background: linear-gradient(110deg, #e0f7fb, #c8edf2) !important;
+    border: 1px solid rgba(8,145,178,.28);
+    box-shadow: 0 2px 8px rgba(8,47,73,.08);
+}
 .dts-supplier-label { font-size:.78rem; opacity:.78; margin-top:6px; }
 </style>
 
